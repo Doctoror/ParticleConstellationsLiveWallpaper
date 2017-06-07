@@ -8,7 +8,7 @@ Min API level 14.
 
 ![screenshot](/screenshots/home.gif?raw=true)
 
-[![IMAGE ALT TEXT HERE](/screenshots/video.png)](https://www.youtube.com/watch?v=Q7qvmCMUN20)
+[![Video](/screenshots/video.png)](https://www.youtube.com/watch?v=Q7qvmCMUN20)
 
 ## License
 ```
