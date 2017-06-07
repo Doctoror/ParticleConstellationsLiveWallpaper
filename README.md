@@ -4,9 +4,9 @@ Android Particles Live Wallpaper
 Min API level 14.
 
 ## Screenshots
-![screenshot](/screenshots/home.png?raw=true)
-
 ![screenshot](/screenshots/customization.png?raw=true)
+
+![screenshot](/screenshots/home.gif?raw=true)
 
 ## License
 ```
