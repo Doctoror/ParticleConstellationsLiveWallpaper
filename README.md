@@ -4,8 +4,6 @@ Android Particles Live Wallpaper. Available at [Google Play Store (link)](https:
 Min API level 14.
 
 ## Screenshots
-![screenshot](/screenshots/customization.png?raw=true)
-
 ![screenshot](/screenshots/home.gif?raw=true)
 
 [![Video](/screenshots/video.png)](https://www.youtube.com/watch?v=Q7qvmCMUN20)
