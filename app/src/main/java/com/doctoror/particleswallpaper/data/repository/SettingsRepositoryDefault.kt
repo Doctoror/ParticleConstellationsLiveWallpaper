@@ -16,8 +16,8 @@
 package com.doctoror.particleswallpaper.data.repository
 
 import android.content.res.Resources
-import android.graphics.Color
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.data.prefs.PrefsConfigImpl
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import io.reactivex.Observable
 
@@ -28,9 +28,9 @@ class SettingsRepositoryDefault(val res: Resources) : SettingsRepository {
 
     override fun getNumDots() = Observable.just(res.getInteger(R.integer.default_density))!!
 
-    override fun getFrameDelay() = Observable.just(10)!!
+    override fun getFrameDelay() = Observable.just(15)!!
 
-    override fun getStepMultiplier() = Observable.just(1f)!!
+    override fun getStepMultiplier() = Observable.just(0.7f)!!
 
     override fun getDotScale() = Observable.just(res.getDimension(R.dimen.default_dot_scale))!!
 
@@ -38,9 +38,9 @@ class SettingsRepositoryDefault(val res: Resources) : SettingsRepository {
 
     override fun getLineDistance() = Observable.just(res.getDimension(R.dimen.default_line_distance))!!
 
-    override fun getParticlesColor() = Observable.just(Color.WHITE)!!
+    override fun getParticlesColor() = Observable.just(PrefsConfigImpl.particlesColor)!!
 
     override fun getBackgroundUri() = Observable.just("")!!
 
-    override fun getBackgroundColor() = Observable.just(Color.BLACK)!!
+    override fun getBackgroundColor() = Observable.just(PrefsConfigImpl.backgroundColor)!!
 }

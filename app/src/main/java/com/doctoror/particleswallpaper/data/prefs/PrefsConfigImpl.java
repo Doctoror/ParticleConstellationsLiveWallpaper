@@ -35,6 +35,6 @@ public interface PrefsConfigImpl {
     float lineDistance = -1f;
 
     int particlesColor = Color.WHITE;
-    int backgroundColor = Color.BLACK;
+    int backgroundColor = 0xff212121;
     String backgroundUri = "";
 }
