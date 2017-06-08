@@ -28,7 +28,7 @@ ext {
     licencesDialogVersion = '1.8.2'
     gmsVersion = '10.2.4'
 
-    particlesDrawableVersion = '1.0.3'
+    particlesDrawableVersion = '1.0.4'
 
     //Testing
     jUnitVersion = '4.12'
