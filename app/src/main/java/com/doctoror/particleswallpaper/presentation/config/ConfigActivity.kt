@@ -23,6 +23,7 @@ import android.os.Bundle
 import android.support.annotation.ColorInt
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
@@ -51,12 +52,15 @@ open class ConfigActivity : Activity() {
     @Inject lateinit var settings: SettingsRepository
     @Inject lateinit var adProvider: AdsProvider
 
+    private lateinit var glide: RequestManager
+
     private var bgDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Injector.configComponent.inject(this)
         adProvider.initialize()
+        glide = Glide.with(this)
 
         setContentView(R.layout.activity_config)
         setBackground()
@@ -101,8 +105,7 @@ open class ConfigActivity : Activity() {
         if (uri == "") {
             onNoBackgroundImage(bg, color)
         } else {
-            Glide.with(this)
-                    .load(uri)
+            glide.load(uri)
                     .apply(RequestOptions.noAnimation())
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                     .apply(RequestOptions.skipMemoryCacheOf(true))
@@ -129,6 +132,7 @@ open class ConfigActivity : Activity() {
     }
 
     private fun onNoBackgroundImage(bg: ImageView, @ColorInt color: Int) {
+        glide.clear(bg)
         bg.setImageDrawable(null)
         ViewCompat.setBackground(bg,
                 (if (color == Color.BLACK) null else ColorDrawable(color)))

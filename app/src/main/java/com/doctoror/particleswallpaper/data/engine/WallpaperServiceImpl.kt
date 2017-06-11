@@ -26,6 +26,7 @@ import android.service.wallpaper.WallpaperService
 import android.util.Log
 import android.view.SurfaceHolder
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -53,6 +54,8 @@ class WallpaperServiceImpl : WallpaperService() {
         @Inject lateinit var mConfigurator: DrawableConfigurator
         @Inject lateinit var mSettings: SettingsRepository
 
+        private lateinit var mGlide: RequestManager
+
         private var mFrameDelayDisposable: Disposable? = null
         private var mBackgroundDisposable: Disposable? = null
         private var mBackgroundColorDisposable: Disposable? = null
@@ -73,6 +76,8 @@ class WallpaperServiceImpl : WallpaperService() {
         private var mBackground: Drawable? = null
         private var mDelay = DEFAULT_DELAY
 
+        private var mLastUsedImageLoadTarget: ImageLoadTarget? = null
+
         init {
             mPaint.style = Paint.Style.FILL
             mPaint.color = Color.BLACK
@@ -82,6 +87,7 @@ class WallpaperServiceImpl : WallpaperService() {
             super.onCreate(surfaceHolder)
             Injector.configComponent.inject(this)
             mConfigurator.subscribe(mDrawable, mSettings)
+            mGlide = Glide.with(this@WallpaperServiceImpl)
 
             mFrameDelayDisposable = mSettings.getFrameDelay().subscribe({ d -> mDelay = d.toLong() })
             mBackgroundDisposable = mSettings.getBackgroundUri().subscribe({ u -> handleBackground(u) })
@@ -98,16 +104,21 @@ class WallpaperServiceImpl : WallpaperService() {
         }
 
         private fun handleBackground(uri: String) {
+            mGlide.clear(mLastUsedImageLoadTarget)
             if (uri == "") {
                 mBackground = null
+                mLastUsedImageLoadTarget = null
             } else if (mWidth != 0 && mHeight != 0) {
-                Glide.with(this@WallpaperServiceImpl)
+                val target = ImageLoadTarget(mWidth, mHeight)
+                mGlide
                         .load(uri)
                         .apply(RequestOptions.noAnimation())
                         .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                         .apply(RequestOptions.skipMemoryCacheOf(true))
                         .apply(RequestOptions.centerCropTransform())
-                        .into(ImageLoadTarget(mWidth, mHeight))
+                        .into(target)
+
+                mLastUsedImageLoadTarget = target
             }
         }
 
