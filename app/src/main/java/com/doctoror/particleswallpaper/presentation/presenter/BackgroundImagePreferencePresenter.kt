@@ -15,7 +15,6 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
-import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Fragment
 import android.content.ActivityNotFoundException
@@ -38,8 +37,6 @@ import javax.inject.Named
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
  */
-@TargetApi(Build.VERSION_CODES.KITKAT)
-@RequiresApi(Build.VERSION_CODES.KITKAT)
 class BackgroundImagePreferencePresenter @Inject constructor(
         val context: Context,
         val settings: MutableSettingsRepository,
@@ -48,7 +45,8 @@ class BackgroundImagePreferencePresenter @Inject constructor(
 
     private lateinit var view: BackgroundImagePreferenceView
 
-    private val requestCodePick = 1
+    private val requestCodeOpenDocument = 1
+    private val requestCodeGetContent = 2
 
     var host: Fragment? = null
         set(f) {
@@ -83,32 +81,71 @@ class BackgroundImagePreferencePresenter @Inject constructor(
     fun clearBackground() {
         val uri = settings.getBackgroundUri().blockingFirst()
         if (uri != "") {
-            context.contentResolver?.releasePersistableUriPermission(Uri.parse(uri),
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                context.contentResolver?.releasePersistableUriPermission(Uri.parse(uri),
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
         }
         defaults.getBackgroundUri().take(1).subscribe({ u -> settings.setBackgroundUri(u) })
     }
 
-    fun pickDocument() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-        intent.type = "image/*"
+    fun pickImage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            pickByOpenDocument()
+        } else {
+            pickByGetContent()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun pickByOpenDocument() {
+        val documentIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        documentIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+        documentIntent.type = "image/*"
         try {
-            host?.startActivityForResult(intent, requestCodePick)
+            host?.startActivityForResult(documentIntent, requestCodeOpenDocument)
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(context, R.string.Failed_to_open_image_picker, Toast.LENGTH_SHORT).show()
+            pickByGetContent()
+        }
+    }
+
+    private fun pickByGetContent() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+        try {
+            host?.startActivityForResult(
+                    Intent.createChooser(intent, null), requestCodeGetContent)
+        } catch (e: ActivityNotFoundException) {
+            try {
+                host?.startActivityForResult(intent, requestCodeGetContent)
+            } catch (e: ActivityNotFoundException) {
+                Toast.makeText(context, R.string.Failed_to_open_image_picker, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun onActivityResultOpenDocumentOrGetContent(data: Intent) {
+        val uri = data.data
+        if (uri != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                context.contentResolver?.takePersistableUriPermission(uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            settings.setBackgroundUri(uri.toString())
         }
     }
 
     val onActivityResultCallback = object : OnActivityResultCallback() {
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            if (requestCode == requestCodePick && resultCode == Activity.RESULT_OK && data != null) {
-                val uri = data.data
-                if (uri != null) {
-                    context.contentResolver?.takePersistableUriPermission(uri,
-                            Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    settings.setBackgroundUri(uri.toString())
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                when (requestCode) {
+                    requestCodeOpenDocument,
+                    requestCodeGetContent -> {
+                        onActivityResultOpenDocumentOrGetContent(data)
+                    }
                 }
             }
         }

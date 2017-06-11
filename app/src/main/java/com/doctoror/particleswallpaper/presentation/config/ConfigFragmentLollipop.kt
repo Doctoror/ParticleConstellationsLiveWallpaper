@@ -6,7 +6,7 @@ import com.doctoror.particleswallpaper.R
 /**
  * Created by Yaroslav Mytkalyk on 01.06.17.
  */
-class ConfigFragmentLollipop: ConfigFragmentKitKat() {
+class ConfigFragmentLollipop: ConfigFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

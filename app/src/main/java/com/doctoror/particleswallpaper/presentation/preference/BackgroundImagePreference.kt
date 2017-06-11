@@ -60,7 +60,7 @@ class BackgroundImagePreference @JvmOverloads constructor
     override fun showActionDialog() {
         AlertDialog.Builder(context)
                 .setTitle(title)
-                .setPositiveButton(R.string.Pick, { _, _ -> presenter.pickDocument() })
+                .setPositiveButton(R.string.Pick, { _, _ -> presenter.pickImage() })
                 .setNeutralButton(R.string.Clear, { _, _ -> presenter.clearBackground() })
                 .setNegativeButton(R.string.Cancel, null)
                 .show()

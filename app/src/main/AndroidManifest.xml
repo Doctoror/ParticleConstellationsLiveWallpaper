@@ -19,7 +19,7 @@
 
         <activity
             android:name=".presentation.config.ConfigActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:enabled="@bool/useLegacyConfigActivity">
 
             <intent-filter>
