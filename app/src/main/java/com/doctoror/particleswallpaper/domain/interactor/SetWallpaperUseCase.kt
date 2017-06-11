@@ -21,7 +21,7 @@ class SetWallpaperUseCase(val a: Activity, val requestCode: Int) : UseCase<Boole
 
     private fun action(): Boolean {
         val intent = Intent()
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             intent.action = WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER
             intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
                     ComponentName(a.packageName, WallpaperServiceImpl::class.java.canonicalName))
