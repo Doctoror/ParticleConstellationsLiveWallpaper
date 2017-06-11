@@ -69,8 +69,8 @@ android {
 
             proguardFile getDefaultProguardFile('proguard-android.txt')
             proguardFile 'proguard-ads.pro'
+            proguardFile 'proguard-glide.pro'
             proguardFile 'proguard-lifecycle.pro'
-            proguardFile 'proguard-picasso.pro'
             proguardFile 'proguard-rx-java.pro'
             proguardFile 'proguard-rules.pro'
         }
@@ -120,15 +120,18 @@ dependencies {
 
     compile d.particlesDrawable
     compile d.colorPicker
-    compile d.picasso
 
-    compile (d.ads) {
-        exclude (group: 'com.android.support')
+    compile(d.ads) {
+        exclude(group: 'com.android.support')
     }
 
-    compile (d.licencesDialog) {
-        exclude (group: 'com.android.support')
+    compile(d.licencesDialog) {
+        exclude(group: 'com.android.support')
     }
+
+    compile d.glide
+    annotationProcessor d.glideCompiler
+    kapt d.glideCompiler
 
     compile d.gendalf
     annotationProcessor d.gendalfCompiler

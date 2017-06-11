@@ -18,9 +18,17 @@ package com.doctoror.particleswallpaper.presentation.config
 import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.annotation.ColorInt
 import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
@@ -30,8 +38,6 @@ import com.doctoror.particleswallpaper.presentation.compat.ViewCompat
 import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
@@ -95,17 +101,30 @@ open class ConfigActivity : Activity() {
         if (uri == "") {
             onNoBackgroundImage(bg, color)
         } else {
-            Picasso.with(this)
+            Glide.with(this)
                     .load(uri)
-                    .into(bg, object : Callback {
-                        override fun onSuccess() {
-                            ViewCompat.setBackground(bg, null)
+                    .apply(RequestOptions.noAnimation())
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                    .apply(RequestOptions.skipMemoryCacheOf(true))
+                    .apply(RequestOptions.centerCropTransform())
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(e: GlideException?,
+                                                  model: Any?,
+                                                  target: Target<Drawable>?,
+                                                  isFirstResource: Boolean): Boolean {
+                            onNoBackgroundImage(bg, color)
+                            return true
                         }
 
-                        override fun onError() {
-                            onNoBackgroundImage(bg, color)
+                        override fun onResourceReady(resource: Drawable?,
+                                                     model: Any?,
+                                                     target: Target<Drawable>?,
+                                                     dataSource: DataSource?,
+                                                     isFirstResource: Boolean): Boolean {
+                            return false
                         }
                     })
+                    .into(bg)
         }
     }
 

@@ -15,7 +15,6 @@
  */
 package com.doctoror.particleswallpaper.data.engine
 
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -24,13 +23,17 @@ import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import android.service.wallpaper.WallpaperService
+import android.util.Log
 import android.view.SurfaceHolder
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
@@ -44,6 +47,8 @@ class WallpaperServiceImpl : WallpaperService() {
     }
 
     inner class EngineImpl internal constructor() : Engine() {
+
+        private val TAG = "WallpaperService:Engine"
 
         @Inject lateinit var mConfigurator: DrawableConfigurator
         @Inject lateinit var mSettings: SettingsRepository
@@ -62,10 +67,10 @@ class WallpaperServiceImpl : WallpaperService() {
 
         private var mVisible = false
 
-        private var mWidth = 0f
-        private var mHeight = 0f
+        private var mWidth = 0
+        private var mHeight = 0
 
-        private var mBackground: Bitmap? = null
+        private var mBackground: Drawable? = null
         private var mDelay = DEFAULT_DELAY
 
         init {
@@ -78,13 +83,14 @@ class WallpaperServiceImpl : WallpaperService() {
             Injector.configComponent.inject(this)
             mConfigurator.subscribe(mDrawable, mSettings)
 
-            mFrameDelayDisposable = mSettings.getFrameDelay().subscribe({d -> mDelay = d.toLong()})
+            mFrameDelayDisposable = mSettings.getFrameDelay().subscribe({ d -> mDelay = d.toLong() })
             mBackgroundDisposable = mSettings.getBackgroundUri().subscribe({ u -> handleBackground(u) })
             mBackgroundColorDisposable = mSettings.getBackgroundColor().subscribe({ c -> mPaint.color = c })
         }
 
         override fun onDestroy() {
             super.onDestroy()
+            mVisible = false
             mConfigurator.dispose()
             mFrameDelayDisposable?.dispose()
             mBackgroundDisposable?.dispose()
@@ -94,12 +100,14 @@ class WallpaperServiceImpl : WallpaperService() {
         private fun handleBackground(uri: String) {
             if (uri == "") {
                 mBackground = null
-            } else if (mWidth != 0f && mHeight != 0f) {
-                Picasso.with(this@WallpaperServiceImpl)
+            } else if (mWidth != 0 && mHeight != 0) {
+                Glide.with(this@WallpaperServiceImpl)
                         .load(uri)
-                        .resize(mWidth.toInt(), mHeight.toInt())
-                        .centerCrop()
-                        .into(mImageLoadTarget)
+                        .apply(RequestOptions.noAnimation())
+                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                        .apply(RequestOptions.skipMemoryCacheOf(true))
+                        .apply(RequestOptions.centerCropTransform())
+                        .into(ImageLoadTarget(mWidth, mHeight))
             }
         }
 
@@ -107,8 +115,9 @@ class WallpaperServiceImpl : WallpaperService() {
                                       height: Int) {
             super.onSurfaceChanged(holder, format, width, height)
             mDrawable.setBounds(0, 0, width, height)
-            mWidth = width.toFloat()
-            mHeight = height.toFloat()
+            mBackground?.setBounds(0, 0, width, height)
+            mWidth = width
+            mHeight = height
             handleBackground(mSettings.getBackgroundUri().blockingFirst())
         }
 
@@ -132,23 +141,27 @@ class WallpaperServiceImpl : WallpaperService() {
         }
 
         private fun draw() {
-            val startTime = SystemClock.uptimeMillis()
-            val holder = surfaceHolder
-            var canvas: Canvas? = null
-            try {
-                canvas = holder.lockCanvas()
-                if (canvas != null) {
-                    drawBackground(canvas)
-                    mDrawable.draw(canvas)
-                    mDrawable.run()
-                }
-            } finally {
-                if (canvas != null) {
-                    holder.unlockCanvasAndPost(canvas)
-                }
-            }
             mHandler.removeCallbacks(mDrawRunnable)
             if (mVisible) {
+                val startTime = SystemClock.uptimeMillis()
+                val holder = surfaceHolder
+                var canvas: Canvas? = null
+                try {
+                    canvas = holder.lockCanvas()
+                    if (canvas != null) {
+                        drawBackground(canvas)
+                        mDrawable.draw(canvas)
+                        mDrawable.nextFrame()
+                    }
+                } finally {
+                    if (canvas != null) {
+                        try {
+                            holder.unlockCanvasAndPost(canvas)
+                        } catch (e: IllegalArgumentException) {
+                            Log.wtf(TAG, e)
+                        }
+                    }
+                }
                 mHandler.postDelayed(mDrawRunnable,
                         Math.max(mDelay - (SystemClock.uptimeMillis() - startTime), MIN_DELAY))
             }
@@ -157,26 +170,20 @@ class WallpaperServiceImpl : WallpaperService() {
         private fun drawBackground(c: Canvas) {
             val background = mBackground
             if (background == null) {
-                c.drawRect(0f, 0f, mWidth, mHeight, mPaint)
+                c.drawRect(0f, 0f, mWidth.toFloat(), mHeight.toFloat(), mPaint)
             } else {
-                c.drawBitmap(background, 0f, 0f, mPaint)
+                background.draw(c)
             }
         }
 
         private val mDrawRunnable = Runnable { this.draw() }
 
-        private val mImageLoadTarget = object : Target {
+        private inner class ImageLoadTarget constructor(width: Int, height: Int)
+            : SimpleTarget<Drawable>(width, height) {
 
-            override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                // Unhandled
-            }
-
-            override fun onBitmapFailed(errorDrawable: Drawable?) {
-                mBackground = null
-            }
-
-            override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                mBackground = bitmap
+            override fun onResourceReady(resource: Drawable?, transition: Transition<in Drawable>?) {
+                resource?.setBounds(0, 0, mWidth, mHeight)
+                mBackground = resource
             }
         }
     }
