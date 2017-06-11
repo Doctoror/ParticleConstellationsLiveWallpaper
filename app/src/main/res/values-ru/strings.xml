@@ -16,8 +16,8 @@
 -->
 <resources>
 
-    <string name="app_name">Частицы (живые обои)</string>
-    <string name="Wallpaper_description">Частицы (живые обои)</string>
+    <string name="app_name">Созвездия частиц (живые обои)</string>
+    <string name="Wallpaper_description">Созвездия частиц (живые обои)</string>
 
     <string name="Appearance">Вид</string>
     <string name="Scale">Размер</string>

@@ -16,8 +16,8 @@
 -->
 <resources>
 
-    <string name="app_name">Частинки (живі шпалери)</string>
-    <string name="Wallpaper_description">Частинки (живі шпалери)</string>
+    <string name="app_name">Сузір’я частинок (живі шпалери)</string>
+    <string name="Wallpaper_description">Сузір’я частинок (живі шпалери)</string>
 
     <string name="Appearance">Вигляд</string>
     <string name="Scale">Розмір</string>
