@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
+import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Fragment
 import android.content.ActivityNotFoundException
@@ -45,8 +46,18 @@ class BackgroundImagePreferencePresenter @Inject constructor(
 
     private lateinit var view: BackgroundImagePreferenceView
 
+    private val imageHandler: BackgroundImageHandler
+
     private val requestCodeOpenDocument = 1
     private val requestCodeGetContent = 2
+
+    init {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            imageHandler = BackgroundImageHandlerKitKat()
+        } else {
+            imageHandler = BackgroundImageHandlerLegacy()
+        }
+    }
 
     var host: Fragment? = null
         set(f) {
@@ -79,51 +90,11 @@ class BackgroundImagePreferencePresenter @Inject constructor(
     }
 
     fun clearBackground() {
-        val uri = settings.getBackgroundUri().blockingFirst()
-        if (uri != "") {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                context.contentResolver?.releasePersistableUriPermission(Uri.parse(uri),
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-        }
-        defaults.getBackgroundUri().take(1).subscribe({ u -> settings.setBackgroundUri(u) })
+       imageHandler.clearBackground()
     }
 
-    fun pickImage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            pickByOpenDocument()
-        } else {
-            pickByGetContent()
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
-    private fun pickByOpenDocument() {
-        val documentIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        documentIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-        documentIntent.type = "image/*"
-        try {
-            host?.startActivityForResult(documentIntent, requestCodeOpenDocument)
-        } catch (e: ActivityNotFoundException) {
-            pickByGetContent()
-        }
-    }
-
-    private fun pickByGetContent() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
-        try {
-            host?.startActivityForResult(
-                    Intent.createChooser(intent, null), requestCodeGetContent)
-        } catch (e: ActivityNotFoundException) {
-            try {
-                host?.startActivityForResult(intent, requestCodeGetContent)
-            } catch (e: ActivityNotFoundException) {
-                Toast.makeText(context, R.string.Failed_to_open_image_picker, Toast.LENGTH_SHORT).show()
-            }
-        }
+    fun pickBackground() {
+        imageHandler.pickBackground()
     }
 
     private fun onActivityResultOpenDocumentOrGetContent(data: Intent) {
@@ -147,6 +118,85 @@ class BackgroundImagePreferencePresenter @Inject constructor(
                         onActivityResultOpenDocumentOrGetContent(data)
                     }
                 }
+            }
+        }
+    }
+
+    private interface BackgroundImageHandler {
+        fun pickBackground()
+        fun clearBackground()
+        fun onActivityResultAvailable(data: Intent)
+    }
+
+    private inner open class BackgroundImageHandlerLegacy: BackgroundImageHandler {
+
+        override fun pickBackground() {
+            pickByGetContent()
+        }
+
+        override fun clearBackground() {
+            defaults.getBackgroundUri().take(1).subscribe({ u -> settings.setBackgroundUri(u) })
+        }
+
+        override fun onActivityResultAvailable(data: Intent) {
+            val uri = data.data
+            if (uri != null) {
+                settings.setBackgroundUri(uri.toString())
+            }
+        }
+
+        protected fun pickByGetContent() {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+            try {
+                host?.startActivityForResult(
+                        Intent.createChooser(intent, null), requestCodeGetContent)
+            } catch (e: ActivityNotFoundException) {
+                try {
+                    host?.startActivityForResult(intent, requestCodeGetContent)
+                } catch (e: ActivityNotFoundException) {
+                    Toast.makeText(context, R.string.Failed_to_open_image_picker, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private inner class BackgroundImageHandlerKitKat : BackgroundImageHandlerLegacy() {
+
+        override fun pickBackground() {
+            pickByOpenDocument()
+        }
+
+        override fun clearBackground() {
+            val uri = settings.getBackgroundUri().blockingFirst()
+            if (uri != "") {
+                context.contentResolver?.releasePersistableUriPermission(Uri.parse(uri),
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            super.clearBackground()
+        }
+
+        override fun onActivityResultAvailable(data: Intent) {
+            val uri = data.data
+            if (uri != null) {
+                context.contentResolver?.takePersistableUriPermission(uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            super.onActivityResultAvailable(data)
+        }
+
+        private fun pickByOpenDocument() {
+            val documentIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            documentIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            documentIntent.type = "image/*"
+            try {
+                host?.startActivityForResult(documentIntent, requestCodeOpenDocument)
+            } catch (e: ActivityNotFoundException) {
+                pickByGetContent()
             }
         }
     }
