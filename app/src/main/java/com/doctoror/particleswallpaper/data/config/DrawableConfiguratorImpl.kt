@@ -39,12 +39,12 @@ class DrawableConfiguratorImpl : DrawableConfigurator {
         disposables = d
 
         d.add(settings.getParticlesColor().subscribe({ c ->
-            drawable.setDotColor(c)
-            drawable.setLineColor(c)
+            drawable.dotColor = c
+            drawable.lineColor = c
         }))
 
         d.add(settings.getNumDots().subscribe({ v ->
-            drawable.setNumDots(v)
+            drawable.numDots = v
             drawable.makeBrandNewFrame()
         }))
 
@@ -55,20 +55,20 @@ class DrawableConfiguratorImpl : DrawableConfigurator {
         }))
 
         d.add(settings.getLineScale().subscribe({ v ->
-            drawable.setLineThickness(v)
+            drawable.lineThickness = v
             drawable.makeBrandNewFrame()
         }))
 
         d.add(settings.getLineDistance().subscribe({ v ->
-            drawable.setLineDistance(v)
+            drawable.lineDistance = v
         }))
 
         d.add(settings.getStepMultiplier().subscribe({ v ->
-            drawable.setStepMultiplier(v)
+            drawable.stepMultiplier = v
         }))
 
         d.add(settings.getFrameDelay().subscribe({ v ->
-            drawable.setFrameDelay(v)
+            drawable.frameDelay = v
         }))
     }
 

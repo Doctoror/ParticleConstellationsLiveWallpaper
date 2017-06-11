@@ -40,7 +40,6 @@
     <string name="Clear">Убрать</string>
     <string name="Cancel">Отмена</string>
 
-    <string name="Supported_on_KitKat_and_later">Поддерживается на KitKat и новее</string>
     <string name="Reset_to_defaults">Сброс до настроек по умолчанию</string>
     <string name="Are_you_sure_you_want_to_reset_all_settings_to_default_values">Сбросить все
         настройки по умолчанию?
