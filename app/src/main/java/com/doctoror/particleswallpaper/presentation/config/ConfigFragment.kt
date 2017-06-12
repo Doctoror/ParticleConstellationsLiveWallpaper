@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.config
 
+import android.annotation.SuppressLint
 import android.app.Fragment
 import android.arch.lifecycle.LifecycleObserver
 import android.content.Intent
@@ -35,6 +36,7 @@ import io.reactivex.functions.Consumer
  *
  * The config preference screen fragment.
  */
+@SuppressLint("ValidFragment") // Kotlin constructor with default value generates valid empty java constructor
 open class ConfigFragment @JvmOverloads
 constructor(val ch: OnActivityResultCallbackHostImpl = OnActivityResultCallbackHostImpl())
     : LifecyclePreferenceFragment(), OnActivityResultCallbackHost by ch {
