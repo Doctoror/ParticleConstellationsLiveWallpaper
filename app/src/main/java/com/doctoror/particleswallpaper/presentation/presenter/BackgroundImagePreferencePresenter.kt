@@ -35,7 +35,6 @@ import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbac
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Named
