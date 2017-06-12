@@ -3,6 +3,8 @@ Android Live Wallpaper. Available at [Google Play Store (link)](https://play.goo
 
 Min API level 14.
 
+Based on [ParticlesDrawable](https://github.com/Doctoror/ParticlesDrawable) library.
+
 ## Screenshots
 ![screenshot](/screenshots/home.gif?raw=true)
 
