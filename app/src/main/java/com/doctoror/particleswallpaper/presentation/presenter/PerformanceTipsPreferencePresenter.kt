@@ -20,6 +20,8 @@ import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 06.06.17.
+ *
+ * Presenter for [com.doctoror.particleswallpaper.presentation.preference.PerformanceTipsPreference]
  */
 class PerformanceTipsPreferencePresenter @Inject constructor()
     : Presenter<PerformanceTipsPreferenceView> {

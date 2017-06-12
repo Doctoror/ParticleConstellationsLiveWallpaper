@@ -17,6 +17,8 @@ package com.doctoror.particleswallpaper.presentation.view
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
+ *
+ * Background image preference view
  */
 interface BackgroundImagePreferenceView : MvpView {
 

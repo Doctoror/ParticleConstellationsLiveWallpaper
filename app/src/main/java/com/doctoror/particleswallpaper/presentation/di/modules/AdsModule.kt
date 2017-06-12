@@ -24,6 +24,8 @@ import javax.inject.Singleton
 
 /**
  * Created by Yaroslav Mytkalyk on 06.06.17.
+ *
+ * The ads Dagger module
  */
 @Module
 class AdsModule {

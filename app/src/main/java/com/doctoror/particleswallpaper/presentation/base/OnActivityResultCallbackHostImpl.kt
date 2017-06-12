@@ -17,6 +17,9 @@ package com.doctoror.particleswallpaper.presentation.base
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
+ *
+ * [OnActivityResultCallbackHost] implementation that stores registered callbacks in a member.
+ * Note that this implementation does not forward "onActivityResult()" events.
  */
 class OnActivityResultCallbackHostImpl : OnActivityResultCallbackHost {
 

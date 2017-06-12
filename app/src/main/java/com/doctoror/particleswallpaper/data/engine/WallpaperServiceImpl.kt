@@ -40,6 +40,8 @@ import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 18.04.17.
+ *
+ * The [WallpaperService] implementation.
  */
 class WallpaperServiceImpl : WallpaperService() {
 

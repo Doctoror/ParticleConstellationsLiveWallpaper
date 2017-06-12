@@ -27,6 +27,8 @@ import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 06.06.17.
+ *
+ * Preference that opens the performance tips.
  */
 class PerformanceTipsPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)

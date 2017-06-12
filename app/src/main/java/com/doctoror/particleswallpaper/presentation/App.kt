@@ -9,6 +9,8 @@ import android.os.StrictMode
 
 /**
  * Created by Yaroslav Mytkalyk on 01.06.17.
+ *
+ * The application instance
  */
 class App: Application() {
 

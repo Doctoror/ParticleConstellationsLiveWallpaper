@@ -17,6 +17,8 @@ package com.doctoror.particleswallpaper.presentation.view
 
 /**
  * Created by Yaroslav Mytkalyk on 05.06.17.
+ *
+ * License preference view
  */
 interface LicensePreferenceView : MvpView {
     fun showLicenseDialog()

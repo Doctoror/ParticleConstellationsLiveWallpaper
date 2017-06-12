@@ -4,6 +4,8 @@ import com.doctoror.particleswallpaper.presentation.di.components.ConfigComponen
 
 /**
  * Created by Yaroslav Mytkalyk on 01.06.17.
+ *
+ * Stores injection components.
  */
 class Injector private constructor() {
 

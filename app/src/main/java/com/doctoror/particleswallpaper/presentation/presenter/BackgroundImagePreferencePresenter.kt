@@ -24,25 +24,35 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.support.annotation.RequiresApi
+import android.util.Log
 import android.widget.Toast
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
+ *
+ * Presenter for [BackgroundImagePreferenceView]
  */
 class BackgroundImagePreferencePresenter @Inject constructor(
         val context: Context,
         val settings: MutableSettingsRepository,
-        @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository)
+        @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository,
+        val backgroundImageManager: BackgroundImageManager)
     : Presenter<BackgroundImagePreferenceView> {
+
+    private val tag = "BgImagePrefPresenter"
 
     private lateinit var view: BackgroundImagePreferenceView
 
@@ -90,22 +100,11 @@ class BackgroundImagePreferencePresenter @Inject constructor(
     }
 
     fun clearBackground() {
-       imageHandler.clearBackground()
+        imageHandler.clearBackground()
     }
 
     fun pickBackground() {
         imageHandler.pickBackground()
-    }
-
-    private fun onActivityResultOpenDocumentOrGetContent(data: Intent) {
-        val uri = data.data
-        if (uri != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                context.contentResolver?.takePersistableUriPermission(uri,
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-            settings.setBackgroundUri(uri.toString())
-        }
     }
 
     val onActivityResultCallback = object : OnActivityResultCallback() {
@@ -115,7 +114,12 @@ class BackgroundImagePreferencePresenter @Inject constructor(
                 when (requestCode) {
                     requestCodeOpenDocument,
                     requestCodeGetContent -> {
-                        onActivityResultOpenDocumentOrGetContent(data)
+                        val uri = data.data
+                        if (uri == null) {
+                            Log.w(tag, "onActivityResult(), data uri is null")
+                        } else {
+                            imageHandler.onActivityResultAvailable(requestCode, uri)
+                        }
                     }
                 }
             }
@@ -125,31 +129,59 @@ class BackgroundImagePreferencePresenter @Inject constructor(
     private interface BackgroundImageHandler {
         fun pickBackground()
         fun clearBackground()
-        fun onActivityResultAvailable(data: Intent)
+        fun onActivityResultAvailable(requestCode: Int, uri: Uri)
     }
 
-    private inner open class BackgroundImageHandlerLegacy: BackgroundImageHandler {
+    private inner open class BackgroundImageHandlerLegacy : BackgroundImageHandler {
 
         override fun pickBackground() {
             pickByGetContent()
         }
 
         override fun clearBackground() {
-            defaults.getBackgroundUri().take(1).subscribe({ u -> settings.setBackgroundUri(u) })
+            defaults.getBackgroundUri().take(1).subscribe({
+                u ->
+                settings.setBackgroundUri(u)
+                clearBackgroundFile()
+            })
         }
 
-        override fun onActivityResultAvailable(data: Intent) {
-            val uri = data.data
-            if (uri != null) {
-                settings.setBackgroundUri(uri.toString())
+        private fun clearBackgroundFile() {
+            Observable.fromCallable({ -> backgroundImageManager.clearBackgroundImage() })
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
+        }
+
+        override fun onActivityResultAvailable(requestCode: Int, uri: Uri) {
+            if (requestCode == requestCodeGetContent) {
+                handleGetContentUriResult(uri)
+            } else {
+                handleDefaultUriResult(uri)
             }
+        }
+
+        private fun handleGetContentUriResult(uri: Uri) {
+            Observable.fromCallable({ -> backgroundImageManager.copyBackgroundToFile(uri) })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            { privateFileUri -> settings.setBackgroundUri(privateFileUri.toString()) },
+                            { t ->
+                                Log.w(tag, "Failed copying to private file", t)
+                                handleDefaultUriResult(uri)
+                            })
+        }
+
+        private fun handleDefaultUriResult(uri: Uri) {
+            settings.setBackgroundUri(uri.toString())
         }
 
         protected fun pickByGetContent() {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
             intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
             try {
                 host?.startActivityForResult(
                         Intent.createChooser(intent, null), requestCodeGetContent)
@@ -172,21 +204,29 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         }
 
         override fun clearBackground() {
-            val uri = settings.getBackgroundUri().blockingFirst()
-            if (uri != "") {
-                context.contentResolver?.releasePersistableUriPermission(Uri.parse(uri),
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            val uriString = settings.getBackgroundUri().blockingFirst()
+            if (uriString != "") {
+                val contentResolver = context.contentResolver
+                if (contentResolver != null) {
+                    val uri = Uri.parse(uriString)
+                    val permissions = contentResolver.persistedUriPermissions
+                    permissions
+                            ?.filter { uri == it.uri }
+                            ?.forEach {
+                                contentResolver.releasePersistableUriPermission(uri,
+                                        Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                }
             }
             super.clearBackground()
         }
 
-        override fun onActivityResultAvailable(data: Intent) {
-            val uri = data.data
-            if (uri != null) {
+        override fun onActivityResultAvailable(requestCode: Int, uri: Uri) {
+            if (requestCode == requestCodeOpenDocument) {
                 context.contentResolver?.takePersistableUriPermission(uri,
                         Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
-            super.onActivityResultAvailable(data)
+            super.onActivityResultAvailable(requestCode, uri)
         }
 
         private fun pickByOpenDocument() {

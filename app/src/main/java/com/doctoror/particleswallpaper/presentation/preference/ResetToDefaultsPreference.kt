@@ -27,6 +27,8 @@ import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
+ *
+ * Preference for resetting configuration to default values.
  */
 class ResetToDefaultsPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)

@@ -4,6 +4,8 @@ import io.reactivex.Observable
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
+ *
+ * The base use case
  */
 interface UseCase<T> {
 

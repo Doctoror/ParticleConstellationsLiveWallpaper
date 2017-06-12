@@ -11,10 +11,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.Toolbar
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.interactor.SetWallpaperUseCase
+import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 
 /**
  * Created by Yaroslav Mytkalyk on 01.06.17.
+ *
+ * Lollipop version of [ConfigActivity]. Shows [Toolbar] [ActionBar] with "preview" action.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -45,7 +47,7 @@ class ConfigActivityLollipop : ConfigActivity() {
             }
 
             R.id.actionPreview -> {
-                SetWallpaperUseCase(this, requestCodeSetWallpaper).useCase().subscribe({
+                OpenChangeWallpaperIntentUseCase(this, requestCodeSetWallpaper).useCase().subscribe({
                     v ->
                     if (!v) onPreviewStartFailed()
                 })

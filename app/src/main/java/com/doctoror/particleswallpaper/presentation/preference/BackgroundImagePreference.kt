@@ -31,6 +31,8 @@ import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
+ *
+ * Preferece for picking or clearing the background image
  */
 @TargetApi(Build.VERSION_CODES.KITKAT)
 @RequiresApi(Build.VERSION_CODES.KITKAT)

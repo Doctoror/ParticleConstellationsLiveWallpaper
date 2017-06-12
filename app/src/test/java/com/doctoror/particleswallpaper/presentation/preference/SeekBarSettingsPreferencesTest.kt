@@ -23,6 +23,8 @@ import kotlin.test.assertEquals
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.
+ *
+ * Tests [MapperSeekBarPresenter] implementations
  */
 class SeekBarSettingsPreferencesTest {
 

@@ -17,6 +17,8 @@ package com.doctoror.particleswallpaper.data.mapper
 
 /**
  * Created by Yaroslav Mytkalyk on 29.05.17.
+ *
+ * Maps dot scale to dot radius range
  */
 class DotRadiusMapper private constructor() {
 

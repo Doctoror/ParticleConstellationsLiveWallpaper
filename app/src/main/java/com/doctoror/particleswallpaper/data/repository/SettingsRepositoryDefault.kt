@@ -23,6 +23,8 @@ import io.reactivex.Observable
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
+ *
+ * [SettingsRepository] with default values.
  */
 class SettingsRepositoryDefault(val res: Resources) : SettingsRepository {
 

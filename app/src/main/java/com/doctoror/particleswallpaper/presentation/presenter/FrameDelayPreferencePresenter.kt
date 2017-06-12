@@ -24,6 +24,8 @@ import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
+ *
+ * Presenter for [com.doctoror.particleswallpaper.presentation.preference.FrameDelayPreference]
  */
 class FrameDelayPreferencePresenter @Inject constructor(val settings: MutableSettingsRepository)
     : Presenter<SeekBarPreferenceView>, MapperSeekBarPresenter<Int> {

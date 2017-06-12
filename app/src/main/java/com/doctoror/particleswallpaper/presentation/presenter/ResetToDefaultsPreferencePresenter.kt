@@ -15,20 +15,26 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
+import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.interactor.ResetToDefaultsUseCase
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import com.doctoror.particleswallpaper.presentation.view.ResetToDefaultsPreferenceView
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
+ *
+ * Presenter for [com.doctoror.particleswallpaper.presentation.preference.ResetToDefaultsPreference]
  */
 class ResetToDefaultsPreferencePresenter @Inject constructor(
         val settings: MutableSettingsRepository,
-        @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository)
+        @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository,
+        val backgroundImageManager: BackgroundImageManager)
     : Presenter<ResetToDefaultsPreferenceView> {
 
     private lateinit var view: ResetToDefaultsPreferenceView
@@ -51,5 +57,8 @@ class ResetToDefaultsPreferencePresenter @Inject constructor(
 
     fun onResetClick() {
         ResetToDefaultsUseCase(settings, defaults).useCase().subscribe()
+        Observable.fromCallable({ -> backgroundImageManager.clearBackgroundImage() })
+                .subscribeOn(Schedulers.io())
+                .subscribe()
     }
 }

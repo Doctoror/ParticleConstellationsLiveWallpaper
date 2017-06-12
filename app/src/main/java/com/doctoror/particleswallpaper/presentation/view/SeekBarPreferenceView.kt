@@ -17,6 +17,8 @@ package com.doctoror.particleswallpaper.presentation.view
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
+ *
+ * General seek bar preference view
  */
 interface SeekBarPreferenceView : MvpView {
 

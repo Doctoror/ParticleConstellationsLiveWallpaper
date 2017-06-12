@@ -27,6 +27,8 @@ import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 05.06.17.
+ *
+ * Preference for showing open source licenses.
  */
 class LicensePreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)

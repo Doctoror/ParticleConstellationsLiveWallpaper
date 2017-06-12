@@ -20,6 +20,9 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 
 /**
  * Created by Yaroslav Mytkalyk on 29.05.17.
+ *
+ * Implementation should monitor for [SettingsRepository] changes and configure [ParticlesDrawable]
+ * based on the settings.
  */
 interface DrawableConfigurator {
     fun subscribe(drawable: ParticlesDrawable, settings : SettingsRepository)

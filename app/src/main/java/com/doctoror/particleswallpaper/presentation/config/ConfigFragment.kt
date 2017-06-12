@@ -32,6 +32,8 @@ import io.reactivex.functions.Consumer
 
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
+ *
+ * The config preference screen fragment.
  */
 open class ConfigFragment @JvmOverloads
 constructor(val ch: OnActivityResultCallbackHostImpl = OnActivityResultCallbackHostImpl())

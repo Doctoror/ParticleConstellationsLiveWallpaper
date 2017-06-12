@@ -12,10 +12,12 @@ import io.reactivex.Observable
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
+ *
+ * Opens live wallpaper preview, or wallpaper chooser for pre-Jellybean devices.
  */
-class SetWallpaperUseCase(val a: Activity, val requestCode: Int) : UseCase<Boolean> {
+class OpenChangeWallpaperIntentUseCase(val a: Activity, val requestCode: Int) : UseCase<Boolean> {
 
-    private val tag = "SetWallpaperUseCase"
+    private val tag = "OpenChangeWpUseCase"
 
     override fun useCase(): Observable<Boolean> = Observable.fromCallable({ -> action()})
 

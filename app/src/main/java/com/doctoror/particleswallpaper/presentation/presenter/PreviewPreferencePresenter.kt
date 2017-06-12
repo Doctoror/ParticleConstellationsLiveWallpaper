@@ -18,11 +18,13 @@ package com.doctoror.particleswallpaper.presentation.presenter
 import android.app.Activity
 import android.widget.Toast
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.interactor.SetWallpaperUseCase
+import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.presentation.view.MvpView
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
+ *
+ * Presenter for [com.doctoror.particleswallpaper.presentation.preference.PreviewPreference]
  */
 class PreviewPreferencePresenter constructor(val activity: Activity) : Presenter<MvpView> {
 
@@ -41,7 +43,7 @@ class PreviewPreferencePresenter constructor(val activity: Activity) : Presenter
     }
 
     fun onClick() {
-        SetWallpaperUseCase(activity, requestCodeSetWallpaper).useCase().subscribe({
+        OpenChangeWallpaperIntentUseCase(activity, requestCodeSetWallpaper).useCase().subscribe({
             v ->
             if (!v) Toast.makeText(activity, R.string.Failed_to_start_preview, Toast.LENGTH_LONG).show()
         })

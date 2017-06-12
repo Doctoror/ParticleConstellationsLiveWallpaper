@@ -4,6 +4,8 @@ import android.support.annotation.ColorInt
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
+ *
+ * [SettingsRepository] with mutators for settings
  */
 interface MutableSettingsRepository: SettingsRepository {
 

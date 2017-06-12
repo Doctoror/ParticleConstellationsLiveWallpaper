@@ -19,6 +19,8 @@ import io.reactivex.Observable
 
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
+ *
+ * The configuration repository
  */
 interface SettingsRepository {
 

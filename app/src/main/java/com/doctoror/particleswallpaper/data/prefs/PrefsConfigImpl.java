@@ -21,6 +21,8 @@ import ds.gendalf.PrefsConfig;
 
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
+ *
+ * Gendalf PrefsConfig for the configuration settings.
  */
 @SuppressWarnings("unused")
 @PrefsConfig("Prefs")

@@ -23,6 +23,8 @@ import com.doctoror.particleswallpaper.presentation.presenter.PreviewPreferenceP
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
+ *
+ * Preference for showing the wallpaper preview.
  */
 class PreviewPreference @JvmOverloads constructor
 (contextParam: Context, attrs: AttributeSet? = null, defStyle: Int = 0)

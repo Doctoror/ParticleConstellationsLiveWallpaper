@@ -27,6 +27,8 @@ import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.
+ *
+ * Dot scale preference
  */
 class DotScalePreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)

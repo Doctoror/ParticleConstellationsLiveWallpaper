@@ -20,6 +20,8 @@ import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 05.06.17.
+ *
+ * Presenter for [com.doctoror.particleswallpaper.presentation.preference.LicensePreference]
  */
 class LicensePreferencePresenter @Inject constructor() : Presenter<LicensePreferenceView> {
 

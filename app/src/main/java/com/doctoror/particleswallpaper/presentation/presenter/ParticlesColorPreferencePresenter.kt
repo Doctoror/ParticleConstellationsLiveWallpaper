@@ -26,6 +26,8 @@ import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
+ *
+ * Presenter for [com.doctoror.particleswallpaper.presentation.preference.ParticlesColorPreference]
  */
 class ParticlesColorPreferencePresenter @Inject constructor(
         val settings: MutableSettingsRepository,

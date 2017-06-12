@@ -17,6 +17,9 @@ package com.doctoror.particleswallpaper.domain.ads
 
 /**
  * Created by Yaroslav Mytkalyk on 06.06.17.
+ *
+ * Provides ads. You must call [initialize] before displaying ads.
+ * It should be safe to call [initialize] multiple times by clients.
  */
 interface AdsProvider {
 

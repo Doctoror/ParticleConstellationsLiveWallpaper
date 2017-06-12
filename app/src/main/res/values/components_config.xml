@@ -4,4 +4,7 @@
     <bool name="useLegacyConfigActivity">true</bool>
     <bool name="useLollipopConfigActivity">false</bool>
 
+    <string translatable="false"
+        name="file_provider_authority">com.doctoror.particleswallpaper.provider.file</string>
+
 </resources>

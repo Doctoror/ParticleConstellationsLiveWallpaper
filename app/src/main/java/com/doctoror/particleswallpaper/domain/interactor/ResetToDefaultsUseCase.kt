@@ -6,6 +6,8 @@ import io.reactivex.Observable
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
+ *
+ * Resets all configurations to default values.
  */
 class ResetToDefaultsUseCase(val settings: MutableSettingsRepository,
                              val defaults: SettingsRepository) : UseCase<Unit> {

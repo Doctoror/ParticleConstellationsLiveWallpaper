@@ -22,6 +22,8 @@ import com.google.android.gms.ads.MobileAds
 
 /**
  * Created by Yaroslav Mytkalyk on 06.06.17.
+ *
+ * Google Ads [AdsProvider] implementation
  */
 class AdsProviderImpl constructor(val context: Context) : AdsProvider {
 

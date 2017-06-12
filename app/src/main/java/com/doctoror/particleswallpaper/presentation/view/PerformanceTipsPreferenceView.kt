@@ -17,6 +17,8 @@ package com.doctoror.particleswallpaper.presentation.view
 
 /**
  * Created by Yaroslav Mytkalyk on 06.06.17.
+ *
+ * Performance tips preference view
  */
 interface PerformanceTipsPreferenceView : MvpView {
     fun showDialog()

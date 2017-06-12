@@ -23,6 +23,8 @@ import io.reactivex.subjects.BehaviorSubject
 
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
+ *
+ * The Gendalf SharedPreferences [MutableSettingsRepository] implementation.
  */
 class SettingsRepositoryImpl(context: Context) : MutableSettingsRepository {
 

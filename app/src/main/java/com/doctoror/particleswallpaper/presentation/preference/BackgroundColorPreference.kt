@@ -29,6 +29,8 @@ import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
+ *
+ * Preference for setting background color
  */
 class BackgroundColorPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)

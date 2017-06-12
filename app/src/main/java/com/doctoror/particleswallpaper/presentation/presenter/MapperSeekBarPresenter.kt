@@ -19,6 +19,8 @@ import android.support.annotation.VisibleForTesting
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
+ *
+ * Presenter that maps between SeekBar progress values and raw values
  */
 interface MapperSeekBarPresenter<T> {
 

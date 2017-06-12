@@ -19,6 +19,8 @@ import com.doctoror.particleswallpaper.presentation.view.MvpView
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
+ *
+ * The general Presenter for [MvpView]
  */
 interface Presenter<in T : MvpView> {
 

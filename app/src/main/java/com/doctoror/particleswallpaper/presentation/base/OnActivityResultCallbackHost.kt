@@ -17,6 +17,9 @@ package com.doctoror.particleswallpaper.presentation.base
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
+ *
+ * Hosts [OnActivityResultCallback]. The implementation should foward
+ * [OnActivityResultCallback.onActivityResult] to the registered callbacks.
  */
 interface OnActivityResultCallbackHost {
 

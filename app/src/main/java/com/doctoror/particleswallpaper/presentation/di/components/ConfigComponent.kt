@@ -12,6 +12,8 @@ import javax.inject.Singleton
 
 /**
  * Created by Yaroslav Mytkalyk on 01.06.17.
+ *
+ * Component for configuration-related code
  */
 @Singleton
 @Component(modules = arrayOf(AppModule::class, ConfigModule::class, AdsModule::class))

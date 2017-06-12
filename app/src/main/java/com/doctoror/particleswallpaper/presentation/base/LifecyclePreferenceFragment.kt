@@ -22,6 +22,10 @@ import android.preference.PreferenceFragment
 
 /**
  * Created by Yaroslav Mytkalyk on 01.06.17.
+ *
+ * [LifecycleRegistryOwner] [PreferenceFragment].
+ * Forwards [Lifecycle.Event.ON_START] and [Lifecycle.Event.ON_STOP] lifecycle events to
+ * [LifecycleRegistry]
  */
 abstract class LifecyclePreferenceFragment : PreferenceFragment(), LifecycleRegistryOwner {
 

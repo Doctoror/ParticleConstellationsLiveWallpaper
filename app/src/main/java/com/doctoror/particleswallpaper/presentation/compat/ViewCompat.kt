@@ -21,6 +21,8 @@ import android.view.View
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
+ *
+ * Provides compatibility methods for [View].
  */
 class ViewCompat private constructor() {
 
