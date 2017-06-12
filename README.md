@@ -1,5 +1,5 @@
-# Particles Live Wallpaper
-Android Particles Live Wallpaper. Available at [Google Play Store (link)](https://play.google.com/store/apps/details?id=com.doctoror.particleswallpaper).
+# Particle Constellations Live Wallpaper
+Android Live Wallpaper. Available at [Google Play Store (link)](https://play.google.com/store/apps/details?id=com.doctoror.particleswallpaper).
 
 Min API level 14.
 
