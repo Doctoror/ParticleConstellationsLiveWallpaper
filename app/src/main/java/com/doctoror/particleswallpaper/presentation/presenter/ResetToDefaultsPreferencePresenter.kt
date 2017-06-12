@@ -21,7 +21,6 @@ import com.doctoror.particleswallpaper.domain.repository.MutableSettingsReposito
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import com.doctoror.particleswallpaper.presentation.view.ResetToDefaultsPreferenceView
-import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Named
@@ -56,8 +55,7 @@ class ResetToDefaultsPreferencePresenter @Inject constructor(
     }
 
     fun onResetClick() {
-        ResetToDefaultsUseCase(settings, defaults).useCase().subscribe()
-        Observable.fromCallable({ -> backgroundImageManager.clearBackgroundImage() })
+        ResetToDefaultsUseCase(settings, defaults, backgroundImageManager).useCase()
                 .subscribeOn(Schedulers.io())
                 .subscribe()
     }

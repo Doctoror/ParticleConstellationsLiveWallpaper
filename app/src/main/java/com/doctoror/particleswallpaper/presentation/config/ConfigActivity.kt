@@ -40,6 +40,7 @@ import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
@@ -84,6 +85,7 @@ open class ConfigActivity : Activity() {
                 settings.getBackgroundUri(),
                 settings.getBackgroundColor(),
                 BiFunction<String, Int, Pair<String, Int>> { t1, t2 -> Pair(t1!!, t2!!) })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result: Pair<String, Int> -> applyBackground(result) })
         configurator.subscribe(particlesDrawable, settings)
         particlesDrawable.start()

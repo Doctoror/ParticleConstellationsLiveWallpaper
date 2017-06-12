@@ -19,6 +19,7 @@ import com.doctoror.particleswallpaper.domain.repository.MutableSettingsReposito
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import com.doctoror.particleswallpaper.presentation.view.ParticlesColorPreferenceView
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
@@ -58,7 +59,9 @@ class ParticlesColorPreferencePresenter @Inject constructor(
     }
 
     override fun onStart() {
-        disposable = settings.getParticlesColor().subscribe(changeAction)
+        disposable = settings.getParticlesColor()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(changeAction)
     }
 
     override fun onStop() {

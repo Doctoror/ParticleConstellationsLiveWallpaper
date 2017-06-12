@@ -18,6 +18,7 @@ package com.doctoror.particleswallpaper.presentation.presenter
 import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
@@ -55,7 +56,9 @@ class DotScalePreferencePresenter @Inject constructor(
     }
 
     override fun onStart() {
-        disposable = settings.getDotScale().subscribe(changeAction)
+        disposable = settings.getDotScale()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(changeAction)
     }
 
     override fun onStop() {

@@ -35,6 +35,7 @@ import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
@@ -88,12 +89,21 @@ class WallpaperServiceImpl : WallpaperService() {
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
             Injector.configComponent.inject(this)
+
             mConfigurator.subscribe(mDrawable, mSettings)
             mGlide = Glide.with(this@WallpaperServiceImpl)
 
-            mFrameDelayDisposable = mSettings.getFrameDelay().subscribe({ d -> mDelay = d.toLong() })
-            mBackgroundDisposable = mSettings.getBackgroundUri().subscribe({ u -> handleBackground(u) })
-            mBackgroundColorDisposable = mSettings.getBackgroundColor().subscribe({ c -> mPaint.color = c })
+            mFrameDelayDisposable = mSettings.getFrameDelay()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ d -> mDelay = d.toLong() })
+
+            mBackgroundDisposable = mSettings.getBackgroundUri()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ u -> handleBackground(u) })
+
+            mBackgroundColorDisposable = mSettings.getBackgroundColor()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ c -> mPaint.color = c })
         }
 
         override fun onDestroy() {

@@ -20,6 +20,7 @@ import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.data.mapper.DotRadiusMapper
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -30,7 +31,7 @@ import io.reactivex.disposables.CompositeDisposable
 class DrawableConfiguratorImpl : DrawableConfigurator {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    var disposables : CompositeDisposable? = null
+    var disposables: CompositeDisposable? = null
 
     override fun subscribe(drawable: ParticlesDrawable, settings: SettingsRepository) {
         val d = CompositeDisposable()
@@ -38,36 +39,50 @@ class DrawableConfiguratorImpl : DrawableConfigurator {
         disposables?.dispose()
         disposables = d
 
-        d.add(settings.getParticlesColor().subscribe({ c ->
-            drawable.dotColor = c
-            drawable.lineColor = c
-        }))
+        d.add(settings.getParticlesColor()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ c ->
+                    drawable.dotColor = c
+                    drawable.lineColor = c
+                }))
 
-        d.add(settings.getNumDots().subscribe({ v ->
-            drawable.numDots = v
-            drawable.makeBrandNewFrame()
-        }))
+        d.add(settings.getNumDots()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ v ->
+                    drawable.numDots = v
+                    drawable.makeBrandNewFrame()
+                }))
 
-        d.add(settings.getDotScale().subscribe({ v ->
-            val radiusRange = DotRadiusMapper.transform(v)
-            drawable.setDotRadiusRange(radiusRange.first, radiusRange.second)
-            drawable.makeBrandNewFrame()
-        }))
+        d.add(settings.getDotScale()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ v ->
+                    val radiusRange = DotRadiusMapper.transform(v)
+                    drawable.setDotRadiusRange(radiusRange.first, radiusRange.second)
+                    drawable.makeBrandNewFrame()
+                }))
 
-        d.add(settings.getLineScale().subscribe({ v ->
-            drawable.lineThickness = v
-            drawable.makeBrandNewFrame()
-        }))
+        d.add(settings.getLineScale()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ v ->
+                    drawable.lineThickness = v
+                    drawable.makeBrandNewFrame()
+                }))
 
-        d.add(settings.getLineDistance().subscribe({ v ->
+        d.add(settings.getLineDistance()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ v ->
             drawable.lineDistance = v
         }))
 
-        d.add(settings.getStepMultiplier().subscribe({ v ->
+        d.add(settings.getStepMultiplier()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ v ->
             drawable.stepMultiplier = v
         }))
 
-        d.add(settings.getFrameDelay().subscribe({ v ->
+        d.add(settings.getFrameDelay()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ v ->
             drawable.frameDelay = v
         }))
     }

@@ -1,5 +1,6 @@
 package com.doctoror.particleswallpaper.domain.interactor
 
+import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import io.reactivex.Observable
@@ -10,7 +11,8 @@ import io.reactivex.Observable
  * Resets all configurations to default values.
  */
 class ResetToDefaultsUseCase(val settings: MutableSettingsRepository,
-                             val defaults: SettingsRepository) : UseCase<Unit> {
+                             val defaults: SettingsRepository,
+                             val backgroundImageManager: BackgroundImageManager) : UseCase<Unit> {
 
     override fun useCase() = Observable.fromCallable({ -> reset()})!!
 
@@ -26,5 +28,7 @@ class ResetToDefaultsUseCase(val settings: MutableSettingsRepository,
 
         settings.setStepMultiplier(defaults.getStepMultiplier().blockingFirst())
         settings.setFrameDelay(defaults.getFrameDelay().blockingFirst())
+
+        backgroundImageManager.clearBackgroundImage()
     }
 }

@@ -163,7 +163,6 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         private fun handleGetContentUriResult(uri: Uri) {
             Observable.fromCallable({ -> backgroundImageManager.copyBackgroundToFile(uri) })
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             { privateFileUri -> settings.setBackgroundUri(privateFileUri.toString()) },
                             { t ->

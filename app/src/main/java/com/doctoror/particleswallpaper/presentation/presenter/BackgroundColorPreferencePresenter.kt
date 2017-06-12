@@ -19,6 +19,7 @@ import com.doctoror.particleswallpaper.domain.repository.MutableSettingsReposito
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import com.doctoror.particleswallpaper.presentation.view.BackgroundColorPreferenceView
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
@@ -55,15 +56,22 @@ class BackgroundColorPreferencePresenter @Inject constructor(
     }
 
     fun onClick() {
-        if (settings.getBackgroundUri().blockingFirst() == "") {
-            view.showPreferenceDialog()
-        } else {
-            view.showWarningDialog()
-        }
+        settings.getBackgroundUri()
+                .take(1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ uri ->
+                    if (uri == "") {
+                        view.showPreferenceDialog()
+                    } else {
+                        view.showWarningDialog()
+                    }
+                })
     }
 
     override fun onStart() {
-        disposable = settings.getBackgroundColor().subscribe(changeAction)
+        disposable = settings.getBackgroundColor()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(changeAction)
     }
 
     override fun onStop() {

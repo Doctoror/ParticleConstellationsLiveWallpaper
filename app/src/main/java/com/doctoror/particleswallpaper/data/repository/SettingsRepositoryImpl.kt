@@ -28,17 +28,17 @@ import io.reactivex.subjects.BehaviorSubject
  */
 class SettingsRepositoryImpl(context: Context) : MutableSettingsRepository {
 
-    val defaults = SettingsRepositoryDefault(context.resources)
+    val defaults = SettingsRepositoryDefault(context.resources!!)
 
-    val colorSubject = BehaviorSubject.create<Int>()!!
-    val backgroundColorSubject = BehaviorSubject.create<Int>()!!
-    val backgroundUriSubject = BehaviorSubject.create<String>()!!
-    val numDotsSubject = BehaviorSubject.create<Int>()!!
-    val frameDelaySubject = BehaviorSubject.create<Int>()!!
-    val stepMultiplierSubject = BehaviorSubject.create<Float>()!!
-    val dotScaleSubject = BehaviorSubject.create<Float>()!!
-    val lineScaleSubject = BehaviorSubject.create<Float>()!!
-    val lineDistanceSubject = BehaviorSubject.create<Float>()!!
+    val colorSubject = BehaviorSubject.create<Int>().toSerialized()!!
+    val backgroundColorSubject = BehaviorSubject.create<Int>().toSerialized()!!
+    val backgroundUriSubject = BehaviorSubject.create<String>().toSerialized()!!
+    val numDotsSubject = BehaviorSubject.create<Int>().toSerialized()!!
+    val frameDelaySubject = BehaviorSubject.create<Int>().toSerialized()!!
+    val stepMultiplierSubject = BehaviorSubject.create<Float>().toSerialized()!!
+    val dotScaleSubject = BehaviorSubject.create<Float>().toSerialized()!!
+    val lineScaleSubject = BehaviorSubject.create<Float>().toSerialized()!!
+    val lineDistanceSubject = BehaviorSubject.create<Float>().toSerialized()!!
 
     val prefs = Prefs.with(context)!!
 

@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.data.repository
 
 import android.content.Context
+import android.content.res.Resources
 import android.support.test.InstrumentationRegistry
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
@@ -39,6 +40,12 @@ class SettingsRepositoryImplTest {
                 .getSharedPreferences(fakePrefsName, Context.MODE_PRIVATE)
 
         val context = Mockito.mock<Context>(Context::class.java)
+        val resources = Mockito.mock<Resources>(Resources::class.java)
+
+        Mockito.`when`(resources.getInteger(anyInt())).thenReturn(1)
+        Mockito.`when`(resources.getDimension(anyInt())).thenReturn(1f)
+
+        Mockito.`when`(context.resources).thenReturn(resources)
         Mockito.`when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(fakePrefs)
 
         settings = SettingsRepositoryImpl(context)
