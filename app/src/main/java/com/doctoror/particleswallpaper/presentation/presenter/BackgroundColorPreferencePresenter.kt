@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.presentation.presenter
 
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
+import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import com.doctoror.particleswallpaper.presentation.view.BackgroundColorPreferenceView
@@ -52,7 +53,7 @@ class BackgroundColorPreferencePresenter @Inject constructor(
     fun onPreferenceChange(v: Int?) {
         val color = v ?: defaults.getBackgroundColor().blockingFirst()
         settings.setBackgroundColor(color)
-        settings.setBackgroundUri("")
+        settings.setBackgroundUri(NO_URI)
     }
 
     fun onClick() {
@@ -60,7 +61,7 @@ class BackgroundColorPreferencePresenter @Inject constructor(
                 .take(1)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ uri ->
-                    if (uri == "") {
+                    if (uri == NO_URI) {
                         view.showPreferenceDialog()
                     } else {
                         view.showWarningDialog()

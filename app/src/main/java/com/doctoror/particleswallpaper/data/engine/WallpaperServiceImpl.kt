@@ -33,6 +33,7 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
+import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -66,7 +67,7 @@ class WallpaperServiceImpl : WallpaperService() {
         private val DEFAULT_DELAY = 10L
         private val MIN_DELAY = 5L
 
-        private val mPaint = Paint()
+        private val mBackgroundPaint = Paint()
 
         private val mHandler = Handler(Looper.getMainLooper())
         private val mDrawable = ParticlesDrawable()
@@ -82,8 +83,8 @@ class WallpaperServiceImpl : WallpaperService() {
         private var mLastUsedImageLoadTarget: ImageLoadTarget? = null
 
         init {
-            mPaint.style = Paint.Style.FILL
-            mPaint.color = Color.BLACK
+            mBackgroundPaint.style = Paint.Style.FILL
+            mBackgroundPaint.color = Color.BLACK
         }
 
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
@@ -103,7 +104,7 @@ class WallpaperServiceImpl : WallpaperService() {
 
             mBackgroundColorDisposable = mSettings.getBackgroundColor()
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ c -> mPaint.color = c })
+                    .subscribe({ c -> mBackgroundPaint.color = c })
         }
 
         override fun onDestroy() {
@@ -117,7 +118,7 @@ class WallpaperServiceImpl : WallpaperService() {
 
         private fun handleBackground(uri: String) {
             mGlide.clear(mLastUsedImageLoadTarget)
-            if (uri == "") {
+            if (uri == NO_URI) {
                 mBackground = null
                 mLastUsedImageLoadTarget = null
             } else if (mWidth != 0 && mHeight != 0) {
@@ -193,7 +194,7 @@ class WallpaperServiceImpl : WallpaperService() {
         private fun drawBackground(c: Canvas) {
             val background = mBackground
             if (background == null) {
-                c.drawRect(0f, 0f, mWidth.toFloat(), mHeight.toFloat(), mPaint)
+                c.drawRect(0f, 0f, mWidth.toFloat(), mHeight.toFloat(), mBackgroundPaint)
             } else {
                 background.draw(c)
             }

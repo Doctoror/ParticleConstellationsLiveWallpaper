@@ -21,7 +21,7 @@
     </style>
 
     <style name="AppTheme" parent="BaseAppTheme">
-        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowBackground">@color/defaultBackground</item>
     </style>
 
 </resources>

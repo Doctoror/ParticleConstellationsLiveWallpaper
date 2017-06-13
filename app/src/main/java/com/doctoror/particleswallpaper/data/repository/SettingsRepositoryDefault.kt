@@ -16,33 +16,49 @@
 package com.doctoror.particleswallpaper.data.repository
 
 import android.content.res.Resources
+import android.support.v4.content.res.ResourcesCompat
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.data.prefs.PrefsConfigImpl
+import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import io.reactivex.Observable
+import android.util.TypedValue
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
  *
  * [SettingsRepository] with default values.
  */
-class SettingsRepositoryDefault(val res: Resources) : SettingsRepository {
+class SettingsRepositoryDefault(val res: Resources,
+                                val theme: Resources.Theme) : SettingsRepository {
 
-    override fun getNumDots() = Observable.just(res.getInteger(R.integer.default_density))!!
+    override fun getNumDots() = Observable.just(
+            res.getInteger(R.integer.default_density))!!
 
-    override fun getFrameDelay() = Observable.just(15)!!
+    override fun getFrameDelay() = Observable.just(
+            res.getInteger(R.integer.defaultFrameDelay))!!
 
-    override fun getStepMultiplier() = Observable.just(0.7f)!!
+    override fun getStepMultiplier() = Observable.just(resolveStepMultiplier())!!
 
-    override fun getDotScale() = Observable.just(res.getDimension(R.dimen.default_dot_scale))!!
+    private fun resolveStepMultiplier(): Float {
+        val outValue = TypedValue()
+        res.getValue(R.dimen.defaultStepMultiplier, outValue, true)
+        return outValue.float
+    }
 
-    override fun getLineScale() = Observable.just(res.getDimension(R.dimen.default_line_scale))!!
+    override fun getDotScale() = Observable.just(
+            res.getDimension(R.dimen.default_dot_scale))!!
 
-    override fun getLineDistance() = Observable.just(res.getDimension(R.dimen.default_line_distance))!!
+    override fun getLineScale() = Observable.just(
+            res.getDimension(R.dimen.default_line_scale))!!
 
-    override fun getParticlesColor() = Observable.just(PrefsConfigImpl.particlesColor)!!
+    override fun getLineDistance() = Observable.just(
+            res.getDimension(R.dimen.default_line_distance))!!
 
-    override fun getBackgroundUri() = Observable.just("")!!
+    override fun getParticlesColor() = Observable.just(
+            ResourcesCompat.getColor(res, R.color.defaultParticlesColor, theme))!!
 
-    override fun getBackgroundColor() = Observable.just(PrefsConfigImpl.backgroundColor)!!
+    override fun getBackgroundUri() = Observable.just(NO_URI)!!
+
+    override fun getBackgroundColor() = Observable.just(
+            ResourcesCompat.getColor(res, R.color.defaultBackground, theme))!!
 }

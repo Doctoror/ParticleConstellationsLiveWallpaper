@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.data.repository
 
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
+import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import io.reactivex.Observable
 
 class StubMutableSettingsRepository : MutableSettingsRepository {
@@ -85,7 +86,7 @@ class StubMutableSettingsRepository : MutableSettingsRepository {
     }
 
     override fun getBackgroundUri(): Observable<String> {
-        return Observable.just("")
+        return Observable.just(NO_URI)
     }
 
     override fun getBackgroundColor(): Observable<Int> {

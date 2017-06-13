@@ -29,6 +29,7 @@ import android.widget.Toast
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
+import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
@@ -203,7 +204,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
 
         override fun clearBackground() {
             val uriString = settings.getBackgroundUri().blockingFirst()
-            if (uriString != "") {
+            if (uriString != NO_URI) {
                 val contentResolver = context.contentResolver
                 if (contentResolver != null) {
                     val uri = Uri.parse(uriString)

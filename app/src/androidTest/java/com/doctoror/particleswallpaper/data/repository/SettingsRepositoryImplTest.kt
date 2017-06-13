@@ -23,6 +23,7 @@ import io.reactivex.observers.TestObserver
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
@@ -36,16 +37,20 @@ class SettingsRepositoryImplTest {
 
     @Before
     fun setUp() {
-        val fakePrefs = InstrumentationRegistry.getContext()
-                .getSharedPreferences(fakePrefsName, Context.MODE_PRIVATE)
+        val instrumentationContext = InstrumentationRegistry.getContext()
+        val fakePrefs = instrumentationContext
+                .getSharedPreferences(fakePrefsName, Context.MODE_PRIVATE)!!
 
         val context = Mockito.mock<Context>(Context::class.java)
         val resources = Mockito.mock<Resources>(Resources::class.java)
+        val theme = instrumentationContext.theme!!
 
         Mockito.`when`(resources.getInteger(anyInt())).thenReturn(1)
         Mockito.`when`(resources.getDimension(anyInt())).thenReturn(1f)
+        Mockito.`when`(resources.getColor(anyInt(), ArgumentMatchers.eq(theme))).thenReturn(1)
 
         Mockito.`when`(context.resources).thenReturn(resources)
+        Mockito.`when`(context.theme).thenReturn(theme)
         Mockito.`when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(fakePrefs)
 
         settings = SettingsRepositoryImpl(context)

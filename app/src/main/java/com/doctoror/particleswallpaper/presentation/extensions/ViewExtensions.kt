@@ -13,29 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.compat
+package com.doctoror.particleswallpaper.presentation.extensions
 
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 
 /**
- * Created by Yaroslav Mytkalyk on 31.05.17.
- *
- * Provides compatibility methods for [View].
+ * [View.setBackground] compatible with pre-JellyBean
  */
-class ViewCompat private constructor() {
-
-    companion object {
-
-        @JvmStatic fun setBackground(view: View, drawable: Drawable?) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                view.background = drawable
-            } else {
-                @Suppress("DEPRECATION")
-                view.setBackgroundDrawable(drawable)
-            }
-        }
+fun View.setBackgroundCompat(drawable: Drawable?) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        this.background = drawable
+    } else {
+        @Suppress("DEPRECATION")
+        this.setBackgroundDrawable(drawable)
     }
-
 }

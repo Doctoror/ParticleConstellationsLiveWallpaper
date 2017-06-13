@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.presentation.config
 
 import android.app.Activity
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -34,9 +33,11 @@ import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
 import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
+import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.compat.ViewCompat
+import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
 import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import io.reactivex.Observable
@@ -44,10 +45,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
+import javax.inject.Named
 
 open class ConfigActivity : Activity() {
 
     private val particlesDrawable = ParticlesDrawable()
+
+    @field:[Inject Named(ConfigModule.DEFAULT)] lateinit var defaults: SettingsRepository
 
     @Inject lateinit var configurator: DrawableConfigurator
     @Inject lateinit var settings: SettingsRepository
@@ -69,7 +73,7 @@ open class ConfigActivity : Activity() {
     }
 
     private fun setBackground() {
-        ViewCompat.setBackground(findViewById(R.id.drawableContainer), particlesDrawable)
+        findViewById(R.id.drawableContainer)!!.setBackgroundCompat(particlesDrawable)
     }
 
     private fun initAdView() {
@@ -104,7 +108,7 @@ open class ConfigActivity : Activity() {
 
     private fun applyBackground(uri: String, @ColorInt color: Int) {
         val bg: ImageView = findViewById(R.id.bg) as ImageView
-        if (uri == "") {
+        if (uri == NO_URI) {
             onNoBackgroundImage(bg, color)
         } else {
             glide.load(uri)
@@ -136,7 +140,10 @@ open class ConfigActivity : Activity() {
     private fun onNoBackgroundImage(bg: ImageView, @ColorInt color: Int) {
         glide.clear(bg)
         bg.setImageDrawable(null)
-        ViewCompat.setBackground(bg,
-                (if (color == Color.BLACK) null else ColorDrawable(color)))
+
+        defaults.getBackgroundColor()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ default ->
+                    bg.setBackgroundCompat((if (color == default) null else ColorDrawable(color))) })
     }
 }

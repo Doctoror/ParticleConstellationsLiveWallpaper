@@ -22,6 +22,9 @@ import io.reactivex.Observable
  *
  * The configuration repository
  */
+
+const val NO_URI = ""
+
 interface SettingsRepository {
 
     fun getNumDots(): Observable<Int>

@@ -15,9 +15,13 @@
  */
 package com.doctoror.particleswallpaper.data.prefs;
 
+import com.doctoror.particleswallpaper.domain.repository.SettingsRepository;
+
 import android.graphics.Color;
 
 import ds.gendalf.PrefsConfig;
+
+import static com.doctoror.particleswallpaper.domain.repository.SettingsRepositoryKt.NO_URI;
 
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
@@ -38,5 +42,5 @@ public interface PrefsConfigImpl {
 
     int particlesColor = Color.WHITE;
     int backgroundColor = 0xff212121;
-    String backgroundUri = "";
+    String backgroundUri = NO_URI;
 }
