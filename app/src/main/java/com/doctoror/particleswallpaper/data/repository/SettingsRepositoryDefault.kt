@@ -31,6 +31,21 @@ import android.util.TypedValue
 class SettingsRepositoryDefault(val res: Resources,
                                 val theme: Resources.Theme) : SettingsRepository {
 
+    companion object {
+
+        private var instance: SettingsRepositoryDefault? = null
+
+        fun getInstance(res: Resources,
+                        theme: Resources.Theme): SettingsRepositoryDefault {
+            var instance = instance
+            if (instance == null) {
+                instance = SettingsRepositoryDefault(res, theme)
+                this.instance = instance
+            }
+            return instance
+        }
+    }
+
     override fun getNumDots() = Observable.just(
             res.getInteger(R.integer.default_density))!!
 

@@ -18,6 +18,7 @@ package com.doctoror.particleswallpaper.presentation.presenter
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
+import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.ParticlesColorPreferenceView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -30,6 +31,7 @@ import javax.inject.Named
  *
  * Presenter for [com.doctoror.particleswallpaper.presentation.preference.ParticlesColorPreference]
  */
+@PerPreference
 class ParticlesColorPreferencePresenter @Inject constructor(
         val settings: MutableSettingsRepository,
         @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository)

@@ -19,6 +19,7 @@ import android.app.Activity
 import android.widget.Toast
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
+import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.MvpView
 
 /**
@@ -26,6 +27,7 @@ import com.doctoror.particleswallpaper.presentation.view.MvpView
  *
  * Presenter for [com.doctoror.particleswallpaper.presentation.preference.PreviewPreference]
  */
+@PerPreference
 class PreviewPreferencePresenter constructor(val activity: Activity) : Presenter<MvpView> {
 
     private val requestCodeSetWallpaper = 1

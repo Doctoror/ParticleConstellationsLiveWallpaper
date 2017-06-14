@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
+import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.PerformanceTipsPreferenceView
 import javax.inject.Inject
 
@@ -23,6 +24,7 @@ import javax.inject.Inject
  *
  * Presenter for [com.doctoror.particleswallpaper.presentation.preference.PerformanceTipsPreference]
  */
+@PerPreference
 class PerformanceTipsPreferencePresenter @Inject constructor()
     : Presenter<PerformanceTipsPreferenceView> {
 

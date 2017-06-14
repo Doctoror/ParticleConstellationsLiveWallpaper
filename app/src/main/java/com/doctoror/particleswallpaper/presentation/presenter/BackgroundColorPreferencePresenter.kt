@@ -19,6 +19,7 @@ import com.doctoror.particleswallpaper.domain.repository.MutableSettingsReposito
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
+import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.BackgroundColorPreferenceView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -31,6 +32,7 @@ import javax.inject.Named
  *
  * Presenter for [BackgroundColorPreferenceView]
  */
+@PerPreference
 class BackgroundColorPreferencePresenter @Inject constructor(
         val settings: MutableSettingsRepository,
         @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository)

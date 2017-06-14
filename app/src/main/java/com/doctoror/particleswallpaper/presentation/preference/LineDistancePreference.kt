@@ -21,6 +21,8 @@ import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
+import com.doctoror.particleswallpaper.presentation.di.modules.PreferenceModule
 import com.doctoror.particleswallpaper.presentation.presenter.LineDistancePreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import javax.inject.Inject
@@ -37,7 +39,12 @@ class LineDistancePreference @JvmOverloads constructor
     @Inject lateinit var presenter: LineDistancePreferencePresenter
 
     init {
-        Injector.configComponent.inject(this)
+        DaggerPreferenceComponent.builder()
+                .configComponent(Injector.configComponent)
+                .preferenceModule(PreferenceModule())
+                .build()
+                .inject(this)
+
         isPersistent = false
         presenter.onTakeView(this)
         setOnPreferenceChangeListener({ _, v ->

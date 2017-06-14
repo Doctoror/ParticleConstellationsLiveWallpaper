@@ -20,6 +20,8 @@ import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
+import com.doctoror.particleswallpaper.presentation.di.modules.PreferenceModule
 import com.doctoror.particleswallpaper.presentation.presenter.LicensePreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.LicensePreferenceView
 import de.psdev.licensesdialog.LicensesDialog
@@ -38,7 +40,12 @@ class LicensePreference @JvmOverloads constructor
     @Inject lateinit var presenter: LicensePreferencePresenter
 
     init {
-        Injector.configComponent.inject(this)
+        DaggerPreferenceComponent.builder()
+                .configComponent(Injector.configComponent)
+                .preferenceModule(PreferenceModule())
+                .build()
+                .inject(this)
+
         presenter.onTakeView(this)
         isPersistent = false
     }

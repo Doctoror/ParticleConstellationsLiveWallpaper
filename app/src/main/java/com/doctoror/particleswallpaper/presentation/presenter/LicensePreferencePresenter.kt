@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
+import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.LicensePreferenceView
 import javax.inject.Inject
 
@@ -23,6 +24,7 @@ import javax.inject.Inject
  *
  * Presenter for [com.doctoror.particleswallpaper.presentation.preference.LicensePreference]
  */
+@PerPreference
 class LicensePreferencePresenter @Inject constructor() : Presenter<LicensePreferenceView> {
 
     private lateinit var view: LicensePreferenceView

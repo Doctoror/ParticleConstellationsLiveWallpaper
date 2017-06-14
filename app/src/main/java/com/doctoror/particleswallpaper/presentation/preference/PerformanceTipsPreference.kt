@@ -21,6 +21,8 @@ import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
+import com.doctoror.particleswallpaper.presentation.di.modules.PreferenceModule
 import com.doctoror.particleswallpaper.presentation.presenter.PerformanceTipsPreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.PerformanceTipsPreferenceView
 import javax.inject.Inject
@@ -38,7 +40,12 @@ class PerformanceTipsPreference @JvmOverloads constructor
     @Inject lateinit var presenter: PerformanceTipsPreferencePresenter
 
     init {
-        Injector.configComponent.inject(this)
+        DaggerPreferenceComponent.builder()
+                .configComponent(Injector.configComponent)
+                .preferenceModule(PreferenceModule())
+                .build()
+                .inject(this)
+
         presenter.onTakeView(this)
         isPersistent = false
     }

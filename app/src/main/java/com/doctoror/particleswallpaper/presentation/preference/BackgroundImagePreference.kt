@@ -25,6 +25,8 @@ import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
+import com.doctoror.particleswallpaper.presentation.di.modules.PreferenceModule
 import com.doctoror.particleswallpaper.presentation.presenter.BackgroundImagePreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
 import javax.inject.Inject
@@ -49,7 +51,12 @@ class BackgroundImagePreference @JvmOverloads constructor
         }
 
     init {
-        Injector.configComponent.inject(this)
+        DaggerPreferenceComponent.builder()
+                .configComponent(Injector.configComponent)
+                .preferenceModule(PreferenceModule())
+                .build()
+                .inject(this)
+
         isPersistent = false
         presenter.onTakeView(this)
     }

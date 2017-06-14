@@ -34,6 +34,7 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
+import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -45,6 +46,7 @@ import javax.inject.Named
  *
  * Presenter for [BackgroundImagePreferenceView]
  */
+@PerPreference
 class BackgroundImagePreferencePresenter @Inject constructor(
         val context: Context,
         val settings: MutableSettingsRepository,

@@ -21,6 +21,8 @@ import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
+import com.doctoror.particleswallpaper.presentation.di.modules.PreferenceModule
 import com.doctoror.particleswallpaper.presentation.presenter.ResetToDefaultsPreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.ResetToDefaultsPreferenceView
 import javax.inject.Inject
@@ -38,7 +40,12 @@ class ResetToDefaultsPreference @JvmOverloads constructor
     @Inject lateinit var presenter: ResetToDefaultsPreferencePresenter
 
     init {
-        Injector.configComponent.inject(this)
+        DaggerPreferenceComponent.builder()
+                .configComponent(Injector.configComponent)
+                .preferenceModule(PreferenceModule())
+                .build()
+                .inject(this)
+
         isPersistent = false
         presenter.onTakeView(this)
     }

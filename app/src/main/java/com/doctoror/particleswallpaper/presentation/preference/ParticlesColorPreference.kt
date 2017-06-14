@@ -21,6 +21,8 @@ import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
+import com.doctoror.particleswallpaper.presentation.di.modules.PreferenceModule
 import com.doctoror.particleswallpaper.presentation.presenter.ParticlesColorPreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.ParticlesColorPreferenceView
 import javax.inject.Inject
@@ -41,7 +43,12 @@ class ParticlesColorPreference @JvmOverloads constructor
     private var value: Int? = null
 
     init {
-        Injector.configComponent.inject(this)
+        DaggerPreferenceComponent.builder()
+                .configComponent(Injector.configComponent)
+                .preferenceModule(PreferenceModule())
+                .build()
+                .inject(this)
+
         isPersistent = false
 
         presenter.onTakeView(this)

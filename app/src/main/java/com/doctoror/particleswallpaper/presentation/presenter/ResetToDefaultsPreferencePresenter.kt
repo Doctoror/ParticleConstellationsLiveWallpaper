@@ -20,6 +20,7 @@ import com.doctoror.particleswallpaper.domain.interactor.ResetToDefaultsUseCase
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
+import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.ResetToDefaultsPreferenceView
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -30,6 +31,7 @@ import javax.inject.Named
  *
  * Presenter for [com.doctoror.particleswallpaper.presentation.preference.ResetToDefaultsPreference]
  */
+@PerPreference
 class ResetToDefaultsPreferencePresenter @Inject constructor(
         val settings: MutableSettingsRepository,
         @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository,
