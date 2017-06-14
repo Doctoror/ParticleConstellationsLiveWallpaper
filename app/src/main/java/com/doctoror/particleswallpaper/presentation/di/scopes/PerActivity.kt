@@ -13,22 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.di.modules
+package com.doctoror.particleswallpaper.presentation.di.scopes
 
-import android.content.Context
-import com.doctoror.particleswallpaper.data.ads.AdsProviderImpl
-import com.doctoror.particleswallpaper.domain.ads.AdsProvider
-import dagger.Module
-import dagger.Provides
+import javax.inject.Scope
 
 /**
- * Created by Yaroslav Mytkalyk on 06.06.17.
+ * Created by Yaroslav Mytkalyk on 14.06.17.
  *
- * The ads Dagger module
+ * Activity scope
  */
-@Module
-class AdsModule {
-
-    @Provides fun provideAdsProvider(context: Context):
-            AdsProvider = AdsProviderImpl(context)
-}
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class PerActivity

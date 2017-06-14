@@ -37,7 +37,10 @@ import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
 import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.components.DaggerActivityComponent
+import com.doctoror.particleswallpaper.presentation.di.modules.ActivityModule
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
+import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -53,7 +56,7 @@ open class ConfigActivity : Activity() {
 
     @Inject lateinit var configurator: DrawableConfigurator
     @Inject lateinit var settings: SettingsRepository
-    @Inject lateinit var adProvider: AdsProvider
+    @Inject @PerActivity lateinit var adProvider: AdsProvider
 
     private lateinit var glide: RequestManager
 
@@ -61,7 +64,12 @@ open class ConfigActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Injector.configComponent.inject(this)
+        DaggerActivityComponent.builder()
+                .configComponent(Injector.configComponent)
+                .activityModule(ActivityModule())
+                .build()
+                .inject(this)
+
         glide = Glide.with(this)
 
         setContentView(R.layout.activity_config)
