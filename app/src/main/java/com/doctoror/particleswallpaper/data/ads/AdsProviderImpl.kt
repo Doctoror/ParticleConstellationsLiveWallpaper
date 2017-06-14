@@ -24,7 +24,6 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.transition.ChangeBounds
 import android.transition.TransitionManager
-import android.view.View
 import android.view.ViewGroup
 import com.doctoror.particleswallpaper.BuildConfig
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
@@ -42,8 +41,8 @@ class AdsProviderImpl constructor(val context: Context) : AdsProvider {
 
     companion object {
 
+        private val initializeLock = Object()
         private var mobileAdsInitialized = false
-
     }
 
     enum class AdLoadState {
@@ -54,6 +53,10 @@ class AdsProviderImpl constructor(val context: Context) : AdsProvider {
     private var adView: AdView? = null
 
     private fun initializeMobileAds() {
+        synchronized(initializeLock, { initializeMobileAdsNotLocked() })
+    }
+
+    private fun initializeMobileAdsNotLocked() {
         if (!mobileAdsInitialized) {
             mobileAdsInitialized = true
             MobileAds.initialize(context, BuildConfig.AD_APP_ID)
@@ -72,7 +75,7 @@ class AdsProviderImpl constructor(val context: Context) : AdsProvider {
                 .build())
     }
 
-    @Synchronized override fun initialize(adContext: Any) {
+    override fun initialize(adContext: Any) {
         if (!(adContext is AdView)) {
             throw IllegalArgumentException(
                     ("""This AdsProvider implementation requires com.google.android.gms.ads.AdView
