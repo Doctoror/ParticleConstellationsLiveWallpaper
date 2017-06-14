@@ -22,6 +22,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Build
+import android.support.annotation.VisibleForTesting
 import android.transition.ChangeBounds
 import android.transition.TransitionManager
 import android.view.ViewGroup
@@ -37,7 +38,7 @@ import com.google.android.gms.ads.MobileAds
  *
  * Google Ads [AdsProvider] implementation
  */
-class AdsProviderImpl constructor(val context: Context) : AdsProvider {
+class AdsProviderImpl constructor(private val context: Context) : AdsProvider {
 
     companion object {
 
@@ -45,11 +46,14 @@ class AdsProviderImpl constructor(val context: Context) : AdsProvider {
         private var mobileAdsInitialized = false
     }
 
+    @VisibleForTesting
     enum class AdLoadState {
         IDLE, WAITING_FOR_CONNECTION, LOADING, LOADED, FAILED
     }
 
-    private var adLoadState = AdLoadState.IDLE
+    @VisibleForTesting
+    var adLoadState = AdLoadState.IDLE
+
     private var adView: AdView? = null
 
     private fun initializeMobileAds() {
