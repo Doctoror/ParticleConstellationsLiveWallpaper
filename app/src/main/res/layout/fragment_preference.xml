@@ -9,6 +9,7 @@
         android:layout_width="@dimen/preference_list_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:fadeScrollbars="false"
         android:background="@color/translucentBackground"/>
 
 </FrameLayout>
