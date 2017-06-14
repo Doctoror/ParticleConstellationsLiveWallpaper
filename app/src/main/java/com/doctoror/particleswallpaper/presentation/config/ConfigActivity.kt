@@ -38,8 +38,6 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
 import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -64,7 +62,6 @@ open class ConfigActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Injector.configComponent.inject(this)
-        adProvider.initialize()
         glide = Glide.with(this)
 
         setContentView(R.layout.activity_config)
@@ -77,14 +74,12 @@ open class ConfigActivity : Activity() {
     }
 
     private fun initAdView() {
-        val adView: AdView = findViewById(R.id.adView) as AdView
-        adView.loadAd(AdRequest.Builder()
-                .addTestDevice("1644CF0C8CE728912DC93B6C340AB453")
-                .build())
+        adProvider.initialize(findViewById(R.id.adView))
     }
 
     override fun onStart() {
         super.onStart()
+        adProvider.onStart()
         bgDisposable = Observable.combineLatest(
                 settings.getBackgroundUri(),
                 settings.getBackgroundColor(),
@@ -97,6 +92,7 @@ open class ConfigActivity : Activity() {
 
     override fun onStop() {
         super.onStop()
+        adProvider.onStop()
         bgDisposable?.dispose()
         particlesDrawable.stop()
         configurator.dispose()

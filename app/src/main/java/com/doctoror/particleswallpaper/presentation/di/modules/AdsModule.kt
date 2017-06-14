@@ -20,7 +20,6 @@ import com.doctoror.particleswallpaper.data.ads.AdsProviderImpl
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 /**
  * Created by Yaroslav Mytkalyk on 06.06.17.
@@ -30,6 +29,6 @@ import javax.inject.Singleton
 @Module
 class AdsModule {
 
-    @Singleton @Provides fun provideAdsProvider(context: Context):
+    @Provides fun provideAdsProvider(context: Context):
             AdsProvider = AdsProviderImpl(context)
 }

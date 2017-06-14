@@ -18,10 +18,17 @@ package com.doctoror.particleswallpaper.domain.ads
 /**
  * Created by Yaroslav Mytkalyk on 06.06.17.
  *
- * Provides ads. You must call [initialize] before displaying ads.
- * It should be safe to call [initialize] multiple times by clients.
+ * Provides ads. Call [initialize] to initialize the ad with the given context.
  */
 interface AdsProvider {
 
-    fun initialize()
+    /**
+     * Initialize the ad for the given context
+     *
+     * @param adContext the view that shows the ad
+     */
+    fun initialize(adContext: Any)
+
+    fun onStart()
+    fun onStop()
 }
