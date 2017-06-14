@@ -25,6 +25,8 @@ import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 14.06.17.
+ *
+ * Preference module
  */
 @Module class PreferenceModule {
 

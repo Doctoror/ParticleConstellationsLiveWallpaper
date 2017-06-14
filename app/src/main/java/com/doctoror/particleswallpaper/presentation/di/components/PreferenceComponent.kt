@@ -22,6 +22,8 @@ import dagger.Component
 
 /**
  * Created by Yaroslav Mytkalyk on 14.06.17.
+ *
+ * Per Preference component
  */
 @PerPreference
 @Component(

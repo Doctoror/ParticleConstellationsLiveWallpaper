@@ -15,8 +15,6 @@
  */
 package com.doctoror.particleswallpaper.data.prefs;
 
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository;
-
 import android.graphics.Color;
 
 import ds.gendalf.PrefsConfig;

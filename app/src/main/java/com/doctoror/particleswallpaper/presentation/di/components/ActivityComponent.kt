@@ -16,13 +16,14 @@
 package com.doctoror.particleswallpaper.presentation.di.components
 
 import com.doctoror.particleswallpaper.presentation.config.ConfigActivity
-import com.doctoror.particleswallpaper.presentation.config.ConfigActivityLollipop
 import com.doctoror.particleswallpaper.presentation.di.modules.ActivityModule
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
 import dagger.Component
 
 /**
  * Created by Yaroslav Mytkalyk on 14.06.17.
+ *
+ * Per activity component
  */
 @PerActivity
 @Component(

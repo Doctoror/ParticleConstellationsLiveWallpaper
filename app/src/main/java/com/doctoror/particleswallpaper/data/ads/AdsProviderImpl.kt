@@ -76,7 +76,7 @@ class AdsProviderImpl constructor(val context: Context) : AdsProvider {
     }
 
     override fun initialize(adContext: Any) {
-        if (!(adContext is AdView)) {
+        if (adContext !is AdView) {
             throw IllegalArgumentException(
                     ("""This AdsProvider implementation requires com.google.android.gms.ads.AdView
                     as ad context. Received: """ + adContext.javaClass).trimIndent())
@@ -127,7 +127,7 @@ class AdsProviderImpl constructor(val context: Context) : AdsProvider {
     private inner class ViewResizeAdListenerKitKat(adView: AdView) : ViewResizeAdListener(adView) {
 
         override fun expandAdView() {
-            val adViewParent = adView.parent;
+            val adViewParent = adView.parent
             if (adViewParent is ViewGroup) {
                 TransitionManager.beginDelayedTransition(adViewParent, ChangeBounds())
             }
