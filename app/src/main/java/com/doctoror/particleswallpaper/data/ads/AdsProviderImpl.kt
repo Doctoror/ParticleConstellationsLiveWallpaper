@@ -15,11 +15,16 @@
  */
 package com.doctoror.particleswallpaper.data.ads
 
+import android.annotation.TargetApi
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.os.Build
+import android.transition.ChangeBounds
+import android.transition.TransitionManager
+import android.view.View
 import android.view.ViewGroup
 import com.doctoror.particleswallpaper.BuildConfig
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
@@ -56,7 +61,7 @@ class AdsProviderImpl constructor(val context: Context) : AdsProvider {
     }
 
     private fun initializeAdView(adView: AdView) {
-        adView.adListener = ViewResizeAdListener(adView)
+        adView.adListener = newAdListener(adView)
         this.adView = adView
     }
 
@@ -90,20 +95,40 @@ class AdsProviderImpl constructor(val context: Context) : AdsProvider {
         adLoadState = AdLoadState.IDLE
     }
 
-    private inner class ViewResizeAdListener(val adView: AdView) : AdListener() {
+    private fun newAdListener(adView: AdView): AdListener {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) ViewResizeAdListenerKitKat(adView)
+        else ViewResizeAdListener(adView)
+    }
+
+    private open inner class ViewResizeAdListener(val adView: AdView) : AdListener() {
 
         override fun onAdLoaded() {
             super.onAdLoaded()
             adLoadState = AdLoadState.LOADED
-
-            val layoutParams = adView.layoutParams
-            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            adView.layoutParams = layoutParams
+            expandAdView()
         }
 
         override fun onAdFailedToLoad(p0: Int) {
             super.onAdFailedToLoad(p0)
             adLoadState = AdLoadState.FAILED
+        }
+
+        protected open fun expandAdView() {
+            val layoutParams = adView.layoutParams
+            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            adView.layoutParams = layoutParams
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private inner class ViewResizeAdListenerKitKat(adView: AdView) : ViewResizeAdListener(adView) {
+
+        override fun expandAdView() {
+            val adViewParent = adView.parent;
+            if (adViewParent is ViewGroup) {
+                TransitionManager.beginDelayedTransition(adViewParent, ChangeBounds())
+            }
+            super.expandAdView()
         }
     }
 
