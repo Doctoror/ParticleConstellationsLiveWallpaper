@@ -15,23 +15,29 @@
  */
 package com.doctoror.particleswallpaper.data.config
 
-import com.doctoror.particlesdrawable.ParticlesDrawable
-import com.doctoror.particleswallpaper.data.repository.AndroidTestStubMutableSettingsRepository
+import com.doctoror.particleswallpaper.data.repository.StubMutableSettingsRepository
+import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
+import io.reactivex.schedulers.Schedulers
 import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class DrawableConfiguratorImplTest {
+class SceneConfiguratorImplTest {
+
+    private val schedulers = object : SchedulersProvider {
+        override fun mainThread() = Schedulers.computation()
+        override fun io() = Schedulers.computation()
+    }
 
     @Test
     fun testSubscription() {
-        val c = DrawableConfiguratorImpl()
+        val c = SceneConfiguratorImpl(schedulers)
 
         assertNull(c.disposables)
 
-        c.subscribe(ParticlesDrawable(), AndroidTestStubMutableSettingsRepository())
+        c.subscribe(MutableParticlesScene(), StubMutableSettingsRepository())
 
         assertNotNull(c.disposables)
         assertFalse { c.disposables!!.isDisposed }

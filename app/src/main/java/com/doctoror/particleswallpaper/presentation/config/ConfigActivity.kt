@@ -32,7 +32,8 @@ import com.bumptech.glide.request.target.Target
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
-import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
+import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
+import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
@@ -42,7 +43,6 @@ import com.doctoror.particleswallpaper.presentation.di.modules.ActivityModule
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
@@ -54,7 +54,8 @@ open class ConfigActivity : Activity() {
 
     @field:[Inject Named(ConfigModule.DEFAULT)] lateinit var defaults: SettingsRepository
 
-    @Inject lateinit var configurator: DrawableConfigurator
+    @Inject lateinit var schedulers: SchedulersProvider
+    @Inject lateinit var configurator: SceneConfigurator
     @Inject lateinit var settings: SettingsRepository
     @Inject @PerActivity lateinit var adProvider: AdsProvider
 
@@ -92,7 +93,7 @@ open class ConfigActivity : Activity() {
                 settings.getBackgroundUri(),
                 settings.getBackgroundColor(),
                 BiFunction<String, Int, Pair<String, Int>> { t1, t2 -> Pair(t1!!, t2!!) })
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulers.mainThread())
                 .subscribe({ result: Pair<String, Int> -> applyBackground(result) })
         configurator.subscribe(particlesDrawable, settings)
         particlesDrawable.start()
@@ -151,7 +152,7 @@ open class ConfigActivity : Activity() {
         bg.setImageDrawable(null)
 
         defaults.getBackgroundColor()
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulers.mainThread())
                 .subscribe({ default ->
                     bg.setBackgroundCompat((if (color == default) null else ColorDrawable(color))) })
     }

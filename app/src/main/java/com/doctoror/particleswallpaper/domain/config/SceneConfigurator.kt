@@ -15,16 +15,16 @@
  */
 package com.doctoror.particleswallpaper.domain.config
 
-import com.doctoror.particlesdrawable.ParticlesDrawable
+import com.doctoror.particlesdrawable.ParticlesSceneConfiguration
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 
 /**
  * Created by Yaroslav Mytkalyk on 29.05.17.
  *
- * Implementation should monitor for [SettingsRepository] changes and configure [ParticlesDrawable]
- * based on the settings.
+ * Implementation should monitor for [SettingsRepository] changes and configure
+ * [ParticlesSceneConfiguration] based on the settings.
  */
-interface DrawableConfigurator {
-    fun subscribe(drawable: ParticlesDrawable, settings : SettingsRepository)
+interface SceneConfigurator {
+    fun subscribe(scene: ParticlesSceneConfiguration, settings : SettingsRepository)
     fun dispose()
 }

@@ -13,24 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.di.modules
+package com.doctoror.particleswallpaper.data.execution
 
-import android.content.Context
-import com.doctoror.particleswallpaper.data.execution.SchedulersProviderImpl
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 /**
- * Created by Yaroslav Mytkalyk on 01.06.17.
+ * Created by Yaroslav Mytkalyk on 15.06.17.
  *
- * Application module. Provides Context and Resources
+ * The default [SchedulersProvider] implementation.
  */
-@Module
-class AppModule(private val context: Context) {
+class SchedulersProviderImpl: SchedulersProvider {
 
-    @Singleton @Provides fun provideContext() = context
-    @Singleton @Provides fun provideSchedulers(): SchedulersProvider = SchedulersProviderImpl()
-
+    override fun mainThread() = AndroidSchedulers.mainThread()!!
+    override fun io() = Schedulers.io()!!
 }

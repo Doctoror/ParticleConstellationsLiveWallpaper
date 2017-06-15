@@ -34,7 +34,6 @@ ext {
 
     //Testing
     jUnitVersion = '4.12'
-    testRunnerVersion = '0.5'
     mockitoVersion = '2.8.9'
 
     wallpaperappDependencies = [
@@ -66,19 +65,7 @@ ext {
             kotlin         : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
             kotlinTest     : "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
             kotlinReflect  : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
-            testRunner     : "com.android.support.test:runner:$testRunnerVersion",
-            testRules      : "com.android.support.test:rules:$testRunnerVersion",
             junit          : "junit:junit:$jUnitVersion",
-            mockitoAndroid : "org.mockito:mockito-android:$mockitoVersion",
             mockitoCore    : "org.mockito:mockito-core:$mockitoVersion"
-    ]
-
-    libraryDependencies = [
-            annotations    : "com.android.support:support-annotations:$supportVersion"
-    ]
-
-    libraryTestDependencies = [
-            testRunner     : "com.android.support.test:runner:$testRunnerVersion",
-            testRules      : "com.android.support.test:rules:$testRunnerVersion"
     ]
 }

@@ -27,6 +27,7 @@ import android.support.annotation.RequiresApi
 import android.util.Log
 import android.widget.Toast
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
@@ -37,7 +38,6 @@ import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -49,6 +49,7 @@ import javax.inject.Named
 @PerPreference
 class BackgroundImagePreferencePresenter @Inject constructor(
         private val context: Context,
+        private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
         private @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository,
         private val backgroundImageManager: BackgroundImageManager)
@@ -150,7 +151,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
 
         private fun clearBackgroundFile() {
             Observable.fromCallable({ -> backgroundImageManager.clearBackgroundImage() })
-                    .subscribeOn(Schedulers.io())
+                    .subscribeOn(schedulers.io())
                     .subscribe()
         }
 
@@ -164,7 +165,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
 
         private fun handleGetContentUriResult(uri: Uri) {
             Observable.fromCallable({ -> backgroundImageManager.copyBackgroundToFile(uri) })
-                    .subscribeOn(Schedulers.io())
+                    .subscribeOn(schedulers.io())
                     .subscribe(
                             { privateFileUri -> settings.setBackgroundUri(privateFileUri.toString()) },
                             { t ->

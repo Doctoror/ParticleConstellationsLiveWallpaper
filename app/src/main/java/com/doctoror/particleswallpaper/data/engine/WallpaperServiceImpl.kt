@@ -32,11 +32,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.ParticlesDrawable
-import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
+import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
+import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
@@ -55,75 +55,76 @@ class WallpaperServiceImpl : WallpaperService() {
 
         private val TAG = "WallpaperService:Engine"
 
-        @Inject lateinit var mConfigurator: DrawableConfigurator
-        @Inject lateinit var mSettings: SettingsRepository
+        @Inject lateinit var schedulers: SchedulersProvider
+        @Inject lateinit var configurator: SceneConfigurator
+        @Inject lateinit var settings: SettingsRepository
 
-        private lateinit var mGlide: RequestManager
+        private lateinit var glide: RequestManager
 
-        private var mFrameDelayDisposable: Disposable? = null
-        private var mBackgroundDisposable: Disposable? = null
-        private var mBackgroundColorDisposable: Disposable? = null
+        private var frameDelayDisposable: Disposable? = null
+        private var backgroundDisposable: Disposable? = null
+        private var backgroundColorDisposable: Disposable? = null
 
         private val DEFAULT_DELAY = 10L
         private val MIN_DELAY = 5L
 
-        private val mBackgroundPaint = Paint()
+        private val backgroundPaint = Paint()
 
-        private val mHandler = Handler(Looper.getMainLooper())
-        private val mDrawable = ParticlesDrawable()
+        private val handler = Handler(Looper.getMainLooper())
+        private val drawable = ParticlesDrawable()
 
-        private var mVisible = false
+        private var visible = false
 
-        private var mWidth = 0
-        private var mHeight = 0
+        private var width = 0
+        private var height = 0
 
-        private var mBackground: Drawable? = null
-        private var mDelay = DEFAULT_DELAY
+        private var background: Drawable? = null
+        private var delay = DEFAULT_DELAY
 
-        private var mLastUsedImageLoadTarget: ImageLoadTarget? = null
+        private var lastUsedImageLoadTarget: ImageLoadTarget? = null
 
         init {
-            mBackgroundPaint.style = Paint.Style.FILL
-            mBackgroundPaint.color = Color.BLACK
+            backgroundPaint.style = Paint.Style.FILL
+            backgroundPaint.color = Color.BLACK
         }
 
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
             Injector.configComponent.inject(this)
 
-            mConfigurator.subscribe(mDrawable, mSettings)
-            mGlide = Glide.with(this@WallpaperServiceImpl)
+            configurator.subscribe(drawable, settings)
+            glide = Glide.with(this@WallpaperServiceImpl)
 
-            mFrameDelayDisposable = mSettings.getFrameDelay()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ d -> mDelay = d.toLong() })
+            frameDelayDisposable = settings.getFrameDelay()
+                    .observeOn(schedulers.mainThread())
+                    .subscribe({ d -> delay = d.toLong() })
 
-            mBackgroundDisposable = mSettings.getBackgroundUri()
-                    .observeOn(AndroidSchedulers.mainThread())
+            backgroundDisposable = settings.getBackgroundUri()
+                    .observeOn(schedulers.mainThread())
                     .subscribe({ u -> handleBackground(u) })
 
-            mBackgroundColorDisposable = mSettings.getBackgroundColor()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ c -> mBackgroundPaint.color = c })
+            backgroundColorDisposable = settings.getBackgroundColor()
+                    .observeOn(schedulers.mainThread())
+                    .subscribe({ c -> backgroundPaint.color = c })
         }
 
         override fun onDestroy() {
             super.onDestroy()
-            mVisible = false
-            mConfigurator.dispose()
-            mFrameDelayDisposable?.dispose()
-            mBackgroundDisposable?.dispose()
-            mBackgroundColorDisposable?.dispose()
+            visible = false
+            configurator.dispose()
+            frameDelayDisposable?.dispose()
+            backgroundDisposable?.dispose()
+            backgroundColorDisposable?.dispose()
         }
 
         private fun handleBackground(uri: String) {
-            mGlide.clear(mLastUsedImageLoadTarget)
+            glide.clear(lastUsedImageLoadTarget)
             if (uri == NO_URI) {
-                mBackground = null
-                mLastUsedImageLoadTarget = null
-            } else if (mWidth != 0 && mHeight != 0) {
-                val target = ImageLoadTarget(mWidth, mHeight)
-                mGlide
+                background = null
+                lastUsedImageLoadTarget = null
+            } else if (width != 0 && height != 0) {
+                val target = ImageLoadTarget(width, height)
+                glide
                         .load(uri)
                         .apply(RequestOptions.noAnimation())
                         .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
@@ -131,42 +132,42 @@ class WallpaperServiceImpl : WallpaperService() {
                         .apply(RequestOptions.centerCropTransform())
                         .into(target)
 
-                mLastUsedImageLoadTarget = target
+                lastUsedImageLoadTarget = target
             }
         }
 
         override fun onSurfaceChanged(holder: SurfaceHolder, format: Int, width: Int,
                                       height: Int) {
             super.onSurfaceChanged(holder, format, width, height)
-            mDrawable.setBounds(0, 0, width, height)
-            mBackground?.setBounds(0, 0, width, height)
-            mWidth = width
-            mHeight = height
-            handleBackground(mSettings.getBackgroundUri().blockingFirst())
+            drawable.setBounds(0, 0, width, height)
+            background?.setBounds(0, 0, width, height)
+            this.width = width
+            this.height = height
+            handleBackground(settings.getBackgroundUri().blockingFirst())
         }
 
         override fun onSurfaceDestroyed(holder: SurfaceHolder) {
             super.onSurfaceDestroyed(holder)
-            mVisible = false
-            mHandler.removeCallbacks(mDrawRunnable)
-            mDrawable.stop()
+            visible = false
+            handler.removeCallbacks(mDrawRunnable)
+            drawable.stop()
         }
 
         override fun onVisibilityChanged(visible: Boolean) {
             super.onVisibilityChanged(visible)
-            mVisible = visible
+            this.visible = visible
             if (visible) {
-                mDrawable.start()
-                mHandler.post(mDrawRunnable)
+                drawable.start()
+                handler.post(mDrawRunnable)
             } else {
-                mHandler.removeCallbacks(mDrawRunnable)
-                mDrawable.stop()
+                handler.removeCallbacks(mDrawRunnable)
+                drawable.stop()
             }
         }
 
         private fun draw() {
-            mHandler.removeCallbacks(mDrawRunnable)
-            if (mVisible) {
+            handler.removeCallbacks(mDrawRunnable)
+            if (visible) {
                 val startTime = SystemClock.uptimeMillis()
                 val holder = surfaceHolder
                 var canvas: Canvas? = null
@@ -174,8 +175,8 @@ class WallpaperServiceImpl : WallpaperService() {
                     canvas = holder.lockCanvas()
                     if (canvas != null) {
                         drawBackground(canvas)
-                        mDrawable.draw(canvas)
-                        mDrawable.nextFrame()
+                        drawable.draw(canvas)
+                        drawable.nextFrame()
                     }
                 } finally {
                     if (canvas != null) {
@@ -186,15 +187,15 @@ class WallpaperServiceImpl : WallpaperService() {
                         }
                     }
                 }
-                mHandler.postDelayed(mDrawRunnable,
-                        Math.max(mDelay - (SystemClock.uptimeMillis() - startTime), MIN_DELAY))
+                handler.postDelayed(mDrawRunnable,
+                        Math.max(delay - (SystemClock.uptimeMillis() - startTime), MIN_DELAY))
             }
         }
 
         private fun drawBackground(c: Canvas) {
-            val background = mBackground
+            val background = background
             if (background == null) {
-                c.drawRect(0f, 0f, mWidth.toFloat(), mHeight.toFloat(), mBackgroundPaint)
+                c.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
             } else {
                 background.draw(c)
             }
@@ -206,8 +207,8 @@ class WallpaperServiceImpl : WallpaperService() {
             : SimpleTarget<Drawable>(width, height) {
 
             override fun onResourceReady(resource: Drawable?, transition: Transition<in Drawable>?) {
-                resource?.setBounds(0, 0, mWidth, mHeight)
-                mBackground = resource
+                resource?.setBounds(0, 0, width, height)
+                background = resource
             }
         }
     }

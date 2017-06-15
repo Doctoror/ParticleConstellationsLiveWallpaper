@@ -16,10 +16,10 @@
 package com.doctoror.particleswallpaper.presentation.presenter
 
 import android.support.annotation.VisibleForTesting
+import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
@@ -31,6 +31,7 @@ import javax.inject.Inject
  */
 @PerPreference
 class FrameDelayPreferencePresenter @Inject constructor(
+        private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
         MapperSeekBarPresenter<Int> {
 
@@ -62,7 +63,7 @@ class FrameDelayPreferencePresenter @Inject constructor(
 
     override fun onStart() {
         disposable = settings.getFrameDelay()
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulers.mainThread())
                 .subscribe(changeAction)
     }
 

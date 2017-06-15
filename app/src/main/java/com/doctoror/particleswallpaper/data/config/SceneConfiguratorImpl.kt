@@ -17,10 +17,11 @@ package com.doctoror.particleswallpaper.data.config
 
 import android.support.annotation.VisibleForTesting
 import com.doctoror.particlesdrawable.ParticlesDrawable
+import com.doctoror.particlesdrawable.ParticlesSceneConfiguration
 import com.doctoror.particleswallpaper.data.mapper.DotRadiusMapper
-import com.doctoror.particleswallpaper.domain.config.DrawableConfigurator
+import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
+import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -28,63 +29,67 @@ import io.reactivex.disposables.CompositeDisposable
  *
  * Not thread safe!
  */
-class DrawableConfiguratorImpl : DrawableConfigurator {
+class SceneConfiguratorImpl (private val schedulers: SchedulersProvider): SceneConfigurator {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var disposables: CompositeDisposable? = null
 
-    override fun subscribe(drawable: ParticlesDrawable, settings: SettingsRepository) {
+    override fun subscribe(scene: ParticlesSceneConfiguration, settings: SettingsRepository) {
         val d = CompositeDisposable()
 
         disposables?.dispose()
         disposables = d
 
         d.add(settings.getParticlesColor()
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulers.mainThread())
                 .subscribe({ c ->
-                    drawable.dotColor = c
-                    drawable.lineColor = c
+                    scene.dotColor = c
+                    scene.lineColor = c
                 }))
 
         d.add(settings.getNumDots()
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulers.mainThread())
                 .subscribe({ v ->
-                    drawable.numDots = v
-                    drawable.makeBrandNewFrame()
+                    scene.numDots = v
+                    // TODO use ParticlesScene instead
+                    if (scene is ParticlesDrawable)
+                        scene.makeBrandNewFrame()
                 }))
 
         d.add(settings.getDotScale()
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulers.mainThread())
                 .subscribe({ v ->
                     val radiusRange = DotRadiusMapper.transform(v)
-                    drawable.setDotRadiusRange(radiusRange.first, radiusRange.second)
-                    drawable.makeBrandNewFrame()
+                    scene.setDotRadiusRange(radiusRange.first, radiusRange.second)
+                    if (scene is ParticlesDrawable)
+                        scene.makeBrandNewFrame()
                 }))
 
         d.add(settings.getLineScale()
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulers.mainThread())
                 .subscribe({ v ->
-                    drawable.lineThickness = v
-                    drawable.makeBrandNewFrame()
+                    scene.lineThickness = v
+                    if (scene is ParticlesDrawable)
+                        scene.makeBrandNewFrame()
                 }))
 
         d.add(settings.getLineDistance()
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulers.mainThread())
                 .subscribe({ v ->
-            drawable.lineDistance = v
-        }))
+                    scene.lineDistance = v
+                }))
 
         d.add(settings.getStepMultiplier()
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulers.mainThread())
                 .subscribe({ v ->
-            drawable.stepMultiplier = v
-        }))
+                    scene.stepMultiplier = v
+                }))
 
         d.add(settings.getFrameDelay()
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulers.mainThread())
                 .subscribe({ v ->
-            drawable.frameDelay = v
-        }))
+                    scene.frameDelay = v
+                }))
     }
 
     override fun dispose() {
