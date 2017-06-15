@@ -16,28 +16,32 @@
 package com.doctoror.particleswallpaper.data.repository
 
 import android.content.res.Resources
+import android.support.annotation.VisibleForTesting
 import android.support.v4.content.res.ResourcesCompat
+import android.util.TypedValue
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import io.reactivex.Observable
-import android.util.TypedValue
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
  *
  * [SettingsRepository] with default values.
  */
-class SettingsRepositoryDefault private constructor(
+class SettingsRepositoryDefault @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE) constructor(
         private val res: Resources,
-        private val theme: Resources.Theme) : SettingsRepository {
+        private val theme: Resources.Theme,
+        private val typedValueFactory: TypedValueFactory = DefaultTypedValueFactory())
+    : SettingsRepository {
 
     companion object {
 
         private var instance: SettingsRepositoryDefault? = null
 
         fun getInstance(res: Resources,
-                        theme: Resources.Theme): SettingsRepositoryDefault {
+                        theme: Resources.Theme)
+                : SettingsRepositoryDefault {
             var instance = instance
             if (instance == null) {
                 instance = SettingsRepositoryDefault(res, theme)
@@ -56,7 +60,7 @@ class SettingsRepositoryDefault private constructor(
     override fun getStepMultiplier() = Observable.just(resolveStepMultiplier())!!
 
     private fun resolveStepMultiplier(): Float {
-        val outValue = TypedValue()
+        val outValue = typedValueFactory.newTypedValue()
         res.getValue(R.dimen.defaultStepMultiplier, outValue, true)
         return outValue.float
     }
@@ -77,4 +81,12 @@ class SettingsRepositoryDefault private constructor(
 
     override fun getBackgroundColor() = Observable.just(
             ResourcesCompat.getColor(res, R.color.defaultBackground, theme))!!
+
+    interface TypedValueFactory {
+        fun newTypedValue(): TypedValue
+    }
+
+    private class DefaultTypedValueFactory : TypedValueFactory {
+        override fun newTypedValue() = TypedValue()
+    }
 }

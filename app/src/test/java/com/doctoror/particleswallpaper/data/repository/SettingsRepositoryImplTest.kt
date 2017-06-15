@@ -17,48 +17,46 @@ package com.doctoror.particleswallpaper.data.repository
 
 import android.content.Context
 import android.content.res.Resources
-import android.support.test.InstrumentationRegistry
+import android.util.TypedValue
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import kotlin.reflect.KFunction
 
 class SettingsRepositoryImplTest {
-
-    val fakePrefsName = "TEST_PREFS"
 
     lateinit var settings: SettingsRepositoryImpl
 
     @Before
     fun setUp() {
-        val instrumentationContext = InstrumentationRegistry.getContext()
         val fakePrefs = InMemorySharedPreferences()
 
-        val context = Mockito.mock<Context>(Context::class.java)
-        val resources = Mockito.mock<Resources>(Resources::class.java)
-        val theme = instrumentationContext.theme!!
+        val context = mock<Context>(Context::class.java)
+        val resources = mock<Resources>(Resources::class.java)
+        val theme = mock(Resources.Theme::class.java)
+        val typedValue = mock(TypedValue::class.java)
+        val typedValueFactory = mock(SettingsRepositoryDefault.TypedValueFactory::class.java)
 
-        Mockito.`when`(resources.getInteger(anyInt())).thenReturn(1)
-        Mockito.`when`(resources.getDimension(anyInt())).thenReturn(1f)
-        Mockito.`when`(resources.getColor(anyInt(), ArgumentMatchers.eq(theme))).thenReturn(1)
+        `when`(resources.getInteger(anyInt())).thenReturn(1)
+        `when`(resources.getDimension(anyInt())).thenReturn(1f)
+        `when`(resources.getColor(anyInt(), ArgumentMatchers.eq(theme))).thenReturn(1)
+        `when`(resources.getColor(anyInt(), ArgumentMatchers.eq(theme))).thenReturn(1)
 
-        Mockito.`when`(context.resources).thenReturn(resources)
-        Mockito.`when`(context.theme).thenReturn(theme)
-        Mockito.`when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(fakePrefs)
+        `when`(context.resources).thenReturn(resources)
+        `when`(context.theme).thenReturn(theme)
+        `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(fakePrefs)
+
+        `when`(typedValue.float).thenReturn(1f)
+        `when`(typedValueFactory.newTypedValue()).thenReturn(typedValue)
 
         settings = SettingsRepositoryImpl(context,
-                SettingsRepositoryDefault.getInstance(resources, theme))
-    }
-
-    @After
-    fun tearDown() {
-        InstrumentationRegistry.getContext().deleteSharedPreferences(fakePrefsName)
+                SettingsRepositoryDefault(resources, theme, typedValueFactory))
     }
 
     private fun <T> assertObserverHasValueCount(o: TestObserver<T>, count: Int) {
