@@ -69,7 +69,8 @@ ext {
             testRunner     : "com.android.support.test:runner:$testRunnerVersion",
             testRules      : "com.android.support.test:rules:$testRunnerVersion",
             junit          : "junit:junit:$jUnitVersion",
-            mockitoAndroid : "org.mockito:mockito-android:$mockitoVersion"
+            mockitoAndroid : "org.mockito:mockito-android:$mockitoVersion",
+            mockitoCore    : "org.mockito:mockito-core:$mockitoVersion"
     ]
 
     libraryDependencies = [

@@ -113,6 +113,7 @@ dependencies {
 
     testCompile td.kotlin
     testCompile td.kotlinTest
+    testCompile td.mockitoCore
 
     testCompile td.junit
 
