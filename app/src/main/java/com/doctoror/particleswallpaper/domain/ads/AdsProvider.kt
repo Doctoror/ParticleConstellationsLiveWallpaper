@@ -30,5 +30,8 @@ interface AdsProvider {
     fun initialize(adContext: Any)
 
     fun onStart()
+
     fun onStop()
+
+    fun onDestroy()
 }

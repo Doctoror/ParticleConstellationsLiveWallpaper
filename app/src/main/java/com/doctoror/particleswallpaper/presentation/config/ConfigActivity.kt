@@ -106,6 +106,11 @@ open class ConfigActivity : Activity() {
         configurator.dispose()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        adProvider.onDestroy()
+    }
+
     private fun applyBackground(result: Pair<String, Int>) {
         applyBackground(result.first, result.second)
     }

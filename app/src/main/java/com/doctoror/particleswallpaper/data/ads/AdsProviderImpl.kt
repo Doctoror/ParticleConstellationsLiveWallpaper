@@ -95,7 +95,10 @@ class AdsProviderImpl(private val context: Context) : AdsProvider {
     }
 
     override fun onStart() {
-        adLoadState = AdLoadState.WAITING_FOR_CONNECTION
+        adView!!.resume()
+        if (adLoadState != AdLoadState.LOADED) {
+            adLoadState = AdLoadState.WAITING_FOR_CONNECTION
+        }
         context.registerReceiver(connectivityReceiver,
                 IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
     }
@@ -103,6 +106,11 @@ class AdsProviderImpl(private val context: Context) : AdsProvider {
     override fun onStop() {
         context.unregisterReceiver(connectivityReceiver)
         adLoadState = AdLoadState.IDLE
+        adView!!.pause()
+    }
+
+    override fun onDestroy() {
+        adView!!.destroy()
     }
 
     @VisibleForTesting
