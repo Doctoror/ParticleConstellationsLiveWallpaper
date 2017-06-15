@@ -15,7 +15,6 @@
  */
 package com.doctoror.particleswallpaper.data.ads
 
-import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -26,14 +25,16 @@ import android.os.Build
 import android.support.annotation.VisibleForTesting
 import android.transition.ChangeBounds
 import android.transition.TransitionManager
-import android.view.View
 import android.view.ViewGroup
+import android.view.ViewParent
 import com.doctoror.particleswallpaper.BuildConfig
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+
+import com.doctoror.particleswallpaper.data.ads.AdsProviderImpl.AdLoadState.*
 
 /**
  * Created by Yaroslav Mytkalyk on 06.06.17.
@@ -54,9 +55,9 @@ class AdsProviderImpl(private val context: Context) : AdsProvider {
     }
 
     @VisibleForTesting
-    var adLoadState = AdLoadState.IDLE
+    var adLoadState = IDLE
 
-    private var adView: AdView? = null
+    private var adView: IAdView? = null
 
     private fun initializeMobileAds() {
         synchronized(initializeLock, { initializeMobileAdsNotLocked() })
@@ -69,17 +70,15 @@ class AdsProviderImpl(private val context: Context) : AdsProvider {
         }
     }
 
-    @SuppressLint("VisibleForTests") // WTF, why we need suppressing here?
-    private fun initializeAdView(adView: AdView) {
-        adView.adListener = newAdListener(adView)
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+    fun initializeAdView(adView: IAdView) {
+        adView.setAdListener(newAdListener(adView))
         this.adView = adView
     }
 
-    private fun loadAd(adView: AdView) {
-        adLoadState = AdLoadState.LOADING
-        adView.loadAd(AdRequest.Builder()
-                .addTestDevice("1644CF0C8CE728912DC93B6C340AB453")
-                .build())
+    private fun loadAd(adView: IAdView) {
+        adLoadState = LOADING
+        adView.loadAd()
     }
 
     override fun initialize(adContext: Any) {
@@ -89,15 +88,15 @@ class AdsProviderImpl(private val context: Context) : AdsProvider {
                     as ad context. Received: """ + adContext.javaClass).trimIndent())
         }
         initializeMobileAds()
-        initializeAdView(adContext)
+        initializeAdView(AdViewWrapper(adContext))
 
-        adLoadState = AdLoadState.IDLE
+        adLoadState = IDLE
     }
 
     override fun onStart() {
         adView!!.resume()
-        if (adLoadState != AdLoadState.LOADED) {
-            adLoadState = AdLoadState.WAITING_FOR_CONNECTION
+        if (adLoadState != LOADED) {
+            adLoadState = WAITING_FOR_CONNECTION
         }
         context.registerReceiver(connectivityReceiver,
                 IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
@@ -114,21 +113,20 @@ class AdsProviderImpl(private val context: Context) : AdsProvider {
     }
 
     @VisibleForTesting
-    fun newAdListener(adView: View): AdListener {
-        if (adView.layoutParams == null) {
+    fun newAdListener(adView: IAdView): AdListener {
+        if (adView.getLayoutParams() == null) {
             throw IllegalArgumentException("adView must have LayoutParams")
         }
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) ViewResizeAdListenerKitKat(adView)
         else ViewResizeAdListener(adView)
     }
 
-    private open inner class ViewResizeAdListener(protected val adView: View) : AdListener() {
+    private open inner class ViewResizeAdListener(protected val adView: IAdView) : AdListener() {
 
         override fun onAdLoaded() {
             super.onAdLoaded()
-            if (adLoadState == AdLoadState.LOADING
-                    || adLoadState == AdLoadState.FAILED) {
-                adLoadState = AdLoadState.LOADED
+            if (adLoadState == LOADING || adLoadState == FAILED) {
+                adLoadState = LOADED
                 if (shouldExpandAdView()) {
                     expandAdView()
                 }
@@ -137,26 +135,26 @@ class AdsProviderImpl(private val context: Context) : AdsProvider {
 
         override fun onAdFailedToLoad(p0: Int) {
             super.onAdFailedToLoad(p0)
-            if (adLoadState == AdLoadState.LOADING) {
-                adLoadState = AdLoadState.FAILED
+            if (adLoadState == LOADING) {
+                adLoadState = FAILED
             }
         }
 
         private fun shouldExpandAdView()
-                = adView.layoutParams!!.height != ViewGroup.LayoutParams.WRAP_CONTENT
+                = adView.getLayoutParams()!!.height != ViewGroup.LayoutParams.WRAP_CONTENT
 
         protected open fun expandAdView() {
-            val layoutParams = adView.layoutParams!!
+            val layoutParams = adView.getLayoutParams()!!
             layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            adView.layoutParams = layoutParams
+            adView.setLayoutPrams(layoutParams)
         }
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    private inner class ViewResizeAdListenerKitKat(adView: View) : ViewResizeAdListener(adView) {
+    private inner class ViewResizeAdListenerKitKat(adView: IAdView) : ViewResizeAdListener(adView) {
 
         override fun expandAdView() {
-            val adViewParent = adView.parent
+            val adViewParent = adView.getParent()
             if (adViewParent is ViewGroup) {
                 TransitionManager.beginDelayedTransition(adViewParent, ChangeBounds())
             }
@@ -184,5 +182,40 @@ class AdsProviderImpl(private val context: Context) : AdsProvider {
             val networkInfo = connectivityManager?.activeNetworkInfo
             return networkInfo != null && networkInfo.isConnected
         }
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+    interface IAdView {
+        fun pause()
+        fun resume()
+        fun destroy()
+        fun loadAd()
+        fun setAdListener(l: AdListener)
+        fun getLayoutParams(): ViewGroup.LayoutParams?
+        fun setLayoutPrams(p: ViewGroup.LayoutParams?)
+        fun getParent(): ViewParent?
+    }
+
+    private class AdViewWrapper(private val adView: AdView): IAdView {
+
+        override fun pause() = adView.pause()
+        override fun resume() = adView.resume()
+        override fun destroy() = adView.destroy()
+
+        override fun loadAd() = adView.loadAd(AdRequest.Builder()
+                .addTestDevice("1644CF0C8CE728912DC93B6C340AB453")
+                .build())
+
+        override fun setAdListener(l: AdListener) {
+            adView.adListener = l
+        }
+
+        override fun getLayoutParams(): ViewGroup.LayoutParams? = adView.layoutParams
+
+        override fun setLayoutPrams(p: ViewGroup.LayoutParams?) {
+            adView.layoutParams = p
+        }
+
+        override fun getParent(): ViewParent = adView.parent
     }
 }
