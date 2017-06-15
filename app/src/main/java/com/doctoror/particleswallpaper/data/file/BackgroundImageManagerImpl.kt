@@ -28,9 +28,9 @@ import java.util.regex.Pattern
 /**
  * The background image manager
  */
-class BackgroundImageManagerImpl constructor(
-        val context: Context,
-        val fileManager: FileManager) : BackgroundImageManager {
+class BackgroundImageManagerImpl(
+        private val context: Context,
+        private val fileManager: FileManager) : BackgroundImageManager {
 
     companion object {
         private const val backgroundsDirectory = "backgrounds"

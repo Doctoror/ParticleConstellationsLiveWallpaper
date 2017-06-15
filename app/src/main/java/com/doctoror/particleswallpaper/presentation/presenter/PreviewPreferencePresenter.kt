@@ -28,7 +28,7 @@ import com.doctoror.particleswallpaper.presentation.view.MvpView
  * Presenter for [com.doctoror.particleswallpaper.presentation.preference.PreviewPreference]
  */
 @PerPreference
-class PreviewPreferencePresenter constructor(val activity: Activity) : Presenter<MvpView> {
+class PreviewPreferencePresenter(private val activity: Activity) : Presenter<MvpView> {
 
     private val requestCodeSetWallpaper = 1
 

@@ -31,7 +31,7 @@ import javax.inject.Inject
  */
 @PerPreference
 class LineScalePreferencePresenter @Inject constructor(
-        val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
+        private val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
         MapperSeekBarPresenter<Float> {
 
     private lateinit var view: SeekBarPreferenceView

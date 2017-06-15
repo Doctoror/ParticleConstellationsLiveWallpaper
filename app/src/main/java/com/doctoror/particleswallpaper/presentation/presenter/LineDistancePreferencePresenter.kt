@@ -30,8 +30,9 @@ import javax.inject.Inject
  * Presenter for [com.doctoror.particleswallpaper.presentation.preference.LineDistancePreference]
  */
 @PerPreference
-class LineDistancePreferencePresenter @Inject constructor(val settings: MutableSettingsRepository)
-    : Presenter<SeekBarPreferenceView>, MapperSeekBarPresenter<Float> {
+class LineDistancePreferencePresenter @Inject constructor(
+        private val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
+        MapperSeekBarPresenter<Float> {
 
     private lateinit var view: SeekBarPreferenceView
 

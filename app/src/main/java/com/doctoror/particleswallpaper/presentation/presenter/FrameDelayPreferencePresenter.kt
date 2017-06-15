@@ -30,8 +30,9 @@ import javax.inject.Inject
  * Presenter for [com.doctoror.particleswallpaper.presentation.preference.FrameDelayPreference]
  */
 @PerPreference
-class FrameDelayPreferencePresenter @Inject constructor(val settings: MutableSettingsRepository)
-    : Presenter<SeekBarPreferenceView>, MapperSeekBarPresenter<Int> {
+class FrameDelayPreferencePresenter @Inject constructor(
+        private val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
+        MapperSeekBarPresenter<Int> {
 
     lateinit var view: SeekBarPreferenceView
 

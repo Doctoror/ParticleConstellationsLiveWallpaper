@@ -34,8 +34,8 @@ import javax.inject.Named
  */
 @PerPreference
 class BackgroundColorPreferencePresenter @Inject constructor(
-        val settings: MutableSettingsRepository,
-        @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository)
+        private val settings: MutableSettingsRepository,
+        private @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository)
     : Presenter<BackgroundColorPreferenceView> {
 
     private lateinit var view: BackgroundColorPreferenceView

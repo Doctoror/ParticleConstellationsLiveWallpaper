@@ -28,8 +28,9 @@ import android.util.TypedValue
  *
  * [SettingsRepository] with default values.
  */
-class SettingsRepositoryDefault(val res: Resources,
-                                val theme: Resources.Theme) : SettingsRepository {
+class SettingsRepositoryDefault private constructor(
+        private val res: Resources,
+        private val theme: Resources.Theme) : SettingsRepository {
 
     companion object {
 

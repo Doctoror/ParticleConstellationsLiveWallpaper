@@ -26,7 +26,7 @@ import java.io.*
  *
  * Manages private files
  */
-class FileManager constructor(val context: Context) {
+class FileManager(private val context: Context) {
 
     companion object {
         private val fileLock = Object()

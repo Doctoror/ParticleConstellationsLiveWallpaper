@@ -48,10 +48,10 @@ import javax.inject.Named
  */
 @PerPreference
 class BackgroundImagePreferencePresenter @Inject constructor(
-        val context: Context,
-        val settings: MutableSettingsRepository,
-        @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository,
-        val backgroundImageManager: BackgroundImageManager)
+        private val context: Context,
+        private val settings: MutableSettingsRepository,
+        private @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository,
+        private val backgroundImageManager: BackgroundImageManager)
     : Presenter<BackgroundImagePreferenceView> {
 
     private val tag = "BgImagePrefPresenter"

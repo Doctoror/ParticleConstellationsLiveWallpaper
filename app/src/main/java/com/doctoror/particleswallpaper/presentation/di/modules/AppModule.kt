@@ -26,7 +26,7 @@ import javax.inject.Singleton
  * Application module. Provides Context and Resources
  */
 @Module
-class AppModule constructor(val context: Context) {
+class AppModule(private val context: Context) {
 
     @Singleton @Provides fun provideContext() = context
     @Singleton @Provides fun provideResources() = context.resources!!

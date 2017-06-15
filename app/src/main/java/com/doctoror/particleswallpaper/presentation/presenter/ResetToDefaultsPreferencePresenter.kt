@@ -33,9 +33,9 @@ import javax.inject.Named
  */
 @PerPreference
 class ResetToDefaultsPreferencePresenter @Inject constructor(
-        val settings: MutableSettingsRepository,
-        @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository,
-        val backgroundImageManager: BackgroundImageManager)
+        private val settings: MutableSettingsRepository,
+        private @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository,
+        private val backgroundImageManager: BackgroundImageManager)
     : Presenter<ResetToDefaultsPreferenceView> {
 
     private lateinit var view: ResetToDefaultsPreferenceView

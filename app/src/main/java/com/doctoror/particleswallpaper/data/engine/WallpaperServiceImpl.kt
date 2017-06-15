@@ -51,7 +51,7 @@ class WallpaperServiceImpl : WallpaperService() {
         return EngineImpl()
     }
 
-    inner class EngineImpl internal constructor() : Engine() {
+    inner class EngineImpl : Engine() {
 
         private val TAG = "WallpaperService:Engine"
 
@@ -202,7 +202,7 @@ class WallpaperServiceImpl : WallpaperService() {
 
         private val mDrawRunnable = Runnable { this.draw() }
 
-        private inner class ImageLoadTarget constructor(width: Int, height: Int)
+        private inner class ImageLoadTarget(width: Int, height: Int)
             : SimpleTarget<Drawable>(width, height) {
 
             override fun onResourceReady(resource: Drawable?, transition: Transition<in Drawable>?) {

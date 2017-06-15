@@ -31,7 +31,7 @@ import javax.inject.Inject
  */
 @PerPreference
 class NumDotsPreferencePresenter @Inject constructor(
-        val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
+        private val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
         MapperSeekBarPresenter<Int> {
 
     private lateinit var view: SeekBarPreferenceView

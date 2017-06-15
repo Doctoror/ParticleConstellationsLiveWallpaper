@@ -38,7 +38,7 @@ import io.reactivex.functions.Consumer
  */
 @SuppressLint("ValidFragment") // Kotlin constructor with default value generates valid empty java constructor
 open class ConfigFragment @JvmOverloads
-constructor(val ch: OnActivityResultCallbackHostImpl = OnActivityResultCallbackHostImpl())
+constructor(private val ch: OnActivityResultCallbackHostImpl = OnActivityResultCallbackHostImpl())
     : LifecyclePreferenceFragment(), OnActivityResultCallbackHost by ch {
 
     override fun onCreate(savedInstanceState: android.os.Bundle?) {

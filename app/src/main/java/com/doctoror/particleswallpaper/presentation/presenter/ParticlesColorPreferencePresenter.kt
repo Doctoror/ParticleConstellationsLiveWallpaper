@@ -33,8 +33,8 @@ import javax.inject.Named
  */
 @PerPreference
 class ParticlesColorPreferencePresenter @Inject constructor(
-        val settings: MutableSettingsRepository,
-        @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository)
+        private val settings: MutableSettingsRepository,
+        private @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository)
     : Presenter<ParticlesColorPreferenceView> {
 
     private lateinit var view: ParticlesColorPreferenceView

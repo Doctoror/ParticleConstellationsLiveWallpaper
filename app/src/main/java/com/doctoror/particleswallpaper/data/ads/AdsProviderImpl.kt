@@ -40,7 +40,7 @@ import com.google.android.gms.ads.MobileAds
  *
  * Google Ads [AdsProvider] implementation
  */
-class AdsProviderImpl constructor(private val context: Context) : AdsProvider {
+class AdsProviderImpl(private val context: Context) : AdsProvider {
 
     companion object {
 

@@ -10,9 +10,9 @@ import io.reactivex.Observable
  *
  * Resets all configurations to default values.
  */
-class ResetToDefaultsUseCase(val settings: MutableSettingsRepository,
-                             val defaults: SettingsRepository,
-                             val backgroundImageManager: BackgroundImageManager) : UseCase<Unit> {
+class ResetToDefaultsUseCase(private val settings: MutableSettingsRepository,
+                             private val defaults: SettingsRepository,
+                             private val backgroundImageManager: BackgroundImageManager) : UseCase<Unit> {
 
     override fun useCase() = Observable.fromCallable({ -> reset()})!!
 
