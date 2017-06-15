@@ -38,8 +38,7 @@ class SettingsRepositoryImplTest {
     @Before
     fun setUp() {
         val instrumentationContext = InstrumentationRegistry.getContext()
-        val fakePrefs = instrumentationContext
-                .getSharedPreferences(fakePrefsName, Context.MODE_PRIVATE)!!
+        val fakePrefs = InMemorySharedPreferences()
 
         val context = Mockito.mock<Context>(Context::class.java)
         val resources = Mockito.mock<Resources>(Resources::class.java)
