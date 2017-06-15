@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.data.ads
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -25,6 +26,7 @@ import android.os.Build
 import android.support.annotation.VisibleForTesting
 import android.transition.ChangeBounds
 import android.transition.TransitionManager
+import android.view.View
 import android.view.ViewGroup
 import com.doctoror.particleswallpaper.BuildConfig
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
@@ -67,6 +69,7 @@ class AdsProviderImpl constructor(private val context: Context) : AdsProvider {
         }
     }
 
+    @SuppressLint("VisibleForTests") // WTF, why we need suppressing here?
     private fun initializeAdView(adView: AdView) {
         adView.adListener = newAdListener(adView)
         this.adView = adView
@@ -102,33 +105,42 @@ class AdsProviderImpl constructor(private val context: Context) : AdsProvider {
         adLoadState = AdLoadState.IDLE
     }
 
-    private fun newAdListener(adView: AdView): AdListener {
+    @VisibleForTesting
+    fun newAdListener(adView: View): AdListener {
+        if (adView.layoutParams == null) {
+            throw IllegalArgumentException("adView must have LayoutParams")
+        }
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) ViewResizeAdListenerKitKat(adView)
         else ViewResizeAdListener(adView)
     }
 
-    private open inner class ViewResizeAdListener(val adView: AdView) : AdListener() {
+    private open inner class ViewResizeAdListener(protected val adView: View) : AdListener() {
 
         override fun onAdLoaded() {
             super.onAdLoaded()
-            adLoadState = AdLoadState.LOADED
-            expandAdView()
+            if (adLoadState == AdLoadState.LOADING
+                    || adLoadState == AdLoadState.FAILED) {
+                adLoadState = AdLoadState.LOADED
+                expandAdView()
+            }
         }
 
         override fun onAdFailedToLoad(p0: Int) {
             super.onAdFailedToLoad(p0)
-            adLoadState = AdLoadState.FAILED
+            if (adLoadState == AdLoadState.LOADING) {
+                adLoadState = AdLoadState.FAILED
+            }
         }
 
         protected open fun expandAdView() {
-            val layoutParams = adView.layoutParams
+            val layoutParams = adView.layoutParams!!
             layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
             adView.layoutParams = layoutParams
         }
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    private inner class ViewResizeAdListenerKitKat(adView: AdView) : ViewResizeAdListener(adView) {
+    private inner class ViewResizeAdListenerKitKat(adView: View) : ViewResizeAdListener(adView) {
 
         override fun expandAdView() {
             val adViewParent = adView.parent
