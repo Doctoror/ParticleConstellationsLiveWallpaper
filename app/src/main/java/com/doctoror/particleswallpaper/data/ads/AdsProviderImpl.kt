@@ -121,7 +121,9 @@ class AdsProviderImpl(private val context: Context) : AdsProvider {
             if (adLoadState == AdLoadState.LOADING
                     || adLoadState == AdLoadState.FAILED) {
                 adLoadState = AdLoadState.LOADED
-                expandAdView()
+                if (shouldExpandAdView()) {
+                    expandAdView()
+                }
             }
         }
 
@@ -131,6 +133,9 @@ class AdsProviderImpl(private val context: Context) : AdsProvider {
                 adLoadState = AdLoadState.FAILED
             }
         }
+
+        private fun shouldExpandAdView()
+                = adView.layoutParams!!.height != ViewGroup.LayoutParams.WRAP_CONTENT
 
         protected open fun expandAdView() {
             val layoutParams = adView.layoutParams!!
