@@ -19,6 +19,7 @@ import android.content.Context
 import android.support.annotation.ColorInt
 import com.doctoror.particleswallpaper.data.prefs.Prefs
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
+import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import io.reactivex.subjects.BehaviorSubject
 
 /**
@@ -26,21 +27,20 @@ import io.reactivex.subjects.BehaviorSubject
  *
  * The Gendalf SharedPreferences [MutableSettingsRepository] implementation.
  */
-class SettingsRepositoryImpl(context: Context) : MutableSettingsRepository {
+class SettingsRepositoryImpl(context: Context,
+                             defaults: SettingsRepository) : MutableSettingsRepository {
 
-    val defaults = SettingsRepositoryDefault.getInstance(context.resources!!, context.theme!!)
+    private val colorSubject = BehaviorSubject.create<Int>().toSerialized()!!
+    private val backgroundColorSubject = BehaviorSubject.create<Int>().toSerialized()!!
+    private val backgroundUriSubject = BehaviorSubject.create<String>().toSerialized()!!
+    private val numDotsSubject = BehaviorSubject.create<Int>().toSerialized()!!
+    private val frameDelaySubject = BehaviorSubject.create<Int>().toSerialized()!!
+    private val stepMultiplierSubject = BehaviorSubject.create<Float>().toSerialized()!!
+    private val dotScaleSubject = BehaviorSubject.create<Float>().toSerialized()!!
+    private val lineScaleSubject = BehaviorSubject.create<Float>().toSerialized()!!
+    private val lineDistanceSubject = BehaviorSubject.create<Float>().toSerialized()!!
 
-    val colorSubject = BehaviorSubject.create<Int>().toSerialized()!!
-    val backgroundColorSubject = BehaviorSubject.create<Int>().toSerialized()!!
-    val backgroundUriSubject = BehaviorSubject.create<String>().toSerialized()!!
-    val numDotsSubject = BehaviorSubject.create<Int>().toSerialized()!!
-    val frameDelaySubject = BehaviorSubject.create<Int>().toSerialized()!!
-    val stepMultiplierSubject = BehaviorSubject.create<Float>().toSerialized()!!
-    val dotScaleSubject = BehaviorSubject.create<Float>().toSerialized()!!
-    val lineScaleSubject = BehaviorSubject.create<Float>().toSerialized()!!
-    val lineDistanceSubject = BehaviorSubject.create<Float>().toSerialized()!!
-
-    val prefs = Prefs.with(context)!!
+    private val prefs = Prefs.with(context)!!
 
     init {
         colorSubject.onNext(prefs.particlesColor)

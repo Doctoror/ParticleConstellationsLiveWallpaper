@@ -45,8 +45,9 @@ class ConfigModule {
     @Singleton @Provides @Named(DEFAULT) fun provideDefaultSettings(context: Context):
             SettingsRepository = SettingsRepositoryDefault.getInstance(context.resources!!, context.theme!!)
 
-    @Singleton @Provides fun provideMutableSettings(context: Context):
-            MutableSettingsRepository = SettingsRepositoryImpl(context)
+    @Singleton @Provides fun provideMutableSettings(context: Context,
+                                                    @Named(DEFAULT) defaults: SettingsRepository):
+            MutableSettingsRepository = SettingsRepositoryImpl(context, defaults)
 
     @Singleton @Provides fun provideSettings(settings: MutableSettingsRepository):
             SettingsRepository = settings

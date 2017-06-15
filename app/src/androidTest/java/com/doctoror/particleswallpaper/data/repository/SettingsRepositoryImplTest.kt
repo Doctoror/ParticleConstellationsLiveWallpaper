@@ -53,7 +53,8 @@ class SettingsRepositoryImplTest {
         Mockito.`when`(context.theme).thenReturn(theme)
         Mockito.`when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(fakePrefs)
 
-        settings = SettingsRepositoryImpl(context)
+        settings = SettingsRepositoryImpl(context,
+                SettingsRepositoryDefault.getInstance(resources, theme))
     }
 
     @After
