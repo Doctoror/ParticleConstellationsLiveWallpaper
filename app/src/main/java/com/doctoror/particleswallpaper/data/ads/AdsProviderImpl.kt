@@ -104,7 +104,6 @@ class AdsProviderImpl(private val context: Context) : AdsProvider {
 
     override fun onStop() {
         context.unregisterReceiver(connectivityReceiver)
-        adLoadState = AdLoadState.IDLE
         adView!!.pause()
     }
 

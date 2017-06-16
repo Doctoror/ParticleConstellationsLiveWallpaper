@@ -85,11 +85,12 @@ class AdsProviderImplTest {
     }
 
     @Test
-    fun testStateIdleOnStop() {
+    fun testStateDoesNotChangeOnStop() {
         val adsProvider = newAdsProviderWithMockAdView().first
+        val prevState = adsProvider.adLoadState
         adsProvider.onStop()
 
-        assertEquals(IDLE, adsProvider.adLoadState)
+        assertEquals(prevState, adsProvider.adLoadState)
     }
 
     @Test
