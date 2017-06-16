@@ -116,12 +116,13 @@ dependencies {
     compile d.particlesDrawable
     compile d.colorPicker
 
-    compile(d.ads) {
-        exclude(group: 'com.android.support')
-    }
+    compile d.supportV4
+    compile d.supportAnnotations
 
-    compile(d.licencesDialog) {
-        exclude(group: 'com.android.support')
+    compile d.ads
+
+    compile (d.licencesDialog) {
+        exclude(group: 'com.android.support', module: 'appcompat-v7')
     }
 
     compile d.glide
