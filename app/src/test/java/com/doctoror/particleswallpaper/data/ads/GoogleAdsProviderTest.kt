@@ -18,44 +18,30 @@ package com.doctoror.particleswallpaper.data.ads
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
-import android.view.ViewGroup
+import com.doctoror.particleswallpaper.data.ads.GoogldAdsProvider.AdLoadState
+import com.doctoror.particleswallpaper.data.ads.GoogldAdsProvider.AdLoadState.*
+import com.doctoror.particleswallpaper.domain.ads.AdView
 import org.junit.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
 import kotlin.test.assertEquals
 
-import com.doctoror.particleswallpaper.data.ads.AdsProviderImpl.IAdView
-import com.doctoror.particleswallpaper.data.ads.AdsProviderImpl.AdLoadState
-import com.doctoror.particleswallpaper.data.ads.AdsProviderImpl.AdLoadState.*
-import com.google.android.gms.ads.AdListener
-
 /**
  * Created by Yaroslav Mytkalyk on 06.06.17.
  *
- * [AdsProviderImpl] test
+ * [GoogldAdsProvider] test
  */
-class AdsProviderImplTest {
+class GoogleAdsProviderTest {
 
     private fun newAdsProvider(context: Context = mock(Context::class.java))
-            = AdsProviderImpl(context)
+            = GoogldAdsProvider(context)
 
     private fun newAdsProviderWithMockAdView(context: Context = mock(Context::class.java)):
-            Pair<AdsProviderImpl, IAdView> {
+            Pair<GoogldAdsProvider, AdView> {
         val adsProvider = newAdsProvider(context)
-        val adView = mock(IAdView::class.java)
-        `when`(adView.getLayoutParams()).thenReturn(ViewGroup.LayoutParams(0, 0))
+        val adView = mock(AdView::class.java)
         adsProvider.initializeAdView(adView)
         return Pair(adsProvider, adView)
-    }
-
-    private fun newAdViewWithMutableLayoutParams(): IAdView {
-        val view = StubAdViewWithLayoutParams()
-        view.setLayoutPrams(ViewGroup.LayoutParams(0, 0))
-        return view
-    }
-
-    private fun newAdListenerWithValidView(adsProvider: AdsProviderImpl): AdListener {
-        return adsProvider.newAdListener(newAdViewWithMutableLayoutParams())
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -104,12 +90,6 @@ class AdsProviderImplTest {
                 ArgumentMatchers.any(BroadcastReceiver::class.java))
     }
 
-    @Test(expected = IllegalArgumentException::class)
-    fun testAdViewWithNoLayoutParamsNotAcceptable() {
-        val adsProvider = newAdsProvider()
-        adsProvider.newAdListener(StubAdViewWithLayoutParams())
-    }
-
     @Test
     fun testStateNotChangedWhenLoadedWhileStateIdle() {
         testStateWhenLoadedWithState(
@@ -150,9 +130,7 @@ class AdsProviderImplTest {
             expectedStateWhenLoaded: AdLoadState) {
         val adsProvider = newAdsProvider()
         adsProvider.adLoadState = loadWithState
-
-        val adListener = newAdListenerWithValidView(adsProvider)
-        adListener.onAdLoaded()
+        adsProvider.onAdLoaded()
 
         assertEquals(expectedStateWhenLoaded, adsProvider.adLoadState)
     }
@@ -197,24 +175,9 @@ class AdsProviderImplTest {
             expectedStateWhenFaildToLoad: AdLoadState) {
         val adsProvider = newAdsProvider()
         adsProvider.adLoadState = loadWithState
-
-        val adListener = newAdListenerWithValidView(adsProvider)
-        adListener.onAdFailedToLoad(0)
+        adsProvider.onAdFailedToLoad()
 
         assertEquals(expectedStateWhenFaildToLoad, adsProvider.adLoadState)
-    }
-
-    @Test
-    fun testAdViewLayoutHeightChangedWhenAdLoaded() {
-        val adsProvider = newAdsProvider()
-        adsProvider.adLoadState = LOADING
-
-        val view = newAdViewWithMutableLayoutParams()
-
-        val adListener = adsProvider.newAdListener(view)
-        adListener.onAdLoaded()
-
-        assertEquals(ViewGroup.LayoutParams.WRAP_CONTENT, view.getLayoutParams()!!.height)
     }
 
     @Test

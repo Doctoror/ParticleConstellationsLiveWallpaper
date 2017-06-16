@@ -36,12 +36,14 @@ import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.ads.GoogleAdView
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
 import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerActivityComponent
 import com.doctoror.particleswallpaper.presentation.di.modules.ActivityModule
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
+import com.google.android.gms.ads.AdView
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
@@ -83,7 +85,7 @@ open class ConfigActivity : Activity() {
     }
 
     private fun initAdView() {
-        adProvider.initialize(findViewById(R.id.adView))
+        adProvider.initialize(GoogleAdView(findViewById(R.id.adView) as AdView))
     }
 
     override fun onStart() {

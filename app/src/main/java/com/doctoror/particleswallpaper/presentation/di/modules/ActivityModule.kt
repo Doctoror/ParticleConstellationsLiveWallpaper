@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.presentation.di.modules
 
 import android.content.Context
-import com.doctoror.particleswallpaper.data.ads.AdsProviderImpl
+import com.doctoror.particleswallpaper.data.ads.GoogldAdsProvider
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDefault
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
@@ -37,6 +37,6 @@ class ActivityModule {
             SettingsRepository = SettingsRepositoryDefault.getInstance(context.resources!!, context.theme!!)
 
     @PerActivity @Provides fun provideAdsProvider(context: Context):
-            AdsProvider = AdsProviderImpl(context)
+            AdsProvider = GoogldAdsProvider(context)
 
 }
