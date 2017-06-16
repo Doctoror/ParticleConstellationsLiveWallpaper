@@ -15,10 +15,11 @@
  */
 package com.doctoror.particleswallpaper.data.config
 
-import com.doctoror.particleswallpaper.data.repository.StubMutableSettingsRepository
-import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
-import io.reactivex.schedulers.Schedulers
+import com.doctoror.particlesdrawable.ParticlesScene
+import com.doctoror.particleswallpaper.data.execution.ComputationSchedulers
+import com.doctoror.particleswallpaper.data.repository.MockSettingsRepositoryFactory
 import org.junit.Test
+import org.mockito.Mockito.*
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -26,18 +27,13 @@ import kotlin.test.assertTrue
 
 class SceneConfiguratorImplTest {
 
-    private val schedulers = object : SchedulersProvider {
-        override fun mainThread() = Schedulers.computation()
-        override fun io() = Schedulers.computation()
-    }
-
     @Test
     fun testSubscription() {
-        val c = SceneConfiguratorImpl(schedulers)
+        val c = SceneConfiguratorImpl(ComputationSchedulers())
 
         assertNull(c.disposables)
 
-        c.subscribe(MutableParticlesScene(), StubMutableSettingsRepository())
+        c.subscribe(mock(ParticlesScene::class.java), MockSettingsRepositoryFactory.create())
 
         assertNotNull(c.disposables)
         assertFalse { c.disposables!!.isDisposed }

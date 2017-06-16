@@ -49,7 +49,7 @@ class AdsProviderImplTest {
     }
 
     private fun newAdViewWithMutableLayoutParams(): IAdView {
-        val view = StubAdView()
+        val view = StubAdViewWithLayoutParams()
         view.setLayoutPrams(ViewGroup.LayoutParams(0, 0))
         return view
     }
@@ -106,7 +106,7 @@ class AdsProviderImplTest {
     @Test(expected = IllegalArgumentException::class)
     fun testAdViewWithNoLayoutParamsNotAcceptable() {
         val adsProvider = newAdsProvider()
-        adsProvider.newAdListener(StubAdView())
+        adsProvider.newAdListener(StubAdViewWithLayoutParams())
     }
 
     @Test

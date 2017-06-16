@@ -19,7 +19,7 @@ import android.view.ViewGroup
 import android.view.ViewParent
 import com.google.android.gms.ads.AdListener
 
-open class StubAdView : AdsProviderImpl.IAdView {
+open class StubAdViewWithLayoutParams : AdsProviderImpl.IAdView {
 
     private var mLayoutParams: ViewGroup.LayoutParams? = null
 

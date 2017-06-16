@@ -15,7 +15,8 @@
  */
 package com.doctoror.particleswallpaper.presentation.preference
 
-import com.doctoror.particleswallpaper.data.repository.StubMutableSettingsRepository
+import com.doctoror.particleswallpaper.data.execution.ComputationSchedulers
+import com.doctoror.particleswallpaper.data.repository.MockSettingsRepositoryFactory
 import com.doctoror.particleswallpaper.presentation.presenter.*
 import com.doctoror.particleswallpaper.presentation.view.FakeSeekBarPreferenceView
 import org.junit.Test
@@ -30,41 +31,50 @@ class SeekBarSettingsPreferencesTest {
 
     @Test
     fun testDotScalePreference() {
-        testMapper(DotScalePreferencePresenter(StubMutableSettingsRepository()))
+        testMapper(
+                DotScalePreferencePresenter(
+                        ComputationSchedulers(),
+                        MockSettingsRepositoryFactory.createMutable()))
     }
 
     @Test
     fun testFrameDelayPreference() {
-        val p = FrameDelayPreferencePresenter(StubMutableSettingsRepository())
+        val p = FrameDelayPreferencePresenter(ComputationSchedulers(),
+                MockSettingsRepositoryFactory.createMutable())
         p.onTakeView(FakeSeekBarPreferenceView())
         testMapper(p)
     }
 
     @Test
     fun testFrameDelayPreferenceMinValue() {
-        val p = FrameDelayPreferencePresenter(StubMutableSettingsRepository())
+        val p = FrameDelayPreferencePresenter(ComputationSchedulers(),
+                MockSettingsRepositoryFactory.createMutable())
         p.onTakeView(FakeSeekBarPreferenceView())
         assertEquals(p.frameDelaySeekbarMin, p.transformToRealValue(p.getSeekbarMax()))
     }
 
     @Test
     fun testLineDistancePreference() {
-        testMapper(LineDistancePreferencePresenter(StubMutableSettingsRepository()))
+        testMapper(LineDistancePreferencePresenter(ComputationSchedulers(),
+                MockSettingsRepositoryFactory.createMutable()))
     }
 
     @Test
     fun testLineScalePreference() {
-        testMapper(LineScalePreferencePresenter(StubMutableSettingsRepository()))
+        testMapper(LineScalePreferencePresenter(ComputationSchedulers(),
+                MockSettingsRepositoryFactory.createMutable()))
     }
 
     @Test
     fun testNumDotsPreference() {
-        testMapper(NumDotsPreferencePresenter(StubMutableSettingsRepository()))
+        testMapper(NumDotsPreferencePresenter(ComputationSchedulers(),
+                MockSettingsRepositoryFactory.createMutable()))
     }
 
     @Test
     fun testSpeedFactorPreferencePresenter() {
-        testMapper(SpeedFactorPreferencePresenter(StubMutableSettingsRepository()))
+        testMapper(SpeedFactorPreferencePresenter(ComputationSchedulers(),
+                MockSettingsRepositoryFactory.createMutable()))
     }
 
     private fun <T> testMapper(p: MapperSeekBarPresenter<T>) {
