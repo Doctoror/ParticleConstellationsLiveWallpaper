@@ -22,12 +22,6 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
-        <name>ParticlesDrawable</name>
-        <url>https://github.com/Doctoror/ParticlesDrawable</url>
-        <copyright>Copyright 2017 Yaroslav Mytkalyk</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-    <notice>
         <name>RxJava</name>
         <url>https://github.com/ReactiveX/RxJava</url>
         <copyright>Copyright 2012 Netflix, Inc.</copyright>
@@ -52,9 +46,21 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
-        <name>Picasso</name>
-        <url>http://square.github.io/picasso/</url>
-        <copyright>Copyright 2013 Square, Inc.</copyright>
+        <name>Glide</name>
+        <url>https://github.com/bumptech/glide</url>
+        <copyright>Copyright 2014 Google, Inc. All rights reserved.</copyright>
+        <license>BSD 2-Clause License</license>
+    </notice>
+    <notice>
+        <name>Particles Drawable</name>
+        <url>https://github.com/Doctoror/ParticlesDrawable</url>
+        <copyright>Copyright 2017 Yaroslav Mytkalyk</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Particle Constellations Live Wallpaper</name>
+        <url>https://github.com/Doctoror/ParticleConstellationsLiveWallpaper</url>
+        <copyright>Copyright 2017 Yaroslav Mytkalyk</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 </notices>
