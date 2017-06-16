@@ -62,12 +62,16 @@ class GoogleAdView(private val adView: AdView) : AdViewInterface {
         adListenerExternal = l
     }
 
+    fun onAdLoaded() {
+        viewExpander.expandView()
+    }
+
     private inner class AdListenerInternal : AdListener() {
 
         override fun onAdLoaded() {
             super.onAdLoaded()
             adListenerExternal?.onAdLoaded()
-            viewExpander.expandView()
+            this@GoogleAdView.onAdLoaded()
         }
 
         override fun onAdClicked() {
