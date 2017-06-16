@@ -16,8 +16,7 @@
 package com.doctoror.particleswallpaper.data.config
 
 import android.support.annotation.VisibleForTesting
-import com.doctoror.particlesdrawable.ParticlesDrawable
-import com.doctoror.particlesdrawable.ParticlesSceneConfiguration
+import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particleswallpaper.data.mapper.DotRadiusMapper
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
@@ -34,7 +33,7 @@ class SceneConfiguratorImpl (private val schedulers: SchedulersProvider): SceneC
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var disposables: CompositeDisposable? = null
 
-    override fun subscribe(scene: ParticlesSceneConfiguration, settings: SettingsRepository) {
+    override fun subscribe(scene: ParticlesScene, settings: SettingsRepository) {
         val d = CompositeDisposable()
 
         disposables?.dispose()
@@ -51,9 +50,7 @@ class SceneConfiguratorImpl (private val schedulers: SchedulersProvider): SceneC
                 .observeOn(schedulers.mainThread())
                 .subscribe({ v ->
                     scene.numDots = v
-                    // TODO use ParticlesScene instead
-                    if (scene is ParticlesDrawable)
-                        scene.makeBrandNewFrame()
+                    scene.makeBrandNewFrame()
                 }))
 
         d.add(settings.getDotScale()
@@ -61,16 +58,14 @@ class SceneConfiguratorImpl (private val schedulers: SchedulersProvider): SceneC
                 .subscribe({ v ->
                     val radiusRange = DotRadiusMapper.transform(v)
                     scene.setDotRadiusRange(radiusRange.first, radiusRange.second)
-                    if (scene is ParticlesDrawable)
-                        scene.makeBrandNewFrame()
+                    scene.makeBrandNewFrame()
                 }))
 
         d.add(settings.getLineScale()
                 .observeOn(schedulers.mainThread())
                 .subscribe({ v ->
                     scene.lineThickness = v
-                    if (scene is ParticlesDrawable)
-                        scene.makeBrandNewFrame()
+                    scene.makeBrandNewFrame()
                 }))
 
         d.add(settings.getLineDistance()
