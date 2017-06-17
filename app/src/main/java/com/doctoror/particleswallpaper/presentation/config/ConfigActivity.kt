@@ -16,54 +16,19 @@
 package com.doctoror.particleswallpaper.presentation.config
 
 import android.app.Activity
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.annotation.ColorInt
-import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
-import com.doctoror.particlesdrawable.ParticlesDrawable
+import android.view.Menu
+import android.view.MenuItem
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.ads.AdsProvider
-import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
-import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.domain.repository.NO_URI
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.ads.GoogleAdView
-import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
+import com.doctoror.particleswallpaper.presentation.base.LifecycleActivity
 import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerActivityComponent
 import com.doctoror.particleswallpaper.presentation.di.modules.ActivityModule
-import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
-import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
-import com.google.android.gms.ads.AdView
-import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.BiFunction
 import javax.inject.Inject
-import javax.inject.Named
 
-open class ConfigActivity : Activity() {
+class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
-    private val particlesDrawable = ParticlesDrawable()
-
-    @field:[Inject Named(ConfigModule.DEFAULT)] lateinit var defaults: SettingsRepository
-
-    @Inject lateinit var schedulers: SchedulersProvider
-    @Inject lateinit var configurator: SceneConfigurator
-    @Inject lateinit var settings: SettingsRepository
-    @Inject @PerActivity lateinit var adProvider: AdsProvider
-
-    private lateinit var glide: RequestManager
-
-    private var bgDisposable: Disposable? = null
+    @Inject lateinit var presenter: ConfigActivityPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,89 +38,18 @@ open class ConfigActivity : Activity() {
                 .build()
                 .inject(this)
 
-        glide = Glide.with(this)
-
         setContentView(R.layout.activity_config)
-        setBackground()
-        initAdView()
+        presenter.onTakeView(this)
+        lifecycle.addObserver(presenter)
     }
 
-    private fun setBackground() {
-        findViewById(R.id.drawableContainer)!!.setBackgroundCompat(particlesDrawable)
+    override fun getActivity(): Activity = this
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return presenter.onCreateOptionsMenu(menu)
     }
 
-    private fun initAdView() {
-        adProvider.initialize(GoogleAdView(findViewById(R.id.adView) as AdView))
-    }
-
-    override fun onStart() {
-        super.onStart()
-        adProvider.onStart()
-        bgDisposable = Observable.combineLatest(
-                settings.getBackgroundUri(),
-                settings.getBackgroundColor(),
-                BiFunction<String, Int, Pair<String, Int>> { t1, t2 -> Pair(t1!!, t2!!) })
-                .observeOn(schedulers.mainThread())
-                .subscribe({ result: Pair<String, Int> -> applyBackground(result) })
-        configurator.subscribe(particlesDrawable, settings)
-        particlesDrawable.start()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        adProvider.onStop()
-        bgDisposable?.dispose()
-        particlesDrawable.stop()
-        configurator.dispose()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        adProvider.onDestroy()
-    }
-
-    private fun applyBackground(result: Pair<String, Int>) {
-        applyBackground(result.first, result.second)
-    }
-
-    private fun applyBackground(uri: String, @ColorInt color: Int) {
-        val bg: ImageView = findViewById(R.id.bg) as ImageView
-        if (uri == NO_URI) {
-            onNoBackgroundImage(bg, color)
-        } else {
-            glide.load(uri)
-                    .apply(RequestOptions.noAnimation())
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                    .apply(RequestOptions.skipMemoryCacheOf(true))
-                    .apply(RequestOptions.centerCropTransform())
-                    .listener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(e: GlideException?,
-                                                  model: Any?,
-                                                  target: Target<Drawable>?,
-                                                  isFirstResource: Boolean): Boolean {
-                            onNoBackgroundImage(bg, color)
-                            return true
-                        }
-
-                        override fun onResourceReady(resource: Drawable?,
-                                                     model: Any?,
-                                                     target: Target<Drawable>?,
-                                                     dataSource: DataSource?,
-                                                     isFirstResource: Boolean): Boolean {
-                            return false
-                        }
-                    })
-                    .into(bg)
-        }
-    }
-
-    private fun onNoBackgroundImage(bg: ImageView, @ColorInt color: Int) {
-        glide.clear(bg)
-        bg.setImageDrawable(null)
-
-        defaults.getBackgroundColor()
-                .observeOn(schedulers.mainThread())
-                .subscribe({ default ->
-                    bg.setBackgroundCompat((if (color == default) null else ColorDrawable(color))) })
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return presenter.onOptionsItemSelected(item)
     }
 }

@@ -16,10 +16,15 @@
 package com.doctoror.particleswallpaper.presentation.di.modules
 
 import android.content.Context
+import android.os.Build
 import com.doctoror.particleswallpaper.data.ads.GoogldAdsProvider
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDefault
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
+import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
+import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.config.ConfigActivityPresenter
+import com.doctoror.particleswallpaper.presentation.config.ConfigActivityPresenterLollipop
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
 import dagger.Module
 import dagger.Provides
@@ -38,5 +43,16 @@ class ActivityModule {
 
     @PerActivity @Provides fun provideAdsProvider(context: Context):
             AdsProvider = GoogldAdsProvider(context)
+
+    @PerActivity @Provides fun provideConfigActivityPresenter(
+            schedulers: SchedulersProvider,
+            configurator: SceneConfigurator,
+            adProvider: AdsProvider,
+            settings: SettingsRepository,
+            @Named(ConfigModule.DEFAULT) defaults: SettingsRepository): ConfigActivityPresenter {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            ConfigActivityPresenterLollipop(schedulers, configurator, adProvider, settings, defaults)
+        else ConfigActivityPresenter(schedulers, configurator, adProvider, settings, defaults)
+    }
 
 }
