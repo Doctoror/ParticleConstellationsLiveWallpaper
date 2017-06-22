@@ -20,14 +20,11 @@ package com.doctoror.particleswallpaper.data.mapper
  *
  * Maps dot scale to dot radius range
  */
-class DotRadiusMapper private constructor() {
+object DotRadiusMapper {
 
-    companion object {
-        const val minDotRadius = 1f
-        const val maxDotRadius = 3f
+    const val minDotRadius = 1f
+    const val maxDotRadius = 3f
 
-        fun transform(dotScale: Float): Pair<Float, Float>
-                = Pair(minDotRadius * dotScale, maxDotRadius * dotScale)
-    }
-
+    fun transform(dotScale: Float): Pair<Float, Float>
+            = Pair(minDotRadius * dotScale, maxDotRadius * dotScale)
 }

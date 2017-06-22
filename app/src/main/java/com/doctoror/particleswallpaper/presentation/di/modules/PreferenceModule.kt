@@ -30,6 +30,6 @@ import javax.inject.Named
  */
 @Module class PreferenceModule {
 
-    @PerPreference @Provides @Named(ConfigModule.DEFAULT) fun provideDefaultSettings(context: Context):
+    @PerPreference @Provides @Named(DEFAULT) fun provideDefaultSettings(context: Context):
             SettingsRepository = SettingsRepositoryDefault.getInstance(context.resources!!, context.theme!!)
 }

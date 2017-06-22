@@ -31,6 +31,8 @@ import dagger.Provides
 import javax.inject.Named
 import javax.inject.Singleton
 
+const val DEFAULT = "default"
+
 /**
  * Created by Yaroslav Mytkalyk on 01.06.17.
  *
@@ -38,10 +40,6 @@ import javax.inject.Singleton
  */
 @Module
 class ConfigModule {
-
-    companion object {
-        const val DEFAULT = "default"
-    }
 
     @Singleton @Provides @Named(DEFAULT) fun provideDefaultSettings(context: Context):
             SettingsRepository = SettingsRepositoryDefault.getInstance(context.resources!!, context.theme!!)

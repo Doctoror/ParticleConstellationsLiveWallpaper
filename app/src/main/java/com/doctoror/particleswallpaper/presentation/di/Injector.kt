@@ -7,14 +7,7 @@ import com.doctoror.particleswallpaper.presentation.di.components.ConfigComponen
  *
  * Stores injection components.
  */
-class Injector private constructor() {
+object Injector {
 
-    init {
-        throw UnsupportedOperationException()
-    }
-
-    companion object {
-        lateinit var configComponent: ConfigComponent
-    }
-
+    lateinit var configComponent: ConfigComponent
 }

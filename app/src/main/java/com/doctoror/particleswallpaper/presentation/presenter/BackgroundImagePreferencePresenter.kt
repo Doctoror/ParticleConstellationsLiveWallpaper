@@ -34,7 +34,7 @@ import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
-import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
+import com.doctoror.particleswallpaper.presentation.di.modules.DEFAULT
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
 import io.reactivex.Observable
@@ -51,7 +51,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         private val context: Context,
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
-        private @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository,
+        private @Named(DEFAULT) val defaults: SettingsRepository,
         private val backgroundImageManager: BackgroundImageManager)
     : Presenter<BackgroundImagePreferenceView> {
 

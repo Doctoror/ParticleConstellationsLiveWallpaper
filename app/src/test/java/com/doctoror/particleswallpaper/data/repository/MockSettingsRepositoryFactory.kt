@@ -27,30 +27,27 @@ import org.mockito.Mockito.*
  *
  * Used for creating mock [SettingsRepository] implementations that return stub data.
  */
-class MockSettingsRepositoryFactory private constructor() {
+object MockSettingsRepositoryFactory {
 
-    companion object {
+    fun create(): SettingsRepository {
+        return create(SettingsRepository::class.java)
+    }
 
-        fun create(): SettingsRepository {
-            return create(SettingsRepository::class.java)
-        }
+    fun createMutable(): MutableSettingsRepository {
+        return create(MutableSettingsRepository::class.java)
+    }
 
-        fun createMutable(): MutableSettingsRepository {
-            return create(MutableSettingsRepository::class.java)
-        }
-
-        private fun <T : SettingsRepository> create(c: Class<T>): T {
-            val result = mock(c)
-            `when`(result.getNumDots()).thenReturn(Observable.just(1))
-            `when`(result.getFrameDelay()).thenReturn(Observable.just(1))
-            `when`(result.getStepMultiplier()).thenReturn(Observable.just(1f))
-            `when`(result.getDotScale()).thenReturn(Observable.just(1f))
-            `when`(result.getLineScale()).thenReturn(Observable.just(1f))
-            `when`(result.getLineDistance()).thenReturn(Observable.just(1f))
-            `when`(result.getParticlesColor()).thenReturn(Observable.just(1))
-            `when`(result.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
-            `when`(result.getBackgroundColor()).thenReturn(Observable.just(1))
-            return result
-        }
+    private fun <T : SettingsRepository> create(c: Class<T>): T {
+        val result = mock(c)
+        `when`(result.getNumDots()).thenReturn(Observable.just(1))
+        `when`(result.getFrameDelay()).thenReturn(Observable.just(1))
+        `when`(result.getStepMultiplier()).thenReturn(Observable.just(1f))
+        `when`(result.getDotScale()).thenReturn(Observable.just(1f))
+        `when`(result.getLineScale()).thenReturn(Observable.just(1f))
+        `when`(result.getLineDistance()).thenReturn(Observable.just(1f))
+        `when`(result.getParticlesColor()).thenReturn(Observable.just(1))
+        `when`(result.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
+        `when`(result.getBackgroundColor()).thenReturn(Observable.just(1))
+        return result
     }
 }

@@ -20,7 +20,7 @@ import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.interactor.ResetToDefaultsUseCase
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
+import com.doctoror.particleswallpaper.presentation.di.modules.DEFAULT
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.ResetToDefaultsPreferenceView
 import javax.inject.Inject
@@ -35,7 +35,7 @@ import javax.inject.Named
 class ResetToDefaultsPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
-        private @Named(ConfigModule.DEFAULT) val defaults: SettingsRepository,
+        private @Named(DEFAULT) val defaults: SettingsRepository,
         private val backgroundImageManager: BackgroundImageManager)
     : Presenter<ResetToDefaultsPreferenceView> {
 
