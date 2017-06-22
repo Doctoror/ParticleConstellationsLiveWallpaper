@@ -131,7 +131,7 @@ class GoogleAdView(private val adView: AdView) : AdViewInterface {
     private inner class ViewExpanderKitKat : ViewExpanderImpl() {
 
         override fun expandAdView() {
-            val adViewParent = adView.getParent()
+            val adViewParent = adView.parent
             if (adViewParent is ViewGroup) {
                 val t = ChangeBounds()
                 // This listener is a workaround around the post-transition ListView issue
@@ -149,6 +149,7 @@ class GoogleAdView(private val adView: AdView) : AdViewInterface {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     private open class TransitionListenerAdapter : Transition.TransitionListener {
         override fun onTransitionEnd(transition: Transition?) {
         }

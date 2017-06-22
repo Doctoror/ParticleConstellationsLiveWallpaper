@@ -58,11 +58,11 @@ class ConfigActivityPresenterLollipop(
                 .inflate(R.layout.activity_config_toolbar, root, false) as Toolbar
         root.addView(toolbar, 0)
         activity.setActionBar(toolbar)
-        activity.getActionBar()?.displayOptions = ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_HOME
+        activity.actionBar?.displayOptions = ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_HOME
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        view.getActivity().getMenuInflater().inflate(R.menu.activity_config, menu)
+        view.getActivity().menuInflater.inflate(R.menu.activity_config, menu)
         return true
     }
 

@@ -15,12 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.config
 
-import android.app.ActionBar
 import android.app.Activity
-import android.content.Context
-import android.support.annotation.IdRes
-import android.view.MenuInflater
-import android.view.View
 import com.doctoror.particleswallpaper.presentation.view.MvpView
 
 /**
