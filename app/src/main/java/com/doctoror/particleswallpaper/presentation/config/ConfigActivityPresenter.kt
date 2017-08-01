@@ -23,6 +23,7 @@ import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -75,7 +76,8 @@ open class ConfigActivityPresenter(
     }
 
     private fun setBackground(view: ConfigActivityView) {
-        view.getActivity().findViewById(R.id.drawableContainer)!!.setBackgroundCompat(particlesDrawable)
+        view.getActivity().findViewById<View>(R.id.drawableContainer)!!
+                .setBackgroundCompat(particlesDrawable)
     }
 
     private fun initAdView(view: ConfigActivityView) {
@@ -122,7 +124,7 @@ open class ConfigActivityPresenter(
     }
 
     private fun applyBackground(uri: String, @ColorInt color: Int) {
-        val bg: ImageView = view.getActivity().findViewById(R.id.bg) as ImageView
+        val bg = view.getActivity().findViewById<ImageView>(R.id.bg)
         if (uri == NO_URI) {
             onNoBackgroundImage(bg, color)
         } else {

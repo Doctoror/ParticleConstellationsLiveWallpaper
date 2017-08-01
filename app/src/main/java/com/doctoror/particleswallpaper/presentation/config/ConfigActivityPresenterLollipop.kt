@@ -53,7 +53,7 @@ class ConfigActivityPresenterLollipop(
 
     private fun initToolbar(view: ConfigActivityView) {
         val activity = view.getActivity()
-        val root: ViewGroup = activity.findViewById(R.id.toolbarContainer)!! as ViewGroup
+        val root = activity.findViewById<ViewGroup>(R.id.toolbarContainer)!!
         val toolbar = activity.layoutInflater
                 .inflate(R.layout.activity_config_toolbar, root, false) as Toolbar
         root.addView(toolbar, 0)
