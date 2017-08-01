@@ -35,7 +35,8 @@ ext {
     //Testing
     jUnitVersion = '4.12'
     mockitoVersion = '2.8.47'
-    testRunnerVersion = '0.5'
+    testRunnerVersion = '1.0.0'
+    robolectricVersion = '3.3.2'
 
     wallpaperappDependencies = [
             kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
@@ -69,7 +70,7 @@ ext {
             kotlinReflect  : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
 
             junit          : "junit:junit:$jUnitVersion",
-            testRunner     : "com.android.support.test:runner:$testRunnerVersion",
+            robolectric    : "org.robolectric:robolectric:$robolectricVersion",
 
             mockitoCore    : "org.mockito:mockito-core:$mockitoVersion"
     ]
