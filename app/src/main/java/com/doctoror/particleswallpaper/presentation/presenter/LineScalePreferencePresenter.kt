@@ -42,9 +42,7 @@ class LineScalePreferencePresenter @Inject constructor(
     private var disposable: Disposable? = null
 
     private val changeAction = Consumer<Float> { t ->
-        if (t != null) {
-            view.setProgressInt(transformToProgress(t))
-        }
+        view.setProgressInt(transformToProgress(t))
     }
 
     override fun onTakeView(view: SeekBarPreferenceView) {
