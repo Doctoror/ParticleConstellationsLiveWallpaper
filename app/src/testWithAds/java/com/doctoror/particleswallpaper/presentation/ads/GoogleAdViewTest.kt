@@ -15,18 +15,21 @@
  */
 package com.doctoror.particleswallpaper.presentation.ads
 
-import android.support.test.InstrumentationRegistry
 import android.view.ViewGroup
 import com.google.android.gms.ads.AdView
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 
 /**
  * [GoogleAdView] test
  */
+@RunWith(RobolectricTestRunner::class)
 class GoogleAdViewTest {
 
-    private fun newAdView() = AdView(InstrumentationRegistry.getContext())
+    private fun newAdView() = AdView(RuntimeEnvironment.application)
 
     @Test(expected = IllegalStateException::class)
     fun testDoesNotLoadAdWithNoLayoutParams() {
