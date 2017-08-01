@@ -30,11 +30,11 @@ ext {
     licencesDialogVersion = '1.8.3'
     gmsVersion = '11.0.4'
 
-    particlesDrawableVersion = '1.0.7'
+    particlesDrawableVersion = '1.0.8'
 
     //Testing
     jUnitVersion = '4.12'
-    mockitoVersion = '2.8.9'
+    mockitoVersion = '2.8.47'
     testRunnerVersion = '0.5'
 
     wallpaperappDependencies = [
@@ -70,7 +70,6 @@ ext {
 
             junit          : "junit:junit:$jUnitVersion",
             testRunner     : "com.android.support.test:runner:$testRunnerVersion",
-            testRules      : "com.android.support.test:rules:$testRunnerVersion",
 
             mockitoCore    : "org.mockito:mockito-core:$mockitoVersion"
     ]
