@@ -97,7 +97,7 @@ open class ConfigActivityPresenter(
         bgDisposable = Observable.combineLatest(
                 settings.getBackgroundUri(),
                 settings.getBackgroundColor(),
-                BiFunction<String, Int, Pair<String, Int>> { t1, t2 -> Pair(t1!!, t2!!) })
+                BiFunction<String, Int, Pair<String, Int>> { t1, t2 -> Pair(t1, t2) })
                 .observeOn(schedulers.mainThread())
                 .subscribe({ result: Pair<String, Int> -> applyBackground(result) })
         configurator.subscribe(particlesDrawable, settings)

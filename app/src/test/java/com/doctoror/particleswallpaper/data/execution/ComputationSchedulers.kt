@@ -27,6 +27,6 @@ import io.reactivex.schedulers.Schedulers
  */
 class ComputationSchedulers : SchedulersProvider {
 
-    override fun mainThread() = Schedulers.computation()!!
-    override fun io() = Schedulers.computation()!!
+    override fun mainThread() = Schedulers.computation()
+    override fun io() = Schedulers.computation()
 }

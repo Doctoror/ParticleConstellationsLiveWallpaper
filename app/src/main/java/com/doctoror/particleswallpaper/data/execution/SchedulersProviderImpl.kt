@@ -26,6 +26,6 @@ import io.reactivex.schedulers.Schedulers
  */
 class SchedulersProviderImpl: SchedulersProvider {
 
-    override fun mainThread() = AndroidSchedulers.mainThread()!!
-    override fun io() = Schedulers.io()!!
+    override fun mainThread() = AndroidSchedulers.mainThread()
+    override fun io() = Schedulers.io()
 }
