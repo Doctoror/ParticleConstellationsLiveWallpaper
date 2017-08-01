@@ -123,14 +123,9 @@ dependencies {
     def td = rootProject.ext.wallpaperappTestDependencies
 
     androidTestImplementation td.testRunner
-    androidTestImplementation td.testRules
-    androidTestImplementation td.kotlin
-    androidTestImplementation td.kotlinTest
     androidTestImplementation td.kotlinReflect
 
     testImplementation td.junit
-    testImplementation td.kotlin
-    testImplementation td.kotlinTest
     testImplementation td.kotlinReflect
     testImplementation td.mockitoCore
 
