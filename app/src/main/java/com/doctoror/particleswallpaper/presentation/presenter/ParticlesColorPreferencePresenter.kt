@@ -42,11 +42,7 @@ class ParticlesColorPreferencePresenter @Inject constructor(
 
     private var disposable: Disposable? = null
 
-    private val changeAction = Consumer<Int> { t ->
-        if (t != null) {
-            view.setColor(t)
-        }
-    }
+    private val changeAction = Consumer<Int> { t -> view.setColor(t) }
 
     override fun onTakeView(view: ParticlesColorPreferenceView) {
         this.view = view

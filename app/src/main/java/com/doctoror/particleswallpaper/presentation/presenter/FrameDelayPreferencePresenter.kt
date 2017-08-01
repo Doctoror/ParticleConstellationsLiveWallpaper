@@ -43,11 +43,7 @@ class FrameDelayPreferencePresenter @Inject constructor(
 
     private var disposable: Disposable? = null
 
-    private val changeAction = Consumer<Int> { t ->
-        if (t != null) {
-            view.setProgressInt(transformToProgress(t))
-        }
-    }
+    private val changeAction = Consumer<Int> { t -> view.setProgressInt(transformToProgress(t)) }
 
     override fun onTakeView(view: SeekBarPreferenceView) {
         view.setMaxInt(frameDelaySeekbarMax)

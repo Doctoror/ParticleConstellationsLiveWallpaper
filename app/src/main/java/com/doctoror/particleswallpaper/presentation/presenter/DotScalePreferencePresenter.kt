@@ -40,11 +40,7 @@ class DotScalePreferencePresenter @Inject constructor(
     private val seekBarMaxValue = 70
     private var disposable: Disposable? = null
 
-    private val changeAction = Consumer<Float> { t ->
-        if (t != null) {
-            view.setProgressInt(transformToProgress(t))
-        }
-    }
+    private val changeAction = Consumer<Float> { t -> view.setProgressInt(transformToProgress(t)) }
 
     override fun onTakeView(view: SeekBarPreferenceView) {
         view.setMaxInt(seekBarMaxValue)

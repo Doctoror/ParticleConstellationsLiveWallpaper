@@ -40,11 +40,7 @@ class NumDotsPreferencePresenter @Inject constructor(
     private val seekBarMaxValue = 149
     private var disposable: Disposable? = null
 
-    private val changeAction = Consumer<Int> { t ->
-        if (t != null) {
-            view.setProgressInt(transformToProgress(t))
-        }
-    }
+    private val changeAction = Consumer<Int> { t -> view.setProgressInt(transformToProgress(t)) }
 
     override fun onTakeView(view: SeekBarPreferenceView) {
         view.setMaxInt(seekBarMaxValue)
