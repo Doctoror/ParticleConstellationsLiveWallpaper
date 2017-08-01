@@ -16,16 +16,15 @@
 package com.doctoror.particleswallpaper.presentation.base
 
 import android.content.Intent
+import org.junit.Assert.*
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class OnActrivityResultCallbackHostImplTest {
 
     @Test
     fun testCallbacksAreEmptyByDefault() {
         val target = OnActivityResultCallbackHostImpl()
-        assertTrue { target.callbacks.isEmpty() }
+        assertTrue(target.callbacks.isEmpty())
     }
 
     @Test
@@ -78,7 +77,7 @@ class OnActrivityResultCallbackHostImplTest {
             target: OnActivityResultCallbackHostImpl,
             callback: OnActivityResultCallback) {
         target.registerCallback(callback)
-        assertTrue { target.callbacks.contains(callback) }
+        assertTrue(target.callbacks.contains(callback))
     }
 
     @Test
@@ -93,7 +92,7 @@ class OnActrivityResultCallbackHostImplTest {
 
         target.unregsiterCallback(callback)
 
-        assertTrue { target.callbacks.isEmpty() }
+        assertTrue(target.callbacks.isEmpty())
     }
 
     @Test
@@ -107,10 +106,10 @@ class OnActrivityResultCallbackHostImplTest {
         registerCallbackAndAssert(target, callback)
 
         target.unregsiterCallback(callback)
-        assertTrue { target.callbacks.isEmpty() }
+        assertTrue(target.callbacks.isEmpty())
 
         target.unregsiterCallback(callback)
-        assertTrue { target.callbacks.isEmpty() }
+        assertTrue(target.callbacks.isEmpty())
     }
 
     @Test
@@ -137,7 +136,7 @@ class OnActrivityResultCallbackHostImplTest {
 
         target.unregsiterCallback(callback2)
 
-        assertTrue { target.callbacks.isEmpty() }
+        assertTrue(target.callbacks.isEmpty())
     }
 
 }

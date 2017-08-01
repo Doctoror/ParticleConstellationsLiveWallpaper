@@ -21,10 +21,10 @@ import android.content.IntentFilter
 import com.doctoror.particleswallpaper.data.ads.GoogleAdsProvider.AdLoadState
 import com.doctoror.particleswallpaper.data.ads.GoogleAdsProvider.AdLoadState.*
 import com.doctoror.particleswallpaper.domain.ads.AdView
+import org.junit.Assert.*
 import org.junit.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
-import kotlin.test.assertEquals
 
 /**
  * Created by Yaroslav Mytkalyk on 06.06.17.

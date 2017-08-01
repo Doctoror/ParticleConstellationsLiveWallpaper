@@ -19,8 +19,8 @@ import com.doctoror.particleswallpaper.data.execution.ComputationSchedulers
 import com.doctoror.particleswallpaper.data.repository.MockSettingsRepositoryFactory
 import com.doctoror.particleswallpaper.presentation.presenter.*
 import com.doctoror.particleswallpaper.presentation.view.FakeSeekBarPreferenceView
+import org.junit.Assert.*
 import org.junit.Test
-import kotlin.test.assertEquals
 
 /**
  * Created by Yaroslav Mytkalyk on 30.05.17.

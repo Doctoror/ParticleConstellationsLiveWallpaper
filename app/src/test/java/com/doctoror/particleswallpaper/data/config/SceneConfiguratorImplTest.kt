@@ -18,12 +18,9 @@ package com.doctoror.particleswallpaper.data.config
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particleswallpaper.data.execution.ComputationSchedulers
 import com.doctoror.particleswallpaper.data.repository.MockSettingsRepositoryFactory
+import org.junit.Assert.*
 import org.junit.Test
 import org.mockito.Mockito.*
-import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 class SceneConfiguratorImplTest {
 
@@ -36,13 +33,13 @@ class SceneConfiguratorImplTest {
         c.subscribe(mock(ParticlesScene::class.java), MockSettingsRepositoryFactory.create())
 
         assertNotNull(c.disposables)
-        assertFalse { c.disposables!!.isDisposed }
+        assertFalse(c.disposables!!.isDisposed)
 
         val disposables = c.disposables
 
         c.dispose()
 
-        assertTrue { disposables!!.isDisposed }
+        assertTrue(disposables!!.isDisposed)
         assertNull(c.disposables)
     }
 
