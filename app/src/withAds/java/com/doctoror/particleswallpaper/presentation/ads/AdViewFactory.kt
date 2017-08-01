@@ -22,6 +22,6 @@ import com.doctoror.particleswallpaper.domain.ads.AdView
 object AdViewFactory {
 
     fun makeAdView(rootView: View): AdView
-            = GoogleAdView(rootView.findViewById(R.id.adView)!! as com.google.android.gms.ads.AdView)
+            = GoogleAdView(rootView.findViewById<com.google.android.gms.ads.AdView>(R.id.adView)!!)
 
 }

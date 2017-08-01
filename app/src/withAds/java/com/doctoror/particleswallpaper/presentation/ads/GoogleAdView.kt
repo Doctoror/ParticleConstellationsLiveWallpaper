@@ -20,6 +20,7 @@ import android.os.Build
 import android.transition.ChangeBounds
 import android.transition.Transition
 import android.transition.TransitionManager
+import android.view.View
 import android.view.ViewGroup
 import com.doctoror.particleswallpaper.domain.ads.AdViewListener
 import com.google.android.gms.ads.AdListener
@@ -116,7 +117,7 @@ class GoogleAdView internal constructor(private val adView: AdView) : AdViewInte
                 // better idea
                 t.addListener(object : TransitionListenerAdapter() {
                     override fun onTransitionEnd(transition: Transition?) {
-                        adViewParent.findViewById(android.R.id.list).requestLayout()
+                        adViewParent.findViewById<View>(android.R.id.list).requestLayout()
                     }
                 })
                 TransitionManager.beginDelayedTransition(adViewParent, t)
