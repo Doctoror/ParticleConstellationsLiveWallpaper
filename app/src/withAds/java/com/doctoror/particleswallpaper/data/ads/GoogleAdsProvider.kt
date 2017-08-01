@@ -26,7 +26,6 @@ import com.doctoror.particleswallpaper.data.ads.GoogleAdsProvider.AdLoadState.*
 import com.doctoror.particleswallpaper.domain.ads.AdView
 import com.doctoror.particleswallpaper.domain.ads.AdViewListener
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
-import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.MobileAds
 
 /**
