@@ -66,10 +66,10 @@ class SettingsRepositoryDefault @VisibleForTesting(otherwise = VisibleForTesting
     }
 
     override fun getDotScale() = Observable.just(
-            res.getDimension(R.dimen.default_dot_scale))!!
+            Math.max(0.5f, res.getDimension(R.dimen.default_dot_scale)))!!
 
     override fun getLineScale() = Observable.just(
-            res.getDimension(R.dimen.default_line_scale))!!
+            Math.max(1f, res.getDimension(R.dimen.default_line_scale)))!!
 
     override fun getLineDistance() = Observable.just(
             res.getDimension(R.dimen.default_line_distance))!!
