@@ -13,18 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.ads
+package com.doctoror.particleswallpaper.data.ads
 
-/**
- * Created by Yaroslav Mytkalyk on 16.06.17.
- *
- * The Ad View
- */
-interface AdView {
+import android.content.Context
+import com.doctoror.particleswallpaper.domain.ads.AdsProvider
 
-    fun resume()
-    fun pause()
-    fun destroy()
-    fun loadAd()
-    fun setAdListener(l: AdViewListener)
+object AdsProviderFactory {
+
+    fun makeAdsProvider(context: Context): AdsProvider = GoogleAdsProvider(context)
 }

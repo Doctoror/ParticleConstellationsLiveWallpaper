@@ -13,18 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.ads
+package com.doctoror.particleswallpaper.data.ads
+
+import com.doctoror.particleswallpaper.domain.ads.AdsProvider
 
 /**
- * Created by Yaroslav Mytkalyk on 16.06.17.
- *
- * The Ad View
+ * [AdsProvider] that shows no ads
  */
-interface AdView {
+class NoAdsProvider internal constructor(): AdsProvider {
 
-    fun resume()
-    fun pause()
-    fun destroy()
-    fun loadAd()
-    fun setAdListener(l: AdViewListener)
+    override fun initialize(adContext: Any) {
+    }
+
+    override fun onStart() {
+    }
+
+    override fun onStop() {
+    }
+
+    override fun onDestroy() {
+    }
 }

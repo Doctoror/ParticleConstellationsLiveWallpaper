@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.ads
+package com.doctoror.particleswallpaper.presentation.ads
 
-/**
- * Created by Yaroslav Mytkalyk on 16.06.17.
- *
- * The Ad View
- */
-interface AdView {
+import android.view.View
+import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.domain.ads.AdView
 
-    fun resume()
-    fun pause()
-    fun destroy()
-    fun loadAd()
-    fun setAdListener(l: AdViewListener)
+object AdViewFactory {
+
+    fun makeAdView(rootView: View): AdView
+            = GoogleAdView(rootView.findViewById(R.id.adView)!! as com.google.android.gms.ads.AdView)
+
 }

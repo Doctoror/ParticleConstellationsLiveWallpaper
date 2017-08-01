@@ -22,8 +22,9 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.BuildConfig
-import com.doctoror.particleswallpaper.data.ads.GoogldAdsProvider.AdLoadState.*
+import com.doctoror.particleswallpaper.data.ads.GoogleAdsProvider.AdLoadState.*
 import com.doctoror.particleswallpaper.domain.ads.AdView
+import com.doctoror.particleswallpaper.domain.ads.AdViewListener
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.MobileAds
@@ -33,7 +34,7 @@ import com.google.android.gms.ads.MobileAds
  *
  * Google Ads [AdsProvider] implementation
  */
-class GoogldAdsProvider(private val context: Context) : AdsProvider {
+class GoogleAdsProvider(private val context: Context) : AdsProvider {
 
     companion object {
 
@@ -117,23 +118,21 @@ class GoogldAdsProvider(private val context: Context) : AdsProvider {
         }
     }
 
-    private val adListener = object : AdListener() {
+    private val adListener = object : AdViewListener {
 
         override fun onAdLoaded() {
-            super.onAdLoaded()
-            this@GoogldAdsProvider.onAdLoaded()
+            this@GoogleAdsProvider.onAdLoaded()
         }
 
-        override fun onAdFailedToLoad(p0: Int) {
-            super.onAdFailedToLoad(p0)
-            this@GoogldAdsProvider.onAdFailedToLoad()
+        override fun onAdFailedToLoad(errorCode: Int) {
+            this@GoogleAdsProvider.onAdFailedToLoad()
         }
     }
 
     private val connectivityReceiver = object : BroadcastReceiver() {
 
         override fun onReceive(context: Context?, intent: Intent?) {
-            val adView = this@GoogldAdsProvider.adView
+            val adView = this@GoogleAdsProvider.adView
             if (adView != null && hasConnection()) {
                 when (adLoadState) {
                     AdLoadState.WAITING_FOR_CONNECTION,

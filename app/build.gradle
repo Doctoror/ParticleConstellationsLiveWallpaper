@@ -39,17 +39,37 @@ android {
         }
     }
 
+    flavorDimensions "default"
+
+    productFlavors {
+        noAds {
+
+        }
+
+        withAds {
+
+        }
+    }
+
+    applicationVariants.all { variant ->
+        if (variant.getName() == "withAdsRelease") {
+            variant.buildConfigField 'String', 'AD_APP_ID', rootProject.ext.adAppId
+            variant.resValue 'string', 'AD_BANNER_ID', rootProject.ext.adBannerId
+        } else if (variant.getName() == "withAdsDebug") {
+            variant.buildConfigField 'String', 'AD_APP_ID', rootProject.ext.adAppId
+            variant.resValue 'string', 'AD_BANNER_ID', '"ca-app-pub-3940256099942544/6300978111"'
+        } else {
+            variant.buildConfigField 'String', 'AD_APP_ID', '""'
+            variant.resValue 'string', 'AD_BANNER_ID', '""'
+        }
+    }
+
     buildTypes {
 
         debug {
-            buildConfigField 'String', 'AD_APP_ID', rootProject.ext.adAppId
-            resValue 'string', 'AD_BANNER_ID', '"ca-app-pub-3940256099942544/6300978111"'
         }
 
         release {
-            buildConfigField 'String', 'AD_APP_ID', rootProject.ext.adAppId
-            resValue 'string', 'AD_BANNER_ID', rootProject.ext.adBannerId
-
             debuggable false
             signingConfig signingConfigs.release
 
@@ -102,44 +122,44 @@ dependencies {
     def d = rootProject.ext.wallpaperappDependencies
     def td = rootProject.ext.wallpaperappTestDependencies
 
-    androidTestCompile td.testRunner
-    androidTestCompile td.testRules
-    androidTestCompile td.kotlin
-    androidTestCompile td.kotlinTest
-    androidTestCompile td.kotlinReflect
+    androidTestImplementation td.testRunner
+    androidTestImplementation td.testRules
+    androidTestImplementation td.kotlin
+    androidTestImplementation td.kotlinTest
+    androidTestImplementation td.kotlinReflect
 
-    testCompile td.junit
-    testCompile td.kotlin
-    testCompile td.kotlinTest
-    testCompile td.kotlinReflect
-    testCompile td.mockitoCore
+    testImplementation td.junit
+    testImplementation td.kotlin
+    testImplementation td.kotlinTest
+    testImplementation td.kotlinReflect
+    testImplementation td.mockitoCore
 
-    compile d.kotlin
-    compile d.rxJava
-    compile d.rxAndroid
+    implementation d.kotlin
+    implementation d.rxJava
+    implementation d.rxAndroid
 
-    compile d.particlesDrawable
-    compile d.colorPicker
+    implementation d.particlesDrawable
+    implementation d.colorPicker
 
-    compile d.supportV4
-    compile d.supportAnnotations
+    implementation d.supportV4
+    implementation d.supportAnnotations
 
-    compile d.ads
+    withAdsImplementation d.ads
 
-    compile(d.licencesDialog) {
+    implementation(d.licencesDialog) {
         exclude(group: 'com.android.support', module: 'appcompat-v7')
     }
 
-    compile d.glide
+    implementation d.glide
     kapt d.glideCompiler
 
-    compile d.gendalf
+    implementation d.gendalf
     kapt d.gendalfCompiler
 
-    compile d.dagger
+    implementation d.dagger
     kapt d.daggerCompiler
 
-    compile d.lifecycle
+    implementation d.lifecycle
     kapt d.lifecycleCompiler
 }
 

@@ -21,6 +21,7 @@ import android.transition.ChangeBounds
 import android.transition.Transition
 import android.transition.TransitionManager
 import android.view.ViewGroup
+import com.doctoror.particleswallpaper.domain.ads.AdViewListener
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -31,7 +32,7 @@ import com.doctoror.particleswallpaper.domain.ads.AdView as AdViewInterface
  *
  * Google [com.doctoror.particleswallpaper.domain.ads.AdView] implementation.
  */
-class GoogleAdView(private val adView: AdView) : AdViewInterface {
+class GoogleAdView internal constructor(private val adView: AdView) : AdViewInterface {
 
     private val viewExpander = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
         ViewExpanderKitKat()
@@ -43,7 +44,7 @@ class GoogleAdView(private val adView: AdView) : AdViewInterface {
         adView.adListener = AdListenerInternal()
     }
 
-    private var adListenerExternal: AdListener? = null
+    private var adListenerExternal: AdViewListener? = null
 
     override fun pause() = adView.pause()
     override fun resume() = adView.resume()
@@ -58,7 +59,7 @@ class GoogleAdView(private val adView: AdView) : AdViewInterface {
                 .build())
     }
 
-    override fun setAdListener(l: AdListener) {
+    override fun setAdListener(l: AdViewListener) {
         adListenerExternal = l
     }
 
@@ -74,34 +75,9 @@ class GoogleAdView(private val adView: AdView) : AdViewInterface {
             this@GoogleAdView.onAdLoaded()
         }
 
-        override fun onAdClicked() {
-            super.onAdClicked()
-            adListenerExternal?.onAdClicked()
-        }
-
-        override fun onAdClosed() {
-            super.onAdClosed()
-            adListenerExternal?.onAdClosed()
-        }
-
         override fun onAdFailedToLoad(p0: Int) {
             super.onAdFailedToLoad(p0)
             adListenerExternal?.onAdFailedToLoad(p0)
-        }
-
-        override fun onAdImpression() {
-            super.onAdImpression()
-            adListenerExternal?.onAdImpression()
-        }
-
-        override fun onAdLeftApplication() {
-            super.onAdLeftApplication()
-            adListenerExternal?.onAdLeftApplication()
-        }
-
-        override fun onAdOpened() {
-            super.onAdOpened()
-            adListenerExternal?.onAdOpened()
         }
     }
 

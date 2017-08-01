@@ -39,10 +39,9 @@ import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.ads.GoogleAdView
+import com.doctoror.particleswallpaper.presentation.ads.AdViewFactory
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
 import com.doctoror.particleswallpaper.presentation.presenter.Presenter
-import com.google.android.gms.ads.AdView
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
@@ -80,7 +79,8 @@ open class ConfigActivityPresenter(
     }
 
     private fun initAdView(view: ConfigActivityView) {
-        adProvider.initialize(GoogleAdView(view.getActivity().findViewById(R.id.adView)!! as AdView))
+        adProvider.initialize(AdViewFactory.makeAdView(
+                view.getActivity().findViewById(android.R.id.content)))
     }
 
     open fun onCreateOptionsMenu(menu: Menu?): Boolean {

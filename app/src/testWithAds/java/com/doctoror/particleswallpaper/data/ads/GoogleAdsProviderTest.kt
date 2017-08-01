@@ -18,8 +18,8 @@ package com.doctoror.particleswallpaper.data.ads
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
-import com.doctoror.particleswallpaper.data.ads.GoogldAdsProvider.AdLoadState
-import com.doctoror.particleswallpaper.data.ads.GoogldAdsProvider.AdLoadState.*
+import com.doctoror.particleswallpaper.data.ads.GoogleAdsProvider.AdLoadState
+import com.doctoror.particleswallpaper.data.ads.GoogleAdsProvider.AdLoadState.*
 import com.doctoror.particleswallpaper.domain.ads.AdView
 import org.junit.Test
 import org.mockito.ArgumentMatchers
@@ -29,15 +29,15 @@ import kotlin.test.assertEquals
 /**
  * Created by Yaroslav Mytkalyk on 06.06.17.
  *
- * [GoogldAdsProvider] test
+ * [GoogleAdsProvider] test
  */
 class GoogleAdsProviderTest {
 
     private fun newAdsProvider(context: Context = mock(Context::class.java))
-            = GoogldAdsProvider(context)
+            = GoogleAdsProvider(context)
 
     private fun newAdsProviderWithMockAdView(context: Context = mock(Context::class.java)):
-            Pair<GoogldAdsProvider, AdView> {
+            Pair<GoogleAdsProvider, AdView> {
         val adsProvider = newAdsProvider(context)
         val adView = mock(AdView::class.java)
         adsProvider.initializeAdView(adView)

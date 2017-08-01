@@ -13,18 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.ads
+package com.doctoror.particleswallpaper.presentation.ads
+
+import com.doctoror.particleswallpaper.domain.ads.AdView
+import com.doctoror.particleswallpaper.domain.ads.AdViewListener
 
 /**
- * Created by Yaroslav Mytkalyk on 16.06.17.
- *
- * The Ad View
+ * [AdView] that does nothing
  */
-interface AdView {
+class NoAdView internal constructor(): AdView {
 
-    fun resume()
-    fun pause()
-    fun destroy()
-    fun loadAd()
-    fun setAdListener(l: AdViewListener)
+    override fun resume() {
+    }
+
+    override fun pause() {
+    }
+
+    override fun destroy() {
+    }
+
+    override fun loadAd() {
+    }
+
+    override fun setAdListener(l: AdViewListener) {
+    }
 }

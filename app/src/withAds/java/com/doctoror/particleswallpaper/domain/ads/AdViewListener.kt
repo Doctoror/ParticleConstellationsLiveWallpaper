@@ -16,15 +16,10 @@
 package com.doctoror.particleswallpaper.domain.ads
 
 /**
- * Created by Yaroslav Mytkalyk on 16.06.17.
- *
- * The Ad View
+ * [AdView] listener
  */
-interface AdView {
+interface AdViewListener {
 
-    fun resume()
-    fun pause()
-    fun destroy()
-    fun loadAd()
-    fun setAdListener(l: AdViewListener)
+    fun onAdLoaded()
+    fun onAdFailedToLoad(errorCode: Int)
 }

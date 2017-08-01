@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.presentation.di.modules
 
 import android.content.Context
 import android.os.Build
-import com.doctoror.particleswallpaper.data.ads.GoogldAdsProvider
+import com.doctoror.particleswallpaper.data.ads.AdsProviderFactory
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDefault
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
@@ -42,7 +42,7 @@ class ActivityModule {
             SettingsRepository = SettingsRepositoryDefault.getInstance(context.resources!!, context.theme!!)
 
     @PerActivity @Provides fun provideAdsProvider(context: Context):
-            AdsProvider = GoogldAdsProvider(context)
+            AdsProvider = AdsProviderFactory.makeAdsProvider(context)
 
     @PerActivity @Provides fun provideConfigActivityPresenter(
             schedulers: SchedulersProvider,
