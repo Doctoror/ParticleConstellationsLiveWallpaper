@@ -65,10 +65,10 @@ class BackgroundImagePreferencePresenter @Inject constructor(
     private val requestCodeGetContent = 2
 
     init {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            imageHandler = BackgroundImageHandlerKitKat()
+        imageHandler = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            BackgroundImageHandlerKitKat()
         } else {
-            imageHandler = BackgroundImageHandlerLegacy()
+            BackgroundImageHandlerLegacy()
         }
     }
 

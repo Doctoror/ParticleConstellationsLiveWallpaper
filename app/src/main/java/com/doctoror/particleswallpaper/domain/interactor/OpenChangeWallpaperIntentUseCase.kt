@@ -32,12 +32,12 @@ class OpenChangeWallpaperIntentUseCase(
         } else {
             intent.action = WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER
         }
-        try {
+        return try {
             a.startActivityForResult(intent, requestCode)
-            return true
+            true
         } catch (e: ActivityNotFoundException) {
             Log.w(tag, e)
-            return false
+            false
         }
     }
 }
