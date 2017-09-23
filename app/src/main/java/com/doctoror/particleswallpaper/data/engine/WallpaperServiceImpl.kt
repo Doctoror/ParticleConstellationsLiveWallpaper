@@ -47,13 +47,17 @@ import javax.inject.Inject
  */
 class WallpaperServiceImpl : WallpaperService() {
 
-    override fun onCreateEngine(): Engine {
-        return EngineImpl()
+    override fun onCreateEngine(): Engine = EngineImpl()
+
+    internal companion object EngineConfig {
+
+        private const val TAG = "WallpaperService:Engine"
+
+        private const val DEFAULT_DELAY = 10L
+        private const val MIN_DELAY = 5L
     }
 
     inner class EngineImpl : Engine() {
-
-        private val TAG = "WallpaperService:Engine"
 
         @Inject lateinit var schedulers: SchedulersProvider
         @Inject lateinit var configurator: SceneConfigurator
@@ -64,9 +68,6 @@ class WallpaperServiceImpl : WallpaperService() {
         private var frameDelayDisposable: Disposable? = null
         private var backgroundDisposable: Disposable? = null
         private var backgroundColorDisposable: Disposable? = null
-
-        private val DEFAULT_DELAY = 10L
-        private val MIN_DELAY = 5L
 
         private val backgroundPaint = Paint()
 
@@ -97,15 +98,15 @@ class WallpaperServiceImpl : WallpaperService() {
 
             frameDelayDisposable = settings.getFrameDelay()
                     .observeOn(schedulers.mainThread())
-                    .subscribe({ d -> delay = d.toLong() })
+                    .subscribe { delay = it.toLong() }
 
             backgroundDisposable = settings.getBackgroundUri()
                     .observeOn(schedulers.mainThread())
-                    .subscribe({ u -> handleBackground(u) })
+                    .subscribe { handleBackground(it) }
 
             backgroundColorDisposable = settings.getBackgroundColor()
                     .observeOn(schedulers.mainThread())
-                    .subscribe({ c -> backgroundPaint.color = c })
+                    .subscribe { backgroundPaint.color = it }
         }
 
         override fun onDestroy() {
@@ -136,8 +137,7 @@ class WallpaperServiceImpl : WallpaperService() {
             }
         }
 
-        override fun onSurfaceChanged(holder: SurfaceHolder, format: Int, width: Int,
-                                      height: Int) {
+        override fun onSurfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
             super.onSurfaceChanged(holder, format, width, height)
             drawable.setBounds(0, 0, width, height)
             background?.setBounds(0, 0, width, height)
@@ -149,7 +149,7 @@ class WallpaperServiceImpl : WallpaperService() {
         override fun onSurfaceDestroyed(holder: SurfaceHolder) {
             super.onSurfaceDestroyed(holder)
             visible = false
-            handler.removeCallbacks(mDrawRunnable)
+            handler.removeCallbacks(drawRunnable)
             drawable.stop()
         }
 
@@ -158,15 +158,15 @@ class WallpaperServiceImpl : WallpaperService() {
             this.visible = visible
             if (visible) {
                 drawable.start()
-                handler.post(mDrawRunnable)
+                handler.post(drawRunnable)
             } else {
-                handler.removeCallbacks(mDrawRunnable)
+                handler.removeCallbacks(drawRunnable)
                 drawable.stop()
             }
         }
 
         private fun draw() {
-            handler.removeCallbacks(mDrawRunnable)
+            handler.removeCallbacks(drawRunnable)
             if (visible) {
                 val startTime = SystemClock.uptimeMillis()
                 val holder = surfaceHolder
@@ -179,15 +179,15 @@ class WallpaperServiceImpl : WallpaperService() {
                         drawable.nextFrame()
                     }
                 } finally {
-                    if (canvas != null) {
+                    canvas?.let{
                         try {
-                            holder.unlockCanvasAndPost(canvas)
+                            holder.unlockCanvasAndPost(it)
                         } catch (e: IllegalArgumentException) {
                             Log.wtf(TAG, e)
                         }
                     }
                 }
-                handler.postDelayed(mDrawRunnable,
+                handler.postDelayed(drawRunnable,
                         Math.max(delay - (SystemClock.uptimeMillis() - startTime), MIN_DELAY))
             }
         }
@@ -201,7 +201,7 @@ class WallpaperServiceImpl : WallpaperService() {
             }
         }
 
-        private val mDrawRunnable = Runnable { this.draw() }
+        private val drawRunnable = Runnable { this.draw() }
 
         private inner class ImageLoadTarget(width: Int, height: Int)
             : SimpleTarget<Drawable>(width, height) {
