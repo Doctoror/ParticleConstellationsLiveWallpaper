@@ -15,10 +15,13 @@
  */
 package com.doctoror.particleswallpaper.data.engine
 
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
@@ -116,12 +119,14 @@ class WallpaperServiceImpl : WallpaperService() {
             frameDelayDisposable?.dispose()
             backgroundDisposable?.dispose()
             backgroundColorDisposable?.dispose()
+            background = null
+            glide.clear(lastUsedImageLoadTarget)
         }
 
         private fun handleBackground(uri: String) {
+            background = null
             glide.clear(lastUsedImageLoadTarget)
             if (uri == NO_URI) {
-                background = null
                 lastUsedImageLoadTarget = null
             } else if (width != 0 && height != 0) {
                 val target = ImageLoadTarget(width, height)
@@ -179,7 +184,7 @@ class WallpaperServiceImpl : WallpaperService() {
                         drawable.nextFrame()
                     }
                 } finally {
-                    canvas?.let{
+                    canvas?.let {
                         try {
                             holder.unlockCanvasAndPost(it)
                         } catch (e: IllegalArgumentException) {
@@ -195,10 +200,21 @@ class WallpaperServiceImpl : WallpaperService() {
         private fun drawBackground(c: Canvas) {
             val background = background
             if (background == null) {
-                c.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
+                drawBackgroundColor(c)
             } else {
+                if (background is BitmapDrawable) {
+                    background.bitmap?.let {
+                        if (it.config == Bitmap.Config.ARGB_8888 && it.hasAlpha()) {
+                            drawBackgroundColor(c)
+                        }
+                    }
+                }
                 background.draw(c)
             }
+        }
+
+        private fun drawBackgroundColor(c: Canvas) {
+            c.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
         }
 
         private val drawRunnable = Runnable { this.draw() }
@@ -208,6 +224,15 @@ class WallpaperServiceImpl : WallpaperService() {
 
             override fun onResourceReady(resource: Drawable?, transition: Transition<in Drawable>?) {
                 resource?.setBounds(0, 0, width, height)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    if (resource is BitmapDrawable) {
+                        resource.bitmap?.let {
+                            if (it.config == Bitmap.Config.ARGB_8888 && !it.isPremultiplied) {
+                                it.isPremultiplied = true
+                            }
+                        }
+                    }
+                }
                 background = resource
             }
         }
