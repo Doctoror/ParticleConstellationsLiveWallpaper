@@ -204,7 +204,7 @@ class WallpaperServiceImpl : WallpaperService() {
             } else {
                 if (background is BitmapDrawable) {
                     background.bitmap?.let {
-                        if (it.config == Bitmap.Config.ARGB_8888 && it.hasAlpha()) {
+                        if (it.hasAlpha()) {
                             drawBackgroundColor(c)
                         }
                     }
@@ -227,7 +227,8 @@ class WallpaperServiceImpl : WallpaperService() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     if (resource is BitmapDrawable) {
                         resource.bitmap?.let {
-                            if (it.config == Bitmap.Config.ARGB_8888 && !it.isPremultiplied) {
+                            if (it.config == Bitmap.Config.ARGB_8888
+                                    && it.hasAlpha() && !it.isPremultiplied) {
                                 it.isPremultiplied = true
                             }
                         }
