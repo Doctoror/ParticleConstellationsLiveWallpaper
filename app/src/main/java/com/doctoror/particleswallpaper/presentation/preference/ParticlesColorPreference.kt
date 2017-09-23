@@ -73,9 +73,8 @@ class ParticlesColorPreference @JvmOverloads constructor
         presenter.onStop()
     }
 
-    override fun getPersistedInt(defaultReturnValue: Int): Int {
-        return this.value ?: defaultReturnValue
-    }
+    override fun getPersistedInt(defaultReturnValue: Int)
+            = this.value ?: defaultReturnValue
 
     override fun setColor(color: Int) {
         super.setColor(color)

@@ -62,9 +62,7 @@ open class SeekBarPreference @JvmOverloads constructor
         seekBar.isEnabled = isEnabled
     }
 
-    override fun getSummary(): CharSequence? {
-        return null
-    }
+    override fun getSummary(): CharSequence? = null
 
     override fun onSetInitialValue(restoreValue: Boolean, defaultValue: Any?) {
         progress = when {
@@ -74,9 +72,7 @@ open class SeekBarPreference @JvmOverloads constructor
         }
     }
 
-    override fun onGetDefaultValue(a: TypedArray, index: Int): Any {
-        return a.getInt(index, 0)
-    }
+    override fun onGetDefaultValue(a: TypedArray, index: Int): Any = a.getInt(index, 0)
 
     private fun setProgress(progress: Int, notifyChanged: Boolean) {
         var progressMutable = progress
@@ -188,13 +184,12 @@ open class SeekBarPreference @JvmOverloads constructor
             @Suppress("unused")
             @JvmField
             val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
-                override fun createFromParcel(p: Parcel): SavedState {
-                    return SavedState(p)
-                }
 
-                override fun newArray(size: Int): Array<SavedState?> {
-                    return arrayOfNulls(size)
-                }
+                override fun createFromParcel(p: Parcel)
+                        = SavedState(p)
+
+                override fun newArray(size: Int): Array<SavedState?>
+                        = arrayOfNulls(size)
             }
         }
     }

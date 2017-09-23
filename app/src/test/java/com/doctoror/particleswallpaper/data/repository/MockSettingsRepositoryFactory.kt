@@ -29,13 +29,11 @@ import org.mockito.Mockito.*
  */
 object MockSettingsRepositoryFactory {
 
-    fun create(): SettingsRepository {
-        return create(SettingsRepository::class.java)
-    }
+    fun create(): SettingsRepository
+            = create(SettingsRepository::class.java)
 
-    fun createMutable(): MutableSettingsRepository {
-        return create(MutableSettingsRepository::class.java)
-    }
+    fun createMutable(): MutableSettingsRepository
+            = create(MutableSettingsRepository::class.java)
 
     private fun <T : SettingsRepository> create(c: Class<T>): T {
         val result = mock(c)

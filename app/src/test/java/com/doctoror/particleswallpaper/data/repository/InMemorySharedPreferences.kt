@@ -61,9 +61,8 @@ open class InMemorySharedPreferences : SharedPreferences {
 
     override fun getString(key: String?, defValue: String?) = map[key] as String? ?: defValue
 
-    private fun containsListener(listener: SharedPreferences.OnSharedPreferenceChangeListener): Boolean {
-        return listeners.any { it === listener }
-    }
+    private fun containsListener(listener: SharedPreferences.OnSharedPreferenceChangeListener)
+            = listeners.any { it === listener }
 
     private fun putValueAndNotify(key: String?, value: Any?) {
         map.put(key, value)
@@ -96,9 +95,8 @@ open class InMemorySharedPreferences : SharedPreferences {
             return this
         }
 
-        override fun remove(key: String?): SharedPreferences.Editor {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+        override fun remove(key: String?): SharedPreferences.Editor =
+                TODO("not implemented")
 
         override fun putBoolean(key: String?, value: Boolean): SharedPreferences.Editor {
             map[key] = value
@@ -120,9 +118,8 @@ open class InMemorySharedPreferences : SharedPreferences {
             return this
         }
 
-        override fun apply() {
-            doCommit()
-        }
+        override fun apply()
+                = doCommit()
 
         override fun putString(key: String?, value: String?): SharedPreferences.Editor {
             map[key] = value as Any

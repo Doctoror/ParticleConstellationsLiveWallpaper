@@ -38,20 +38,25 @@ import javax.inject.Named
 @Module
 class ActivityModule {
 
-    @PerActivity @Provides @Named(DEFAULT) fun provideDefaultSettings(context: Context):
+    @PerActivity
+    @Provides
+    @Named(DEFAULT)
+    fun provideDefaultSettings(context: Context):
             SettingsRepository = SettingsRepositoryDefault.getInstance(context.resources!!, context.theme!!)
 
-    @PerActivity @Provides fun provideAdsProvider(context: Context):
+    @PerActivity
+    @Provides
+    fun provideAdsProvider(context: Context):
             AdsProvider = AdsProviderFactory.makeAdsProvider(context)
 
-    @PerActivity @Provides fun provideConfigActivityPresenter(
+    @PerActivity
+    @Provides
+    fun provideConfigActivityPresenter(
             schedulers: SchedulersProvider,
             configurator: SceneConfigurator,
             adProvider: AdsProvider,
-            settings: SettingsRepository): ConfigActivityPresenter {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            ConfigActivityPresenterLollipop(schedulers, configurator, adProvider, settings)
-        else ConfigActivityPresenter(schedulers, configurator, adProvider, settings)
-    }
-
+            settings: SettingsRepository): ConfigActivityPresenter =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                ConfigActivityPresenterLollipop(schedulers, configurator, adProvider, settings)
+            else ConfigActivityPresenter(schedulers, configurator, adProvider, settings)
 }
