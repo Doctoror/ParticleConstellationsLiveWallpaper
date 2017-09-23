@@ -126,7 +126,8 @@ open class ConfigActivityPresenter(
     private fun applyBackground(uri: String, @ColorInt color: Int) {
         val bg = view.getActivity().findViewById<ImageView>(R.id.bg)
         if (uri == NO_URI) {
-            onNoBackgroundImage(bg, color)
+            glide.clear(bg)
+            applyNoImageBackground(bg, color)
         } else if (bg.width != 0 && bg.height != 0) {
             val target = ImageLoadTarget(bg, color)
             glide.load(uri)
@@ -139,7 +140,8 @@ open class ConfigActivityPresenter(
                                                   model: Any?,
                                                   target: Target<Drawable>?,
                                                   isFirstResource: Boolean): Boolean {
-                            onNoBackgroundImage(bg, color)
+                            glide.clear(bg)
+                            applyNoImageBackground(bg, color)
                             return true
                         }
 
@@ -161,30 +163,39 @@ open class ConfigActivityPresenter(
         }
     }
 
-    private fun onNoBackgroundImage(bg: ImageView, @ColorInt color: Int) {
-        glide.clear(bg)
-        bg.setImageDrawable(null)
-        applyBackgroundColor(bg, color)
-    }
-
     private fun applyBackgroundColor(bg: ImageView, @ColorInt color: Int) =
             bg.setBackgroundCompat(
                     if (color == view.getWindowBackground()) null
                     else ColorDrawable(color))
+
+    private fun applyBackground(target: ImageView, drawable: Drawable?, @ColorInt color: Int) {
+        if (drawable == null) {
+            applyNoImageBackground(target, color)
+        } else {
+            applyImageBackground(target, drawable, color)
+        }
+    }
+
+    private fun applyNoImageBackground(target: ImageView, @ColorInt color: Int) {
+        target.setImageDrawable(null)
+        applyBackgroundColor(target, color)
+    }
+
+    private fun applyImageBackground(target: ImageView, drawable: Drawable, @ColorInt color: Int) {
+        if (drawable is BitmapDrawable && drawable.bitmap?.hasAlpha() == true) {
+            applyBackgroundColor(target, color)
+        } else {
+            target.setBackgroundCompat(null)
+        }
+        target.setImageDrawable(drawable)
+    }
 
     private inner class ImageLoadTarget(private val target: ImageView,
                                         @ColorInt private val bgColor: Int)
         : SimpleTarget<Drawable>(target.width, target.height) {
 
         override fun onResourceReady(resource: Drawable?, transition: Transition<in Drawable>?) {
-            if (resource != null) {
-                if (resource is BitmapDrawable && resource.bitmap?.hasAlpha() == true) {
-                    applyBackgroundColor(target, bgColor)
-                }
-                target.setImageDrawable(resource)
-            } else {
-                applyBackgroundColor(target, bgColor)
-            }
+            applyBackground(target, resource, bgColor)
         }
     }
 }
