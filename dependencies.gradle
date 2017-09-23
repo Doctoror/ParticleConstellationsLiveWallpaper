@@ -24,8 +24,7 @@ ext {
     colorPickerVersion = '2.2.0'
     glideVersion = '4.1.1'
 
-    supportVersion = '26.0.0'
-    lifecycleVersion = '1.0.0-alpha5'
+    supportVersion = '26.1.0'
 
     licencesDialogVersion = '1.8.3'
     gmsVersion = '11.0.4'
@@ -52,9 +51,6 @@ ext {
             colorPicker       : "com.rarepebble:colorpicker:$colorPickerVersion",
             glide             : "com.github.bumptech.glide:glide:$glideVersion",
             glideCompiler     : "com.github.bumptech.glide:compiler:$glideVersion",
-
-            lifecycleCompiler : "android.arch.lifecycle:compiler:$lifecycleVersion",
-            lifecycle         : "android.arch.lifecycle:runtime:$lifecycleVersion",
 
             licencesDialog    : "de.psdev.licensesdialog:licensesdialog:$licencesDialogVersion",
             ads               : "com.google.android.gms:play-services-ads:$gmsVersion",
