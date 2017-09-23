@@ -21,7 +21,7 @@ class OpenChangeWallpaperIntentUseCase(
 
     private val tag = "OpenChangeWpUseCase"
 
-    override fun useCase(): Observable<Boolean> = Observable.fromCallable({ -> action()})
+    override fun useCase(): Observable<Boolean> = Observable.fromCallable { action() }
 
     private fun action(): Boolean {
         val intent = Intent()

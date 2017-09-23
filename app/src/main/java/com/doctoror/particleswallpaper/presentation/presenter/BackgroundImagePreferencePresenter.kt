@@ -142,15 +142,14 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         }
 
         override fun clearBackground() {
-            defaults.getBackgroundUri().take(1).subscribe({
-                u ->
+            defaults.getBackgroundUri().take(1).subscribe({ u ->
                 settings.setBackgroundUri(u)
                 clearBackgroundFile()
             })
         }
 
         private fun clearBackgroundFile() {
-            Observable.fromCallable({ -> backgroundImageManager.clearBackgroundImage() })
+            Observable.fromCallable { backgroundImageManager.clearBackgroundImage() }
                     .subscribeOn(schedulers.io())
                     .subscribe()
         }
@@ -164,12 +163,12 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         }
 
         private fun handleGetContentUriResult(uri: Uri) {
-            Observable.fromCallable({ -> backgroundImageManager.copyBackgroundToFile(uri) })
+            Observable.fromCallable { backgroundImageManager.copyBackgroundToFile(uri) }
                     .subscribeOn(schedulers.io())
                     .subscribe(
-                            { privateFileUri -> settings.setBackgroundUri(privateFileUri.toString()) },
-                            { t ->
-                                Log.w(tag, "Failed copying to private file", t)
+                            { settings.setBackgroundUri(it.toString()) },
+                            {
+                                Log.w(tag, "Failed copying to private file", it)
                                 handleDefaultUriResult(uri)
                             })
         }
@@ -217,7 +216,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
                             ?.forEach {
                                 contentResolver.releasePersistableUriPermission(uri,
                                         Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    }
+                            }
                 }
             }
             super.clearBackground()
