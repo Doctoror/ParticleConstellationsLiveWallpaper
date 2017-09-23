@@ -15,8 +15,10 @@
  */
 package com.doctoror.particleswallpaper.data.repository
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.Resources
+import android.os.Build
 import android.util.TypedValue
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
@@ -29,9 +31,10 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import kotlin.reflect.KFunction
 
+@TargetApi(Build.VERSION_CODES.M)
 class SettingsRepositoryImplTest {
 
-    lateinit var settings: SettingsRepositoryImpl
+    private lateinit var settings: SettingsRepositoryImpl
 
     @Before
     fun setUp() {

@@ -22,9 +22,9 @@ package com.doctoror.particleswallpaper.data.mapper
  */
 object DotRadiusMapper {
 
-    const val minDotRadius = 1f
-    const val maxDotRadius = 3f
+    private const val minDotRadius = 1f
+    private const val maxDotRadius = 3f
 
     fun transform(dotScale: Float): Pair<Float, Float>
-            = Pair(minDotRadius * dotScale, maxDotRadius * dotScale)
+            =  minDotRadius * dotScale to maxDotRadius * dotScale
 }
