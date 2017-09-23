@@ -29,9 +29,9 @@ import android.preference.PreferenceFragment
  */
 abstract class LifecyclePreferenceFragment : PreferenceFragment(), LifecycleRegistryOwner {
 
-    private val mLifecycleRegistry = LifecycleRegistry(this)
+    private val lifecycleRegistry = LifecycleRegistry(this)
 
-    override fun getLifecycle() = mLifecycleRegistry
+    override fun getLifecycle() = lifecycleRegistry
 
     override fun onStart() {
         super.onStart()
