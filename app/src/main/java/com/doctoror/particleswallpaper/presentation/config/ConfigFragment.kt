@@ -22,14 +22,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceGroup
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.base.LifecyclePreferenceFragment
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHostImpl
 import com.doctoror.particleswallpaper.presentation.preference.BackgroundImagePreference
-import io.reactivex.functions.Consumer
 
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
@@ -45,19 +43,16 @@ constructor(private val ch: OnActivityResultCallbackHostImpl = OnActivityResultC
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.prefs)
         setBackgroundImagePreferenceHost(this)
-        forEachLifecycleObserver(preferenceScreen,
-                Consumer<LifecycleObserver> { o -> lifecycle.addObserver(o) })
+        forEachLifecycleObserver(preferenceScreen) { lifecycle.addObserver(it) }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater!!.inflate(R.layout.fragment_preference, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
+            = inflater.inflate(R.layout.fragment_preference, container, false)!!
 
     override fun onDestroy() {
         super.onDestroy()
         setBackgroundImagePreferenceHost(null)
-        forEachLifecycleObserver(preferenceScreen,
-                Consumer<LifecycleObserver> { o -> lifecycle.removeObserver(o) })
+        forEachLifecycleObserver(preferenceScreen) { lifecycle.removeObserver(it) }
     }
 
     private fun setBackgroundImagePreferenceHost(host: Fragment?) {
@@ -72,11 +67,11 @@ constructor(private val ch: OnActivityResultCallbackHostImpl = OnActivityResultC
         ch.callbacks.forEach { it.onActivityResult(requestCode, resultCode, data) }
     }
 
-    private fun forEachLifecycleObserver(g: PreferenceGroup, c: Consumer<LifecycleObserver>) {
-        for (i in 0..g.preferenceCount - 1) {
+    private fun forEachLifecycleObserver(g: PreferenceGroup, c: (LifecycleObserver) -> Unit) {
+        for (i in 0 until g.preferenceCount) {
             val p = g.getPreference(i)
             if (p is LifecycleObserver) {
-                c.accept(p)
+                c(p)
             }
             if (p is PreferenceGroup) {
                 forEachLifecycleObserver(p, c)
