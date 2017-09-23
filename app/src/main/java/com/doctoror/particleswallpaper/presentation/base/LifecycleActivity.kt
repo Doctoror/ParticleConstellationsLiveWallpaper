@@ -45,5 +45,4 @@ abstract class LifecycleActivity: Activity(), LifecycleRegistryOwner {
         super.onDestroy()
         lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     }
-
 }

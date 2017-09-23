@@ -23,7 +23,4 @@ package com.doctoror.particleswallpaper.presentation.view
 interface BackgroundColorPreferenceView : MvpView {
 
     fun setColor(color: Int)
-    fun showPreferenceDialog()
-    fun showWarningDialog()
-
 }

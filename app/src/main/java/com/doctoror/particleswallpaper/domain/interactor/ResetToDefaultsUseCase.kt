@@ -14,12 +14,12 @@ class ResetToDefaultsUseCase(private val settings: MutableSettingsRepository,
                              private val defaults: SettingsRepository,
                              private val backgroundImageManager: BackgroundImageManager) : UseCase<Unit> {
 
-    override fun useCase() = Observable.fromCallable({ -> reset()})!!
+    override fun useCase() = Observable.fromCallable { reset() }!!
 
     private fun reset() {
         settings.setParticlesColor(defaults.getParticlesColor().blockingFirst())
-        settings.setBackgroundColor(defaults.getBackgroundColor().blockingFirst())
         settings.setBackgroundUri(defaults.getBackgroundUri().blockingFirst())
+        settings.setBackgroundColor(defaults.getBackgroundColor().blockingFirst())
         settings.setNumDots(defaults.getNumDots().blockingFirst())
 
         settings.setDotScale(defaults.getDotScale().blockingFirst())

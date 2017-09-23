@@ -49,9 +49,6 @@
     <string name="Preview">Попередній перегляд</string>
     <string name="Failed_to_start_preview">Не вдалось запустити попередній перегляд</string>
 
-    <string name="This_will_replace_background_image">Ця дія замінить фонове зображення</string>
-    <string name="Continue">Продовжити</string>
-
     <string name="Open_source_licenses">Ліцензії вільного ПЗ</string>
     <string name="Close">Закрити</string>
 

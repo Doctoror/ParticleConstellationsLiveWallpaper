@@ -18,12 +18,14 @@ package com.doctoror.particleswallpaper.presentation.config
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -32,7 +34,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.ads.AdsProvider
@@ -41,6 +45,7 @@ import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.ads.AdViewFactory
+import com.doctoror.particleswallpaper.presentation.extensions.removeOnGlobalLayoutListenerCompat
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
 import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import io.reactivex.Observable
@@ -56,8 +61,7 @@ open class ConfigActivityPresenter(
         private val schedulers: SchedulersProvider,
         private val configurator: SceneConfigurator,
         private val adProvider: AdsProvider,
-        private val settings: SettingsRepository,
-        private val defaults: SettingsRepository)
+        private val settings: SettingsRepository)
     : Presenter<ConfigActivityView>, LifecycleObserver {
 
     private val particlesDrawable = ParticlesDrawable()
@@ -85,13 +89,9 @@ open class ConfigActivityPresenter(
                 view.getActivity().findViewById(android.R.id.content)))
     }
 
-    open fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return false
-    }
+    open fun onCreateOptionsMenu(menu: Menu) = false
 
-    open fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return false
-    }
+    open fun onOptionsItemSelected(item: MenuItem) = false
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     override fun onStart() {
@@ -101,7 +101,7 @@ open class ConfigActivityPresenter(
                 settings.getBackgroundColor(),
                 BiFunction<String, Int, Pair<String, Int>> { t1, t2 -> Pair(t1, t2) })
                 .observeOn(schedulers.mainThread())
-                .subscribe({ result: Pair<String, Int> -> applyBackground(result) })
+                .subscribe { applyBackground(it) }
         configurator.subscribe(particlesDrawable, settings)
         particlesDrawable.start()
     }
@@ -127,7 +127,8 @@ open class ConfigActivityPresenter(
         val bg = view.getActivity().findViewById<ImageView>(R.id.bg)
         if (uri == NO_URI) {
             onNoBackgroundImage(bg, color)
-        } else {
+        } else if (bg.width != 0 && bg.height != 0) {
+            val target = ImageLoadTarget(bg, color)
             glide.load(uri)
                     .apply(RequestOptions.noAnimation())
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
@@ -146,22 +147,44 @@ open class ConfigActivityPresenter(
                                                      model: Any?,
                                                      target: Target<Drawable>?,
                                                      dataSource: DataSource?,
-                                                     isFirstResource: Boolean): Boolean {
-                            return false
-                        }
+                                                     isFirstResource: Boolean) = false
                     })
-                    .into(bg)
+                    .into(target)
+        } else {
+            bg.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+
+                override fun onGlobalLayout() {
+                    bg.viewTreeObserver.removeOnGlobalLayoutListenerCompat(this)
+                    applyBackground(uri, color)
+                }
+            })
         }
     }
 
     private fun onNoBackgroundImage(bg: ImageView, @ColorInt color: Int) {
         glide.clear(bg)
         bg.setImageDrawable(null)
+        applyBackgroundColor(bg, color)
+    }
 
-        defaults.getBackgroundColor()
-                .observeOn(schedulers.mainThread())
-                .subscribe({ default ->
-                    bg.setBackgroundCompat((if (color == default) null else ColorDrawable(color)))
-                })
+    private fun applyBackgroundColor(bg: ImageView, @ColorInt color: Int) =
+            bg.setBackgroundCompat(
+                    if (color == view.getWindowBackground()) null
+                    else ColorDrawable(color))
+
+    private inner class ImageLoadTarget(private val target: ImageView,
+                                        @ColorInt private val bgColor: Int)
+        : SimpleTarget<Drawable>(target.width, target.height) {
+
+        override fun onResourceReady(resource: Drawable?, transition: Transition<in Drawable>?) {
+            if (resource != null) {
+                if (resource is BitmapDrawable && resource.bitmap?.hasAlpha() == true) {
+                    applyBackgroundColor(target, bgColor)
+                }
+                target.setImageDrawable(resource)
+            } else {
+                applyBackgroundColor(target, bgColor)
+            }
+        }
     }
 }

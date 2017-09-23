@@ -15,13 +15,11 @@
  */
 package com.doctoror.particleswallpaper.presentation.preference
 
-import android.app.AlertDialog
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
 import com.doctoror.particleswallpaper.presentation.di.modules.PreferenceModule
@@ -60,10 +58,6 @@ class BackgroundColorPreference @JvmOverloads constructor
         })
     }
 
-    override fun onClick() {
-        presenter.onClick()
-    }
-
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
         presenter.onStart()
@@ -74,25 +68,10 @@ class BackgroundColorPreference @JvmOverloads constructor
         presenter.onStop()
     }
 
-    override fun getPersistedInt(defaultReturnValue: Int): Int {
-        return this.value ?: defaultReturnValue
-    }
+    override fun getPersistedInt(defaultReturnValue: Int) = this.value ?: defaultReturnValue
 
     override fun setColor(color: Int) {
         super.setColor(color)
         value = color
-    }
-
-    override fun showPreferenceDialog() {
-        super.onClick()
-    }
-
-    override fun showWarningDialog() {
-        AlertDialog.Builder(context)
-                .setTitle(title)
-                .setMessage(R.string.This_will_replace_background_image)
-                .setPositiveButton(R.string.Continue, { _, _ -> showPreferenceDialog() })
-                .setNegativeButton(R.string.Cancel, null)
-                .show()
     }
 }

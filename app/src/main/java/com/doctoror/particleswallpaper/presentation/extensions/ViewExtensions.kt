@@ -18,6 +18,7 @@ package com.doctoror.particleswallpaper.presentation.extensions
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
+import android.view.ViewTreeObserver
 
 /**
  * [View.setBackground] compatible with pre-JellyBean
@@ -28,5 +29,17 @@ fun View.setBackgroundCompat(drawable: Drawable?) {
     } else {
         @Suppress("DEPRECATION")
         this.setBackgroundDrawable(drawable)
+    }
+}
+
+/**
+ * [View.setBackground] compatible with pre-JellyBean
+ */
+fun ViewTreeObserver.removeOnGlobalLayoutListenerCompat(l: ViewTreeObserver.OnGlobalLayoutListener) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        removeOnGlobalLayoutListener(l)
+    } else {
+        @Suppress("DEPRECATION")
+        removeGlobalOnLayoutListener(l)
     }
 }

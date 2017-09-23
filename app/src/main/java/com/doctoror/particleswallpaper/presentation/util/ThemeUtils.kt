@@ -13,21 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.config
+package com.doctoror.particleswallpaper.presentation.util
 
-import android.app.Activity
+import android.support.annotation.AttrRes
+import android.content.res.Resources.Theme
+import android.graphics.Color
 import android.support.annotation.ColorInt
-import com.doctoror.particleswallpaper.presentation.view.MvpView
 
-/**
- * Created by Yaroslav Mytkalyk on 17.06.17.
- *
- * [ConfigActivity] view
- */
-interface ConfigActivityView : MvpView {
+object ThemeUtils {
 
-    fun getActivity(): Activity
-
+    /**
+     * Returns color for attr from the [Theme]
+     *
+     * @param theme [Theme] to get int from
+     * @param attr  Attribute of the int
+     * @return dimension for attr from the [Theme]
+     */
     @ColorInt
-    fun getWindowBackground(): Int
+    fun getColor(theme: Theme, @AttrRes attr: Int): Int {
+        val array = theme.obtainStyledAttributes(intArrayOf(attr))
+        try {
+            return array.getColor(0, Color.TRANSPARENT)
+        } finally {
+            array.recycle()
+        }
+    }
 }

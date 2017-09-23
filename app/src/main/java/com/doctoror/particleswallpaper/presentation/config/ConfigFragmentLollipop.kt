@@ -18,5 +18,4 @@ class ConfigFragmentLollipop: ConfigFragment() {
             preferenceScreen?.removePreference(p)
         }
     }
-
 }

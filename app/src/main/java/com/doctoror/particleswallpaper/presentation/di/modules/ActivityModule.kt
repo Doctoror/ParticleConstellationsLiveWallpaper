@@ -48,11 +48,10 @@ class ActivityModule {
             schedulers: SchedulersProvider,
             configurator: SceneConfigurator,
             adProvider: AdsProvider,
-            settings: SettingsRepository,
-            @Named(DEFAULT) defaults: SettingsRepository): ConfigActivityPresenter {
+            settings: SettingsRepository): ConfigActivityPresenter {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            ConfigActivityPresenterLollipop(schedulers, configurator, adProvider, settings, defaults)
-        else ConfigActivityPresenter(schedulers, configurator, adProvider, settings, defaults)
+            ConfigActivityPresenterLollipop(schedulers, configurator, adProvider, settings)
+        else ConfigActivityPresenter(schedulers, configurator, adProvider, settings)
     }
 
 }

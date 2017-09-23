@@ -40,9 +40,8 @@ class ConfigActivityPresenterLollipop(
         schedulers: SchedulersProvider,
         configurator: SceneConfigurator,
         adProvider: AdsProvider,
-        settings: SettingsRepository,
-        defaults: SettingsRepository)
-    : ConfigActivityPresenter(schedulers, configurator, adProvider, settings, defaults) {
+        settings: SettingsRepository)
+    : ConfigActivityPresenter(schedulers, configurator, adProvider, settings) {
 
     private val requestCodeSetWallpaper = 1
 
@@ -58,32 +57,32 @@ class ConfigActivityPresenterLollipop(
                 .inflate(R.layout.activity_config_toolbar, root, false) as Toolbar
         root.addView(toolbar, 0)
         activity.setActionBar(toolbar)
-        activity.actionBar?.displayOptions = ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_HOME
+        activity.actionBar?.displayOptions =
+                ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_HOME
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         view.getActivity().menuInflater.inflate(R.menu.activity_config, menu)
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 view.getActivity().finish()
                 return true
             }
 
             R.id.actionPreview -> {
-                OpenChangeWallpaperIntentUseCase(view.getActivity(), requestCodeSetWallpaper).useCase().subscribe({
-                    v ->
-                    if (!v) onPreviewStartFailed()
-                })
+                OpenChangeWallpaperIntentUseCase(view.getActivity(), requestCodeSetWallpaper)
+                        .useCase().subscribe { if (!it) onPreviewStartFailed() }
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun onPreviewStartFailed() {
-        Toast.makeText(view.getActivity(), R.string.Failed_to_start_preview, Toast.LENGTH_LONG).show()
+        Toast.makeText(view.getActivity(), R.string.Failed_to_start_preview, Toast.LENGTH_LONG)
+                .show()
     }
 }

@@ -24,6 +24,7 @@ import com.doctoror.particleswallpaper.presentation.base.LifecycleActivity
 import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerActivityComponent
 import com.doctoror.particleswallpaper.presentation.di.modules.ActivityModule
+import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 import javax.inject.Inject
 
 class ConfigActivity : LifecycleActivity(), ConfigActivityView {
@@ -45,11 +46,9 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
     override fun getActivity(): Activity = this
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return presenter.onCreateOptionsMenu(menu)
-    }
+    override fun getWindowBackground() = ThemeUtils.getColor(theme, android.R.attr.windowBackground)
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return presenter.onOptionsItemSelected(item)
-    }
+    override fun onCreateOptionsMenu(menu: Menu) = presenter.onCreateOptionsMenu(menu)
+
+    override fun onOptionsItemSelected(item: MenuItem) = presenter.onOptionsItemSelected(item)
 }

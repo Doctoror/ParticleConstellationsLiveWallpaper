@@ -124,8 +124,8 @@ class WallpaperServiceImpl : WallpaperService() {
         }
 
         private fun handleBackground(uri: String) {
-            background = null
             glide.clear(lastUsedImageLoadTarget)
+            background = null
             if (uri == NO_URI) {
                 lastUsedImageLoadTarget = null
             } else if (width != 0 && height != 0) {
