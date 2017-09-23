@@ -4,7 +4,7 @@ apply from: 'dependencies.gradle'
 buildscript {
 
     ext.kotlin_version = '1.1.50'
-    ext.android_plugin_version = '3.0.0-beta6'
+    ext.android_plugin_version = '2.3.3'
 
     repositories {
         jcenter()

@@ -37,7 +37,7 @@ android {
         }
     }
 
-    flavorDimensions "default"
+    //flavorDimensions "default"
 
     productFlavors {
         noAds {
@@ -120,38 +120,35 @@ dependencies {
     def d = rootProject.ext.wallpaperappDependencies
     def td = rootProject.ext.wallpaperappTestDependencies
 
-    testImplementation td.junit
-    testImplementation td.kotlinReflect
-    testImplementation td.robolectric
-    testImplementation td.mockitoCore
+    testCompile td.junit
+    testCompile td.kotlinReflect
+    testCompile td.robolectric
+    testCompile td.mockitoCore
 
-    implementation d.kotlin
-    implementation d.rxJava
-    implementation d.rxAndroid
+    compile d.kotlin
+    compile d.rxJava
+    compile d.rxAndroid
 
-    implementation d.particlesDrawable
-    implementation d.colorPicker
+    compile d.particlesDrawable
+    compile d.colorPicker
 
-    implementation d.supportV4
-    implementation d.supportAnnotations
+    compile d.supportV4
+    compile d.supportAnnotations
 
-    withAdsImplementation d.ads
+    withAdsCompile d.ads
 
-    implementation(d.licencesDialog) {
+    compile(d.licencesDialog) {
         exclude(group: 'com.android.support', module: 'appcompat-v7')
     }
 
-    implementation d.glide
+    compile d.glide
     kapt d.glideCompiler
 
-    implementation d.gendalf
+    compile d.gendalf
     kapt d.gendalfCompiler
 
-    implementation d.dagger
+    compile d.dagger
     kapt d.daggerCompiler
-
-    implementation d.lifecycle
-    kapt d.lifecycleCompiler
 }
 
 repositories {
