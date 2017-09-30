@@ -224,8 +224,13 @@ class BackgroundImagePreferencePresenter @Inject constructor(
 
         override fun onActivityResultAvailable(requestCode: Int, uri: Uri) {
             if (requestCode == requestCodeOpenDocument) {
-                context.contentResolver?.takePersistableUriPermission(uri,
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                try {
+                    context.contentResolver?.takePersistableUriPermission(uri,
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                } catch (e: SecurityException) {
+                    // This might happen if openByGetContent() was called within this handler
+                    Log.w(tag, "Failed to take persistable Uri permission", e)
+                }
             }
             super.onActivityResultAvailable(requestCode, uri)
         }
