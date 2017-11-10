@@ -8,33 +8,33 @@ allprojects {
 
 ext {
     //Android
-    androidBuildToolsVersion = "26.0.2"
+    androidBuildToolsVersion = "27.0.1"
     androidMinSdkVersion = 14
     androidTargetSdkVersion = 26
     androidCompileSdkVersion = 26
 
     //Libraries
     kotlin_version = rootProject.ext.kotlin_version
-    rxJavaVersion = '2.1.4'
+    rxJavaVersion = '2.1.6'
     rxAndroidVersion = '2.0.1'
 
     daggerVersion = '2.11'
     gendalfVersion = '1.3.1'
 
     colorPickerVersion = '2.2.0'
-    glideVersion = '4.1.1'
+    glideVersion = '4.3.1'
 
-    supportVersion = '26.1.0'
+    supportVersion = '27.0.0'
 
     licencesDialogVersion = '1.8.3'
-    gmsVersion = '11.4.0'
+    gmsVersion = '11.6.0'
 
     particlesDrawableVersion = '1.0.8'
 
     //Testing
     jUnitVersion = '4.12'
-    mockitoVersion = '2.10.0'
-    robolectricVersion = '3.4.2'
+    mockitoVersion = '2.12.0'
+    robolectricVersion = '3.5.1'
 
     wallpaperappDependencies = [
             kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",

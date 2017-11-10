@@ -37,7 +37,7 @@ android {
         }
     }
 
-    //flavorDimensions "default"
+    flavorDimensions "default"
 
     productFlavors {
         noAds {
@@ -98,56 +98,40 @@ android {
     lintOptions {
         checkAllWarnings true
     }
-
-    task copyTestClasses(type: Copy) {
-        from "build/tmp/kotlin-classes/debugUnitTest"
-        into "build/intermediates/classes/debug"
-    }
-
-    task copySdkClasses(type: Copy) {
-        from "build/tmp/kotlin-classes/debug"
-        into "build/intermediates/classes/debug"
-    }
-
-//    afterEvaluate {
-//        compileDebugUnitTestSources.dependsOn copyTestClasses
-//        compileReleaseUnitTestSources.dependsOn copyTestClasses
-//        compileDebugAndroidTestSources.dependsOn copySdkClasses
-//    }
 }
 
 dependencies {
     def d = rootProject.ext.wallpaperappDependencies
     def td = rootProject.ext.wallpaperappTestDependencies
 
-    testCompile td.junit
-    testCompile td.kotlinReflect
-    testCompile td.robolectric
-    testCompile td.mockitoCore
+    testImplementation td.junit
+    testImplementation td.kotlinReflect
+    testImplementation td.robolectric
+    testImplementation td.mockitoCore
 
-    compile d.kotlin
-    compile d.rxJava
-    compile d.rxAndroid
+    implementation d.kotlin
+    implementation d.rxJava
+    implementation d.rxAndroid
 
-    compile d.particlesDrawable
-    compile d.colorPicker
+    implementation d.particlesDrawable
+    implementation d.colorPicker
 
-    compile d.supportV4
-    compile d.supportAnnotations
+    implementation d.supportV4
+    implementation d.supportAnnotations
 
-    withAdsCompile d.ads
+    withAdsImplementation d.ads
 
-    compile(d.licencesDialog) {
+    implementation(d.licencesDialog) {
         exclude(group: 'com.android.support', module: 'appcompat-v7')
     }
 
-    compile d.glide
+    implementation d.glide
     kapt d.glideCompiler
 
-    compile d.gendalf
+    implementation d.gendalf
     kapt d.gendalfCompiler
 
-    compile d.dagger
+    implementation d.dagger
     kapt d.daggerCompiler
 }
 
