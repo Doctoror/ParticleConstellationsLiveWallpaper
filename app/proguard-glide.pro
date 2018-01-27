@@ -4,3 +4,4 @@
     **[] $VALUES;
     public *;
 }
+-dontwarn com.bumptech.glide.load.resource.bitmap.VideoDecoder
