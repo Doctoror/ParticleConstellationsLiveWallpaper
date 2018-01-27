@@ -27,7 +27,7 @@ ext {
     supportVersion = '27.0.2'
 
     licencesDialogVersion = '1.8.3'
-    gmsVersion = '11.6.0'
+    gmsVersion = '11.8.0'
 
     particlesDrawableVersion = '1.0.8'
 
