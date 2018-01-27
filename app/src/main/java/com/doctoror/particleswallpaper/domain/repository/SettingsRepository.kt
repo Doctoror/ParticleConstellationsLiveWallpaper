@@ -17,14 +17,13 @@ package com.doctoror.particleswallpaper.domain.repository
 
 import io.reactivex.Observable
 
+const val NO_URI = ""
+
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
  *
  * The configuration repository
  */
-
-const val NO_URI = ""
-
 interface SettingsRepository {
 
     fun getNumDots(): Observable<Int>
