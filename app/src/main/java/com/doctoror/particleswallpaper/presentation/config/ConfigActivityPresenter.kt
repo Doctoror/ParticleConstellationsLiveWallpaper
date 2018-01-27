@@ -194,7 +194,7 @@ open class ConfigActivityPresenter(
                                         @ColorInt private val bgColor: Int)
         : SimpleTarget<Drawable>(target.width, target.height) {
 
-        override fun onResourceReady(resource: Drawable?, transition: Transition<in Drawable>?) {
+        override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
             applyBackground(target, resource, bgColor)
         }
     }
