@@ -24,7 +24,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.Toolbar
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.ads.AdsProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
@@ -39,9 +38,8 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 class ConfigActivityPresenterLollipop(
         schedulers: SchedulersProvider,
         configurator: SceneConfigurator,
-        adProvider: AdsProvider,
         settings: SettingsRepository)
-    : ConfigActivityPresenter(schedulers, configurator, adProvider, settings) {
+    : ConfigActivityPresenter(schedulers, configurator, settings) {
 
     private val requestCodeSetWallpaper = 1
 

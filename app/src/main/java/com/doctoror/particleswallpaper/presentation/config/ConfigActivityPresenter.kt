@@ -39,12 +39,10 @@ import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.ads.AdsProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.ads.AdViewFactory
 import com.doctoror.particleswallpaper.presentation.extensions.removeOnGlobalLayoutListenerCompat
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
 import com.doctoror.particleswallpaper.presentation.presenter.Presenter
@@ -55,12 +53,11 @@ import io.reactivex.functions.BiFunction
 /**
  * Created by Yaroslav Mytkalyk on 17.06.17.
  *
- * [ConfigActivity] presenter
+ * [ConfigActivity] presenter.
  */
 open class ConfigActivityPresenter(
         private val schedulers: SchedulersProvider,
         private val configurator: SceneConfigurator,
-        private val adProvider: AdsProvider,
         private val settings: SettingsRepository)
     : Presenter<ConfigActivityView>, LifecycleObserver {
 
@@ -76,17 +73,11 @@ open class ConfigActivityPresenter(
         this.view = view
         glide = Glide.with(view.getActivity())
         setBackground(view)
-        initAdView(view)
     }
 
     private fun setBackground(view: ConfigActivityView) {
         view.getActivity().findViewById<View>(R.id.drawableContainer)!!
                 .setBackgroundCompat(particlesDrawable)
-    }
-
-    private fun initAdView(view: ConfigActivityView) {
-        adProvider.initialize(AdViewFactory.makeAdView(
-                view.getActivity().findViewById(android.R.id.content)))
     }
 
     open fun onCreateOptionsMenu(menu: Menu) = false
@@ -95,7 +86,6 @@ open class ConfigActivityPresenter(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     override fun onStart() {
-        adProvider.onStart()
         bgDisposable = Observable.combineLatest(
                 settings.getBackgroundUri(),
                 settings.getBackgroundColor(),
@@ -108,15 +98,9 @@ open class ConfigActivityPresenter(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     override fun onStop() {
-        adProvider.onStop()
         bgDisposable?.dispose()
         particlesDrawable.stop()
         configurator.dispose()
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy() {
-        adProvider.onDestroy()
     }
 
     private fun applyBackground(result: Pair<String, Int>) {

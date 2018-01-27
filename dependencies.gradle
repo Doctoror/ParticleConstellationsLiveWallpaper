@@ -27,7 +27,6 @@ ext {
     supportVersion = '27.0.2'
 
     licencesDialogVersion = '1.8.3'
-    gmsVersion = '11.8.0'
 
     particlesDrawableVersion = '1.0.8'
 
@@ -53,7 +52,6 @@ ext {
             glideCompiler     : "com.github.bumptech.glide:compiler:$glideVersion",
 
             licencesDialog    : "de.psdev.licensesdialog:licensesdialog:$licencesDialogVersion",
-            ads               : "com.google.android.gms:play-services-ads:$gmsVersion",
 
             supportV4         : "com.android.support:support-v4:$supportVersion",
             supportAnnotations: "com.android.support:support-annotations:$supportVersion"

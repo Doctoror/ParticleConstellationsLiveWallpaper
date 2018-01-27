@@ -17,9 +17,7 @@ package com.doctoror.particleswallpaper.presentation.di.modules
 
 import android.content.Context
 import android.os.Build
-import com.doctoror.particleswallpaper.data.ads.AdsProviderFactory
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDefault
-import com.doctoror.particleswallpaper.domain.ads.AdsProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
@@ -46,17 +44,11 @@ class ActivityModule {
 
     @PerActivity
     @Provides
-    fun provideAdsProvider(context: Context):
-            AdsProvider = AdsProviderFactory.makeAdsProvider(context)
-
-    @PerActivity
-    @Provides
     fun provideConfigActivityPresenter(
             schedulers: SchedulersProvider,
             configurator: SceneConfigurator,
-            adProvider: AdsProvider,
             settings: SettingsRepository): ConfigActivityPresenter =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                ConfigActivityPresenterLollipop(schedulers, configurator, adProvider, settings)
-            else ConfigActivityPresenter(schedulers, configurator, adProvider, settings)
+                ConfigActivityPresenterLollipop(schedulers, configurator, settings)
+            else ConfigActivityPresenter(schedulers, configurator, settings)
 }

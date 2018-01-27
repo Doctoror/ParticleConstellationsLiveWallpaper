@@ -37,31 +37,6 @@ android {
         }
     }
 
-    flavorDimensions "default"
-
-    productFlavors {
-        noAds {
-
-        }
-
-        withAds {
-
-        }
-    }
-
-    applicationVariants.all { variant ->
-        if (variant.getName() == "withAdsRelease") {
-            variant.buildConfigField 'String', 'AD_APP_ID', rootProject.ext.adAppId
-            variant.resValue 'string', 'AD_BANNER_ID', rootProject.ext.adBannerId
-        } else if (variant.getName() == "withAdsDebug") {
-            variant.buildConfigField 'String', 'AD_APP_ID', rootProject.ext.adAppId
-            variant.resValue 'string', 'AD_BANNER_ID', '"ca-app-pub-3940256099942544/6300978111"'
-        } else {
-            variant.buildConfigField 'String', 'AD_APP_ID', '""'
-            variant.resValue 'string', 'AD_BANNER_ID', '""'
-        }
-    }
-
     buildTypes {
 
         debug {
@@ -87,7 +62,6 @@ android {
             shrinkResources true
 
             proguardFile getDefaultProguardFile('proguard-android.txt')
-            proguardFile 'proguard-ads.pro'
             proguardFile 'proguard-glide.pro'
             proguardFile 'proguard-lifecycle.pro'
             proguardFile 'proguard-rx-java.pro'
@@ -118,8 +92,6 @@ dependencies {
 
     implementation d.supportV4
     implementation d.supportAnnotations
-
-    withAdsImplementation d.ads
 
     implementation(d.licencesDialog) {
         exclude(group: 'com.android.support', module: 'appcompat-v7')
