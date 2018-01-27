@@ -40,7 +40,7 @@ import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
@@ -68,16 +68,12 @@ class WallpaperServiceImpl : WallpaperService() {
 
         private lateinit var glide: RequestManager
 
-        private var frameDelayDisposable: Disposable? = null
-        private var backgroundDisposable: Disposable? = null
-        private var backgroundColorDisposable: Disposable? = null
+        private val disposables = CompositeDisposable()
 
         private val backgroundPaint = Paint()
 
         private val handler = Handler(Looper.getMainLooper())
         private val drawable = ParticlesDrawable()
-
-        private var visible = false
 
         private var width = 0
         private var height = 0
@@ -86,6 +82,26 @@ class WallpaperServiceImpl : WallpaperService() {
         private var delay = DEFAULT_DELAY
 
         private var lastUsedImageLoadTarget: ImageLoadTarget? = null
+
+        private var visible = false
+            set(value) {
+                field = value
+                handleRunConstraints()
+            }
+
+        private var run = false
+            set(value) {
+                if (field != value) {
+                    field = value
+                    if (value) {
+                        drawable.start()
+                        handler.post(drawRunnable)
+                    } else {
+                        handler.removeCallbacks(drawRunnable)
+                        drawable.stop()
+                    }
+                }
+            }
 
         init {
             backgroundPaint.style = Paint.Style.FILL
@@ -99,26 +115,24 @@ class WallpaperServiceImpl : WallpaperService() {
             configurator.subscribe(drawable, settings)
             glide = Glide.with(this@WallpaperServiceImpl)
 
-            frameDelayDisposable = settings.getFrameDelay()
+            disposables.add(settings.getFrameDelay()
                     .observeOn(schedulers.mainThread())
-                    .subscribe { delay = it.toLong() }
+                    .subscribe { delay = it.toLong() })
 
-            backgroundDisposable = settings.getBackgroundUri()
+            disposables.add(settings.getBackgroundUri()
                     .observeOn(schedulers.mainThread())
-                    .subscribe { handleBackground(it) }
+                    .subscribe { handleBackground(it) })
 
-            backgroundColorDisposable = settings.getBackgroundColor()
+            disposables.add(settings.getBackgroundColor()
                     .observeOn(schedulers.mainThread())
-                    .subscribe { backgroundPaint.color = it }
+                    .subscribe { backgroundPaint.color = it })
         }
 
         override fun onDestroy() {
             super.onDestroy()
             visible = false
             configurator.dispose()
-            frameDelayDisposable?.dispose()
-            backgroundDisposable?.dispose()
-            backgroundColorDisposable?.dispose()
+            disposables.clear()
             background = null
             glide.clear(lastUsedImageLoadTarget)
         }
@@ -154,25 +168,16 @@ class WallpaperServiceImpl : WallpaperService() {
         override fun onSurfaceDestroyed(holder: SurfaceHolder) {
             super.onSurfaceDestroyed(holder)
             visible = false
-            handler.removeCallbacks(drawRunnable)
-            drawable.stop()
         }
 
         override fun onVisibilityChanged(visible: Boolean) {
             super.onVisibilityChanged(visible)
             this.visible = visible
-            if (visible) {
-                drawable.start()
-                handler.post(drawRunnable)
-            } else {
-                handler.removeCallbacks(drawRunnable)
-                drawable.stop()
-            }
         }
 
         private fun draw() {
             handler.removeCallbacks(drawRunnable)
-            if (visible) {
+            if (run) {
                 val startTime = SystemClock.uptimeMillis()
                 val holder = surfaceHolder
                 var canvas: Canvas? = null
@@ -211,6 +216,10 @@ class WallpaperServiceImpl : WallpaperService() {
                 }
                 background.draw(c)
             }
+        }
+
+        private fun handleRunConstraints() {
+            run = visible
         }
 
         private fun drawBackgroundColor(c: Canvas) {
