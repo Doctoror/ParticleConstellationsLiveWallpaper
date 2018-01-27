@@ -222,8 +222,8 @@ class WallpaperServiceImpl : WallpaperService() {
         private inner class ImageLoadTarget(width: Int, height: Int)
             : SimpleTarget<Drawable>(width, height) {
 
-            override fun onResourceReady(resource: Drawable?, transition: Transition<in Drawable>?) {
-                resource?.setBounds(0, 0, width, height)
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                resource.setBounds(0, 0, width, height)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     if (resource is BitmapDrawable) {
                         resource.bitmap?.let {
