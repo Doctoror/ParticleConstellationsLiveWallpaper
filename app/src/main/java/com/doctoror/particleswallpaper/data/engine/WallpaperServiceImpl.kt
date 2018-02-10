@@ -262,7 +262,7 @@ class WallpaperServiceImpl : WallpaperService() {
 
         private val drawRunnable = Runnable { this.draw() }
 
-        private inner class ImageLoadTarget(width: Int, height: Int)
+        private inner class ImageLoadTarget(private val width: Int, private val height: Int)
             : SimpleTarget<Drawable>(width, height) {
 
             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
