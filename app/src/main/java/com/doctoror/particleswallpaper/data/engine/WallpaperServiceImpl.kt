@@ -250,14 +250,17 @@ class WallpaperServiceImpl : WallpaperService() {
         @TargetApi(Build.VERSION_CODES.O_MR1)
         override fun onComputeColors(): WallpaperColors {
             val background = background
-            return if (background != null) {
-                WallpaperColors.fromDrawable(background)
+            val colors: WallpaperColors
+            if (background != null) {
+                colors = WallpaperColors.fromDrawable(background)
+                background.setBounds(0, 0, width, height)
             } else {
-                WallpaperColors(
+                colors = WallpaperColors(
                         Color.valueOf(backgroundPaint.color),
                         Color.valueOf(drawable.dotColor),
                         Color.valueOf(drawable.lineColor))
             }
+            return colors
         }
 
         private val drawRunnable = Runnable { this.draw() }
