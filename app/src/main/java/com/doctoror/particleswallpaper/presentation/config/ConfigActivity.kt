@@ -34,7 +34,7 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DaggerActivityComponent.builder()
-                .configComponent(Injector.configComponent)
+                .configComponent(Injector.getInstance(application).configComponent)
                 .activityModule(ActivityModule())
                 .build()
                 .inject(this)

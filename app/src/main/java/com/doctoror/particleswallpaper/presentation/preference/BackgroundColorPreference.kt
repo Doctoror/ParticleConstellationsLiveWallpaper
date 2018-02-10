@@ -45,7 +45,7 @@ class BackgroundColorPreference @JvmOverloads constructor
         isPersistent = false
 
         DaggerPreferenceComponent.builder()
-                .configComponent(Injector.configComponent)
+                .configComponent(Injector.getInstance(context.applicationContext).configComponent)
                 .preferenceModule(PreferenceModule())
                 .build()
                 .inject(this)

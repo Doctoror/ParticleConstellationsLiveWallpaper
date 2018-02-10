@@ -41,7 +41,7 @@ class ResetToDefaultsPreference @JvmOverloads constructor
 
     init {
         DaggerPreferenceComponent.builder()
-                .configComponent(Injector.configComponent)
+                .configComponent(Injector.getInstance(context.applicationContext).configComponent)
                 .preferenceModule(PreferenceModule())
                 .build()
                 .inject(this)

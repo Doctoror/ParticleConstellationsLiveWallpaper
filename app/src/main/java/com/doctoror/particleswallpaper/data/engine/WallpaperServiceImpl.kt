@@ -114,7 +114,7 @@ class WallpaperServiceImpl : WallpaperService() {
 
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
-            Injector.configComponent.inject(this)
+            Injector.getInstance(application).configComponent.inject(this)
 
             configurator.subscribe(drawable, settings)
             glide = Glide.with(this@WallpaperServiceImpl)
