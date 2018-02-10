@@ -22,6 +22,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Handler
@@ -255,10 +256,7 @@ class WallpaperServiceImpl : WallpaperService() {
                 colors = WallpaperColors.fromDrawable(background)
                 background.setBounds(0, 0, width, height)
             } else {
-                colors = WallpaperColors(
-                        Color.valueOf(backgroundPaint.color),
-                        Color.valueOf(drawable.dotColor),
-                        Color.valueOf(drawable.lineColor))
+                colors = WallpaperColors.fromDrawable(ColorDrawable(backgroundPaint.color))
             }
             return colors
         }
