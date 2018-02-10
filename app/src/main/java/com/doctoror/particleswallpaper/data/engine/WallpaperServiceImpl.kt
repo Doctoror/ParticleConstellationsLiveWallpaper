@@ -15,6 +15,8 @@
  */
 package com.doctoror.particleswallpaper.data.engine
 
+import android.annotation.TargetApi
+import android.app.WallpaperColors
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -78,6 +80,7 @@ class WallpaperServiceImpl : WallpaperService() {
         private var width = 0
         private var height = 0
 
+        private var backgroundUri: String? = null
         private var background: Drawable? = null
         private var delay = DEFAULT_DELAY
 
@@ -119,13 +122,17 @@ class WallpaperServiceImpl : WallpaperService() {
                     .observeOn(schedulers.mainThread())
                     .subscribe { delay = it.toLong() })
 
-            disposables.add(settings.getBackgroundUri()
+            disposables.add(settings.getBackgroundColor()
+                    .doOnNext {
+                        backgroundPaint.color = it
+                        if (backgroundUri != null) {
+                            // If background was already loaded, but color is changed afterwards.
+                            notifyBackgroundColors()
+                        }
+                    }
+                    .flatMap { settings.getBackgroundUri() }
                     .observeOn(schedulers.mainThread())
                     .subscribe { handleBackground(it) })
-
-            disposables.add(settings.getBackgroundColor()
-                    .observeOn(schedulers.mainThread())
-                    .subscribe { backgroundPaint.color = it })
         }
 
         override fun onDestroy() {
@@ -133,26 +140,31 @@ class WallpaperServiceImpl : WallpaperService() {
             visible = false
             configurator.dispose()
             disposables.clear()
+            backgroundUri = null
             background = null
             glide.clear(lastUsedImageLoadTarget)
         }
 
         private fun handleBackground(uri: String) {
-            glide.clear(lastUsedImageLoadTarget)
-            background = null
-            if (uri == NO_URI) {
-                lastUsedImageLoadTarget = null
-            } else if (width != 0 && height != 0) {
-                val target = ImageLoadTarget(width, height)
-                glide
-                        .load(uri)
-                        .apply(RequestOptions.noAnimation())
-                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                        .apply(RequestOptions.skipMemoryCacheOf(true))
-                        .apply(RequestOptions.centerCropTransform())
-                        .into(target)
+            if (backgroundUri != uri) {
+                backgroundUri = uri
+                glide.clear(lastUsedImageLoadTarget)
+                background = null
+                if (uri == NO_URI) {
+                    lastUsedImageLoadTarget = null
+                    notifyBackgroundColors()
+                } else if (width != 0 && height != 0) {
+                    val target = ImageLoadTarget(width, height)
+                    glide
+                            .load(uri)
+                            .apply(RequestOptions.noAnimation())
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                            .apply(RequestOptions.skipMemoryCacheOf(true))
+                            .apply(RequestOptions.centerCropTransform())
+                            .into(target)
 
-                lastUsedImageLoadTarget = target
+                    lastUsedImageLoadTarget = target
+                }
             }
         }
 
@@ -162,6 +174,9 @@ class WallpaperServiceImpl : WallpaperService() {
             background?.setBounds(0, 0, width, height)
             this.width = width
             this.height = height
+
+            // Force re-apply background
+            backgroundUri = null
             handleBackground(settings.getBackgroundUri().blockingFirst())
         }
 
@@ -226,6 +241,25 @@ class WallpaperServiceImpl : WallpaperService() {
             c.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
         }
 
+        private fun notifyBackgroundColors() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                notifyColorsChanged()
+            }
+        }
+
+        @TargetApi(Build.VERSION_CODES.O_MR1)
+        override fun onComputeColors(): WallpaperColors {
+            val background = background
+            return if (background != null) {
+                WallpaperColors.fromDrawable(background)
+            } else {
+                WallpaperColors(
+                        Color.valueOf(backgroundPaint.color),
+                        Color.valueOf(drawable.dotColor),
+                        Color.valueOf(drawable.lineColor))
+            }
+        }
+
         private val drawRunnable = Runnable { this.draw() }
 
         private inner class ImageLoadTarget(width: Int, height: Int)
@@ -244,6 +278,7 @@ class WallpaperServiceImpl : WallpaperService() {
                     }
                 }
                 background = resource
+                notifyBackgroundColors()
             }
         }
     }
