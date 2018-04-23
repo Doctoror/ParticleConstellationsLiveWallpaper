@@ -65,7 +65,7 @@ open class InMemorySharedPreferences : SharedPreferences {
             = listeners.any { it === listener }
 
     private fun putValueAndNotify(key: String?, value: Any?) {
-        map.put(key, value)
+        map[key] = value
         notifyItemChanged(key)
     }
 
