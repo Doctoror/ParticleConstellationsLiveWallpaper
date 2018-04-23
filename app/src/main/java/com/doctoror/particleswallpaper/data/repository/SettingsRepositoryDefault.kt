@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.data.repository
 
 import android.content.res.Resources
-import android.support.annotation.VisibleForTesting
 import android.support.v4.content.res.ResourcesCompat
 import android.util.TypedValue
 import com.doctoror.particleswallpaper.R
