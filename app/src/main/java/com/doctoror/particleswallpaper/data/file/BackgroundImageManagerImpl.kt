@@ -32,11 +32,9 @@ class BackgroundImageManagerImpl(
         private val context: Context,
         private val fileManager: FileManager) : BackgroundImageManager {
 
-    companion object {
-        private const val backgroundsDirectory = "backgrounds"
-        private const val fileNamePrefix = "bg"
-        private const val tag = "BackgroundImageManager"
-    }
+    private val backgroundsDirectory = "backgrounds"
+    private val fileNamePrefix = "bg"
+    private val tag = "BackgroundImageManager"
 
     private val fileNamePattern = Pattern.compile("$fileNamePrefix([0-9])+")!!
 
