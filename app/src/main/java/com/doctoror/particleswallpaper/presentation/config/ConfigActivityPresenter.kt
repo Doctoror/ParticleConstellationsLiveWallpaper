@@ -18,10 +18,12 @@ package com.doctoror.particleswallpaper.presentation.config
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
+import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -46,6 +48,7 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.extensions.removeOnGlobalLayoutListenerCompat
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
 import com.doctoror.particleswallpaper.presentation.presenter.Presenter
+import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
@@ -149,8 +152,16 @@ open class ConfigActivityPresenter(
 
     private fun applyBackgroundColor(bg: ImageView, @ColorInt color: Int) =
             bg.setBackgroundCompat(
-                    if (color == view.getWindowBackground()) null
+                    if (colorIsWindowBackground(bg.context, color)) null
                     else ColorDrawable(color))
+
+    private fun colorIsWindowBackground(context: Context, @ColorInt color: Int) = try {
+        color == ThemeUtils.getColor(context.theme, android.R.attr.windowBackground)
+    } catch (e: UnsupportedOperationException) {
+        // Can happen on some themes
+        Log.w("ConfigPresenter", e)
+        false
+    }
 
     private fun applyBackground(target: ImageView, drawable: Drawable?, @ColorInt color: Int) {
         if (drawable == null) {

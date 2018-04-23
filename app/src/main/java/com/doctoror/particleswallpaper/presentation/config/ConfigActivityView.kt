@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.presentation.config
 
 import android.app.Activity
-import android.support.annotation.ColorInt
 import com.doctoror.particleswallpaper.presentation.view.MvpView
 
 /**
@@ -27,7 +26,4 @@ import com.doctoror.particleswallpaper.presentation.view.MvpView
 interface ConfigActivityView : MvpView {
 
     fun getActivity(): Activity
-
-    @ColorInt
-    fun getWindowBackground(): Int
 }

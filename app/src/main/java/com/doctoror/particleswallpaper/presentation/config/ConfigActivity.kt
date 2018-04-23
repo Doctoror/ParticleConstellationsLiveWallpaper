@@ -46,8 +46,6 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
     override fun getActivity(): Activity = this
 
-    override fun getWindowBackground() = ThemeUtils.getColor(theme, android.R.attr.windowBackground)
-
     override fun onCreateOptionsMenu(menu: Menu) = presenter.onCreateOptionsMenu(menu)
 
     override fun onOptionsItemSelected(item: MenuItem) = presenter.onOptionsItemSelected(item)
