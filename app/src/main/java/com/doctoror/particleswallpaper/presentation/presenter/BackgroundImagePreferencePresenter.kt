@@ -32,6 +32,8 @@ import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_GET_CONTENT
+import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
@@ -59,9 +61,6 @@ class BackgroundImagePreferencePresenter @Inject constructor(
     private lateinit var view: BackgroundImagePreferenceView
 
     private val imageHandler: BackgroundImageHandler
-
-    private val requestCodeOpenDocument = 1
-    private val requestCodeGetContent = 2
 
     init {
         imageHandler = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -114,8 +113,8 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 when (requestCode) {
-                    requestCodeOpenDocument,
-                    requestCodeGetContent -> {
+                    REQUEST_CODE_OPEN_DOCUMENT,
+                    REQUEST_CODE_GET_CONTENT -> {
                         val uri = data.data
                         if (uri == null) {
                             Log.w(tag, "onActivityResult(), data uri is null")
@@ -154,7 +153,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         }
 
         override fun onActivityResultAvailable(requestCode: Int, uri: Uri) {
-            if (requestCode == requestCodeGetContent) {
+            if (requestCode == REQUEST_CODE_GET_CONTENT) {
                 handleGetContentUriResult(uri)
             } else {
                 handleDefaultUriResult(uri)
@@ -184,10 +183,10 @@ class BackgroundImagePreferencePresenter @Inject constructor(
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             try {
                 host?.startActivityForResult(
-                        Intent.createChooser(intent, null), requestCodeGetContent)
+                        Intent.createChooser(intent, null), REQUEST_CODE_GET_CONTENT)
             } catch (e: ActivityNotFoundException) {
                 try {
-                    host?.startActivityForResult(intent, requestCodeGetContent)
+                    host?.startActivityForResult(intent, REQUEST_CODE_GET_CONTENT)
                 } catch (e: ActivityNotFoundException) {
                     Toast.makeText(context, R.string.Failed_to_open_image_picker, Toast.LENGTH_SHORT).show()
                 }
@@ -222,7 +221,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         }
 
         override fun onActivityResultAvailable(requestCode: Int, uri: Uri) {
-            if (requestCode == requestCodeOpenDocument) {
+            if (requestCode == REQUEST_CODE_OPEN_DOCUMENT) {
                 try {
                     context.contentResolver?.takePersistableUriPermission(uri,
                             Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -239,7 +238,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
             documentIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
             documentIntent.type = "image/*"
             try {
-                host?.startActivityForResult(documentIntent, requestCodeOpenDocument)
+                host?.startActivityForResult(documentIntent, REQUEST_CODE_OPEN_DOCUMENT)
             } catch (e: ActivityNotFoundException) {
                 pickByGetContent()
             }

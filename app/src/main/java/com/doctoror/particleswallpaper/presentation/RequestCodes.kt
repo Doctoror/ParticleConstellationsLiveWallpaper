@@ -16,3 +16,7 @@
 package com.doctoror.particleswallpaper.presentation
 
 const val REQUEST_CODE_CHANGE_WALLPAPER = 1
+
+const val REQUEST_CODE_GET_CONTENT = 2
+
+const val REQUEST_CODE_OPEN_DOCUMENT = 3
