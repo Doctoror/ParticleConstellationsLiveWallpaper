@@ -32,7 +32,7 @@ ext {
 
     //Testing
     jUnitVersion = '4.12'
-    mockitoVersion = '2.13.0'
+    mockitoVersion = '2.18.3'
     robolectricVersion = '3.6.1'
 
     wallpaperappDependencies = [
