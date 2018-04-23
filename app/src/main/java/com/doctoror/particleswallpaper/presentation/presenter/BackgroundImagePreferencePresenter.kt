@@ -34,12 +34,11 @@ import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
-import com.doctoror.particleswallpaper.presentation.di.modules.DEFAULT
+import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
 import io.reactivex.Observable
 import javax.inject.Inject
-import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
@@ -51,7 +50,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         private val context: Context,
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
-        @Named(DEFAULT) private val defaults: SettingsRepository,
+        @Default private val defaults: SettingsRepository,
         private val backgroundImageManager: BackgroundImageManager)
     : Presenter<BackgroundImagePreferenceView> {
 

@@ -18,13 +18,12 @@ package com.doctoror.particleswallpaper.presentation.presenter
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.di.modules.DEFAULT
+import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.BackgroundColorPreferenceView
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
-import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.
@@ -35,7 +34,7 @@ import javax.inject.Named
 class BackgroundColorPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
-        @Named(DEFAULT) private val defaults: SettingsRepository)
+        @Default private val defaults: SettingsRepository)
     : Presenter<BackgroundColorPreferenceView> {
 
     private lateinit var view: BackgroundColorPreferenceView

@@ -26,12 +26,10 @@ import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 import javax.inject.Singleton
-
-const val DEFAULT = "default"
 
 /**
  * Created by Yaroslav Mytkalyk on 01.06.17.
@@ -41,12 +39,12 @@ const val DEFAULT = "default"
 @Module
 class ConfigModule {
 
-    @Singleton @Provides @Named(DEFAULT) fun provideDefaultSettings(context: Context):
+    @Singleton @Provides @Default fun provideDefaultSettings(context: Context):
             SettingsRepository = SettingsRepositoryDefault(context.resources!!, context.theme!!)
 
     @Singleton @Provides fun provideMutableSettings(
             context: Context,
-            @Named(DEFAULT) defaults: SettingsRepository):
+            @Default defaults: SettingsRepository):
             MutableSettingsRepository = SettingsRepositoryImpl(context, defaults)
 
     @Singleton @Provides fun provideSettings(settings: MutableSettingsRepository):
