@@ -13,7 +13,7 @@ class Injector private constructor(appContext: Context) {
 
     val configComponent = DaggerConfigComponent.builder()
             .appModule(AppModule(appContext))
-            .build()
+            .build()!!
 
     companion object {
 
