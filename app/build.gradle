@@ -82,6 +82,7 @@ dependencies {
     testImplementation td.kotlinReflect
     testImplementation td.robolectric
     testImplementation td.mockitoCore
+    testImplementation td.mockitoKotlin
 
     implementation d.kotlin
     implementation d.rxJava

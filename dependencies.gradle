@@ -33,6 +33,7 @@ ext {
     //Testing
     jUnitVersion = '4.12'
     mockitoVersion = '2.18.3'
+    mockitoKotlinVersion = '1.5.0'
     robolectricVersion = '3.8'
 
     wallpaperappDependencies = [
@@ -65,6 +66,7 @@ ext {
             junit          : "junit:junit:$jUnitVersion",
             robolectric    : "org.robolectric:robolectric:$robolectricVersion",
 
-            mockitoCore    : "org.mockito:mockito-core:$mockitoVersion"
+            mockitoCore    : "org.mockito:mockito-core:$mockitoVersion",
+            mockitoKotlin : "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion"
     ]
 }
