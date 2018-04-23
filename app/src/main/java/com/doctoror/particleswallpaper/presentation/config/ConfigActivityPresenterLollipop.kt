@@ -71,7 +71,7 @@ class ConfigActivityPresenterLollipop(
 
             R.id.actionPreview -> {
                 OpenChangeWallpaperIntentUseCase(activity = view.getActivity())
-                        .useCase().subscribe { if (!it) onPreviewStartFailed() }
+                        .useCase().subscribe { started -> if (!started) onPreviewStartFailed() }
             }
         }
         return super.onOptionsItemSelected(item)

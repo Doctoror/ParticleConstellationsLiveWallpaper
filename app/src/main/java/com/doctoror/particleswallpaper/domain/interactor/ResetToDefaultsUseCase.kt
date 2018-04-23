@@ -3,7 +3,7 @@ package com.doctoror.particleswallpaper.domain.interactor
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import io.reactivex.Observable
+import io.reactivex.Single
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
@@ -14,7 +14,7 @@ class ResetToDefaultsUseCase(private val settings: MutableSettingsRepository,
                              private val defaults: SettingsRepository,
                              private val backgroundImageManager: BackgroundImageManager) : UseCase<Unit> {
 
-    override fun useCase() = Observable.fromCallable { reset() }!!
+    override fun useCase() = Single.fromCallable { reset() }!!
 
     private fun reset() {
         settings.setParticlesColor(defaults.getParticlesColor().blockingFirst())

@@ -11,7 +11,7 @@ import android.os.Build
 import android.util.Log
 import com.doctoror.particleswallpaper.data.engine.WallpaperServiceImpl
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
-import io.reactivex.Observable
+import io.reactivex.Single
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
@@ -31,7 +31,7 @@ class OpenChangeWallpaperIntentUseCase(
         }
     }
 
-    override fun useCase(): Observable<Boolean> = Observable.fromCallable { action() }
+    override fun useCase() = Single.fromCallable { action() }!!
 
     private fun action(): Boolean {
         val intent = Intent()
