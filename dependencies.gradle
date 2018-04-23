@@ -36,7 +36,7 @@ ext {
     robolectricVersion = '3.8'
 
     wallpaperappDependencies = [
-            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
+            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             rxJava            : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
             rxAndroid         : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
 
@@ -58,7 +58,7 @@ ext {
     ]
 
     wallpaperappTestDependencies = [
-            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
+            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             kotlinTest     : "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
             kotlinReflect  : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
 
