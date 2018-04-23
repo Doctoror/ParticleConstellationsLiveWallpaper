@@ -51,7 +51,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         private val context: Context,
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
-        private @Named(DEFAULT) val defaults: SettingsRepository,
+        @Named(DEFAULT) private val defaults: SettingsRepository,
         private val backgroundImageManager: BackgroundImageManager)
     : Presenter<BackgroundImagePreferenceView> {
 
@@ -135,7 +135,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         fun onActivityResultAvailable(requestCode: Int, uri: Uri)
     }
 
-    private inner open class BackgroundImageHandlerLegacy : BackgroundImageHandler {
+    private open inner class BackgroundImageHandlerLegacy : BackgroundImageHandler {
 
         override fun pickBackground() {
             pickByGetContent()

@@ -35,7 +35,7 @@ import javax.inject.Named
 class ParticlesColorPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
-        private @Named(DEFAULT) val defaults: SettingsRepository)
+        @Named(DEFAULT) private val defaults: SettingsRepository)
     : Presenter<ParticlesColorPreferenceView> {
 
     private lateinit var view: ParticlesColorPreferenceView
