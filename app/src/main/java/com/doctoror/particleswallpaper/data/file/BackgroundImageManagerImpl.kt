@@ -38,7 +38,7 @@ class BackgroundImageManagerImpl(
         private const val tag = "BackgroundImageManager"
     }
 
-    private val fileNamePattern = Pattern.compile(fileNamePrefix + "([0-9])+")!!
+    private val fileNamePattern = Pattern.compile("$fileNamePrefix([0-9])+")!!
 
     override fun copyBackgroundToFile(source: Uri): Uri {
         val filesDir = context.filesDir ?: throw IOException("getFilesDir() returned null")
