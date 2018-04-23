@@ -16,9 +16,13 @@
 package com.doctoror.particleswallpaper.presentation.presenter
 
 import android.app.Activity
+import android.app.Fragment
+import android.content.Intent
 import android.widget.Toast
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
+import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
+import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.MvpView
 
@@ -31,6 +35,20 @@ import com.doctoror.particleswallpaper.presentation.view.MvpView
 class PreviewPreferencePresenter(private val activity: Activity) : Presenter<MvpView> {
 
     private val requestCodeSetWallpaper = 1
+
+    var host: Fragment? = null
+        set(f) {
+            val prevHost = host
+            if (prevHost !== f) {
+                if (prevHost is OnActivityResultCallbackHost) {
+                    prevHost.unregsiterCallback(onActivityResultCallback)
+                }
+                if (f is OnActivityResultCallbackHost) {
+                    f.registerCallback(onActivityResultCallback)
+                }
+                field = f
+            }
+        }
 
     override fun onTakeView(view: MvpView) {
         // Stub
@@ -45,9 +63,24 @@ class PreviewPreferencePresenter(private val activity: Activity) : Presenter<Mvp
     }
 
     fun onClick() {
-        OpenChangeWallpaperIntentUseCase(activity, requestCodeSetWallpaper).useCase().subscribe({
-            v ->
-            if (!v) Toast.makeText(activity, R.string.Failed_to_start_preview, Toast.LENGTH_LONG).show()
-        })
+        OpenChangeWallpaperIntentUseCase(
+                fragment = host
+                        ?: throw IllegalStateException("Host must be set"))
+                .useCase()
+                .subscribe({ v ->
+                    if (!v) {
+                        Toast.makeText(activity, R.string.Failed_to_start_preview, Toast.LENGTH_LONG)
+                                .show()
+                    }
+                })
+    }
+
+    private val onActivityResultCallback = object : OnActivityResultCallback() {
+
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            if (requestCode == requestCodeSetWallpaper && resultCode == Activity.RESULT_OK) {
+                activity.finish()
+            }
+        }
     }
 }

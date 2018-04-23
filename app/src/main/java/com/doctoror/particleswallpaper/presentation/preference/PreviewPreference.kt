@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.presentation.preference
 
 import android.app.Activity
+import android.app.Fragment
 import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
@@ -31,6 +32,12 @@ class PreviewPreference @JvmOverloads constructor
     : Preference(contextParam, attrs) {
 
     private val presenter = PreviewPreferencePresenter(contextParam as Activity)
+
+    var host: Fragment? = null
+        set(f) {
+            presenter.host = f
+            field = f
+        }
 
     init {
         isPersistent = false

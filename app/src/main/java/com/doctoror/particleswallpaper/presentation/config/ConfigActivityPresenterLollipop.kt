@@ -41,8 +41,6 @@ class ConfigActivityPresenterLollipop(
         settings: SettingsRepository)
     : ConfigActivityPresenter(schedulers, configurator, settings) {
 
-    private val requestCodeSetWallpaper = 1
-
     override fun onTakeView(view: ConfigActivityView) {
         super.onTakeView(view)
         initToolbar(view)
@@ -72,7 +70,7 @@ class ConfigActivityPresenterLollipop(
             }
 
             R.id.actionPreview -> {
-                OpenChangeWallpaperIntentUseCase(view.getActivity(), requestCodeSetWallpaper)
+                OpenChangeWallpaperIntentUseCase(activity = view.getActivity())
                         .useCase().subscribe { if (!it) onPreviewStartFailed() }
             }
         }

@@ -28,6 +28,7 @@ import com.doctoror.particleswallpaper.presentation.base.LifecyclePreferenceFrag
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHostImpl
 import com.doctoror.particleswallpaper.presentation.preference.BackgroundImagePreference
+import com.doctoror.particleswallpaper.presentation.preference.PreviewPreference
 
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.
@@ -42,23 +43,29 @@ constructor(private val ch: OnActivityResultCallbackHostImpl = OnActivityResultC
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.prefs)
-        setBackgroundImagePreferenceHost(this)
+        setPreferenceHost(this)
         forEachLifecycleObserver(preferenceScreen) { lifecycle.addObserver(it) }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
-            = inflater.inflate(R.layout.fragment_preference, container, false)!!
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+            inflater.inflate(R.layout.fragment_preference, container, false)!!
 
     override fun onDestroy() {
         super.onDestroy()
-        setBackgroundImagePreferenceHost(null)
+        setPreferenceHost(null)
         forEachLifecycleObserver(preferenceScreen) { lifecycle.removeObserver(it) }
     }
 
-    private fun setBackgroundImagePreferenceHost(host: Fragment?) {
-        val p = findPreference(getString(R.string.pref_key_background_image))
-        if (p is BackgroundImagePreference) {
-            p.host = host
+    private fun setPreferenceHost(host: Fragment?) {
+        val backgroundImagePreference = findPreference(getString(R.string.pref_key_background_image))
+        if (backgroundImagePreference is BackgroundImagePreference) {
+            backgroundImagePreference.host = host
+        }
+
+        val previewPreference = findPreference(getString(R.string.pref_key_preview))
+        if (previewPreference is PreviewPreference) {
+            previewPreference.host = host
         }
     }
 
