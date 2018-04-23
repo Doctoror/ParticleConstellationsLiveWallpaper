@@ -27,8 +27,8 @@ import dagger.Component
  */
 @PerActivity
 @Component(
-        dependencies = arrayOf(ConfigComponent::class),
-        modules = arrayOf(ActivityModule::class))
+        dependencies = [ConfigComponent::class],
+        modules = [ActivityModule::class])
 interface ActivityComponent {
 
     fun inject(t: ConfigActivity)

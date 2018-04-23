@@ -18,7 +18,7 @@ import javax.inject.Singleton
  * Component for configuration-related code
  */
 @Singleton
-@Component(modules = arrayOf(AppModule::class, ConfigModule::class))
+@Component(modules = [AppModule::class, ConfigModule::class])
 interface ConfigComponent {
 
     fun exposeDrawableConfigurator(): SceneConfigurator
