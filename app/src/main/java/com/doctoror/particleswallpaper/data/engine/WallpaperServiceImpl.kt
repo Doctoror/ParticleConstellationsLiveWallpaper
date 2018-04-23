@@ -55,15 +55,12 @@ class WallpaperServiceImpl : WallpaperService() {
 
     override fun onCreateEngine(): Engine = EngineImpl()
 
-    internal companion object EngineConfig {
-
-        private const val TAG = "WallpaperService:Engine"
-
-        private const val DEFAULT_DELAY = 10L
-        private const val MIN_DELAY = 5L
-    }
-
     inner class EngineImpl : Engine() {
+
+        private val tag = "WallpaperService:Engine"
+
+        private val defaultDelay = 10L
+        private val minDelay = 5L
 
         @Inject lateinit var schedulers: SchedulersProvider
         @Inject lateinit var configurator: SceneConfigurator
@@ -83,7 +80,7 @@ class WallpaperServiceImpl : WallpaperService() {
 
         private var backgroundUri: String? = null
         private var background: Drawable? = null
-        private var delay = DEFAULT_DELAY
+        private var delay = defaultDelay
 
         private var lastUsedImageLoadTarget: ImageLoadTarget? = null
 
@@ -209,12 +206,12 @@ class WallpaperServiceImpl : WallpaperService() {
                         try {
                             holder.unlockCanvasAndPost(it)
                         } catch (e: IllegalArgumentException) {
-                            Log.wtf(TAG, e)
+                            Log.wtf(tag, e)
                         }
                     }
                 }
                 handler.postDelayed(drawRunnable,
-                        Math.max(delay - (SystemClock.uptimeMillis() - startTime), MIN_DELAY))
+                        Math.max(delay - (SystemClock.uptimeMillis() - startTime), minDelay))
             }
         }
 
