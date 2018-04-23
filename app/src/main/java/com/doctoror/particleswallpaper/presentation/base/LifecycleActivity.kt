@@ -17,16 +17,15 @@ package com.doctoror.particleswallpaper.presentation.base
 
 import android.app.Activity
 import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
-import android.arch.lifecycle.LifecycleRegistryOwner
 
 /**
- * Created by Yaroslav Mytkalyk on 17.06.17.
- *
- * [LifecycleRegistryOwner] [Activity]
+ * [LifecycleOwner] [Activity]
  */
-abstract class LifecycleActivity: Activity(), LifecycleRegistryOwner {
+abstract class LifecycleActivity : Activity(), LifecycleOwner {
 
+    @Suppress("LeakingThis")
     private val lifecycleRegistry = LifecycleRegistry(this)
 
     override fun getLifecycle() = lifecycleRegistry
