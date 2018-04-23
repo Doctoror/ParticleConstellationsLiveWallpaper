@@ -28,6 +28,7 @@ import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.actions.ActivityStartActivityForResultAction
 
 /**
  * Created by Yaroslav Mytkalyk on 17.06.17.
@@ -70,7 +71,10 @@ class ConfigActivityPresenterLollipop(
             }
 
             R.id.actionPreview -> {
-                OpenChangeWallpaperIntentUseCase(activity = view.getActivity())
+                val activity = view.getActivity()
+                OpenChangeWallpaperIntentUseCase(
+                        activity.packageName,
+                        ActivityStartActivityForResultAction(activity))
                         .useCase().subscribe { started -> if (!started) onPreviewStartFailed() }
             }
         }

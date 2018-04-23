@@ -15,16 +15,15 @@
  */
 package com.doctoror.particleswallpaper.domain.interactor
 
-import android.app.Activity
-import android.app.Fragment
+import android.annotation.SuppressLint
 import android.app.WallpaperManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
 import com.doctoror.particleswallpaper.data.engine.WallpaperServiceImpl
+import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
 import io.reactivex.Single
 
@@ -34,49 +33,31 @@ import io.reactivex.Single
  * Opens live wallpaper preview, or wallpaper chooser for pre-Jellybean devices.
  */
 class OpenChangeWallpaperIntentUseCase(
-        private val activity: Activity? = null,
-        private val fragment: Fragment? = null) : UseCase<Boolean> {
+        private val packageName: String,
+        private val startActivityForResultAction: StartActivityForResultAction,
+        private val apiLevelProvider: ApiLevelProvider = ApiLevelProvider())
+    : UseCase<Boolean> {
 
     private val tag = "OpenChangeWpUseCase"
 
-    init {
-        if ((activity == null && fragment == null) ||
-                (activity != null && fragment != null)) {
-            throw IllegalArgumentException("Must set either Activity or Fragment")
-        }
-    }
-
     override fun useCase() = Single.fromCallable { action() }!!
 
+    @SuppressLint("InlinedApi")
     private fun action(): Boolean {
         val intent = Intent()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            val context = getContext() ?: return false
+        if (apiLevelProvider.provideSdkInt() >= Build.VERSION_CODES.JELLY_BEAN) {
             intent.action = WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER
             intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                    ComponentName(context.packageName, WallpaperServiceImpl::class.java.canonicalName))
+                    ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName))
         } else {
             intent.action = WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER
         }
         return try {
-            startActivityForResult(intent, REQUEST_CODE_CHANGE_WALLPAPER)
+            startActivityForResultAction.startActivityForResult(intent, REQUEST_CODE_CHANGE_WALLPAPER)
             true
         } catch (e: ActivityNotFoundException) {
             Log.w(tag, e)
             false
         }
-    }
-
-    private fun startActivityForResult(intent: Intent, requestCode: Int) {
-        if (fragment != null) {
-            fragment.startActivityForResult(intent, requestCode)
-        } else {
-            activity?.startActivityForResult(intent, requestCode)
-                    ?: throw IllegalStateException("Both Activity and Fragment cannot be null")
-        }
-    }
-
-    private fun getContext(): Context? {
-        return activity ?: fragment!!.activity
     }
 }

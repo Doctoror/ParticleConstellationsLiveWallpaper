@@ -15,48 +15,90 @@
  */
 package com.doctoror.particleswallpaper.domain.interactor
 
-import android.app.Activity
-import android.app.Fragment
+import android.app.WallpaperManager
+import android.content.ActivityNotFoundException
+import android.content.ComponentName
+import android.content.Intent
+import android.os.Build
+import com.doctoror.particleswallpaper.data.engine.WallpaperServiceImpl
+import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
 import com.nhaarman.mockito_kotlin.*
+import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-/**
- * TODO add all tests
- */
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
 class OpenChangeWallpaperIntentUseCaseTest {
 
-    fun mockAcitvityWithPackageName(): Activity = mock {
-        on(it.packageName).doReturn("com.doctoror.particleswallpaper")
+    private val action: StartActivityForResultAction = mock()
+    private val apiLevelProvider: ApiLevelProvider = mock()
+    private val packageName = "packageName"
+
+    private val underTest = OpenChangeWallpaperIntentUseCase(
+            packageName, action, apiLevelProvider)
+
+    private fun givenSdkIsJellyBean() {
+        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.JELLY_BEAN)
     }
 
-    @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenBothActivityAndFragmentAreNull() {
-        OpenChangeWallpaperIntentUseCase(null, null)
+    private fun givenSdkIsIcsMr1() {
+        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
     }
 
-    @Test(expected = IllegalArgumentException::class)
-    fun crashesWhenBothActivityAndFragmentArePassed() {
-        OpenChangeWallpaperIntentUseCase(mock(), mock())
+    @Before
+    fun setup() {
+        givenSdkIsJellyBean()
     }
 
     @Test
-    fun opensWallpaperChoserWithFragment() {
-        val activity: Activity = mock {
-            on(it.packageName).doReturn("SHIT")
-        }
-        val fragment: Fragment = mock {
-            on(it.activity).doReturn(activity)
-        }
-        val underTest = OpenChangeWallpaperIntentUseCase(fragment = fragment)
+    fun opensWallpaperChoserForJellyBeanAndLater() {
+        // When
+        val o = underTest.useCase().test()
 
-        underTest.useCase().test()
+        // Then
+        o.assertResult(true)
 
-        verify(fragment).startActivityForResult(any(), eq(REQUEST_CODE_CHANGE_WALLPAPER))
+        val captor = argumentCaptor<Intent>()
+        verify(action).startActivityForResult(captor.capture(), eq(REQUEST_CODE_CHANGE_WALLPAPER))
+
+        assertEquals(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER, captor.firstValue.action)
+        assertEquals(
+                ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName),
+                captor.firstValue.getParcelableExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT))
+    }
+
+    @Test
+    fun opensWallpaperChoserForIcsMr1() {
+        // Given
+        givenSdkIsIcsMr1()
+
+        // When
+        val o = underTest.useCase().test()
+
+        // Then
+        o.assertResult(true)
+
+        val captor = argumentCaptor<Intent>()
+        verify(action).startActivityForResult(captor.capture(), eq(REQUEST_CODE_CHANGE_WALLPAPER))
+
+        assertEquals(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER, captor.firstValue.action)
+    }
+
+    @Test
+    fun returnsFalseOnActivityNotFoundException() {
+        // Given
+        whenever(action.startActivityForResult(any(), any())).thenThrow(ActivityNotFoundException())
+
+        // When
+        val o = underTest.useCase().test()
+
+        // Then
+        o.assertNoErrors()
+        o.assertResult(false)
     }
 }
