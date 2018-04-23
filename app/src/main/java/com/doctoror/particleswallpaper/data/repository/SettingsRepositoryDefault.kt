@@ -29,27 +29,11 @@ import io.reactivex.Observable
  *
  * [SettingsRepository] with default values.
  */
-class SettingsRepositoryDefault @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE) constructor(
+class SettingsRepositoryDefault(
         private val res: Resources,
         private val theme: Resources.Theme,
         private val typedValueFactory: TypedValueFactory = DefaultTypedValueFactory())
     : SettingsRepository {
-
-    companion object {
-
-        private var instance: SettingsRepositoryDefault? = null
-
-        fun getInstance(res: Resources,
-                        theme: Resources.Theme)
-                : SettingsRepositoryDefault {
-            var instance = instance
-            if (instance == null) {
-                instance = SettingsRepositoryDefault(res, theme)
-                this.instance = instance
-            }
-            return instance
-        }
-    }
 
     override fun getNumDots() = Observable.just(
             res.getInteger(R.integer.default_density))!!

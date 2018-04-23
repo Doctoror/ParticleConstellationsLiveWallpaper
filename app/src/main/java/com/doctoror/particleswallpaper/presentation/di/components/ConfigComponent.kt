@@ -9,7 +9,9 @@ import com.doctoror.particleswallpaper.domain.repository.MutableSettingsReposito
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.modules.AppModule
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
+import com.doctoror.particleswallpaper.presentation.di.modules.DEFAULT
 import dagger.Component
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -25,6 +27,7 @@ interface ConfigComponent {
     fun exposeBackgroundImageManager(): BackgroundImageManager
     fun exposeMutableSettings(): MutableSettingsRepository
     fun exposeSettings(): SettingsRepository
+    @Named(DEFAULT) fun exposeDefaultSettings(): SettingsRepository
 
     fun exposeSchedulers(): SchedulersProvider
     fun exposeContext(): Context

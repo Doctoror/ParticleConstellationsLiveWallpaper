@@ -15,9 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.di.modules
 
-import android.content.Context
 import android.os.Build
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDefault
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
@@ -26,7 +24,6 @@ import com.doctoror.particleswallpaper.presentation.config.ConfigActivityPresent
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 
 /**
  * Created by Yaroslav Mytkalyk on 14.06.17.
@@ -35,12 +32,6 @@ import javax.inject.Named
  */
 @Module
 class ActivityModule {
-
-    @PerActivity
-    @Provides
-    @Named(DEFAULT)
-    fun provideDefaultSettings(context: Context):
-            SettingsRepository = SettingsRepositoryDefault.getInstance(context.resources!!, context.theme!!)
 
     @PerActivity
     @Provides

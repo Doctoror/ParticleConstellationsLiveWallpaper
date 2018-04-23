@@ -15,7 +15,6 @@
  */
 package com.doctoror.particleswallpaper.presentation.di.components
 
-import com.doctoror.particleswallpaper.presentation.di.modules.PreferenceModule
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.preference.*
 import dagger.Component
@@ -26,9 +25,7 @@ import dagger.Component
  * Per Preference component
  */
 @PerPreference
-@Component(
-        dependencies = [ConfigComponent::class],
-        modules = [PreferenceModule::class])
+@Component(dependencies = [ConfigComponent::class])
 interface PreferenceComponent {
 
     fun inject(p: BackgroundColorPreference)

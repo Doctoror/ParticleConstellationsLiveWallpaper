@@ -22,7 +22,6 @@ import android.content.Context
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.di.modules.PreferenceModule
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.presenter.BackgroundColorPreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.BackgroundColorPreferenceView
@@ -46,7 +45,6 @@ class BackgroundColorPreference @JvmOverloads constructor
 
         DaggerPreferenceComponent.builder()
                 .configComponent(Injector.getInstance(context.applicationContext).configComponent)
-                .preferenceModule(PreferenceModule())
                 .build()
                 .inject(this)
 

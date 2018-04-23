@@ -22,15 +22,14 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-/**
- * Created by Yaroslav Mytkalyk on 01.06.17.
- *
- * Application module. Provides Context and Resources
- */
 @Module
 class AppModule(private val context: Context) {
 
-    @Singleton @Provides fun provideContext() = context
-    @Singleton @Provides fun provideSchedulers(): SchedulersProvider = SchedulersProviderImpl()
+    @Singleton
+    @Provides
+    fun provideContext() = context
 
+    @Singleton
+    @Provides
+    fun provideSchedulers(): SchedulersProvider = SchedulersProviderImpl()
 }

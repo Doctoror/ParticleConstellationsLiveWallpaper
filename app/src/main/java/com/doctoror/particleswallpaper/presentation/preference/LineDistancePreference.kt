@@ -22,7 +22,6 @@ import android.content.Context
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.di.modules.PreferenceModule
 import com.doctoror.particleswallpaper.presentation.presenter.LineDistancePreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import javax.inject.Inject
@@ -41,7 +40,6 @@ class LineDistancePreference @JvmOverloads constructor
     init {
         DaggerPreferenceComponent.builder()
                 .configComponent(Injector.getInstance(context.applicationContext).configComponent)
-                .preferenceModule(PreferenceModule())
                 .build()
                 .inject(this)
 
