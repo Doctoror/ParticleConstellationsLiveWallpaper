@@ -24,7 +24,7 @@ ext {
     colorPickerVersion = '2.3.0'
     glideVersion = '4.6.1'
 
-    supportVersion = '27.0.2'
+    supportVersion = '27.1.1'
 
     licencesDialogVersion = '1.8.3'
 
