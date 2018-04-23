@@ -24,7 +24,6 @@ import com.doctoror.particleswallpaper.presentation.base.LifecycleActivity
 import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerActivityComponent
 import com.doctoror.particleswallpaper.presentation.di.modules.ActivityModule
-import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 import javax.inject.Inject
 
 class ConfigActivity : LifecycleActivity(), ConfigActivityView {
