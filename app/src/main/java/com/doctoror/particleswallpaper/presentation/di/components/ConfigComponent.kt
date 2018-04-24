@@ -31,5 +31,5 @@ interface ConfigComponent {
     fun exposeSchedulers(): SchedulersProvider
     fun exposeContext(): Context
 
-    fun inject(p: WallpaperServiceImpl.EngineImpl)
+    fun inject(p: WallpaperServiceImpl)
 }

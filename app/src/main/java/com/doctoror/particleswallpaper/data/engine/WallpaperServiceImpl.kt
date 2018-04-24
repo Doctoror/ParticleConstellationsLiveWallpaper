@@ -53,20 +53,36 @@ import javax.inject.Inject
  */
 class WallpaperServiceImpl : WallpaperService() {
 
-    override fun onCreateEngine(): Engine = EngineImpl()
+    @Inject
+    lateinit var schedulers: SchedulersProvider
 
-    inner class EngineImpl : Engine() {
+    @Inject
+    lateinit var configurator: SceneConfigurator
+
+    @Inject
+    lateinit var settings: SettingsRepository
+
+    private lateinit var requestManager: RequestManager
+
+    override fun onCreate() {
+        super.onCreate()
+        Injector.getInstance(application).configComponent.inject(this)
+        requestManager = Glide.with(this)
+    }
+
+    override fun onCreateEngine(): Engine = EngineImpl(
+            configurator, requestManager, schedulers, settings)
+
+    inner class EngineImpl(
+            private val configurator: SceneConfigurator,
+            private val glide: RequestManager,
+            private val schedulers: SchedulersProvider,
+            private val settings: SettingsRepository) : Engine() {
 
         private val tag = "WallpaperService:Engine"
 
         private val defaultDelay = 10L
         private val minDelay = 5L
-
-        @Inject lateinit var schedulers: SchedulersProvider
-        @Inject lateinit var configurator: SceneConfigurator
-        @Inject lateinit var settings: SettingsRepository
-
-        private lateinit var glide: RequestManager
 
         private val disposables = CompositeDisposable()
 
@@ -111,10 +127,8 @@ class WallpaperServiceImpl : WallpaperService() {
 
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
-            Injector.getInstance(application).configComponent.inject(this)
 
             configurator.subscribe(drawable, settings)
-            glide = Glide.with(this@WallpaperServiceImpl)
 
             disposables.add(settings.getFrameDelay()
                     .observeOn(schedulers.mainThread())
