@@ -19,11 +19,7 @@ import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import io.reactivex.schedulers.Schedulers
 
 /**
- * Created by Yaroslav Mytkalyk on 16.06.17.
- *
  * The computation [SchedulersProvider] implementation.
- * Useful for mocking where AndroidSchedulers not available because of the test runner
- * implementation.
  */
 class ComputationSchedulers : SchedulersProvider {
 
