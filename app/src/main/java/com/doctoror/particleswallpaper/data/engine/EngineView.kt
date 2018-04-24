@@ -23,18 +23,15 @@ import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.annotation.VisibleForTesting
 import android.util.Log
-import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.ParticlesDrawable
 
-class EngineView {
+class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
 
     private val tag = "EngineView"
 
     val backgroundPaint = Paint()
 
     val drawable = ParticlesDrawable()
-
-    var surfaceHolder: SurfaceHolder? = null
 
     var background: Drawable? = null
 
@@ -71,7 +68,7 @@ class EngineView {
     }
 
     fun draw() {
-        val holder = surfaceHolder ?: throw IllegalStateException("SurfaceHolder not set")
+        val holder = surfaceHolderProvider.provideSurfaceHolder()
         var canvas: Canvas? = null
         try {
             canvas = holder.lockCanvas()

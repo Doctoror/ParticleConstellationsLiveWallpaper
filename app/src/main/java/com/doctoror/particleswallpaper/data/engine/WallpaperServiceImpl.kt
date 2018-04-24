@@ -16,30 +16,14 @@
 package com.doctoror.particleswallpaper.data.engine
 
 import android.annotation.TargetApi
-import android.app.WallpaperColors
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
 import android.service.wallpaper.WallpaperService
-import android.support.annotation.VisibleForTesting
 import android.view.SurfaceHolder
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.Injector
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
@@ -58,206 +42,51 @@ class WallpaperServiceImpl : WallpaperService() {
     @Inject
     lateinit var settings: SettingsRepository
 
-    private val engineView = EngineView()
-
-    private lateinit var requestManager: RequestManager
-
     override fun onCreate() {
         super.onCreate()
         Injector.getInstance(application).configComponent.inject(this)
-        requestManager = Glide.with(this)
     }
 
-    override fun onCreateEngine(): Engine = EngineImpl(
-            configurator, requestManager, schedulers, settings, engineView)
+    override fun onCreateEngine(): Engine {
+        val engine = EngineImpl()
+        val view = EngineView(engine)
+        engine.presenter = EnginePresenter(
+                configurator, engine, Glide.with(this), schedulers, settings, view)
+        return engine
+    }
 
-    inner class EngineImpl(
-            private val configurator: SceneConfigurator,
-            private val glide: RequestManager,
-            private val schedulers: SchedulersProvider,
-            private val settings: SettingsRepository,
-            private val view: EngineView) : Engine() {
+    inner class EngineImpl : Engine(), EngineController, SurfaceHolderProvider {
 
-        private val defaultDelay = 10L
-        private val minDelay = 5L
+        lateinit var presenter: EnginePresenter
 
-        private val disposables = CompositeDisposable()
-
-        private val handler = Handler(Looper.getMainLooper())
-
-        @VisibleForTesting
-        var width = 0
-            private set
-
-        @VisibleForTesting
-        var height = 0
-            private set
-
-        @VisibleForTesting
-        var backgroundUri: String? = null
-            private set
-
-        @VisibleForTesting
-        var delay = defaultDelay
-            private set
-
-        private var lastUsedImageLoadTarget: ImageLoadTarget? = null
-
-        @VisibleForTesting
-        var visible = false
-            private set(value) {
-                field = value
-                handleRunConstraints()
-            }
-
-        @VisibleForTesting
-        var run = false
-            private set(value) {
-                if (field != value) {
-                    field = value
-                    if (value) {
-                        view.start()
-                        handler.post(drawRunnable)
-                    } else {
-                        handler.removeCallbacks(drawRunnable)
-                        view.stop()
-                    }
-                }
-            }
-
-        init {
-            view.surfaceHolder = surfaceHolder
-        }
+        override fun provideSurfaceHolder() = surfaceHolder!!
 
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
-
-            configurator.subscribe(view.drawable, settings)
-
-            disposables.add(settings.getFrameDelay()
-                    .observeOn(schedulers.mainThread())
-                    .subscribe { delay = it.toLong() })
-
-            disposables.add(settings.getBackgroundColor()
-                    .doOnNext {
-                        view.setBackgroundColor(it)
-                        if (backgroundUri != null) {
-                            // If background was already loaded, but color is changed afterwards.
-                            notifyBackgroundColors()
-                        }
-                    }
-                    .flatMap { settings.getBackgroundUri() }
-                    .observeOn(schedulers.mainThread())
-                    .subscribe { handleBackground(it) })
+            presenter.onCreate()
         }
 
         override fun onDestroy() {
             super.onDestroy()
-            visible = false
-            configurator.dispose()
-            disposables.clear()
-            backgroundUri = null
-            view.background = null
-            glide.clear(lastUsedImageLoadTarget)
-        }
-
-        private fun handleBackground(uri: String) {
-            if (backgroundUri != uri) {
-                backgroundUri = uri
-                glide.clear(lastUsedImageLoadTarget)
-                view.background = null
-                if (uri == NO_URI) {
-                    lastUsedImageLoadTarget = null
-                    notifyBackgroundColors()
-                } else if (width != 0 && height != 0) {
-                    val target = ImageLoadTarget(width, height)
-                    glide
-                            .load(uri)
-                            .apply(RequestOptions.noAnimation())
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                            .apply(RequestOptions.skipMemoryCacheOf(true))
-                            .apply(RequestOptions.centerCropTransform())
-                            .into(target)
-
-                    lastUsedImageLoadTarget = target
-                }
-            }
+            presenter.onDestroy()
         }
 
         override fun onSurfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
             super.onSurfaceChanged(holder, format, width, height)
-            this.width = width
-            this.height = height
-            view.setDimensions(width, height)
-
-            // Force re-apply background
-            backgroundUri = null
-            handleBackground(settings.getBackgroundUri().blockingFirst())
+            presenter.setDimensions(width, height)
         }
 
         override fun onSurfaceDestroyed(holder: SurfaceHolder) {
             super.onSurfaceDestroyed(holder)
-            visible = false
+            presenter.visible = false
         }
 
         override fun onVisibilityChanged(visible: Boolean) {
             super.onVisibilityChanged(visible)
-            this.visible = visible
-        }
-
-        private fun draw() {
-            handler.removeCallbacks(drawRunnable)
-            if (run) {
-                val startTime = SystemClock.uptimeMillis()
-                view.draw()
-                handler.postDelayed(drawRunnable,
-                        Math.max(delay - (SystemClock.uptimeMillis() - startTime), minDelay))
-            }
-        }
-
-        private fun handleRunConstraints() {
-            run = visible
-        }
-
-        private fun notifyBackgroundColors() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                notifyColorsChanged()
-            }
+            presenter.visible = visible
         }
 
         @TargetApi(Build.VERSION_CODES.O_MR1)
-        override fun onComputeColors(): WallpaperColors {
-            val background = view.background
-            val colors: WallpaperColors
-            if (background != null) {
-                colors = WallpaperColors.fromDrawable(background)
-                background.setBounds(0, 0, width, height)
-            } else {
-                colors = WallpaperColors.fromDrawable(ColorDrawable(view.backgroundPaint.color))
-            }
-            return colors
-        }
-
-        private val drawRunnable = Runnable { this.draw() }
-
-        private inner class ImageLoadTarget(private val width: Int, private val height: Int)
-            : SimpleTarget<Drawable>(width, height) {
-
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                resource.setBounds(0, 0, width, height)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    if (resource is BitmapDrawable) {
-                        resource.bitmap?.let {
-                            if (it.config == Bitmap.Config.ARGB_8888
-                                    && it.hasAlpha() && !it.isPremultiplied) {
-                                it.isPremultiplied = true
-                            }
-                        }
-                    }
-                }
-                view.background = resource
-                notifyBackgroundColors()
-            }
-        }
+        override fun onComputeColors() = presenter.onComputeColors()
     }
 }

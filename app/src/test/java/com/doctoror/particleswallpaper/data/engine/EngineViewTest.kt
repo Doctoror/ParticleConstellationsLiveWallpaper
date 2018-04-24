@@ -29,7 +29,7 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class EngineViewTest {
 
-    private val underTest = EngineView()
+    private val underTest = EngineView(mock())
 
     @Test
     fun paintStyleIsFill() {
