@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.data.engine
 
+import android.graphics.Paint
 import android.net.Uri
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -25,6 +26,7 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import org.junit.After
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -63,6 +65,37 @@ class WallpaperServiceImplEngineTest {
 
         // Then
         verify(configurator).subscribe(any(), eq(settings))
+    }
+
+    @Test
+    fun paintStyleIsFill() {
+        assertEquals(Paint.Style.FILL, underTest.backgroundPaint.style)
+    }
+
+    @Test
+    fun loadsBackgroundColor() {
+        // Given
+        val color = 666
+        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(color))
+
+        // When
+        underTest.onCreate(null)
+
+        // Then
+        assertEquals(color, underTest.backgroundPaint.color)
+    }
+
+    @Test
+    fun loadsBackgroundUri() {
+        // Given
+        val uri = "uri://scheme"
+        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(uri))
+
+        // When
+        underTest.onCreate(null)
+
+        // Then
+        assertEquals(uri, underTest.backgroundUri)
     }
 
     @Test
@@ -112,5 +145,112 @@ class WallpaperServiceImplEngineTest {
 
         // Then
         verify(glide).load(uri)
+    }
+
+    @Test
+    fun loadsFrameDelay() {
+        // Given
+        val frameDelay = 666
+        whenever(settings.getFrameDelay()).thenReturn(Observable.just(frameDelay))
+
+        // When
+        underTest.onCreate(null)
+
+        // Then
+        assertEquals(frameDelay.toLong(), underTest.delay)
+    }
+
+    @Test
+    fun visibleOnVisibilityChange() {
+        // When
+        underTest.onVisibilityChanged(true)
+
+        // Then
+        assertTrue(underTest.visible)
+    }
+
+    @Test
+    fun notVisibleOnVisibilityChangeToFalse() {
+        // Given
+        underTest.onVisibilityChanged(true)
+
+        // When
+        underTest.onVisibilityChanged(false)
+
+        // Then
+        assertFalse(underTest.visible)
+    }
+
+    @Test
+    fun notVisibleOnDestroy() {
+        // Given
+        underTest.onVisibilityChanged(true)
+
+        // When
+        underTest.onDestroy()
+
+        // Then
+        assertFalse(underTest.visible)
+    }
+
+    @Test
+    fun runWhenVisible() {
+        // When
+        underTest.onVisibilityChanged(true)
+
+        // Then
+        assertTrue(underTest.run)
+    }
+
+    @Test
+    fun doNotRunWhenVisibilityChangedToFalse() {
+        // Given
+        underTest.onVisibilityChanged(true)
+
+        // When
+        underTest.onVisibilityChanged(false)
+
+        // Then
+        assertFalse(underTest.run)
+    }
+
+    @Test
+    fun doNotRunOnDestroy() {
+        // Given
+        underTest.onVisibilityChanged(true)
+
+        // When
+        underTest.onDestroy()
+
+        // Then
+        assertFalse(underTest.run)
+    }
+
+    @Test
+    fun widthAndHeightChangedOnSurfaceChange() {
+        // Given
+        val width = 1
+        val height = 2
+
+        // When
+        underTest.onSurfaceChanged(mock(), 0, width, height)
+
+        // Then
+        assertEquals(width, underTest.width)
+        assertEquals(height, underTest.height)
+    }
+
+    @Test
+    fun drawableBoundsChangedOnSurfaceChange() {
+        // Given
+        val width = 1
+        val height = 2
+
+        // When
+        underTest.onSurfaceChanged(mock(), 0, width, height)
+
+        // Then
+        assertEquals(width, underTest.drawable.bounds.width())
+        assertEquals(height, underTest.drawable.bounds.height())
     }
 }

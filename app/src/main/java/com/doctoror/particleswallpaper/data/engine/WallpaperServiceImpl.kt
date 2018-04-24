@@ -29,6 +29,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import android.service.wallpaper.WallpaperService
+import android.support.annotation.VisibleForTesting
 import android.util.Log
 import android.view.SurfaceHolder
 import com.bumptech.glide.Glide
@@ -86,28 +87,44 @@ class WallpaperServiceImpl : WallpaperService() {
 
         private val disposables = CompositeDisposable()
 
-        private val backgroundPaint = Paint()
-
         private val handler = Handler(Looper.getMainLooper())
-        private val drawable = ParticlesDrawable()
 
-        private var width = 0
-        private var height = 0
+        @VisibleForTesting
+        val backgroundPaint = Paint()
 
-        private var backgroundUri: String? = null
+        @VisibleForTesting
+        val drawable = ParticlesDrawable()
+
+        @VisibleForTesting
+        var width = 0
+            private set
+
+        @VisibleForTesting
+        var height = 0
+            private set
+
+        @VisibleForTesting
+        var backgroundUri: String? = null
+            private set
+
+        @VisibleForTesting
+        var delay = defaultDelay
+            private set
+
         private var background: Drawable? = null
-        private var delay = defaultDelay
 
         private var lastUsedImageLoadTarget: ImageLoadTarget? = null
 
-        private var visible = false
-            set(value) {
+        @VisibleForTesting
+        var visible = false
+            private set(value) {
                 field = value
                 handleRunConstraints()
             }
 
-        private var run = false
-            set(value) {
+        @VisibleForTesting
+        var run = false
+            private set(value) {
                 if (field != value) {
                     field = value
                     if (value) {
