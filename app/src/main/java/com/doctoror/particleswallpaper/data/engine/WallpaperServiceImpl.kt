@@ -18,9 +18,6 @@ package com.doctoror.particleswallpaper.data.engine
 import android.annotation.TargetApi
 import android.app.WallpaperColors
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -30,7 +27,6 @@ import android.os.Looper
 import android.os.SystemClock
 import android.service.wallpaper.WallpaperService
 import android.support.annotation.VisibleForTesting
-import android.util.Log
 import android.view.SurfaceHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -38,7 +34,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
@@ -63,6 +58,8 @@ class WallpaperServiceImpl : WallpaperService() {
     @Inject
     lateinit var settings: SettingsRepository
 
+    private val engineView = EngineView()
+
     private lateinit var requestManager: RequestManager
 
     override fun onCreate() {
@@ -72,15 +69,14 @@ class WallpaperServiceImpl : WallpaperService() {
     }
 
     override fun onCreateEngine(): Engine = EngineImpl(
-            configurator, requestManager, schedulers, settings)
+            configurator, requestManager, schedulers, settings, engineView)
 
     inner class EngineImpl(
             private val configurator: SceneConfigurator,
             private val glide: RequestManager,
             private val schedulers: SchedulersProvider,
-            private val settings: SettingsRepository) : Engine() {
-
-        private val tag = "WallpaperService:Engine"
+            private val settings: SettingsRepository,
+            private val view: EngineView) : Engine() {
 
         private val defaultDelay = 10L
         private val minDelay = 5L
@@ -88,12 +84,6 @@ class WallpaperServiceImpl : WallpaperService() {
         private val disposables = CompositeDisposable()
 
         private val handler = Handler(Looper.getMainLooper())
-
-        @VisibleForTesting
-        val backgroundPaint = Paint()
-
-        @VisibleForTesting
-        val drawable = ParticlesDrawable()
 
         @VisibleForTesting
         var width = 0
@@ -111,8 +101,6 @@ class WallpaperServiceImpl : WallpaperService() {
         var delay = defaultDelay
             private set
 
-        private var background: Drawable? = null
-
         private var lastUsedImageLoadTarget: ImageLoadTarget? = null
 
         @VisibleForTesting
@@ -128,24 +116,23 @@ class WallpaperServiceImpl : WallpaperService() {
                 if (field != value) {
                     field = value
                     if (value) {
-                        drawable.start()
+                        view.start()
                         handler.post(drawRunnable)
                     } else {
                         handler.removeCallbacks(drawRunnable)
-                        drawable.stop()
+                        view.stop()
                     }
                 }
             }
 
         init {
-            backgroundPaint.style = Paint.Style.FILL
-            backgroundPaint.color = Color.BLACK
+            view.surfaceHolder = surfaceHolder
         }
 
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
 
-            configurator.subscribe(drawable, settings)
+            configurator.subscribe(view.drawable, settings)
 
             disposables.add(settings.getFrameDelay()
                     .observeOn(schedulers.mainThread())
@@ -153,7 +140,7 @@ class WallpaperServiceImpl : WallpaperService() {
 
             disposables.add(settings.getBackgroundColor()
                     .doOnNext {
-                        backgroundPaint.color = it
+                        view.setBackgroundColor(it)
                         if (backgroundUri != null) {
                             // If background was already loaded, but color is changed afterwards.
                             notifyBackgroundColors()
@@ -170,7 +157,7 @@ class WallpaperServiceImpl : WallpaperService() {
             configurator.dispose()
             disposables.clear()
             backgroundUri = null
-            background = null
+            view.background = null
             glide.clear(lastUsedImageLoadTarget)
         }
 
@@ -178,7 +165,7 @@ class WallpaperServiceImpl : WallpaperService() {
             if (backgroundUri != uri) {
                 backgroundUri = uri
                 glide.clear(lastUsedImageLoadTarget)
-                background = null
+                view.background = null
                 if (uri == NO_URI) {
                     lastUsedImageLoadTarget = null
                     notifyBackgroundColors()
@@ -199,10 +186,9 @@ class WallpaperServiceImpl : WallpaperService() {
 
         override fun onSurfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
             super.onSurfaceChanged(holder, format, width, height)
-            drawable.setBounds(0, 0, width, height)
-            background?.setBounds(0, 0, width, height)
             this.width = width
             this.height = height
+            view.setDimensions(width, height)
 
             // Force re-apply background
             backgroundUri = null
@@ -223,51 +209,14 @@ class WallpaperServiceImpl : WallpaperService() {
             handler.removeCallbacks(drawRunnable)
             if (run) {
                 val startTime = SystemClock.uptimeMillis()
-                val holder = surfaceHolder
-                var canvas: Canvas? = null
-                try {
-                    canvas = holder.lockCanvas()
-                    if (canvas != null) {
-                        drawBackground(canvas)
-                        drawable.draw(canvas)
-                        drawable.nextFrame()
-                    }
-                } finally {
-                    canvas?.let {
-                        try {
-                            holder.unlockCanvasAndPost(it)
-                        } catch (e: IllegalArgumentException) {
-                            Log.wtf(tag, e)
-                        }
-                    }
-                }
+                view.draw()
                 handler.postDelayed(drawRunnable,
                         Math.max(delay - (SystemClock.uptimeMillis() - startTime), minDelay))
             }
         }
 
-        private fun drawBackground(c: Canvas) {
-            val background = background
-            if (background == null) {
-                drawBackgroundColor(c)
-            } else {
-                if (background is BitmapDrawable) {
-                    background.bitmap?.let {
-                        if (it.hasAlpha()) {
-                            drawBackgroundColor(c)
-                        }
-                    }
-                }
-                background.draw(c)
-            }
-        }
-
         private fun handleRunConstraints() {
             run = visible
-        }
-
-        private fun drawBackgroundColor(c: Canvas) {
-            c.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
         }
 
         private fun notifyBackgroundColors() {
@@ -278,13 +227,13 @@ class WallpaperServiceImpl : WallpaperService() {
 
         @TargetApi(Build.VERSION_CODES.O_MR1)
         override fun onComputeColors(): WallpaperColors {
-            val background = background
+            val background = view.background
             val colors: WallpaperColors
             if (background != null) {
                 colors = WallpaperColors.fromDrawable(background)
                 background.setBounds(0, 0, width, height)
             } else {
-                colors = WallpaperColors.fromDrawable(ColorDrawable(backgroundPaint.color))
+                colors = WallpaperColors.fromDrawable(ColorDrawable(view.backgroundPaint.color))
             }
             return colors
         }
@@ -306,7 +255,7 @@ class WallpaperServiceImpl : WallpaperService() {
                         }
                     }
                 }
-                background = resource
+                view.background = resource
                 notifyBackgroundColors()
             }
         }

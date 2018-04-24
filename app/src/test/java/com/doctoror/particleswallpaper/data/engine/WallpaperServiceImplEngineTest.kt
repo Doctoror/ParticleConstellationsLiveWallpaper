@@ -15,10 +15,10 @@
  */
 package com.doctoror.particleswallpaper.data.engine
 
-import android.graphics.Paint
 import android.net.Uri
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
@@ -42,9 +42,10 @@ class WallpaperServiceImplEngineTest {
     private val glide: RequestManager = spy(Glide.with(RuntimeEnvironment.systemContext))
     private val settings: SettingsRepository = mock()
     private val service = WallpaperServiceImpl()
+    private val view: EngineView = mock()
 
     private val underTest = service.EngineImpl(
-            configurator, glide, TrampolineSchedulers(), settings)
+            configurator, glide, TrampolineSchedulers(), settings, view)
 
     @Before
     fun setup() {
@@ -60,16 +61,15 @@ class WallpaperServiceImplEngineTest {
 
     @Test
     fun subscribesToConfigurator() {
+        // Given
+        val drawable: ParticlesDrawable = mock()
+        whenever(view.drawable).thenReturn(drawable)
+
         // When
         underTest.onCreate(null)
 
         // Then
-        verify(configurator).subscribe(any(), eq(settings))
-    }
-
-    @Test
-    fun paintStyleIsFill() {
-        assertEquals(Paint.Style.FILL, underTest.backgroundPaint.style)
+        verify(configurator).subscribe(drawable, settings)
     }
 
     @Test
@@ -82,7 +82,7 @@ class WallpaperServiceImplEngineTest {
         underTest.onCreate(null)
 
         // Then
-        assertEquals(color, underTest.backgroundPaint.color)
+        verify(view).setBackgroundColor(color)
     }
 
     @Test
@@ -250,7 +250,27 @@ class WallpaperServiceImplEngineTest {
         underTest.onSurfaceChanged(mock(), 0, width, height)
 
         // Then
-        assertEquals(width, underTest.drawable.bounds.width())
-        assertEquals(height, underTest.drawable.bounds.height())
+        verify(view).setDimensions(width, height)
+    }
+
+    @Test
+    fun startsWhenVisible() {
+        // When
+        underTest.onVisibilityChanged(true)
+
+        // Then
+        verify(view).start()
+    }
+
+    @Test
+    fun stopsWhenNotVisible() {
+        // Given
+        underTest.onVisibilityChanged(true)
+
+        // When
+        underTest.onVisibilityChanged(false)
+
+        // Then
+        verify(view).stop()
     }
 }
