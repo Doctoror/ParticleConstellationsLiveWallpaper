@@ -19,6 +19,7 @@ import android.content.Context
 import com.doctoror.particleswallpaper.data.config.SceneConfiguratorImpl
 import com.doctoror.particleswallpaper.data.file.BackgroundImageManagerImpl
 import com.doctoror.particleswallpaper.data.file.FileSaver
+import com.doctoror.particleswallpaper.data.file.FileUriResolver
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDefault
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryImpl
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
@@ -39,21 +40,30 @@ import javax.inject.Singleton
 @Module
 class ConfigModule {
 
-    @Singleton @Provides @Default fun provideDefaultSettings(context: Context):
+    @Singleton
+    @Provides
+    @Default
+    fun provideDefaultSettings(context: Context):
             SettingsRepository = SettingsRepositoryDefault(context.resources!!, context.theme!!)
 
-    @Singleton @Provides fun provideMutableSettings(
+    @Singleton
+    @Provides
+    fun provideMutableSettings(
             context: Context,
             @Default defaults: SettingsRepository):
             MutableSettingsRepository = SettingsRepositoryImpl(context, defaults)
 
-    @Singleton @Provides fun provideSettings(settings: MutableSettingsRepository):
+    @Singleton
+    @Provides
+    fun provideSettings(settings: MutableSettingsRepository):
             SettingsRepository = settings
 
-    @Provides fun provideSceneConfigurator(schedulers: SchedulersProvider):
+    @Provides
+    fun provideSceneConfigurator(schedulers: SchedulersProvider):
             SceneConfigurator = SceneConfiguratorImpl(schedulers)
 
-    @Provides fun provideBackgroundImageManager(context: Context):
-            BackgroundImageManager = BackgroundImageManagerImpl(context, FileSaver(context))
+    @Provides
+    fun provideBackgroundImageManager(context: Context): BackgroundImageManager =
+            BackgroundImageManagerImpl(context, FileSaver(context), FileUriResolver(context))
 
 }

@@ -17,9 +17,7 @@ package com.doctoror.particleswallpaper.data.file
 
 import android.content.Context
 import android.net.Uri
-import android.support.v4.content.FileProvider
 import android.util.Log
-import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import java.io.File
 import java.io.IOException
@@ -30,7 +28,8 @@ import java.util.regex.Pattern
  */
 class BackgroundImageManagerImpl(
         private val context: Context,
-        private val fileSaver: FileSaver) : BackgroundImageManager {
+        private val fileSaver: FileSaver,
+        private val fileUriResolver: FileUriResolver) : BackgroundImageManager {
 
     private val backgroundsDirectory = "backgrounds"
     private val fileNamePrefix = "bg"
@@ -55,7 +54,7 @@ class BackgroundImageManagerImpl(
             throw IOException("The created file does not exist")
         }
 
-        return FileProvider.getUriForFile(context, context.getString(R.string.file_provider_authority), file)
+        return fileUriResolver.getUriForFile(file)
                 ?: throw IOException("FileProvider returned null Uri for saved file")
     }
 
