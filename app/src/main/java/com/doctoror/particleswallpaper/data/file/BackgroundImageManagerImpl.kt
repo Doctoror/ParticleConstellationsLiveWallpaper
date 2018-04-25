@@ -30,7 +30,7 @@ import java.util.regex.Pattern
  */
 class BackgroundImageManagerImpl(
         private val context: Context,
-        private val fileManager: FileManager) : BackgroundImageManager {
+        private val fileSaver: FileSaver) : BackgroundImageManager {
 
     private val backgroundsDirectory = "backgrounds"
     private val fileNamePrefix = "bg"
@@ -49,7 +49,7 @@ class BackgroundImageManagerImpl(
         val largestIndex = deletePreviousFilesAndGetLargestFileIndex(backgroundsDir)
 
         val file = File(backgroundsDir, fileNamePrefix + largestIndex)
-        fileManager.saveToPrivateFile(source, file)
+        fileSaver.saveToPrivateFile(source, file)
 
         if (!file.exists()) {
             throw IOException("The created file does not exist")

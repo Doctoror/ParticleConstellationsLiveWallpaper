@@ -34,7 +34,7 @@ import java.io.File
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class FileManagerTest {
+class FileSaverTest {
 
     private val filesDir = shadowOf(RuntimeEnvironment.application).applicationContext.filesDir
     private val uri = Uri.parse("content://file")
@@ -59,7 +59,7 @@ class FileManagerTest {
         val context = mockContextForSourceFile()
 
         // When
-        FileManager(context).saveToPrivateFile(uri, targetFile)
+        FileSaver(context).saveToPrivateFile(uri, targetFile)
 
         // Then
         val readFileContents = targetFile.readBytes()

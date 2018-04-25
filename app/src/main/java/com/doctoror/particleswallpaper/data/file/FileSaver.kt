@@ -21,17 +21,7 @@ import android.os.ParcelFileDescriptor
 import android.util.Log
 import java.io.*
 
-/**
- * Created by Yaroslav Mytkalyk on 11.06.17.
- *
- * Manages private files
- */
-class FileManager(private val context: Context) {
-
-    companion object {
-        private val fileLock = Object()
-        private const val TAG = "FileManager"
-    }
+class FileSaver(private val context: Context) {
 
     fun saveToPrivateFile(source: Uri, file: File) {
         synchronized(fileLock, { saveToPrivateFileInner(source, file) })
@@ -55,8 +45,8 @@ class FileManager(private val context: Context) {
 
             ensureAvailableSpace(fileDescriptor.statSize)
 
-            val wrappedFileDescriptor = fileDescriptor.fileDescriptor ?:
-                    throw IOException("Failed to read input: the wrapped FileDescriptor is null")
+            val wrappedFileDescriptor = fileDescriptor.fileDescriptor
+                    ?: throw IOException("Failed to read input: the wrapped FileDescriptor is null")
 
             inputStream = FileInputStream(wrappedFileDescriptor)
             outputStream = FileOutputStream(target)
@@ -90,5 +80,10 @@ class FileManager(private val context: Context) {
                 throw IOException("Not enough availble space. Required: $required, available: $available")
             }
         }
+    }
+
+    companion object {
+        private val fileLock = Object()
+        private const val TAG = "FileSaver"
     }
 }

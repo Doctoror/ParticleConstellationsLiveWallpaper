@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.presentation.di.modules
 import android.content.Context
 import com.doctoror.particleswallpaper.data.config.SceneConfiguratorImpl
 import com.doctoror.particleswallpaper.data.file.BackgroundImageManagerImpl
-import com.doctoror.particleswallpaper.data.file.FileManager
+import com.doctoror.particleswallpaper.data.file.FileSaver
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDefault
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryImpl
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
@@ -54,6 +54,6 @@ class ConfigModule {
             SceneConfigurator = SceneConfiguratorImpl(schedulers)
 
     @Provides fun provideBackgroundImageManager(context: Context):
-            BackgroundImageManager = BackgroundImageManagerImpl(context, FileManager(context))
+            BackgroundImageManager = BackgroundImageManagerImpl(context, FileSaver(context))
 
 }
