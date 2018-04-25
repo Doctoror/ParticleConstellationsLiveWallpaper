@@ -38,7 +38,6 @@ class LifecycleActivityTest {
 
         var onStartCount = 0
         var onStopCount = 0
-        var onDestroyCount = 0
 
         @OnLifecycleEvent(Lifecycle.Event.ON_START)
         fun onStart() {
@@ -48,11 +47,6 @@ class LifecycleActivityTest {
         @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
         fun onStop() {
             onStopCount++
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-        fun onDestroy() {
-            onDestroyCount++
         }
     }
 
@@ -84,17 +78,6 @@ class LifecycleActivityTest {
 
         // Then
         assertEquals(1, testObserver.onStopCount)
-    }
-
-    @Test
-    fun notifiesOnDestroyLifecycleEvent() {
-        // When
-        underTestController
-                .start()
-                .destroy()
-
-        // Then
-        assertEquals(1, testObserver.onDestroyCount)
     }
 
     class TestLifecycleActivity : LifecycleActivity()

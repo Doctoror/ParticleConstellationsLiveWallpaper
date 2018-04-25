@@ -39,9 +39,4 @@ abstract class LifecycleActivity : Activity(), LifecycleOwner {
         super.onStop()
         lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    }
 }
