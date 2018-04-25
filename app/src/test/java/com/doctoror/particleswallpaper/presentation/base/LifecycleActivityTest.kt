@@ -69,7 +69,7 @@ class LifecycleActivityTest {
     @Test
     fun notifiesOnStartLifecycleEvent() {
         // When
-        underTestController.start().get()
+        underTestController.start()
 
         // Then
         assertEquals(1, testObserver.onStartCount)
@@ -81,7 +81,6 @@ class LifecycleActivityTest {
         underTestController
                 .start()
                 .stop()
-                .get()
 
         // Then
         assertEquals(1, testObserver.onStopCount)
@@ -93,11 +92,10 @@ class LifecycleActivityTest {
         underTestController
                 .start()
                 .destroy()
-                .get()
 
         // Then
         assertEquals(1, testObserver.onDestroyCount)
     }
 
-    private inner class TestLifecycleActivity : LifecycleActivity()
+    class TestLifecycleActivity : LifecycleActivity()
 }
