@@ -38,34 +38,37 @@ class FileManagerTest {
 
     private val filesDir = shadowOf(RuntimeEnvironment.application).applicationContext.filesDir
     private val uri = Uri.parse("content://file")
-    private val file = File(filesDir, "fileName")
+    private val sourceFile = File(filesDir, "sourceFile")
+    private val targetFile = File(filesDir, "targetFile")
     private val fileContents = byteArrayOf(0, 1, 2)
 
     @Before
     fun setup() {
-        file.writeBytes(fileContents)
+        sourceFile.writeBytes(fileContents)
     }
 
     @After
     fun tearDown() {
-        file.delete()
+        sourceFile.delete()
+        targetFile.delete()
     }
 
     @Test
     fun savesToPrivateFile() {
         // Given
-        val context = mockContextForTargetFile()
+        val context = mockContextForSourceFile()
 
         // When
-        FileManager(context).saveToPrivateFile(uri, file)
+        FileManager(context).saveToPrivateFile(uri, targetFile)
 
         // Then
-        val readFileContents = file.readBytes()
+        val readFileContents = targetFile.readBytes()
         assertTrue(readFileContents.contentEquals(fileContents))
     }
 
-    private fun mockContextForTargetFile(): Context {
-        val fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
+    private fun mockContextForSourceFile(): Context {
+        val fileDescriptor = ParcelFileDescriptor.open(
+                sourceFile, ParcelFileDescriptor.MODE_READ_ONLY)
 
         val contentResolver: ContentResolver = mock {
             on(it.openFileDescriptor(uri, "r")).doReturn(fileDescriptor)
