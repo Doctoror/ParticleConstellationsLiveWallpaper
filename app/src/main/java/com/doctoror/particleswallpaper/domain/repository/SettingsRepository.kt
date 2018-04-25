@@ -20,19 +20,17 @@ import io.reactivex.Observable
 const val NO_URI = ""
 
 /**
- * Created by Yaroslav Mytkalyk on 28.05.17.
- *
  * The configuration repository
  */
 interface SettingsRepository {
 
-    fun getNumDots(): Observable<Int>
-    fun getFrameDelay(): Observable<Int>
-    fun getStepMultiplier(): Observable<Float>
-    fun getDotScale(): Observable<Float>
-    fun getLineScale(): Observable<Float>
-    fun getLineDistance(): Observable<Float>
-    fun getParticlesColor(): Observable<Int>
-    fun getBackgroundUri(): Observable<String>
     fun getBackgroundColor(): Observable<Int>
+    fun getBackgroundUri(): Observable<String>
+    fun getDotScale(): Observable<Float>
+    fun getFrameDelay(): Observable<Int>
+    fun getLineDistance(): Observable<Float>
+    fun getLineScale(): Observable<Float>
+    fun getNumDots(): Observable<Int>
+    fun getParticlesColor(): Observable<Int>
+    fun getStepMultiplier(): Observable<Float>
 }
