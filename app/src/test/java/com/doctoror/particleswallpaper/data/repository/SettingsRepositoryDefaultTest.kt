@@ -35,46 +35,27 @@ class SettingsRepositoryDefaultTest {
     private val underTest = SettingsRepositoryDefault(res, theme, typedValueFactory)
 
     @Test
-    fun obtainsNumDotsFromResources() {
+    fun obtainsBackgroundColorFromResources() {
         // Given
-        val value = 2
-        whenever(res.getInteger(R.integer.default_density)).thenReturn(value)
+        val value = Color.DKGRAY
+        @Suppress("DEPRECATION")
+        whenever(res.getColor(R.color.defaultBackground)).thenReturn(value)
+        whenever(res.getColor(R.color.defaultBackground, theme)).thenReturn(value)
 
         // When
-        val o = underTest.getNumDots().test()
+        val o = underTest.getBackgroundColor().test()
 
         // Then
         o.assertResult(value)
     }
 
     @Test
-    fun obtainsFrameDelayFromResources() {
-        // Given
-        val value = 10
-        whenever(res.getInteger(R.integer.defaultFrameDelay)).thenReturn(value)
-
+    fun backgroundUriIsNoUri() {
         // When
-        val o = underTest.getFrameDelay().test()
+        val o = underTest.getBackgroundUri().test()
 
         // Then
-        o.assertResult(value)
-    }
-
-    @Test
-    fun obtainsStepMultiplierFromResources() {
-        // Given
-        val value = 1.1f
-        val typedValue: TypedValue = mock {
-            on(it.float).doReturn(value)
-        }
-        whenever(typedValueFactory.newTypedValue()).thenReturn(typedValue)
-
-        // When
-        val o = underTest.getStepMultiplier().test()
-
-        // Then
-        verify(res).getValue(R.dimen.defaultStepMultiplier, typedValue, true)
-        o.assertResult(value)
+        o.assertResult(NO_URI)
     }
 
     @Test
@@ -104,6 +85,32 @@ class SettingsRepositoryDefaultTest {
     }
 
     @Test
+    fun obtainsFrameDelayFromResources() {
+        // Given
+        val value = 10
+        whenever(res.getInteger(R.integer.defaultFrameDelay)).thenReturn(value)
+
+        // When
+        val o = underTest.getFrameDelay().test()
+
+        // Then
+        o.assertResult(value)
+    }
+
+    @Test
+    fun obtainsLineDistanceFromResources() {
+        // Given
+        val value = 1.1f
+        whenever(res.getDimension(R.dimen.default_line_distance)).thenReturn(value)
+
+        // When
+        val o = underTest.getLineDistance().test()
+
+        // Then
+        o.assertResult(value)
+    }
+
+    @Test
     fun obtainsLineScaleFromResources() {
         // Given
         val value = 1.1f
@@ -130,6 +137,19 @@ class SettingsRepositoryDefaultTest {
     }
 
     @Test
+    fun obtainsNumDotsFromResources() {
+        // Given
+        val value = 2
+        whenever(res.getInteger(R.integer.default_density)).thenReturn(value)
+
+        // When
+        val o = underTest.getNumDots().test()
+
+        // Then
+        o.assertResult(value)
+    }
+
+    @Test
     fun obtainsParticlesColorFromResources() {
         // Given
         val value = Color.CYAN
@@ -145,26 +165,19 @@ class SettingsRepositoryDefaultTest {
     }
 
     @Test
-    fun backgroundUriIsNoUri() {
-        // When
-        val o = underTest.getBackgroundUri().test()
-
-        // Then
-        o.assertResult(NO_URI)
-    }
-
-    @Test
-    fun obtainsBackgroundColorFromResources() {
+    fun obtainsStepMultiplierFromResources() {
         // Given
-        val value = Color.DKGRAY
-        @Suppress("DEPRECATION")
-        whenever(res.getColor(R.color.defaultBackground)).thenReturn(value)
-        whenever(res.getColor(R.color.defaultBackground, theme)).thenReturn(value)
+        val value = 1.1f
+        val typedValue: TypedValue = mock {
+            on(it.float).doReturn(value)
+        }
+        whenever(typedValueFactory.newTypedValue()).thenReturn(typedValue)
 
         // When
-        val o = underTest.getBackgroundColor().test()
+        val o = underTest.getStepMultiplier().test()
 
         // Then
+        verify(res).getValue(R.dimen.defaultStepMultiplier, typedValue, true)
         o.assertResult(value)
     }
 }
