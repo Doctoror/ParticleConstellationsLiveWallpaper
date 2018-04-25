@@ -66,7 +66,6 @@ class LifecyclePreferenceFragmentTest {
         underTestController
                 .create()
                 .start()
-                .get()
 
         // Then
         assertEquals(1, testObserver.onStartCount)
@@ -79,11 +78,10 @@ class LifecyclePreferenceFragmentTest {
                 .create()
                 .start()
                 .stop()
-                .get()
 
         // Then
         assertEquals(1, testObserver.onStopCount)
     }
 
-    private inner class TestLifecycleFragment : LifecyclePreferenceFragment()
+    class TestLifecycleFragment : LifecyclePreferenceFragment()
 }
