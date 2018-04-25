@@ -29,15 +29,15 @@ import org.junit.Test
 class ResetToDefaultsUseCaseTest {
 
     private val defaults: SettingsRepository = mock {
-        on(it.getNumDots()).doReturn(Observable.just(1))
-        on(it.getFrameDelay()).doReturn(Observable.just(1))
-        on(it.getStepMultiplier()).doReturn(Observable.just(1.1f))
-        on(it.getDotScale()).doReturn(Observable.just(1.1f))
-        on(it.getLineScale()).doReturn(Observable.just(1.1f))
-        on(it.getLineDistance()).doReturn(Observable.just(86f))
-        on(it.getParticlesColor()).doReturn(Observable.just(Color.WHITE))
-        on(it.getBackgroundUri()).doReturn(Observable.just(NO_URI))
         on(it.getBackgroundColor()).doReturn(Observable.just(0xff212121.toInt()))
+        on(it.getBackgroundUri()).doReturn(Observable.just(NO_URI))
+        on(it.getDotScale()).doReturn(Observable.just(1.1f))
+        on(it.getFrameDelay()).doReturn(Observable.just(1))
+        on(it.getLineDistance()).doReturn(Observable.just(86f))
+        on(it.getLineScale()).doReturn(Observable.just(1.1f))
+        on(it.getNumDots()).doReturn(Observable.just(1))
+        on(it.getParticlesColor()).doReturn(Observable.just(Color.WHITE))
+        on(it.getStepMultiplier()).doReturn(Observable.just(1.1f))
     }
 
     private val settings: MutableSettingsRepository = mock()
@@ -46,66 +46,12 @@ class ResetToDefaultsUseCaseTest {
     private val underTest = ResetToDefaultsUseCase(settings, defaults, backgroundImageManager)
 
     @Test
-    fun setsDefaultNumDots() {
+    fun setsDefaultBackgroundColor() {
         // When
         underTest.useCase().test()
 
         // Then
-        verify(settings).setNumDots(defaults.getNumDots().blockingFirst())
-    }
-
-    @Test
-    fun setsDefaultFrameDelay() {
-        // When
-        underTest.useCase().test()
-
-        // Then
-        verify(settings).setFrameDelay(defaults.getFrameDelay().blockingFirst())
-    }
-
-    @Test
-    fun setsDefaultStepMultiplier() {
-        // When
-        underTest.useCase().test()
-
-        // Then
-        verify(settings).setStepMultiplier(defaults.getStepMultiplier().blockingFirst())
-    }
-
-    @Test
-    fun setsDefaultDotScale() {
-        // When
-        underTest.useCase().test()
-
-        // Then
-        verify(settings).setDotScale(defaults.getDotScale().blockingFirst())
-    }
-
-    @Test
-    fun setsDefaultLineScale() {
-        // When
-        underTest.useCase().test()
-
-        // Then
-        verify(settings).setLineScale(defaults.getLineScale().blockingFirst())
-    }
-
-    @Test
-    fun setsDefaultLineDistance() {
-        // When
-        underTest.useCase().test()
-
-        // Then
-        verify(settings).setLineDistance(defaults.getLineDistance().blockingFirst())
-    }
-
-    @Test
-    fun setsDefaultParticlesColor() {
-        // When
-        underTest.useCase().test()
-
-        // Then
-        verify(settings).setParticlesColor(defaults.getParticlesColor().blockingFirst())
+        verify(settings).setBackgroundColor(defaults.getBackgroundColor().blockingFirst())
     }
 
     @Test
@@ -118,12 +64,66 @@ class ResetToDefaultsUseCaseTest {
     }
 
     @Test
-    fun setsDefaultBackgroundColor() {
+    fun setsDefaultDotScale() {
         // When
         underTest.useCase().test()
 
         // Then
-        verify(settings).setBackgroundColor(defaults.getBackgroundColor().blockingFirst())
+        verify(settings).setDotScale(defaults.getDotScale().blockingFirst())
+    }
+
+    @Test
+    fun setsDefaultFrameDelay() {
+        // When
+        underTest.useCase().test()
+
+        // Then
+        verify(settings).setFrameDelay(defaults.getFrameDelay().blockingFirst())
+    }
+
+    @Test
+    fun setsDefaultLineDistance() {
+        // When
+        underTest.useCase().test()
+
+        // Then
+        verify(settings).setLineDistance(defaults.getLineDistance().blockingFirst())
+    }
+
+    @Test
+    fun setsDefaultLineScale() {
+        // When
+        underTest.useCase().test()
+
+        // Then
+        verify(settings).setLineScale(defaults.getLineScale().blockingFirst())
+    }
+
+    @Test
+    fun setsDefaultNumDots() {
+        // When
+        underTest.useCase().test()
+
+        // Then
+        verify(settings).setNumDots(defaults.getNumDots().blockingFirst())
+    }
+
+    @Test
+    fun setsDefaultParticlesColor() {
+        // When
+        underTest.useCase().test()
+
+        // Then
+        verify(settings).setParticlesColor(defaults.getParticlesColor().blockingFirst())
+    }
+
+    @Test
+    fun setsDefaultStepMultiplier() {
+        // When
+        underTest.useCase().test()
+
+        // Then
+        verify(settings).setStepMultiplier(defaults.getStepMultiplier().blockingFirst())
     }
 
     @Test
