@@ -32,17 +32,19 @@ class ResetToDefaultsUseCase(private val settings: MutableSettingsRepository,
     override fun useCase() = Single.fromCallable { reset() }!!
 
     private fun reset() {
-        settings.setParticlesColor(defaults.getParticlesColor().blockingFirst())
         settings.setBackgroundUri(defaults.getBackgroundUri().blockingFirst())
         settings.setBackgroundColor(defaults.getBackgroundColor().blockingFirst())
-        settings.setNumDots(defaults.getNumDots().blockingFirst())
 
         settings.setDotScale(defaults.getDotScale().blockingFirst())
-        settings.setLineScale(defaults.getLineScale().blockingFirst())
+        settings.setFrameDelay(defaults.getFrameDelay().blockingFirst())
+
         settings.setLineDistance(defaults.getLineDistance().blockingFirst())
+        settings.setLineScale(defaults.getLineScale().blockingFirst())
+
+        settings.setNumDots(defaults.getNumDots().blockingFirst())
+        settings.setParticlesColor(defaults.getParticlesColor().blockingFirst())
 
         settings.setStepMultiplier(defaults.getStepMultiplier().blockingFirst())
-        settings.setFrameDelay(defaults.getFrameDelay().blockingFirst())
 
         backgroundImageManager.clearBackgroundImage()
     }
