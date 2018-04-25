@@ -28,7 +28,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import java.io.File
 
@@ -36,7 +35,7 @@ import java.io.File
 @RunWith(RobolectricTestRunner::class)
 class FileSaverTest {
 
-    private val filesDir = shadowOf(RuntimeEnvironment.application).applicationContext.filesDir
+    private val filesDir = RuntimeEnvironment.application.filesDir
     private val uri = Uri.parse("content://file")
     private val sourceFile = File(filesDir, "sourceFile")
     private val targetFile = File(filesDir, "targetFile")
