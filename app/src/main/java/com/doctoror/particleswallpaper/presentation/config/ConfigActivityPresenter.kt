@@ -101,7 +101,7 @@ open class ConfigActivityPresenter(
 
     fun onActivityResult(requestCode: Int, resultCode: Int) {
         if (requestCode == REQUEST_CODE_CHANGE_WALLPAPER && resultCode == Activity.RESULT_OK) {
-            view.getActivity().finish()
+            view.finish()
         }
     }
 

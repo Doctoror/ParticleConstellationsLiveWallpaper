@@ -15,14 +15,17 @@
  */
 package com.doctoror.particleswallpaper.presentation.config
 
+import android.app.Activity
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.RequestManager
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -52,5 +55,29 @@ class ConfigActivityPresenterTest {
         verify(view).setContainerBackground(captor.capture())
 
         assertTrue(captor.firstValue is ParticlesDrawable)
+    }
+
+    @Test
+    fun finishesWhenWallpaperSet() {
+        // Given
+        underTest.onTakeView(view)
+
+        // When
+        underTest.onActivityResult(REQUEST_CODE_CHANGE_WALLPAPER, Activity.RESULT_OK)
+
+        // Then
+        verify(view).finish()
+    }
+
+    @Test
+    fun doesNotFinishWhenWallpaperNotSet() {
+        // Given
+        underTest.onTakeView(view)
+
+        // When
+        underTest.onActivityResult(REQUEST_CODE_CHANGE_WALLPAPER, Activity.RESULT_CANCELED)
+
+        // Then
+        verify(view, never()).finish()
     }
 }
