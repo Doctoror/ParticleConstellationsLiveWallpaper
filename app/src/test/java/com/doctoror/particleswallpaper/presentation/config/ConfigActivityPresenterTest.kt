@@ -89,6 +89,19 @@ class ConfigActivityPresenterTest {
     }
 
     @Test
+    fun configuesDrawable() {
+        // Given
+        givenBackgroundSourcesMocked()
+
+        // When
+        underTest.onTakeView(view)
+        underTest.onStart()
+
+        // Then
+        verify(configurator).subscribe(any(), eq(settings))
+    }
+
+    @Test
     fun appliesBackgroundColorWhenUriIsBlank() {
         // Given
         val target: ImageView = mock {
@@ -179,5 +192,16 @@ class ConfigActivityPresenterTest {
 
         // Then
         verify(requestManager).load(uri)
+    }
+
+    private fun mockBackgroundView(): ImageView = mock {
+        on(it.context).doReturn(RuntimeEnvironment.application)
+    }
+
+    private fun givenBackgroundSourcesMocked() {
+        val backgroundView = mockBackgroundView()
+        whenever(view.getBackgroundView()).thenReturn(backgroundView)
+        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(Color.TRANSPARENT))
+        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
     }
 }
