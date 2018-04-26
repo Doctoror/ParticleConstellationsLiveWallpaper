@@ -15,8 +15,8 @@
  */
 package com.doctoror.particleswallpaper.presentation.config
 
-import android.app.Activity
 import android.graphics.drawable.Drawable
+import android.widget.ImageView
 import com.doctoror.particleswallpaper.presentation.view.MvpView
 
 /**
@@ -26,7 +26,7 @@ import com.doctoror.particleswallpaper.presentation.view.MvpView
  */
 interface ConfigActivityView : MvpView {
 
-    fun getActivity(): Activity
+    fun getBackgroundView(): ImageView
 
     fun setContainerBackground(drawable: Drawable)
 

@@ -39,7 +39,6 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.ParticlesDrawable
-import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
@@ -110,7 +109,7 @@ open class ConfigActivityPresenter(
     }
 
     private fun applyBackground(uri: String, @ColorInt color: Int) {
-        val bg = view.getActivity().findViewById<ImageView>(R.id.bg)
+        val bg = view.getBackgroundView()
         if (uri == NO_URI) {
             requestManager.clear(bg)
             applyNoImageBackground(bg, color)

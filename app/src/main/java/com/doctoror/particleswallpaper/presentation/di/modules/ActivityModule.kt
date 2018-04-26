@@ -34,14 +34,18 @@ class ActivityModule {
     @PerActivity
     @Provides
     fun provideConfigActivityPresenter(
+            activity: ConfigActivity,
             schedulers: SchedulersProvider,
             configurator: SceneConfigurator,
             requestManager: RequestManager,
             settings: SettingsRepository
     ): ConfigActivityPresenter =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                ConfigActivityPresenterLollipop(schedulers, configurator, requestManager, settings)
-            else ConfigActivityPresenter(schedulers, configurator, requestManager, settings)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ConfigActivityPresenterLollipop(
+                        activity, schedulers, configurator, requestManager, settings)
+            } else {
+                ConfigActivityPresenter(schedulers, configurator, requestManager, settings)
+            }
 
     @PerActivity
     @Provides

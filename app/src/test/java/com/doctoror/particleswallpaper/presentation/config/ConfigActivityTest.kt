@@ -19,7 +19,6 @@ import android.view.Menu
 import android.view.MenuItem
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -62,15 +61,6 @@ class ConfigActivityTest {
 
         // Then
         verify(presenter).onOptionsItemSelected(menuItem)
-    }
-
-    @Test
-    fun returnsActivity() {
-        // When
-        val result = underTest.getActivity()
-
-        // Then
-        assertEquals(underTest, result)
     }
 
     private fun replacePresenter() {

@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.base.LifecycleActivity
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
@@ -29,7 +30,8 @@ import javax.inject.Inject
 
 class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
-    @Inject lateinit var presenter: ConfigActivityPresenter
+    @Inject
+    lateinit var presenter: ConfigActivityPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +42,7 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
         lifecycle.addObserver(presenter)
     }
 
-    override fun getActivity() = this
+    override fun getBackgroundView() = findViewById<ImageView>(R.id.bg)!!
 
     override fun onCreateOptionsMenu(menu: Menu) = presenter.onCreateOptionsMenu(menu)
 
