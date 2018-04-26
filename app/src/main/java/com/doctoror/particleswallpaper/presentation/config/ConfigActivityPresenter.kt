@@ -27,7 +27,6 @@ import android.support.annotation.ColorInt
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import com.bumptech.glide.RequestManager
@@ -74,12 +73,7 @@ open class ConfigActivityPresenter(
 
     override fun onTakeView(view: ConfigActivityView) {
         this.view = view
-        setBackground(view)
-    }
-
-    private fun setBackground(view: ConfigActivityView) {
-        view.getActivity().findViewById<View>(R.id.drawableContainer)!!
-                .setBackgroundCompat(particlesDrawable)
+        view.setContainerBackground(particlesDrawable)
     }
 
     open fun onCreateOptionsMenu(menu: Menu) = false

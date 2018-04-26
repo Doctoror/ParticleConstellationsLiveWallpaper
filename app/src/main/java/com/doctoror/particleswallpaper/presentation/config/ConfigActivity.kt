@@ -16,11 +16,14 @@
 package com.doctoror.particleswallpaper.presentation.config
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.base.LifecycleActivity
+import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -46,5 +49,9 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         presenter.onActivityResult(requestCode, resultCode)
+    }
+
+    override fun setContainerBackground(drawable: Drawable) {
+        findViewById<View>(R.id.drawableContainer).setBackgroundCompat(drawable)
     }
 }
