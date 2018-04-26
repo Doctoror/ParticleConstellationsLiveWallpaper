@@ -17,11 +17,9 @@ package com.doctoror.particleswallpaper.presentation.config
 
 import android.view.Menu
 import android.view.MenuItem
-import com.doctoror.particleswallpaper.presentation.di.Injector
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -37,11 +35,6 @@ class ConfigActivityTest {
     private val underTest = ConfigActivity()
 
     private val underTestController = ActivityController.of(underTest)
-
-    @Before
-    fun test() {
-        Injector.getInstance(underTest).configComponent
-    }
 
     @Test
     fun deliversOnCreateOptionsMenu() {
