@@ -23,13 +23,13 @@ import android.net.Uri
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
+import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import org.junit.Assert.assertEquals
@@ -112,6 +112,28 @@ class ConfigActivityPresenterTest {
 
         assertTrue(captor.firstValue is ColorDrawable)
         assertEquals(color, (captor.firstValue as ColorDrawable).color)
+    }
+
+    @Test
+    fun clearsBackgroundWhenLoadedColorIsWindowBackground() {
+        // Given
+        val target: ImageView = mock {
+            on(it.context).doReturn(RuntimeEnvironment.application)
+        }
+        whenever(view.getBackgroundView()).thenReturn(target)
+
+        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(ThemeUtils.getColor(
+                RuntimeEnvironment.application.theme, android.R.attr.windowBackground)))
+
+        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
+
+        // When
+        underTest.onTakeView(view)
+        underTest.onStart()
+
+        // Then
+        verify(target).setImageDrawable(null)
+        verify(target).background = null
     }
 
     @Test
