@@ -65,9 +65,9 @@ open class ConfigActivityPresenter(
         private val settings: SettingsRepository)
     : Presenter<ConfigActivityView>, LifecycleObserver {
 
-    private val particlesDrawable = ParticlesDrawable()
-
     protected lateinit var view: ConfigActivityView
+
+    private val particlesDrawable = ParticlesDrawable()
 
     private var bgDisposable: Disposable? = null
 
