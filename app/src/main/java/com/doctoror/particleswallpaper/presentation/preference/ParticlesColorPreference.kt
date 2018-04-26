@@ -20,7 +20,7 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
 import com.doctoror.particleswallpaper.presentation.presenter.ParticlesColorPreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.ParticlesColorPreferenceView
@@ -37,13 +37,14 @@ class ParticlesColorPreference @JvmOverloads constructor
         ParticlesColorPreferenceView,
         LifecycleObserver {
 
-    @Inject lateinit var presenter: ParticlesColorPreferencePresenter
+    @Inject
+    lateinit var presenter: ParticlesColorPreferencePresenter
 
     private var value: Int? = null
 
     init {
         DaggerPreferenceComponent.builder()
-                .configComponent(Injector.getInstance(context.applicationContext).configComponent)
+                .appComponent(AppComponentProvider.provideAppComponent(context))
                 .build()
                 .inject(this)
 
@@ -71,8 +72,7 @@ class ParticlesColorPreference @JvmOverloads constructor
         presenter.onStop()
     }
 
-    override fun getPersistedInt(defaultReturnValue: Int)
-            = this.value ?: defaultReturnValue
+    override fun getPersistedInt(defaultReturnValue: Int) = this.value ?: defaultReturnValue
 
     override fun setColor(color: Int) {
         super.setColor(color)

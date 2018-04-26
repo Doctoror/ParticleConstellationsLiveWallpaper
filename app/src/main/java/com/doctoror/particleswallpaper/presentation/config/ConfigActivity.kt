@@ -21,9 +21,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.base.LifecycleActivity
-import com.doctoror.particleswallpaper.presentation.di.Injector
-import com.doctoror.particleswallpaper.presentation.di.components.DaggerActivityComponent
-import com.doctoror.particleswallpaper.presentation.di.modules.ActivityModule
+import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 class ConfigActivity : LifecycleActivity(), ConfigActivityView {
@@ -32,11 +30,7 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DaggerActivityComponent.builder()
-                .configComponent(Injector.getInstance(application).configComponent)
-                .activityModule(ActivityModule())
-                .build()
-                .inject(this)
+        AndroidInjection.inject(this)
 
         setContentView(R.layout.activity_config)
         presenter.onTakeView(this)

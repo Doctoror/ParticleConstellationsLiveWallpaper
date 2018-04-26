@@ -20,7 +20,7 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
 import com.doctoror.particleswallpaper.presentation.presenter.SpeedFactorPreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
@@ -37,11 +37,12 @@ class SpeedFactorPreference @JvmOverloads constructor
         SeekBarPreferenceView,
         LifecycleObserver {
 
-    @Inject lateinit var presenter: SpeedFactorPreferencePresenter
+    @Inject
+    lateinit var presenter: SpeedFactorPreferencePresenter
 
     init {
         DaggerPreferenceComponent.builder()
-                .configComponent(Injector.getInstance(context.applicationContext).configComponent)
+                .appComponent(AppComponentProvider.provideAppComponent(context))
                 .build()
                 .inject(this)
 

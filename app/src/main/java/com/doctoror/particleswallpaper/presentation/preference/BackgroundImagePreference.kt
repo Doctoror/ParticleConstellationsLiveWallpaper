@@ -24,7 +24,7 @@ import android.preference.Preference
 import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
 import com.doctoror.particleswallpaper.presentation.presenter.BackgroundImagePreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
@@ -41,7 +41,8 @@ class BackgroundImagePreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : Preference(context, attrs), BackgroundImagePreferenceView {
 
-    @Inject lateinit var presenter: BackgroundImagePreferencePresenter
+    @Inject
+    lateinit var presenter: BackgroundImagePreferencePresenter
 
     var host: Fragment? = null
         set(f) {
@@ -51,7 +52,7 @@ class BackgroundImagePreference @JvmOverloads constructor
 
     init {
         DaggerPreferenceComponent.builder()
-                .configComponent(Injector.getInstance(context.applicationContext).configComponent)
+                .appComponent(AppComponentProvider.provideAppComponent(context))
                 .build()
                 .inject(this)
 

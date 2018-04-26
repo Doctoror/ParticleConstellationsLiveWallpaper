@@ -16,20 +16,18 @@
 package com.doctoror.particleswallpaper.presentation.di.modules
 
 import android.os.Build
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.config.ConfigActivity
 import com.doctoror.particleswallpaper.presentation.config.ConfigActivityPresenter
 import com.doctoror.particleswallpaper.presentation.config.ConfigActivityPresenterLollipop
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
 import dagger.Module
 import dagger.Provides
 
-/**
- * Created by Yaroslav Mytkalyk on 14.06.17.
- *
- * Activity module
- */
 @Module
 class ActivityModule {
 
@@ -38,8 +36,14 @@ class ActivityModule {
     fun provideConfigActivityPresenter(
             schedulers: SchedulersProvider,
             configurator: SceneConfigurator,
-            settings: SettingsRepository): ConfigActivityPresenter =
+            requestManager: RequestManager,
+            settings: SettingsRepository
+    ): ConfigActivityPresenter =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                ConfigActivityPresenterLollipop(schedulers, configurator, settings)
-            else ConfigActivityPresenter(schedulers, configurator, settings)
+                ConfigActivityPresenterLollipop(schedulers, configurator, requestManager, settings)
+            else ConfigActivityPresenter(schedulers, configurator, requestManager, settings)
+
+    @PerActivity
+    @Provides
+    fun provideRequestManager(activity: ConfigActivity) = Glide.with(activity)
 }

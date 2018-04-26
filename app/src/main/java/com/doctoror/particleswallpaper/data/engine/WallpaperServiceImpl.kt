@@ -23,7 +23,7 @@ import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.di.Injector
+import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 /**
@@ -44,7 +44,7 @@ class WallpaperServiceImpl : WallpaperService() {
 
     override fun onCreate() {
         super.onCreate()
-        Injector.getInstance(application).configComponent.inject(this)
+        AndroidInjection.inject(this)
     }
 
     override fun onCreateEngine(): Engine {

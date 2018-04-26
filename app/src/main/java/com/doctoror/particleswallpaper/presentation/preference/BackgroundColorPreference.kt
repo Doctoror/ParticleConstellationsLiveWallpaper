@@ -20,7 +20,7 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.presentation.di.Injector
+import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.presenter.BackgroundColorPreferencePresenter
@@ -36,7 +36,9 @@ class BackgroundColorPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : ColorPreferenceNoPreview(context, attrs), BackgroundColorPreferenceView, LifecycleObserver {
 
-    @Inject @PerPreference lateinit var presenter: BackgroundColorPreferencePresenter
+    @Inject
+    @PerPreference
+    lateinit var presenter: BackgroundColorPreferencePresenter
 
     private var value: Int? = null
 
@@ -44,7 +46,7 @@ class BackgroundColorPreference @JvmOverloads constructor
         isPersistent = false
 
         DaggerPreferenceComponent.builder()
-                .configComponent(Injector.getInstance(context.applicationContext).configComponent)
+                .appComponent(AppComponentProvider.provideAppComponent(context))
                 .build()
                 .inject(this)
 

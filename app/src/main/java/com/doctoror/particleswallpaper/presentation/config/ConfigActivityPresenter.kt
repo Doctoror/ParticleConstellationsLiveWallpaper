@@ -30,7 +30,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -63,12 +62,11 @@ import io.reactivex.functions.BiFunction
 open class ConfigActivityPresenter(
         private val schedulers: SchedulersProvider,
         private val configurator: SceneConfigurator,
+        private val requestManager: RequestManager,
         private val settings: SettingsRepository)
     : Presenter<ConfigActivityView>, LifecycleObserver {
 
     private val particlesDrawable = ParticlesDrawable()
-
-    private lateinit var glide: RequestManager
 
     protected lateinit var view: ConfigActivityView
 
@@ -76,7 +74,6 @@ open class ConfigActivityPresenter(
 
     override fun onTakeView(view: ConfigActivityView) {
         this.view = view
-        glide = Glide.with(view.getActivity())
         setBackground(view)
     }
 
@@ -121,30 +118,32 @@ open class ConfigActivityPresenter(
     private fun applyBackground(uri: String, @ColorInt color: Int) {
         val bg = view.getActivity().findViewById<ImageView>(R.id.bg)
         if (uri == NO_URI) {
-            glide.clear(bg)
+            requestManager.clear(bg)
             applyNoImageBackground(bg, color)
         } else if (bg.width != 0 && bg.height != 0) {
             val target = ImageLoadTarget(bg, color)
-            glide.load(uri)
+            requestManager.load(uri)
                     .apply(RequestOptions.noAnimation())
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.centerCropTransform())
                     .listener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(e: GlideException?,
-                                                  model: Any?,
-                                                  target: Target<Drawable>?,
-                                                  isFirstResource: Boolean): Boolean {
-                            glide.clear(bg)
+
+                        override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any?,
+                                target: Target<Drawable>?,
+                                isFirstResource: Boolean): Boolean {
                             applyNoImageBackground(bg, color)
                             return true
                         }
 
-                        override fun onResourceReady(resource: Drawable?,
-                                                     model: Any?,
-                                                     target: Target<Drawable>?,
-                                                     dataSource: DataSource?,
-                                                     isFirstResource: Boolean) = false
+                        override fun onResourceReady(
+                                resource: Drawable?,
+                                model: Any?,
+                                target: Target<Drawable>?,
+                                dataSource: DataSource?,
+                                isFirstResource: Boolean) = false
                     })
                     .into(target)
         } else {

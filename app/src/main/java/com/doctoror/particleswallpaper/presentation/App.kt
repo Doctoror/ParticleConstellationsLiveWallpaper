@@ -1,15 +1,16 @@
 package com.doctoror.particleswallpaper.presentation
 
-import android.app.Application
 import android.os.StrictMode
 import com.doctoror.particleswallpaper.BuildConfig
+import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
+import dagger.android.DaggerApplication
 
 /**
  * Created by Yaroslav Mytkalyk on 01.06.17.
  *
  * The application instance
  */
-class App: Application() {
+class App : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
@@ -29,4 +30,6 @@ class App: Application() {
                     .build())
         }
     }
+
+    override fun applicationInjector() = AppComponentProvider.provideAppComponent(this)
 }

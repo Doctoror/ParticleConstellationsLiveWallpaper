@@ -23,6 +23,7 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.Toolbar
+import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
@@ -39,8 +40,9 @@ import com.doctoror.particleswallpaper.presentation.actions.ActivityStartActivit
 class ConfigActivityPresenterLollipop(
         schedulers: SchedulersProvider,
         configurator: SceneConfigurator,
+        requestManager: RequestManager,
         settings: SettingsRepository)
-    : ConfigActivityPresenter(schedulers, configurator, settings) {
+    : ConfigActivityPresenter(schedulers, configurator, requestManager, settings) {
 
     override fun onTakeView(view: ConfigActivityView) {
         super.onTakeView(view)

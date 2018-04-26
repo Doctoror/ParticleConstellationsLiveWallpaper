@@ -109,6 +109,8 @@ dependencies {
     kapt d.gendalfCompiler
 
     implementation d.dagger
+    implementation d.daggerAndroid
+    kapt d.daggerAndroidProcessor
     kapt d.daggerCompiler
 }
 

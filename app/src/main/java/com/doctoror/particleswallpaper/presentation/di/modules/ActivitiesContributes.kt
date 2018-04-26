@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Yaroslav Mytkalyk
+ * Copyright (C) 2018 Yaroslav Mytkalyk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.di.components
+package com.doctoror.particleswallpaper.presentation.di.modules
 
 import com.doctoror.particleswallpaper.presentation.config.ConfigActivity
-import com.doctoror.particleswallpaper.presentation.di.modules.ActivityModule
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
-import dagger.Component
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
-/**
- * Created by Yaroslav Mytkalyk on 14.06.17.
- *
- * Per activity component
- */
-@PerActivity
-@Component(
-        dependencies = [ConfigComponent::class],
-        modules = [ActivityModule::class])
-interface ActivityComponent {
+@Module
+interface ActivitiesContributes {
 
-    fun inject(t: ConfigActivity)
+    @PerActivity
+    @ContributesAndroidInjector(modules = [ActivityModule::class])
+    fun configActivity(): ConfigActivity
 }

@@ -25,7 +25,7 @@ import dagger.Component
  * Per Preference component
  */
 @PerPreference
-@Component(dependencies = [ConfigComponent::class])
+@Component(dependencies = [AppComponent::class])
 interface PreferenceComponent {
 
     fun inject(p: BackgroundColorPreference)

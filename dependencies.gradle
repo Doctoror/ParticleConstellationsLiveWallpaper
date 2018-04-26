@@ -37,36 +37,38 @@ ext {
     robolectricVersion = '3.8'
 
     wallpaperappDependencies = [
-            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
-            rxJava            : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
-            rxAndroid         : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+            kotlin                : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            rxJava                : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+            rxAndroid             : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
 
-            daggerCompiler    : "com.google.dagger:dagger-compiler:$daggerVersion",
-            dagger            : "com.google.dagger:dagger:$daggerVersion",
+            daggerAndroid         : "com.google.dagger:dagger-android:$daggerVersion",
+            daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$daggerVersion",
+            daggerCompiler        : "com.google.dagger:dagger-compiler:$daggerVersion",
+            dagger                : "com.google.dagger:dagger:$daggerVersion",
 
-            gendalfCompiler   : "ds.gendalf:compiler:$gendalfVersion",
-            gendalf           : "ds.gendalf:gendalf:$gendalfVersion",
+            gendalfCompiler       : "ds.gendalf:compiler:$gendalfVersion",
+            gendalf               : "ds.gendalf:gendalf:$gendalfVersion",
 
-            particlesDrawable : "com.github.doctoror.particlesdrawable:library:$particlesDrawableVersion",
-            colorPicker       : "com.rarepebble:colorpicker:$colorPickerVersion",
-            glide             : "com.github.bumptech.glide:glide:$glideVersion",
-            glideCompiler     : "com.github.bumptech.glide:compiler:$glideVersion",
+            particlesDrawable     : "com.github.doctoror.particlesdrawable:library:$particlesDrawableVersion",
+            colorPicker           : "com.rarepebble:colorpicker:$colorPickerVersion",
+            glide                 : "com.github.bumptech.glide:glide:$glideVersion",
+            glideCompiler         : "com.github.bumptech.glide:compiler:$glideVersion",
 
-            licencesDialog    : "de.psdev.licensesdialog:licensesdialog:$licencesDialogVersion",
+            licencesDialog        : "de.psdev.licensesdialog:licensesdialog:$licencesDialogVersion",
 
-            supportV4         : "com.android.support:support-v4:$supportVersion",
-            supportAnnotations: "com.android.support:support-annotations:$supportVersion"
+            supportV4             : "com.android.support:support-v4:$supportVersion",
+            supportAnnotations    : "com.android.support:support-annotations:$supportVersion"
     ]
 
     wallpaperappTestDependencies = [
-            kotlin         : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
-            kotlinTest     : "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
-            kotlinReflect  : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
+            kotlin       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            kotlinTest   : "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
+            kotlinReflect: "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
 
-            junit          : "junit:junit:$jUnitVersion",
-            robolectric    : "org.robolectric:robolectric:$robolectricVersion",
+            junit        : "junit:junit:$jUnitVersion",
+            robolectric  : "org.robolectric:robolectric:$robolectricVersion",
 
-            mockitoCore    : "org.mockito:mockito-core:$mockitoVersion",
-            mockitoKotlin : "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion"
+            mockitoCore  : "org.mockito:mockito-core:$mockitoVersion",
+            mockitoKotlin: "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion"
     ]
 }
