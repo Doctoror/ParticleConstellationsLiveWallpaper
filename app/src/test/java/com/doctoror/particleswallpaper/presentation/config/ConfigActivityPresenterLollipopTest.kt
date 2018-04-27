@@ -23,11 +23,11 @@ import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
+import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.*
+import io.reactivex.Single
+import io.reactivex.functions.Consumer
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,12 +40,19 @@ class ConfigActivityPresenterLollipopTest {
 
     private val activity: Activity = mock()
     private val configurator: SceneConfigurator = mock()
+    private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase = mock()
     private val settings: SettingsRepository = mock()
     private val requestManager: RequestManager = mock()
     private val view: ConfigActivityView = mock()
 
     private val underTest = ConfigActivityPresenterLollipop(
-            activity, TrampolineSchedulers(), configurator, requestManager, settings, view)
+            activity,
+            TrampolineSchedulers(),
+            configurator,
+            openChangeWallpaperIntentUseCase,
+            requestManager,
+            settings,
+            view)
 
     @Test
     fun initsToolbarOnCreate() {
@@ -96,6 +103,21 @@ class ConfigActivityPresenterLollipopTest {
 
         // Then
         verify(activity).finish()
+    }
+
+    @Test
+    fun subscribesToChangeWallpaperUseCaseOnPreviewClick() {
+        // Given
+        val useCaseSingle = spy(Single.just(true))
+        whenever(openChangeWallpaperIntentUseCase.useCase())
+                .thenReturn(useCaseSingle)
+
+        // When
+        underTest.onOptionsItemSelected(mockMenuItemWithId(R.id.actionPreview))
+
+        // Then
+        verify(openChangeWallpaperIntentUseCase).useCase()
+        verify(useCaseSingle).subscribe(any<Consumer<Boolean>>())
     }
 
     private fun mockMenuItemWithId(id: Int): MenuItem = mock {

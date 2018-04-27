@@ -20,7 +20,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.actions.ActivityStartActivityForResultAction
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
 import dagger.Module
 import dagger.Provides
@@ -38,17 +40,25 @@ class ConfigActivityModule {
             activity: ConfigActivity,
             schedulers: SchedulersProvider,
             configurator: SceneConfigurator,
+            openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
             requestManager: RequestManager,
             settings: SettingsRepository,
             view: ConfigActivityView
     ): ConfigActivityPresenter =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ConfigActivityPresenterLollipop(
-                        activity, schedulers, configurator, requestManager, settings, view)
+                ConfigActivityPresenterLollipop(activity, schedulers, configurator,
+                        openChangeWallpaperIntentUseCase, requestManager, settings, view)
             } else {
                 ConfigActivityPresenter(
                         activity, schedulers, configurator, requestManager, settings, view)
             }
+
+    @PerActivity
+    @Provides
+    fun provideOpenChangeWallpaperIntentUseCase(activity: ConfigActivity) =
+            OpenChangeWallpaperIntentUseCase(
+                    activity.packageName,
+                    ActivityStartActivityForResultAction(activity))
 
     @PerActivity
     @Provides
