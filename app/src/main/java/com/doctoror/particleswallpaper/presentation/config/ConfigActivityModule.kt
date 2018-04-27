@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Yaroslav Mytkalyk
+ * Copyright (C) 2018 Yaroslav Mytkalyk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.di.modules
+package com.doctoror.particleswallpaper.presentation.config
 
 import android.os.Build
 import com.bumptech.glide.Glide
@@ -21,16 +21,12 @@ import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.config.ConfigActivity
-import com.doctoror.particleswallpaper.presentation.config.ConfigActivityPresenter
-import com.doctoror.particleswallpaper.presentation.config.ConfigActivityPresenterLollipop
-import com.doctoror.particleswallpaper.presentation.config.ConfigActivityView
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
 import dagger.Module
 import dagger.Provides
 
 @Module
-class ActivityModule {
+class ConfigActivityModule {
 
     @PerActivity
     @Provides
@@ -38,7 +34,7 @@ class ActivityModule {
 
     @PerActivity
     @Provides
-    fun provideConfigActivityPresenter(
+    fun provideConfigPresenter(
             activity: ConfigActivity,
             schedulers: SchedulersProvider,
             configurator: SceneConfigurator,

@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.presentation.di.modules
 
 import com.doctoror.particleswallpaper.presentation.config.ConfigActivity
+import com.doctoror.particleswallpaper.presentation.config.ConfigActivityModule
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -24,6 +25,6 @@ import dagger.android.ContributesAndroidInjector
 interface ActivitiesContributes {
 
     @PerActivity
-    @ContributesAndroidInjector(modules = [ActivityModule::class])
+    @ContributesAndroidInjector(modules = [ConfigActivityModule::class])
     fun configActivity(): ConfigActivity
 }
