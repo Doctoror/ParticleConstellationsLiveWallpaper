@@ -22,6 +22,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.base.LifecycleActivity
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
@@ -54,5 +55,11 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
     override fun setContainerBackground(drawable: Drawable) {
         findViewById<View>(R.id.drawableContainer).setBackgroundCompat(drawable)
+    }
+
+    override fun showWallpaperPreviewStartFailed() {
+        if (!isFinishing) {
+            Toast.makeText(this, R.string.Failed_to_start_preview, Toast.LENGTH_LONG).show()
+        }
     }
 }

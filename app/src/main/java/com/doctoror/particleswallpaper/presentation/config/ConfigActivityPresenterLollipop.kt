@@ -22,7 +22,6 @@ import android.os.Build
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
-import android.widget.Toast
 import android.widget.Toolbar
 import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.R
@@ -44,7 +43,7 @@ class ConfigActivityPresenterLollipop(
         private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
         requestManager: RequestManager,
         settings: SettingsRepository,
-        view: ConfigActivityView)
+        private val view: ConfigActivityView)
     : ConfigActivityPresenter(
         activity,
         schedulers,
@@ -81,14 +80,11 @@ class ConfigActivityPresenterLollipop(
             }
 
             R.id.actionPreview -> {
-                openChangeWallpaperIntentUseCase
-                        .useCase().subscribe { started -> if (!started) onPreviewStartFailed() }
+                openChangeWallpaperIntentUseCase.useCase().subscribe { started ->
+                    if (!started) view.showWallpaperPreviewStartFailed()
+                }
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun onPreviewStartFailed() {
-        Toast.makeText(activity, R.string.Failed_to_start_preview, Toast.LENGTH_LONG).show()
     }
 }

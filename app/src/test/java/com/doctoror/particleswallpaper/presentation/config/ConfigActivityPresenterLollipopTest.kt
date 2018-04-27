@@ -120,6 +120,19 @@ class ConfigActivityPresenterLollipopTest {
         verify(useCaseSingle).subscribe(any<Consumer<Boolean>>())
     }
 
+    @Test
+    fun showsWallpaperStartFailureWhenFailed() {
+        // Given
+        whenever(openChangeWallpaperIntentUseCase.useCase())
+                .thenReturn(Single.just(false))
+
+        // When
+        underTest.onOptionsItemSelected(mockMenuItemWithId(R.id.actionPreview))
+
+        // Then
+        verify(view).showWallpaperPreviewStartFailed()
+    }
+
     private fun mockMenuItemWithId(id: Int): MenuItem = mock {
         whenever(it.itemId).doReturn(id)
     }
