@@ -24,7 +24,7 @@ import com.doctoror.particleswallpaper.presentation.view.MvpView
  */
 interface Presenter<in T : MvpView> {
 
-    fun onTakeView(view: T)
+    fun onTakeView(view: T) = Unit
 
     fun onStart()
     fun onStop()
