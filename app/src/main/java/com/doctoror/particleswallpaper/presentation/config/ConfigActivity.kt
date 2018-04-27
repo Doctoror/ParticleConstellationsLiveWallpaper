@@ -38,7 +38,6 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
         AndroidInjection.inject(this)
 
         setContentView(R.layout.activity_config)
-        presenter.onTakeView(this)
         lifecycle.addObserver(presenter)
     }
 

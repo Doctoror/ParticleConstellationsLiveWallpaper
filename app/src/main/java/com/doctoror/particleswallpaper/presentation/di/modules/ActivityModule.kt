@@ -24,6 +24,7 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.config.ConfigActivity
 import com.doctoror.particleswallpaper.presentation.config.ConfigActivityPresenter
 import com.doctoror.particleswallpaper.presentation.config.ConfigActivityPresenterLollipop
+import com.doctoror.particleswallpaper.presentation.config.ConfigActivityView
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
 import dagger.Module
 import dagger.Provides
@@ -33,18 +34,24 @@ class ActivityModule {
 
     @PerActivity
     @Provides
+    fun provideConfigView(activity: ConfigActivity): ConfigActivityView = activity
+
+    @PerActivity
+    @Provides
     fun provideConfigActivityPresenter(
             activity: ConfigActivity,
             schedulers: SchedulersProvider,
             configurator: SceneConfigurator,
             requestManager: RequestManager,
-            settings: SettingsRepository
+            settings: SettingsRepository,
+            view: ConfigActivityView
     ): ConfigActivityPresenter =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ConfigActivityPresenterLollipop(
-                        activity, schedulers, configurator, requestManager, settings)
+                        activity, schedulers, configurator, requestManager, settings, view)
             } else {
-                ConfigActivityPresenter(schedulers, configurator, requestManager, settings)
+                ConfigActivityPresenter(
+                        activity, schedulers, configurator, requestManager, settings, view)
             }
 
     @PerActivity

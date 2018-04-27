@@ -44,18 +44,19 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class ConfigActivityPresenterTest {
 
+    private val activity: Activity = mock()
     private val configurator: SceneConfigurator = mock()
     private val settings: SettingsRepository = mock()
     private val requestManager = spy(Glide.with(RuntimeEnvironment.application))
     private val view: ConfigActivityView = mock()
 
     private val underTest = ConfigActivityPresenter(
-            TrampolineSchedulers(), configurator, requestManager, settings)
+            activity, TrampolineSchedulers(), configurator, requestManager, settings, view)
 
     @Test
-    fun setsBackground() {
+    fun setsBackgroundOnCreate() {
         // When
-        underTest.onTakeView(view)
+        underTest.onCreate()
 
         // Then
         val captor = argumentCaptor<Drawable>()
@@ -66,26 +67,20 @@ class ConfigActivityPresenterTest {
 
     @Test
     fun finishesWhenWallpaperSet() {
-        // Given
-        underTest.onTakeView(view)
-
         // When
         underTest.onActivityResult(REQUEST_CODE_CHANGE_WALLPAPER, Activity.RESULT_OK)
 
         // Then
-        verify(view).finish()
+        verify(activity).finish()
     }
 
     @Test
     fun doesNotFinishWhenWallpaperNotSet() {
-        // Given
-        underTest.onTakeView(view)
-
         // When
         underTest.onActivityResult(REQUEST_CODE_CHANGE_WALLPAPER, Activity.RESULT_CANCELED)
 
         // Then
-        verify(view, never()).finish()
+        verify(activity, never()).finish()
     }
 
     @Test
@@ -94,7 +89,6 @@ class ConfigActivityPresenterTest {
         givenBackgroundSourcesMocked()
 
         // When
-        underTest.onTakeView(view)
         underTest.onStart()
 
         // Then
@@ -114,7 +108,6 @@ class ConfigActivityPresenterTest {
         whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
 
         // When
-        underTest.onTakeView(view)
         underTest.onStart()
 
         // Then
@@ -141,7 +134,6 @@ class ConfigActivityPresenterTest {
         whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
 
         // When
-        underTest.onTakeView(view)
         underTest.onStart()
 
         // Then
@@ -164,7 +156,6 @@ class ConfigActivityPresenterTest {
         whenever(settings.getBackgroundUri()).thenReturn(Observable.just("uri"))
 
         // When
-        underTest.onTakeView(view)
         underTest.onStart()
 
         // Then

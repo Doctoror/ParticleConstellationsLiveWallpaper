@@ -29,6 +29,4 @@ interface ConfigActivityView : MvpView {
     fun getBackgroundView(): ImageView
 
     fun setContainerBackground(drawable: Drawable)
-
-    fun finish()
 }

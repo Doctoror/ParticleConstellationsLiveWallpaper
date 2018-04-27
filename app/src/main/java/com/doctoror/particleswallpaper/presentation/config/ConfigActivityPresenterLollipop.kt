@@ -43,11 +43,18 @@ class ConfigActivityPresenterLollipop(
         schedulers: SchedulersProvider,
         configurator: SceneConfigurator,
         requestManager: RequestManager,
-        settings: SettingsRepository)
-    : ConfigActivityPresenter(schedulers, configurator, requestManager, settings) {
+        settings: SettingsRepository,
+        view: ConfigActivityView)
+    : ConfigActivityPresenter(
+        activity,
+        schedulers,
+        configurator,
+        requestManager,
+        settings,
+        view) {
 
-    override fun onTakeView(view: ConfigActivityView) {
-        super.onTakeView(view)
+    override fun onCreate() {
+        super.onCreate()
         initToolbar()
     }
 
@@ -69,7 +76,7 @@ class ConfigActivityPresenterLollipop(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                view.finish()
+                activity.finish()
                 return true
             }
 

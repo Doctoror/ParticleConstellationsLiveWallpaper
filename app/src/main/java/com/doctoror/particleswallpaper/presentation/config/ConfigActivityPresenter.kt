@@ -58,26 +58,22 @@ import io.reactivex.functions.BiFunction
  * [ConfigActivity] presenter.
  */
 open class ConfigActivityPresenter(
+        private val activity: Activity,
         private val schedulers: SchedulersProvider,
         private val configurator: SceneConfigurator,
         private val requestManager: RequestManager,
-        private val settings: SettingsRepository)
+        private val settings: SettingsRepository,
+        private val view: ConfigActivityView)
     : Presenter<ConfigActivityView>, LifecycleObserver {
-
-    protected lateinit var view: ConfigActivityView
 
     private val particlesDrawable = ParticlesDrawable()
 
     private var bgDisposable: Disposable? = null
 
-    override fun onTakeView(view: ConfigActivityView) {
-        this.view = view
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    open fun onCreate() {
         view.setContainerBackground(particlesDrawable)
     }
-
-    open fun onCreateOptionsMenu(menu: Menu) = false
-
-    open fun onOptionsItemSelected(item: MenuItem) = false
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     override fun onStart() {
@@ -98,9 +94,13 @@ open class ConfigActivityPresenter(
         configurator.dispose()
     }
 
+    open fun onCreateOptionsMenu(menu: Menu) = false
+
+    open fun onOptionsItemSelected(item: MenuItem) = false
+
     fun onActivityResult(requestCode: Int, resultCode: Int) {
         if (requestCode == REQUEST_CODE_CHANGE_WALLPAPER && resultCode == Activity.RESULT_OK) {
-            view.finish()
+            activity.finish()
         }
     }
 
