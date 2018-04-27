@@ -1,0 +1,234 @@
+/*
+ * Copyright (C) 2018 Yaroslav Mytkalyk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.doctoror.particleswallpaper.presentation.presenter
+
+import android.app.Fragment
+import android.content.ContentResolver
+import android.content.Context
+import android.content.Intent
+import android.content.UriPermission
+import android.net.Uri
+import android.os.Build
+import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
+import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
+import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
+import com.doctoror.particleswallpaper.domain.repository.NO_URI
+import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_OPEN_DOCUMENT
+import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
+import com.doctoror.particleswallpaper.presentation.config.ConfigFragment
+import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
+import com.nhaarman.mockito_kotlin.*
+import io.reactivex.Observable
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+
+@Config(manifest = Config.NONE)
+@RunWith(RobolectricTestRunner::class)
+class BackgroundImagePreferencePresenterTest {
+
+    private val apiLevelProvider: ApiLevelProvider = mock {
+        on(it.provideSdkInt()).doReturn(Build.VERSION_CODES.O_MR1)
+    }
+
+    private val context: Context = mock()
+    private val settings: MutableSettingsRepository = mock()
+    private val defaults: SettingsRepository = mock()
+    private val backgroundImageManager: BackgroundImageManager = mock()
+    private val view: BackgroundImagePreferenceView = mock()
+
+    private val underTest = newBackgrodundImagePreferencePresenter()
+
+    private fun newBackgrodundImagePreferencePresenter() = BackgroundImagePreferencePresenter(
+            apiLevelProvider,
+            context,
+            TrampolineSchedulers(),
+            settings,
+            defaults,
+            backgroundImageManager).apply {
+        onTakeView(view)
+    }
+
+    @Before
+    fun setup() {
+        whenever(defaults.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
+        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
+    }
+
+    @Test
+    fun registersOnActivityResultCallback() {
+        // Given
+        val host: ConfigFragment = mock()
+
+        // When
+        underTest.host = host
+
+        // Then
+        verify(host).registerCallback(any())
+    }
+
+    @Test
+    fun unregistersOnActivityResultCallbackOnHostChange() {
+        // Given
+        val host: ConfigFragment = mock()
+
+        // When
+        underTest.host = host
+        val callbackCapturer = argumentCaptor<OnActivityResultCallback>()
+        verify(host).registerCallback(callbackCapturer.capture())
+        underTest.host = null
+
+        // Then
+        verify(host).unregsiterCallback(callbackCapturer.firstValue)
+    }
+
+    @Test
+    fun showsActionDialogOnClick() {
+        // When
+        underTest.onClick()
+
+        // Then
+        verify(view).showActionDialog()
+    }
+
+    @Test
+    fun setsDefaultBackgroundUriOnClearBackground() {
+        // When
+        underTest.clearBackground()
+
+        // Then
+        verify(settings).setBackgroundUri(NO_URI)
+    }
+
+    @Test
+    fun clearsBackgroundImage() {
+        // When
+        underTest.clearBackground()
+
+        // Then
+        verify(backgroundImageManager).clearBackgroundImage()
+    }
+
+    @Test
+    fun releasesUriPermissionsOnClearBackground() {
+        // Given
+        val contentResolver: ContentResolver = mock()
+        val uri = Uri.parse("content://shithost")
+
+        givenBackgroundUriThatNeedsReleasingPermissions(contentResolver, uri)
+
+        // When
+        underTest.clearBackground()
+
+        // Then
+        verify(contentResolver).releasePersistableUriPermission(
+                uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+
+    @Test
+    fun doesNotReleaseUriPermissionsWhenPreKitKat() {
+        // Given
+        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.JELLY_BEAN_MR2)
+        val underTest = newBackgrodundImagePreferencePresenter()
+
+        val contentResolver: ContentResolver = mock()
+        val uri = Uri.parse("content://shithost")
+
+        givenBackgroundUriThatNeedsReleasingPermissions(contentResolver, uri)
+
+        // When
+        underTest.clearBackground()
+
+        // Then
+        verify(contentResolver, never()).releasePersistableUriPermission(
+                uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+
+    @Test
+    fun doesNotReleaseUriPermissionsWhenContentResolverHasNoPermissions() {
+        // Given
+        val contentResolver: ContentResolver = mock()
+        val uri = Uri.parse("content://shithost")
+
+        whenever(context.contentResolver).thenReturn(contentResolver)
+        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(uri.toString()))
+
+        // When
+        underTest.clearBackground()
+
+        // Then
+        verify(contentResolver, never()).releasePersistableUriPermission(
+                uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+
+    @Test
+    fun doesNotCrashOnReleaseUriPermissionsWhenContentResolverNotSet() {
+        // Given
+        whenever(settings.getBackgroundUri()).thenReturn(Observable.just("content://shithost"))
+
+        // When
+        underTest.clearBackground()
+
+        // Then no crash
+    }
+
+    fun doesNotCheckForUriPermissionsWhenUriNotSet() {
+        // Given
+        val contentResolver: ContentResolver = mock()
+        whenever(context.contentResolver).thenReturn(contentResolver)
+        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
+
+        // When
+        underTest.clearBackground()
+
+        // Then
+        verify(contentResolver, never()).persistedUriPermissions
+    }
+
+    private fun givenBackgroundUriThatNeedsReleasingPermissions(
+            contentResolver: ContentResolver, uri: Uri) {
+        val uriPermission: UriPermission = mock {
+            on(it.uri).doReturn(uri)
+        }
+
+        whenever(contentResolver.persistedUriPermissions).doReturn(listOf(uriPermission))
+        whenever(context.contentResolver).thenReturn(contentResolver)
+        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(uri.toString()))
+    }
+
+    @Test
+    fun picksBackgroundByOpenDocument() {
+        // Given
+        val host: Fragment = mock()
+
+        // When
+        underTest.host = host
+        underTest.pickBackground()
+
+        // Then
+        val captor = argumentCaptor<Intent>()
+        verify(host).startActivityForResult(captor.capture(), eq(REQUEST_CODE_OPEN_DOCUMENT))
+
+        assertEquals(Intent.ACTION_OPEN_DOCUMENT, captor.firstValue.action)
+        assertEquals(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, captor.firstValue.flags)
+        assertEquals("image/*", captor.firstValue.type)
+    }
+}
