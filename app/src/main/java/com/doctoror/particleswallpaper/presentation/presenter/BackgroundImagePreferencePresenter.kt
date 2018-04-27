@@ -19,23 +19,23 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Fragment
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.Log
-import android.widget.Toast
-import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
+import com.doctoror.particleswallpaper.domain.interactor.PickImageDocumentUseCase
+import com.doctoror.particleswallpaper.domain.interactor.PickImageGetContentUseCase
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_OPEN_DOCUMENT
+import com.doctoror.particleswallpaper.presentation.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
@@ -53,6 +53,8 @@ import javax.inject.Inject
 class BackgroundImagePreferencePresenter @Inject constructor(
         apiLevelProvider: ApiLevelProvider,
         private val context: Context,
+        private val pickImageGetContentUseCase: PickImageGetContentUseCase,
+        private val pickImageDocumentUseCase: PickImageDocumentUseCase,
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
         @Default private val defaults: SettingsRepository,
@@ -140,7 +142,9 @@ class BackgroundImagePreferencePresenter @Inject constructor(
     private open inner class BackgroundImageHandlerLegacy : BackgroundImageHandler {
 
         override fun pickBackground() {
-            pickByGetContent()
+            host?.let {
+                pickImageGetContentUseCase.invoke(FragmentStartActivityForResultAction(it))
+            }
         }
 
         override fun clearBackground() {
@@ -178,24 +182,6 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         private fun handleDefaultUriResult(uri: Uri) {
             settings.setBackgroundUri(uri.toString())
         }
-
-        protected fun pickByGetContent() {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-            try {
-                host?.startActivityForResult(
-                        Intent.createChooser(intent, null), REQUEST_CODE_GET_CONTENT)
-            } catch (e: ActivityNotFoundException) {
-                try {
-                    host?.startActivityForResult(intent, REQUEST_CODE_GET_CONTENT)
-                } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(context, R.string.Failed_to_open_image_picker, Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -203,7 +189,9 @@ class BackgroundImagePreferencePresenter @Inject constructor(
     private inner class BackgroundImageHandlerKitKat : BackgroundImageHandlerLegacy() {
 
         override fun pickBackground() {
-            pickByOpenDocument()
+            host?.let {
+                pickImageDocumentUseCase.invoke(FragmentStartActivityForResultAction(it))
+            }
         }
 
         override fun clearBackground() {
@@ -235,17 +223,6 @@ class BackgroundImagePreferencePresenter @Inject constructor(
                 }
             }
             super.onActivityResultAvailable(requestCode, uri)
-        }
-
-        private fun pickByOpenDocument() {
-            val documentIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            documentIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-            documentIntent.type = "image/*"
-            try {
-                host?.startActivityForResult(documentIntent, REQUEST_CODE_OPEN_DOCUMENT)
-            } catch (e: ActivityNotFoundException) {
-                pickByGetContent()
-            }
         }
     }
 }

@@ -15,7 +15,6 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
-import android.app.Fragment
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
@@ -25,16 +24,16 @@ import android.os.Build
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
+import com.doctoror.particleswallpaper.domain.interactor.PickImageDocumentUseCase
+import com.doctoror.particleswallpaper.domain.interactor.PickImageGetContentUseCase
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.config.ConfigFragment
 import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -50,6 +49,8 @@ class BackgroundImagePreferencePresenterTest {
     }
 
     private val context: Context = mock()
+    private val pickImageGetContentUseCase: PickImageGetContentUseCase = mock()
+    private val pickImageDocumentUseCase: PickImageDocumentUseCase = mock()
     private val settings: MutableSettingsRepository = mock()
     private val defaults: SettingsRepository = mock()
     private val backgroundImageManager: BackgroundImageManager = mock()
@@ -60,6 +61,8 @@ class BackgroundImagePreferencePresenterTest {
     private fun newBackgrodundImagePreferencePresenter() = BackgroundImagePreferencePresenter(
             apiLevelProvider,
             context,
+            pickImageGetContentUseCase,
+            pickImageDocumentUseCase,
             TrampolineSchedulers(),
             settings,
             defaults,
@@ -216,19 +219,25 @@ class BackgroundImagePreferencePresenterTest {
 
     @Test
     fun picksBackgroundByOpenDocument() {
-        // Given
-        val host: Fragment = mock()
-
         // When
-        underTest.host = host
+        underTest.host = mock()
         underTest.pickBackground()
 
         // Then
-        val captor = argumentCaptor<Intent>()
-        verify(host).startActivityForResult(captor.capture(), eq(REQUEST_CODE_OPEN_DOCUMENT))
+        verify(pickImageDocumentUseCase).invoke(any())
+    }
 
-        assertEquals(Intent.ACTION_OPEN_DOCUMENT, captor.firstValue.action)
-        assertEquals(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, captor.firstValue.flags)
-        assertEquals("image/*", captor.firstValue.type)
+    @Test
+    fun picksBackgroundByGetContentForLegacyApi() {
+        // Given
+        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.JELLY_BEAN_MR2)
+        val underTest = newBackgrodundImagePreferencePresenter()
+
+        // When
+        underTest.host = mock()
+        underTest.pickBackground()
+
+        // Then
+        verify(pickImageGetContentUseCase).invoke(any())
     }
 }
