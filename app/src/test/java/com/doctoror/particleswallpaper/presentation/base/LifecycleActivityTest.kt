@@ -36,8 +36,14 @@ class LifecycleActivityTest {
 
     private val testObserver = object : LifecycleObserver {
 
+        var onCreateCount = 0
         var onStartCount = 0
         var onStopCount = 0
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+        fun onCreate() {
+            onCreateCount++
+        }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_START)
         fun onStart() {
@@ -58,6 +64,15 @@ class LifecycleActivityTest {
     @After
     fun tearDown() {
         underTest.lifecycle.removeObserver(testObserver)
+    }
+
+    @Test
+    fun notifiesOnCreateLifecycleEvent() {
+        // When
+        underTestController.start()
+
+        // Then
+        assertEquals(1, testObserver.onCreateCount)
     }
 
     @Test

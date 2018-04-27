@@ -19,6 +19,7 @@ import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
+import android.os.Bundle
 
 /**
  * [LifecycleOwner] [Activity]
@@ -29,6 +30,11 @@ abstract class LifecycleActivity : Activity(), LifecycleOwner {
     private val lifecycleRegistry = LifecycleRegistry(this)
 
     override fun getLifecycle() = lifecycleRegistry
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    }
 
     override fun onStart() {
         super.onStart()
