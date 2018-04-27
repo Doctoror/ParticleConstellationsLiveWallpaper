@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Fragment
@@ -27,6 +28,7 @@ import android.support.annotation.RequiresApi
 import android.util.Log
 import android.widget.Toast
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
@@ -49,6 +51,7 @@ import javax.inject.Inject
  */
 @PerPreference
 class BackgroundImagePreferencePresenter @Inject constructor(
+        apiLevelProvider: ApiLevelProvider,
         private val context: Context,
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
@@ -63,7 +66,8 @@ class BackgroundImagePreferencePresenter @Inject constructor(
     private val imageHandler: BackgroundImageHandler
 
     init {
-        imageHandler = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        @SuppressLint("NewApi")
+        imageHandler = if (apiLevelProvider.provideSdkInt() >= Build.VERSION_CODES.KITKAT) {
             BackgroundImageHandlerKitKat()
         } else {
             BackgroundImageHandlerLegacy()

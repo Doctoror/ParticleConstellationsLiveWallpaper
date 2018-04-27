@@ -17,6 +17,7 @@ package com.doctoror.particleswallpaper.presentation.di.modules
 
 import android.content.Context
 import com.doctoror.particleswallpaper.data.execution.SchedulersProviderImpl
+import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import dagger.Module
 import dagger.Provides
@@ -32,4 +33,8 @@ class AppModule(private val context: Context) {
     @Singleton
     @Provides
     fun provideSchedulers(): SchedulersProvider = SchedulersProviderImpl()
+
+    @Singleton
+    @Provides
+    fun provideApiLevelProvider() = ApiLevelProvider()
 }

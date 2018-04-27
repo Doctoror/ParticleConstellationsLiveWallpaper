@@ -39,13 +39,13 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import io.reactivex.disposables.CompositeDisposable
 
 class EnginePresenter(
+        private val apiLevelProvider: ApiLevelProvider,
         private val configurator: SceneConfigurator,
         private val controller: EngineController,
         private val glide: RequestManager,
         private val schedulers: SchedulersProvider,
         private val settings: SettingsRepository,
-        private val view: EngineView,
-        private val apiLevelProvider: ApiLevelProvider = ApiLevelProvider()) {
+        private val view: EngineView) {
 
     private val defaultDelay = 10L
     private val minDelay = 5L

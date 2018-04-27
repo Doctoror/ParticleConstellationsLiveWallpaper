@@ -35,12 +35,12 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class OpenChangeWallpaperIntentUseCaseTest {
 
-    private val action: StartActivityForResultAction = mock()
     private val apiLevelProvider: ApiLevelProvider = mock()
+    private val action: StartActivityForResultAction = mock()
     private val packageName = "packageName"
 
     private val underTest = OpenChangeWallpaperIntentUseCase(
-            packageName, action, apiLevelProvider)
+            apiLevelProvider, packageName, action)
 
     private fun givenSdkIsJellyBean() {
         whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.JELLY_BEAN)

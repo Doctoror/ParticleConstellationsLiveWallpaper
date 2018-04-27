@@ -40,21 +40,21 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class EnginePresenterTest {
 
+    private val apiLevelProvider: ApiLevelProvider = mock()
     private val configurator: SceneConfigurator = mock()
     private val controller: EngineController = mock()
     private val glide: RequestManager = spy(Glide.with(RuntimeEnvironment.systemContext))
     private val settings: SettingsRepository = mock()
     private val view: EngineView = mock()
-    private val apiLevelProvider: ApiLevelProvider = mock()
 
     private val underTest = EnginePresenter(
+            apiLevelProvider,
             configurator,
             controller,
             glide,
             TrampolineSchedulers(),
             settings,
-            view,
-            apiLevelProvider)
+            view)
 
     @Before
     fun setup() {

@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.presentation.di.components
 
 import android.content.Context
+import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
@@ -40,6 +41,8 @@ import javax.inject.Singleton
     ConfigModule::class,
     ServicesContributes::class])
 interface AppComponent : AndroidInjector<App> {
+
+    fun exposeApiLevelProvider(): ApiLevelProvider
 
     fun exposeBackgroundImageManager(): BackgroundImageManager
     fun exposeContext(): Context

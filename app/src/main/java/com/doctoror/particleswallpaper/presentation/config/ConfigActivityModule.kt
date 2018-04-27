@@ -18,6 +18,7 @@ package com.doctoror.particleswallpaper.presentation.config
 import android.os.Build
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
@@ -55,8 +56,11 @@ class ConfigActivityModule {
 
     @PerActivity
     @Provides
-    fun provideOpenChangeWallpaperIntentUseCase(activity: ConfigActivity) =
+    fun provideOpenChangeWallpaperIntentUseCase(
+            apiLevelProvider: ApiLevelProvider,
+            activity: ConfigActivity) =
             OpenChangeWallpaperIntentUseCase(
+                    apiLevelProvider,
                     activity.packageName,
                     ActivityStartActivityForResultAction(activity))
 

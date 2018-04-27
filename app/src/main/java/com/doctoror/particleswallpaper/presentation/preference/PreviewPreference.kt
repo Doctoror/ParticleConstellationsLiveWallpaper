@@ -20,7 +20,11 @@ import android.app.Fragment
 import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
+import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
+import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
+import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
 import com.doctoror.particleswallpaper.presentation.presenter.PreviewPreferencePresenter
+import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
@@ -31,7 +35,10 @@ class PreviewPreference @JvmOverloads constructor
 (contextParam: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : Preference(contextParam, attrs) {
 
-    private val presenter = PreviewPreferencePresenter(contextParam as Activity)
+    @Inject
+    lateinit var apiLevelProvider: ApiLevelProvider
+
+    private val presenter: PreviewPreferencePresenter
 
     var host: Fragment? = null
         set(f) {
@@ -41,6 +48,12 @@ class PreviewPreference @JvmOverloads constructor
 
     init {
         isPersistent = false
+        DaggerPreferenceComponent.builder()
+                .appComponent(AppComponentProvider.provideAppComponent(context))
+                .build()
+                .inject(this)
+
+        presenter = PreviewPreferencePresenter(apiLevelProvider, contextParam as Activity)
     }
 
     override fun onClick() {
