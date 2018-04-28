@@ -21,7 +21,6 @@ import com.doctoror.particleswallpaper.domain.repository.MutableSettingsReposito
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
 import javax.inject.Inject
 
 /**
@@ -40,8 +39,6 @@ class SpeedFactorPreferencePresenter @Inject constructor(
     private val seekBarMaxValue = 40
     private var disposable: Disposable? = null
 
-    private val changeAction = Consumer<Float> { t -> view.setProgressInt(transformToProgress(t)) }
-
     override fun onTakeView(view: SeekBarPreferenceView) {
         view.setMaxInt(seekBarMaxValue)
         this.view = view
@@ -57,7 +54,7 @@ class SpeedFactorPreferencePresenter @Inject constructor(
     override fun onStart() {
         disposable = settings.getStepMultiplier()
                 .observeOn(schedulers.mainThread())
-                .subscribe(changeAction)
+                .subscribe { view.setProgressInt(transformToProgress(it)) }
     }
 
     override fun onStop() {
