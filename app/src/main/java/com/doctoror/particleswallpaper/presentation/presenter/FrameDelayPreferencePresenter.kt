@@ -39,14 +39,14 @@ class FrameDelayPreferencePresenter @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val frameDelaySeekbarMin = 10
-    private val frameDelaySeekbarMax = 80
+    private val seekbarMax = 80
 
     private var disposable: Disposable? = null
 
     private val changeAction = Consumer<Int> { t -> view.setProgressInt(transformToProgress(t)) }
 
     override fun onTakeView(view: SeekBarPreferenceView) {
-        view.setMaxInt(frameDelaySeekbarMax)
+        view.setMaxInt(seekbarMax)
         this.view = view
     }
 
@@ -68,7 +68,7 @@ class FrameDelayPreferencePresenter @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    override fun getSeekbarMax() = frameDelaySeekbarMax
+    override fun getSeekbarMax() = seekbarMax
 
     /**
      * The seek bar represents frame rate as percentage.
