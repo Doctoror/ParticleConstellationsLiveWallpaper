@@ -21,6 +21,8 @@ import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
+import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
+import com.doctoror.particleswallpaper.presentation.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
 import com.doctoror.particleswallpaper.presentation.presenter.PreviewPreferencePresenter
@@ -42,6 +44,7 @@ class PreviewPreference @JvmOverloads constructor
 
     var host: Fragment? = null
         set(f) {
+            presenter.useCase = if (f != null) newOpenChangeWallpaperIntentUseCase(f) else null
             presenter.host = f
             field = f
         }
@@ -53,10 +56,16 @@ class PreviewPreference @JvmOverloads constructor
                 .build()
                 .inject(this)
 
-        presenter = PreviewPreferencePresenter(apiLevelProvider, contextParam as Activity)
+        presenter = PreviewPreferencePresenter(contextParam as Activity)
     }
 
     override fun onClick() {
         presenter.onClick()
     }
+
+    private fun newOpenChangeWallpaperIntentUseCase(host: Fragment) =
+            OpenChangeWallpaperIntentUseCase(
+                    apiLevelProvider,
+                    context.packageName,
+                    FragmentStartActivityForResultAction(host))
 }

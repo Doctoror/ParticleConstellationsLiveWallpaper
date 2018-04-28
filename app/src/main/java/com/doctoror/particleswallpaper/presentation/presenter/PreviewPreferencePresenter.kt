@@ -20,10 +20,8 @@ import android.app.Fragment
 import android.content.Intent
 import android.widget.Toast
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
-import com.doctoror.particleswallpaper.presentation.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
@@ -35,9 +33,9 @@ import com.doctoror.particleswallpaper.presentation.view.MvpView
  * Presenter for [com.doctoror.particleswallpaper.presentation.preference.PreviewPreference]
  */
 @PerPreference
-class PreviewPreferencePresenter(
-        private val apiLevelProvider: ApiLevelProvider,
-        private val activity: Activity) : Presenter<MvpView> {
+class PreviewPreferencePresenter(private val activity: Activity) : Presenter<MvpView> {
+
+    var useCase: OpenChangeWallpaperIntentUseCase? = null
 
     var host: Fragment? = null
         set(f) {
@@ -66,11 +64,7 @@ class PreviewPreferencePresenter(
     }
 
     fun onClick() {
-        OpenChangeWallpaperIntentUseCase(
-                apiLevelProvider,
-                activity.packageName,
-                FragmentStartActivityForResultAction(
-                        host ?: throw IllegalStateException("Host not set")))
+        useCase!!
                 .useCase()
                 .subscribe({ v ->
                     if (!v) {
