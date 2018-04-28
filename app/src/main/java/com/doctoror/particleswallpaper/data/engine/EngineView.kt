@@ -104,7 +104,9 @@ class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
         surfaceHolder = null
     }
 
-    private fun drawBackground(c: Canvas) {
+    // Inline for avoiding extra method call in draw
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun drawBackground(c: Canvas) {
         val background = background
         if (background == null) {
             drawBackgroundColor(c)
