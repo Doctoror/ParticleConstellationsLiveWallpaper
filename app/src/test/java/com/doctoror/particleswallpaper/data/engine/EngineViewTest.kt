@@ -20,6 +20,7 @@ import android.graphics.drawable.Drawable
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -89,5 +90,53 @@ class EngineViewTest {
 
         // Then
         verify(background).setBounds(0, 0, width, height)
+    }
+
+    @Test
+    fun resetsSurfaceCacheOnDimensionsChange() {
+        // Given
+        underTest.surfaceHolder = mock()
+
+        // When
+        underTest.setDimensions(0, 0)
+
+        // Then
+        assertNull(underTest.surfaceHolder)
+    }
+
+    @Test
+    fun resetsSurfaceCacheOnReset() {
+        // Given
+        underTest.surfaceHolder = mock()
+
+        // When
+        underTest.resetSurfaceCache()
+
+        // Then
+        assertNull(underTest.surfaceHolder)
+    }
+
+    @Test
+    fun resetsSurfaceCacheOnStart() {
+        // Given
+        underTest.surfaceHolder = mock()
+
+        // When
+        underTest.start()
+
+        // Then
+        assertNull(underTest.surfaceHolder)
+    }
+
+    @Test
+    fun resetsSurfaceCacheOnStop() {
+        // Given
+        underTest.surfaceHolder = mock()
+
+        // When
+        underTest.start()
+
+        // Then
+        assertNull(underTest.surfaceHolder)
     }
 }

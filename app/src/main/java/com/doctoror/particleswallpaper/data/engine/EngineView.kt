@@ -23,6 +23,7 @@ import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.annotation.VisibleForTesting
 import android.util.Log
+import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.ParticlesDrawable
 
 class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
@@ -43,6 +44,10 @@ class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
     var height = 0
         private set
 
+    @JvmField
+    @VisibleForTesting
+    var surfaceHolder: SurfaceHolder? = null
+
     init {
         backgroundPaint.style = Paint.Style.FILL
         backgroundPaint.color = Color.BLACK
@@ -57,18 +62,25 @@ class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
         this.height = height
         drawable.setBounds(0, 0, width, height)
         background?.setBounds(0, 0, width, height)
+        surfaceHolder = null
     }
 
     fun start() {
+        surfaceHolder = null
         drawable.start()
     }
 
     fun stop() {
         drawable.stop()
+        surfaceHolder = null
     }
 
     fun draw() {
-        val holder = surfaceHolderProvider.provideSurfaceHolder()
+        var holder = surfaceHolder
+        if (holder == null) {
+            holder = surfaceHolderProvider.provideSurfaceHolder()
+            surfaceHolder = holder
+        }
         var canvas: Canvas? = null
         try {
             canvas = holder.lockCanvas()
@@ -86,6 +98,10 @@ class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
                 }
             }
         }
+    }
+
+    fun resetSurfaceCache() {
+        surfaceHolder = null
     }
 
     private fun drawBackground(c: Canvas) {
