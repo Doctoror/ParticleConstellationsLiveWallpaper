@@ -26,9 +26,7 @@ import android.util.Log
 import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.ParticlesDrawable
 
-class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
-
-    private val tag = "EngineView"
+class EngineView {
 
     val backgroundPaint = Paint()
 
@@ -44,10 +42,6 @@ class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
     var height = 0
         private set
 
-    @JvmField
-    @VisibleForTesting
-    var surfaceHolder: SurfaceHolder? = null
-
     init {
         backgroundPaint.style = Paint.Style.FILL
         backgroundPaint.color = Color.BLACK
@@ -62,25 +56,19 @@ class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
         this.height = height
         drawable.setBounds(0, 0, width, height)
         background?.setBounds(0, 0, width, height)
-        surfaceHolder = null
     }
 
     fun start() {
-        surfaceHolder = null
         drawable.start()
     }
 
     fun stop() {
         drawable.stop()
-        surfaceHolder = null
     }
 
-    fun draw() {
-        var holder = surfaceHolder
-        if (holder == null) {
-            holder = surfaceHolderProvider.provideSurfaceHolder()
-            surfaceHolder = holder
-        }
+    // Inline for avoiding extra method call in draw
+    @Suppress("NOTHING_TO_INLINE")
+    inline fun draw(holder: SurfaceHolder) {
         var canvas: Canvas? = null
         try {
             canvas = holder.lockCanvas()
@@ -94,19 +82,15 @@ class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
                 try {
                     holder.unlockCanvasAndPost(it)
                 } catch (e: IllegalArgumentException) {
-                    Log.wtf(tag, e)
+                    Log.wtf("EngineView", e)
                 }
             }
         }
     }
 
-    fun resetSurfaceCache() {
-        surfaceHolder = null
-    }
-
     // Inline for avoiding extra method call in draw
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun drawBackground(c: Canvas) {
+    inline fun drawBackground(c: Canvas) {
         val background = background
         if (background == null) {
             drawBackgroundColor(c)
@@ -122,7 +106,9 @@ class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
         }
     }
 
-    private fun drawBackgroundColor(c: Canvas) {
+    // Inline for avoiding extra method call in draw
+    @Suppress("NOTHING_TO_INLINE")
+    inline fun drawBackgroundColor(c: Canvas) {
         c.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
     }
 }

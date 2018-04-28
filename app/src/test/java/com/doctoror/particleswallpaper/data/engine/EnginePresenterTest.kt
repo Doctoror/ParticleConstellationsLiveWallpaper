@@ -17,6 +17,7 @@ package com.doctoror.particleswallpaper.data.engine
 
 import android.net.Uri
 import android.os.Build
+import android.view.SurfaceHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.doctoror.particlesdrawable.ParticlesDrawable
@@ -45,6 +46,9 @@ class EnginePresenterTest {
     private val controller: EngineController = mock()
     private val glide: RequestManager = spy(Glide.with(RuntimeEnvironment.application))
     private val settings: SettingsRepository = mock()
+    private val surfaceHolderProvider: SurfaceHolderProvider = mock {
+        on(it.provideSurfaceHolder()).doReturn(mock<SurfaceHolder>())
+    }
     private val view: EngineView = mock()
 
     private val underTest = EnginePresenter(
@@ -54,6 +58,7 @@ class EnginePresenterTest {
             glide,
             TrampolineSchedulers(),
             settings,
+            surfaceHolderProvider,
             view)
 
     @Before
@@ -273,5 +278,29 @@ class EnginePresenterTest {
 
         // Then
         verify(view).stop()
+    }
+
+    @Test
+    fun resetsSurfaceCacheOnDimensionsChange() {
+        // Given
+        underTest.surfaceHolder = mock()
+
+        // When
+        underTest.setDimensions(0, 0)
+
+        // Then
+        assertNull(underTest.surfaceHolder)
+    }
+
+    @Test
+    fun resetsSurfaceCacheOnVisibilityChange() {
+        // Given
+        underTest.surfaceHolder = mock()
+
+        // When
+        underTest.visible = false
+
+        // Then
+        assertNull(underTest.surfaceHolder)
     }
 }

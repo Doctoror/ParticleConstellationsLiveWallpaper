@@ -53,7 +53,6 @@ class WallpaperServiceImpl : WallpaperService() {
 
     override fun onCreateEngine(): Engine {
         val engine = EngineImpl()
-        val view = EngineView(engine)
         engine.presenter = EnginePresenter(
                 apiLevelProvider,
                 configurator,
@@ -61,7 +60,8 @@ class WallpaperServiceImpl : WallpaperService() {
                 Glide.with(this),
                 schedulers,
                 settings,
-                view)
+                engine,
+                EngineView())
         return engine
     }
 

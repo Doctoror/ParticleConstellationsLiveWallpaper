@@ -26,6 +26,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import android.support.annotation.VisibleForTesting
+import android.view.SurfaceHolder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -45,6 +46,7 @@ class EnginePresenter(
         private val glide: RequestManager,
         private val schedulers: SchedulersProvider,
         private val settings: SettingsRepository,
+        private val surfaceHolderProvider: SurfaceHolderProvider,
         private val view: EngineView) {
 
     private val defaultDelay = 10L
@@ -75,12 +77,17 @@ class EnginePresenter(
     var visible = false
         set(value) {
             field = value
+            surfaceHolder = null
             handleRunConstraints()
         }
 
     @VisibleForTesting
     @JvmField
     var run = false
+
+    @JvmField
+    @VisibleForTesting
+    var surfaceHolder: SurfaceHolder? = null
 
     fun onCreate() {
         configurator.subscribe(view.drawable, settings)
@@ -138,17 +145,25 @@ class EnginePresenter(
         this.width = width
         this.height = height
         view.setDimensions(width, height)
+        surfaceHolder = null
 
         // Force re-apply background
         backgroundUri = null
         handleBackground(settings.getBackgroundUri().blockingFirst())
     }
 
-    private fun draw() {
+    // Avoid internal accessor
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun draw() {
         handler.removeCallbacks(drawRunnable)
         if (run) {
+            var holder = surfaceHolder
+            if (holder == null) {
+                holder = surfaceHolderProvider.provideSurfaceHolder()
+                surfaceHolder = holder
+            }
             val startTime = SystemClock.uptimeMillis()
-            view.draw()
+            view.draw(holder)
             handler.postDelayed(drawRunnable,
                     Math.max(delay - (SystemClock.uptimeMillis() - startTime), minDelay))
         }
