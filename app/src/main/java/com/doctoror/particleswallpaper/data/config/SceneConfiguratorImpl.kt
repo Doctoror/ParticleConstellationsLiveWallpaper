@@ -28,7 +28,7 @@ import io.reactivex.disposables.CompositeDisposable
  *
  * Not thread safe!
  */
-class SceneConfiguratorImpl (private val schedulers: SchedulersProvider): SceneConfigurator {
+class SceneConfiguratorImpl(private val schedulers: SchedulersProvider) : SceneConfigurator {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var disposables: CompositeDisposable? = null
