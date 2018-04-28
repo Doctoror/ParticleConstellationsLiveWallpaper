@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.data.config
 
 import com.doctoror.particlesdrawable.ParticlesScene
-import com.doctoror.particleswallpaper.data.execution.ComputationSchedulers
+import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.data.repository.MockSettingsRepositoryFactory
 import org.junit.Assert.*
 import org.junit.Test
@@ -26,7 +26,7 @@ class SceneConfiguratorImplTest {
 
     @Test
     fun testSubscription() {
-        val c = SceneConfiguratorImpl(ComputationSchedulers())
+        val c = SceneConfiguratorImpl(TrampolineSchedulers())
 
         assertNull(c.disposables)
 
