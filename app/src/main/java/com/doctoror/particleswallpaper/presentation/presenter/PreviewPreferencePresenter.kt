@@ -18,6 +18,7 @@ package com.doctoror.particleswallpaper.presentation.presenter
 import android.app.Activity
 import android.app.Fragment
 import android.content.Intent
+import android.util.Log
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
@@ -57,9 +58,10 @@ class PreviewPreferencePresenter(private val activity: Activity)
         }
 
     fun onClick() {
-        useCase!!
-                .useCase()
-                .subscribe { started -> if (!started) view.showPreviewStartFailed() }
+        useCase
+                ?.useCase()
+                ?.subscribe { started -> if (!started) view.showPreviewStartFailed() }
+                ?: Log.w("PreviewPreferencePresen", "UseCase not set")
     }
 
     private val onActivityResultCallback = object : OnActivityResultCallback() {
