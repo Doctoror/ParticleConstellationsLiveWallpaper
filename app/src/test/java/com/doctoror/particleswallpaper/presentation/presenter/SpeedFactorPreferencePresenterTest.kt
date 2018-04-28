@@ -31,6 +31,11 @@ class SpeedFactorPreferencePresenterTest {
     private val underTest = SpeedFactorPreferencePresenter(TrampolineSchedulers(), settings)
 
     @Test
+    fun testMapper() {
+        testMapper(underTest)
+    }
+
+    @Test
     fun setsMaxValueOnTakeView() {
         // When
         underTest.onTakeView(view)

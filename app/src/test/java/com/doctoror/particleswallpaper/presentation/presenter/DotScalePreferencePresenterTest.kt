@@ -31,6 +31,11 @@ class DotScalePreferencePresenterTest {
     private val underTest = DotScalePreferencePresenter(TrampolineSchedulers(), settings)
 
     @Test
+    fun testMapper() {
+        testMapper(underTest)
+    }
+
+    @Test
     fun setsMaxValueOnTakeView() {
         // When
         underTest.onTakeView(view)

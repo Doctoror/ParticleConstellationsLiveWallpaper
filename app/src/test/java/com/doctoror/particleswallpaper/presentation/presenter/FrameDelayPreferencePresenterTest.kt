@@ -21,6 +21,7 @@ import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class FrameDelayPreferencePresenterTest {
@@ -28,18 +29,27 @@ class FrameDelayPreferencePresenterTest {
     private val frameDelaySeekbarMin = 10
 
     private val settings: MutableSettingsRepository = mock()
+
     private val view: SeekBarPreferenceView = mock {
         on(it.getMaxInt()).doReturn(80)
     }
 
-    private val underTest = FrameDelayPreferencePresenter(TrampolineSchedulers(), settings)
+    private val underTest = FrameDelayPreferencePresenter(TrampolineSchedulers(), settings).apply {
+        onTakeView(view)
+    }
+
+    @Test
+    fun testMapper() {
+        testMapper(underTest)
+    }
+
+    @Test
+    fun testMinValue() {
+        assertEquals(frameDelaySeekbarMin, transformToRealValue(underTest.getSeekbarMax()))
+    }
 
     @Test
     fun setsMaxValueOnTakeView() {
-        // When
-        underTest.onTakeView(view)
-
-        // Then
         verify(view).setMaxInt(80)
     }
 
@@ -48,7 +58,6 @@ class FrameDelayPreferencePresenterTest {
         // Given
         val frameDelay = 9
         whenever(settings.getFrameDelay()).thenReturn(Observable.just(frameDelay))
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()
@@ -63,7 +72,6 @@ class FrameDelayPreferencePresenterTest {
         // Given
         val frameDelaySource = PublishSubject.create<Int>()
         whenever(settings.getFrameDelay()).thenReturn(frameDelaySource)
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()
@@ -80,7 +88,6 @@ class FrameDelayPreferencePresenterTest {
         val progress = 80
 
         // When
-        underTest.onTakeView(view)
         underTest.onPreferenceChange(progress)
 
         // Then

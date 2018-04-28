@@ -31,6 +31,11 @@ class LineScalePreferencePresenterTest {
     private val underTest = LineScalePreferencePresenter(TrampolineSchedulers(), settings)
 
     @Test
+    fun testMapper() {
+        testMapper(underTest)
+    }
+
+    @Test
     fun setsMaxValueOnTakeView() {
         // When
         underTest.onTakeView(view)
