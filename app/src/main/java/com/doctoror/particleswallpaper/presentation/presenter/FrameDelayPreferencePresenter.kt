@@ -34,7 +34,7 @@ class FrameDelayPreferencePresenter @Inject constructor(
         private val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
         MapperSeekBarPresenter<Int> {
 
-    lateinit var view: SeekBarPreferenceView
+    private lateinit var view: SeekBarPreferenceView
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val frameDelaySeekbarMin = 10
