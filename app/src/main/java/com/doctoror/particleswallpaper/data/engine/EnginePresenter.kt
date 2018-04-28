@@ -79,19 +79,8 @@ class EnginePresenter(
         }
 
     @VisibleForTesting
+    @JvmField
     var run = false
-        private set(value) {
-            if (field != value) {
-                field = value
-                if (value) {
-                    view.start()
-                    handler.post(drawRunnable)
-                } else {
-                    handler.removeCallbacks(drawRunnable)
-                    view.stop()
-                }
-            }
-        }
 
     fun onCreate() {
         configurator.subscribe(view.drawable, settings)
@@ -166,7 +155,16 @@ class EnginePresenter(
     }
 
     private fun handleRunConstraints() {
-        run = visible
+        if (run != visible) {
+            run = visible
+            if (run) {
+                view.start()
+                handler.post(drawRunnable)
+            } else {
+                handler.removeCallbacks(drawRunnable)
+                view.stop()
+            }
+        }
     }
 
     private fun notifyBackgroundColors() {
