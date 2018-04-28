@@ -22,7 +22,6 @@ import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.ParticlesColorPreferenceView
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
 import javax.inject.Inject
 
 /**
@@ -41,8 +40,6 @@ class ParticlesColorPreferencePresenter @Inject constructor(
 
     private var disposable: Disposable? = null
 
-    private val changeAction = Consumer<Int> { t -> view.setColor(t) }
-
     override fun onTakeView(view: ParticlesColorPreferenceView) {
         this.view = view
     }
@@ -59,7 +56,7 @@ class ParticlesColorPreferencePresenter @Inject constructor(
     override fun onStart() {
         disposable = settings.getParticlesColor()
                 .observeOn(schedulers.mainThread())
-                .subscribe(changeAction)
+                .subscribe { view.setColor(it) }
     }
 
     override fun onStop() {
