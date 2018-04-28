@@ -51,18 +51,6 @@ class PreviewPreferencePresenter(private val activity: Activity) : Presenter<Mvp
             }
         }
 
-    override fun onTakeView(view: MvpView) {
-        // Stub
-    }
-
-    override fun onStart() {
-        // Stub
-    }
-
-    override fun onStop() {
-        // Stub
-    }
-
     fun onClick() {
         useCase!!
                 .useCase()

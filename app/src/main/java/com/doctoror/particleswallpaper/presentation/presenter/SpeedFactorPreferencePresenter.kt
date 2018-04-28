@@ -51,13 +51,13 @@ class SpeedFactorPreferencePresenter @Inject constructor(
         }
     }
 
-    override fun onStart() {
+    fun onStart() {
         disposable = settings.getStepMultiplier()
                 .observeOn(schedulers.mainThread())
                 .subscribe { view.setProgressInt(transformToProgress(it)) }
     }
 
-    override fun onStop() {
+    fun onStop() {
         disposable?.dispose()
     }
 

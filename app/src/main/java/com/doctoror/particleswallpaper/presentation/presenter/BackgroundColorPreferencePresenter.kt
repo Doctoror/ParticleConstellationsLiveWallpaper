@@ -49,13 +49,13 @@ class BackgroundColorPreferencePresenter @Inject constructor(
         settings.setBackgroundColor(color)
     }
 
-    override fun onStart() {
+    fun onStart() {
         disposable = settings.getBackgroundColor()
                 .observeOn(schedulers.mainThread())
                 .subscribe { view.setColor(it) }
     }
 
-    override fun onStop() {
+    fun onStop() {
         disposable?.dispose()
     }
 }

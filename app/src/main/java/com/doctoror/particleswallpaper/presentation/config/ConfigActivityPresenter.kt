@@ -76,7 +76,7 @@ open class ConfigActivityPresenter(
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    override fun onStart() {
+    fun onStart() {
         bgDisposable = Observable.combineLatest(
                 settings.getBackgroundUri(),
                 settings.getBackgroundColor(),
@@ -88,7 +88,7 @@ open class ConfigActivityPresenter(
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    override fun onStop() {
+    fun onStop() {
         bgDisposable?.dispose()
         particlesDrawable.stop()
         configurator.dispose()

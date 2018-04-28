@@ -94,14 +94,6 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         this.view = view
     }
 
-    override fun onStart() {
-        // Stub
-    }
-
-    override fun onStop() {
-        // Stub
-    }
-
     fun onClick() {
         view.showActionDialog()
     }

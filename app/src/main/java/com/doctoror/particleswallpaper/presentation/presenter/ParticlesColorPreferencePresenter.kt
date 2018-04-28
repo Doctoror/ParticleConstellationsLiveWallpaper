@@ -53,13 +53,13 @@ class ParticlesColorPreferencePresenter @Inject constructor(
         view.showPreferenceDialog()
     }
 
-    override fun onStart() {
+    fun onStart() {
         disposable = settings.getParticlesColor()
                 .observeOn(schedulers.mainThread())
                 .subscribe { view.setColor(it) }
     }
 
-    override fun onStop() {
+    fun onStop() {
         disposable?.dispose()
     }
 }

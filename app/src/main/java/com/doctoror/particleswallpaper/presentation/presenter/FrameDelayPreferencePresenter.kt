@@ -54,13 +54,13 @@ class FrameDelayPreferencePresenter @Inject constructor(
         }
     }
 
-    override fun onStart() {
+    fun onStart() {
         disposable = settings.getFrameDelay()
                 .observeOn(schedulers.mainThread())
                 .subscribe { view.setProgressInt(transformToProgress(it)) }
     }
 
-    override fun onStop() {
+    fun onStop() {
         disposable?.dispose()
     }
 
