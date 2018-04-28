@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.preference
 
-import com.doctoror.particleswallpaper.data.execution.ComputationSchedulers
+import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.data.repository.MockSettingsRepositoryFactory
 import com.doctoror.particleswallpaper.presentation.presenter.*
 import com.doctoror.particleswallpaper.presentation.view.FakeSeekBarPreferenceView
@@ -33,13 +33,13 @@ class SeekBarSettingsPreferencesTest {
     fun testDotScalePreference() {
         testMapper(
                 DotScalePreferencePresenter(
-                        ComputationSchedulers(),
+                        TrampolineSchedulers(),
                         MockSettingsRepositoryFactory.createMutable()))
     }
 
     @Test
     fun testFrameDelayPreference() {
-        val p = FrameDelayPreferencePresenter(ComputationSchedulers(),
+        val p = FrameDelayPreferencePresenter(TrampolineSchedulers(),
                 MockSettingsRepositoryFactory.createMutable())
         p.onTakeView(FakeSeekBarPreferenceView())
         testMapper(p)
@@ -47,7 +47,7 @@ class SeekBarSettingsPreferencesTest {
 
     @Test
     fun testFrameDelayPreferenceMinValue() {
-        val p = FrameDelayPreferencePresenter(ComputationSchedulers(),
+        val p = FrameDelayPreferencePresenter(TrampolineSchedulers(),
                 MockSettingsRepositoryFactory.createMutable())
         p.onTakeView(FakeSeekBarPreferenceView())
         assertEquals(p.frameDelaySeekbarMin, p.transformToRealValue(p.getSeekbarMax()))
@@ -55,25 +55,25 @@ class SeekBarSettingsPreferencesTest {
 
     @Test
     fun testLineDistancePreference() {
-        testMapper(LineDistancePreferencePresenter(ComputationSchedulers(),
+        testMapper(LineDistancePreferencePresenter(TrampolineSchedulers(),
                 MockSettingsRepositoryFactory.createMutable()))
     }
 
     @Test
     fun testLineScalePreference() {
-        testMapper(LineScalePreferencePresenter(ComputationSchedulers(),
+        testMapper(LineScalePreferencePresenter(TrampolineSchedulers(),
                 MockSettingsRepositoryFactory.createMutable()))
     }
 
     @Test
     fun testNumDotsPreference() {
-        testMapper(NumDotsPreferencePresenter(ComputationSchedulers(),
+        testMapper(NumDotsPreferencePresenter(TrampolineSchedulers(),
                 MockSettingsRepositoryFactory.createMutable()))
     }
 
     @Test
     fun testSpeedFactorPreferencePresenter() {
-        testMapper(SpeedFactorPreferencePresenter(ComputationSchedulers(),
+        testMapper(SpeedFactorPreferencePresenter(TrampolineSchedulers(),
                 MockSettingsRepositoryFactory.createMutable()))
     }
 
