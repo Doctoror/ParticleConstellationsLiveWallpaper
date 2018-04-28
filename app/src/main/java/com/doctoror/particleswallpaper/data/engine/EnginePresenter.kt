@@ -26,7 +26,6 @@ import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import android.support.annotation.VisibleForTesting
-import android.view.SurfaceHolder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -46,7 +45,6 @@ class EnginePresenter(
         private val glide: RequestManager,
         private val schedulers: SchedulersProvider,
         private val settings: SettingsRepository,
-        private val surfaceHolderProvider: SurfaceHolderProvider,
         private val view: EngineView) : Runnable {
 
     private val defaultDelay = 10L
@@ -77,17 +75,12 @@ class EnginePresenter(
     var visible = false
         set(value) {
             field = value
-            surfaceHolder = null
             handleRunConstraints()
         }
 
     @VisibleForTesting
     @JvmField
     var run = false
-
-    @JvmField
-    @VisibleForTesting
-    var surfaceHolder: SurfaceHolder? = null
 
     fun onCreate() {
         configurator.subscribe(view.drawable, settings)
@@ -145,7 +138,6 @@ class EnginePresenter(
         this.width = width
         this.height = height
         view.setDimensions(width, height)
-        surfaceHolder = null
 
         // Force re-apply background
         backgroundUri = null
@@ -155,13 +147,8 @@ class EnginePresenter(
     override fun run() {
         handler.removeCallbacks(this)
         if (run) {
-            var holder = surfaceHolder
-            if (holder == null) {
-                holder = surfaceHolderProvider.provideSurfaceHolder()
-                surfaceHolder = holder
-            }
             val startTime = SystemClock.uptimeMillis()
-            view.draw(holder)
+            view.draw()
             handler.postDelayed(this,
                     Math.max(delay - (SystemClock.uptimeMillis() - startTime), minDelay))
         }
