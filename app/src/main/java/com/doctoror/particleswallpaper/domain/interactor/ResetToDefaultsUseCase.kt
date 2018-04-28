@@ -18,16 +18,19 @@ package com.doctoror.particleswallpaper.domain.interactor
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import io.reactivex.Single
+import javax.inject.Inject
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
  *
  * Resets all configurations to default values.
  */
-class ResetToDefaultsUseCase(private val settings: MutableSettingsRepository,
-                             private val defaults: SettingsRepository,
-                             private val backgroundImageManager: BackgroundImageManager) : UseCase<Unit> {
+class ResetToDefaultsUseCase @Inject constructor(
+        private val settings: MutableSettingsRepository,
+        @Default private val defaults: SettingsRepository,
+        private val backgroundImageManager: BackgroundImageManager) : UseCase<Unit> {
 
     override fun useCase() = Single.fromCallable { reset() }!!
 
