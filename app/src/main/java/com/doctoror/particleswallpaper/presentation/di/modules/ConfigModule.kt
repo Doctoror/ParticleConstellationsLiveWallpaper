@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.presentation.di.modules
 
 import android.content.Context
+import com.doctoror.particleswallpaper.data.config.SceneConfiguratorFactoryImpl
 import com.doctoror.particleswallpaper.data.config.SceneConfiguratorImpl
 import com.doctoror.particleswallpaper.data.file.BackgroundImageManagerImpl
 import com.doctoror.particleswallpaper.data.file.FileSaver
@@ -23,6 +24,7 @@ import com.doctoror.particleswallpaper.data.file.FileUriResolver
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDefault
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryImpl
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
+import com.doctoror.particleswallpaper.domain.config.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
@@ -59,8 +61,12 @@ class ConfigModule {
             SettingsRepository = settings
 
     @Provides
-    fun provideSceneConfigurator(schedulers: SchedulersProvider):
-            SceneConfigurator = SceneConfiguratorImpl(schedulers)
+    fun provideSceneConfigurator(factory: SceneConfiguratorFactory):
+            SceneConfigurator = factory.newSceneConfigurator()
+
+    @Provides
+    fun provideSceneConfiguratorFactory(schedulers: SchedulersProvider):
+            SceneConfiguratorFactory = SceneConfiguratorFactoryImpl(schedulers)
 
     @Provides
     fun provideBackgroundImageManager(context: Context): BackgroundImageManager =

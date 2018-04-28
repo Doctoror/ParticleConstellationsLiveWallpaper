@@ -21,7 +21,7 @@ import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
-import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
+import com.doctoror.particleswallpaper.domain.config.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import dagger.android.AndroidInjection
@@ -41,7 +41,7 @@ class WallpaperServiceImpl : WallpaperService() {
     lateinit var schedulers: SchedulersProvider
 
     @Inject
-    lateinit var configurator: SceneConfigurator
+    lateinit var configuratorFactory: SceneConfiguratorFactory
 
     @Inject
     lateinit var settings: SettingsRepository
@@ -56,7 +56,7 @@ class WallpaperServiceImpl : WallpaperService() {
         val view = EngineView(engine)
         engine.presenter = EnginePresenter(
                 apiLevelProvider,
-                configurator,
+                configuratorFactory.newSceneConfigurator(),
                 engine,
                 Glide.with(this),
                 schedulers,
