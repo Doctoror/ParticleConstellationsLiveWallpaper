@@ -16,10 +16,8 @@
 package com.doctoror.particleswallpaper.presentation.presenter
 
 import android.app.Activity
-import android.content.ContentResolver
-import android.content.Context
-import android.content.Intent
-import android.content.UriPermission
+import android.content.*
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
@@ -238,6 +236,19 @@ class BackgroundImagePreferencePresenterTest {
     }
 
     @Test
+    fun handlesActivityNotFoundExceptionForOpenDocument() {
+        // Given
+        givenContextHasResourcesWithStrings()
+        whenever(pickImageDocumentUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
+
+        // When
+        underTest.host = mock()
+        underTest.pickBackground()
+
+        // Then RuntimeException is not propagated
+    }
+
+    @Test
     fun picksBackgroundByGetContentForLegacyApi() {
         // Given
         whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -249,6 +260,22 @@ class BackgroundImagePreferencePresenterTest {
 
         // Then
         verify(pickImageGetContentUseCase).invoke(any())
+    }
+
+    @Test
+    fun handlesActivityNotFoundExceptionForGetContent() {
+        // Given
+        givenContextHasResourcesWithStrings()
+        whenever(pickImageDocumentUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
+
+        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.JELLY_BEAN_MR2)
+        val underTest = newBackgrodundImagePreferencePresenter()
+
+        // When
+        underTest.host = mock()
+        underTest.pickBackground()
+
+        // Then RuntimeException is not propagated
     }
 
     @Test
@@ -304,5 +331,13 @@ class BackgroundImagePreferencePresenterTest {
 
         // Then
         verify(settings).setBackgroundUri(uri.toString())
+    }
+
+    private fun givenContextHasResourcesWithStrings() {
+        val resources: Resources = mock {
+            on(it.getString(any())).doReturn("")
+        }
+
+        whenever(context.resources).thenReturn(resources)
     }
 }

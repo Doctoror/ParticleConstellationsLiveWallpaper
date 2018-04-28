@@ -19,12 +19,15 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Fragment
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.Log
+import android.widget.Toast
+import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
@@ -135,7 +138,12 @@ class BackgroundImagePreferencePresenter @Inject constructor(
 
         override fun pickBackground() {
             host?.let {
-                pickImageGetContentUseCase.invoke(FragmentStartActivityForResultAction(it))
+                try {
+                    pickImageGetContentUseCase.invoke(FragmentStartActivityForResultAction(it))
+                } catch (e: ActivityNotFoundException) {
+                    Toast.makeText(context, R.string.Failed_to_open_image_picker, Toast.LENGTH_LONG)
+                            .show()
+                }
             }
         }
 
@@ -182,7 +190,12 @@ class BackgroundImagePreferencePresenter @Inject constructor(
 
         override fun pickBackground() {
             host?.let {
-                pickImageDocumentUseCase.invoke(FragmentStartActivityForResultAction(it))
+                try {
+                    pickImageDocumentUseCase.invoke(FragmentStartActivityForResultAction(it))
+                } catch (e: ActivityNotFoundException) {
+                    Toast.makeText(context, R.string.Failed_to_open_image_picker, Toast.LENGTH_LONG)
+                            .show()
+                }
             }
         }
 
