@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
+import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
@@ -29,6 +30,8 @@ import com.doctoror.particleswallpaper.domain.interactor.PickImageGetContentUseC
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_GET_CONTENT
+import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.config.ConfigFragment
 import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
@@ -76,6 +79,15 @@ class BackgroundImagePreferencePresenterTest {
         whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
     }
 
+    private fun setHostAndExtractOnActivityResultCallback(
+            host: ConfigFragment = mock()): OnActivityResultCallback {
+        underTest.host = host
+        val callbackCapturer = argumentCaptor<OnActivityResultCallback>()
+        verify(host).registerCallback(callbackCapturer.capture())
+
+        return callbackCapturer.firstValue
+    }
+
     @Test
     fun registersOnActivityResultCallback() {
         // Given
@@ -92,15 +104,13 @@ class BackgroundImagePreferencePresenterTest {
     fun unregistersOnActivityResultCallbackOnHostChange() {
         // Given
         val host: ConfigFragment = mock()
+        val callback = setHostAndExtractOnActivityResultCallback(host)
 
         // When
-        underTest.host = host
-        val callbackCapturer = argumentCaptor<OnActivityResultCallback>()
-        verify(host).registerCallback(callbackCapturer.capture())
         underTest.host = null
 
         // Then
-        verify(host).unregsiterCallback(callbackCapturer.firstValue)
+        verify(host).unregsiterCallback(callback)
     }
 
     @Test
@@ -239,5 +249,60 @@ class BackgroundImagePreferencePresenterTest {
 
         // Then
         verify(pickImageGetContentUseCase).invoke(any())
+    }
+
+    @Test
+    fun takesPersistableUriPermissionAndSetsBackgroundOnOpenDocumentResult() {
+        // Given
+        val callback = setHostAndExtractOnActivityResultCallback()
+        val uri = Uri.parse("content://shit")
+
+        val contentResolver: ContentResolver = mock()
+        whenever(context.contentResolver).thenReturn(contentResolver)
+
+        // When
+        callback.onActivityResult(REQUEST_CODE_OPEN_DOCUMENT, Activity.RESULT_OK, Intent().apply {
+            data = uri
+        })
+
+        // Then
+        verify(contentResolver).takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        verify(settings).setBackgroundUri(uri.toString())
+    }
+
+    @Test
+    fun copiesBackgroundToFileAndSetsBackgroundOnGetContentResult() {
+        // Given
+        val callback = setHostAndExtractOnActivityResultCallback()
+        val uri = Uri.parse("content://shit")
+
+        val localUri = Uri.parse("file://localshit")
+        whenever(backgroundImageManager.copyBackgroundToFile(uri)).thenReturn(localUri)
+
+        // When
+        callback.onActivityResult(REQUEST_CODE_GET_CONTENT, Activity.RESULT_OK, Intent().apply {
+            data = uri
+        })
+
+        // Then
+        verify(settings).setBackgroundUri(localUri.toString())
+    }
+
+    @Test
+    fun storesDirectUriWhenCopyFailedOnGetContent() {
+        // Given
+        val callback = setHostAndExtractOnActivityResultCallback()
+        val uri = Uri.parse("content://shit")
+
+        whenever(backgroundImageManager.copyBackgroundToFile(uri))
+                .thenThrow(RuntimeException())
+
+        // When
+        callback.onActivityResult(REQUEST_CODE_GET_CONTENT, Activity.RESULT_OK, Intent().apply {
+            data = uri
+        })
+
+        // Then
+        verify(settings).setBackgroundUri(uri.toString())
     }
 }
