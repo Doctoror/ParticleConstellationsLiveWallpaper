@@ -47,7 +47,7 @@ class EnginePresenter(
         private val schedulers: SchedulersProvider,
         private val settings: SettingsRepository,
         private val surfaceHolderProvider: SurfaceHolderProvider,
-        private val view: EngineView) {
+        private val view: EngineView) : Runnable {
 
     private val defaultDelay = 10L
     private val minDelay = 5L
@@ -152,10 +152,8 @@ class EnginePresenter(
         handleBackground(settings.getBackgroundUri().blockingFirst())
     }
 
-    // Avoid internal accessor
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun draw() {
-        handler.removeCallbacks(drawRunnable)
+    override fun run() {
+        handler.removeCallbacks(this)
         if (run) {
             var holder = surfaceHolder
             if (holder == null) {
@@ -164,7 +162,7 @@ class EnginePresenter(
             }
             val startTime = SystemClock.uptimeMillis()
             view.draw(holder)
-            handler.postDelayed(drawRunnable,
+            handler.postDelayed(this,
                     Math.max(delay - (SystemClock.uptimeMillis() - startTime), minDelay))
         }
     }
@@ -174,9 +172,9 @@ class EnginePresenter(
             run = visible
             if (run) {
                 view.start()
-                handler.post(drawRunnable)
+                handler.post(this)
             } else {
-                handler.removeCallbacks(drawRunnable)
+                handler.removeCallbacks(this)
                 view.stop()
             }
         }
@@ -200,8 +198,6 @@ class EnginePresenter(
         }
         return colors
     }
-
-    private val drawRunnable = Runnable { this.draw() }
 
     private inner class ImageLoadTarget(private val width: Int, private val height: Int)
         : SimpleTarget<Drawable>(width, height) {
