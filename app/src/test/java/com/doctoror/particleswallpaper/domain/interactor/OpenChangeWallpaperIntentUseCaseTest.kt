@@ -25,6 +25,7 @@ import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -67,6 +68,7 @@ class OpenChangeWallpaperIntentUseCaseTest {
         verify(action).startActivityForResult(captor.capture(), eq(REQUEST_CODE_CHANGE_WALLPAPER))
 
         assertEquals(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER, captor.firstValue.action)
+        assertTrue(captor.firstValue.getBooleanExtra("SET_LOCKSCREEN_WALLPAPER", false))
         assertEquals(
                 ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName),
                 captor.firstValue.getParcelableExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT))
