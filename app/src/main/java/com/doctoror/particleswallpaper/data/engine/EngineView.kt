@@ -20,6 +20,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.annotation.ColorInt
 import android.support.annotation.VisibleForTesting
 import android.util.Log
@@ -83,7 +84,7 @@ class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
         }
         var canvas: Canvas? = null
         try {
-            canvas = holder.lockCanvas()
+            canvas = lockCanvas(holder)
             if (canvas != null) {
                 drawBackground(canvas)
                 drawable.draw(canvas)
@@ -125,4 +126,13 @@ class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
     private fun drawBackgroundColor(c: Canvas) {
         c.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
     }
+
+    // Inline for avoiding extra method call in draw
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun lockCanvas(holder: SurfaceHolder): Canvas? =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                holder.lockHardwareCanvas()
+            } else {
+                holder.lockCanvas()
+            }
 }
