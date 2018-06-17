@@ -26,7 +26,7 @@
 
     <string name="Particles_color">Колір частинок</string>
     <string name="Background_image">Фонове зображення</string>
-    <string name="Background_color">Колір фона</string>
+    <string name="Background_color">Фоновий колір</string>
     <string name="Failed_to_open_image_picker">Не вдалось відкрити вибір зображень</string>
 
     <string name="Density">Густина</string>
