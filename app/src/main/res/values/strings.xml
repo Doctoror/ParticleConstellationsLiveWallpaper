@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright 2017 Yaroslav Mytkalyk
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -47,7 +46,6 @@
 
     <string name="Reset">Reset</string>
     <string name="Preview">Preview</string>
-    <string name="Failed_to_start_preview">Failed to start preview</string>
 
     <string name="Open_source_licenses">Open source licenses</string>
     <string name="Close">Close</string>
@@ -68,6 +66,13 @@
         also lower the “Frame rate” without noticeable smoothness degrade.\n\nAlso,
 
         setting a background image may lower the draw performance.
+    ]]></string>
+
+    <string name="preview_problem"><![CDATA[
+        Unfortunately, your device does not support starting live wallpaper previews within the app.
+        Go to your device wallpaper chooser to set this wallpaper. If you do not know how to do
+        this, you can search how to change live wallpaper on the Internet or refer to your device
+        manual.
     ]]></string>
 
 </resources>

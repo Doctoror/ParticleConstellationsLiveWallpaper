@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright 2017 Yaroslav Mytkalyk
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -47,7 +46,6 @@
 
     <string name="Reset">Скинути</string>
     <string name="Preview">Попередній перегляд</string>
-    <string name="Failed_to_start_preview">Не вдалось запустити попередній перегляд</string>
 
     <string name="Open_source_licenses">Ліцензії вільного ПЗ</string>
     <string name="Close">Закрити</string>
@@ -68,6 +66,13 @@
         «частоту кадрів» не завдавши шкоди плавності анімації.\n\nВстановлення
 
         фонового зображення може зменшити продкутивність.
+    ]]></string>
+
+    <string name="preview_problem"><![CDATA[
+        Ваш пристрій не підтримує запуск попереднього перегляду для встановлення живих шпалер.
+        Скористайтесь налаштуваннями живих шпалер Вашого пристрою для встановлення. Якщо ви не
+        знаєте, як це зробити, шукайте інструкції для встановлення живих шпалер в Інтернеті або в
+        інструкції до Вашого пристрою.
     ]]></string>
 
 </resources>

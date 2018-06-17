@@ -20,13 +20,12 @@ import android.app.Fragment
 import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
-import android.widget.Toast
-import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.presentation.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
+import com.doctoror.particleswallpaper.presentation.dialogs.PreviewFailedDialog
 import com.doctoror.particleswallpaper.presentation.presenter.PreviewPreferencePresenter
 import com.doctoror.particleswallpaper.presentation.view.PreviewPreferenceView
 import javax.inject.Inject
@@ -68,7 +67,9 @@ class PreviewPreference @JvmOverloads constructor
     }
 
     override fun showPreviewStartFailed() {
-        Toast.makeText(context, R.string.Failed_to_start_preview, Toast.LENGTH_LONG).show()
+        host?.fragmentManager?.let {
+            PreviewFailedDialog().show(it, "PreviewFailedDialog")
+        }
     }
 
     private fun newOpenChangeWallpaperIntentUseCase(host: Fragment) =

@@ -22,10 +22,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
 import com.doctoror.particleswallpaper.presentation.base.LifecycleActivity
+import com.doctoror.particleswallpaper.presentation.dialogs.PreviewFailedDialog
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
 import javax.inject.Inject
 
@@ -34,15 +34,33 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
     @Inject
     lateinit var presenter: ConfigActivityPresenter
 
+    private var fragmentTransactionsAllowed = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         ApplicationlessInjection
                 .getInstance(applicationContext)
                 .activityInjector
                 .inject(this)
         super.onCreate(savedInstanceState)
+        fragmentTransactionsAllowed = true
 
         setContentView(R.layout.activity_config)
         lifecycle.addObserver(presenter)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        fragmentTransactionsAllowed = true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fragmentTransactionsAllowed = true
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        fragmentTransactionsAllowed = false
     }
 
     override fun getBackgroundView() = findViewById<ImageView>(R.id.bg)!!
@@ -61,8 +79,8 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
     }
 
     override fun showWallpaperPreviewStartFailed() {
-        if (!isFinishing) {
-            Toast.makeText(this, R.string.Failed_to_start_preview, Toast.LENGTH_LONG).show()
+        if (!isFinishing && fragmentTransactionsAllowed) {
+            PreviewFailedDialog().show(fragmentManager, "PreviewFailedDialog")
         }
     }
 }

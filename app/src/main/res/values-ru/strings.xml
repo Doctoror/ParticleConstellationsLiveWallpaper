@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright 2017 Yaroslav Mytkalyk
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -47,7 +46,6 @@
 
     <string name="Reset">Сбросить</string>
     <string name="Preview">Предпросмотр</string>
-    <string name="Failed_to_start_preview">Не удалось запустить предпросмотр</string>
 
     <string name="Open_source_licenses">Лицензии свободного ПО</string>
     <string name="Close">Закрыть</string>
@@ -69,6 +67,13 @@
         уменьшить частоту кадров, и от этого плавность не пострадает.\n\nТак
 
         же, фоновое изображение может уменьшать производительность.
+    ]]></string>
+
+    <string name="preview_problem"><![CDATA[
+        Ваше устройство не поддерживает запуск предпросмотра для установки обоев из приложения.
+        Используйте настройки живых обоев Вашего устройства для установки. Если вы не знаете, как
+        это сделать, ищите инструкции для смены живых обоев в Интернете или в инструкции вашего
+        Устройства.
     ]]></string>
 
 </resources>
