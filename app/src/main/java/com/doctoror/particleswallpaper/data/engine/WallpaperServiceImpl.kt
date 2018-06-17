@@ -24,7 +24,7 @@ import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import dagger.android.AndroidInjection
+import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
 import javax.inject.Inject
 
 /**
@@ -47,8 +47,11 @@ class WallpaperServiceImpl : WallpaperService() {
     lateinit var settings: SettingsRepository
 
     override fun onCreate() {
+        ApplicationlessInjection
+                .getInstance(applicationContext)
+                .serviceInjector
+                .inject(this)
         super.onCreate()
-        AndroidInjection.inject(this)
     }
 
     override fun onCreateEngine(): Engine {

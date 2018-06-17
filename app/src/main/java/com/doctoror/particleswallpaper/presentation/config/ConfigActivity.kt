@@ -24,9 +24,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
 import com.doctoror.particleswallpaper.presentation.base.LifecycleActivity
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
-import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 class ConfigActivity : LifecycleActivity(), ConfigActivityView {
@@ -35,8 +35,11 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
     lateinit var presenter: ConfigActivityPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ApplicationlessInjection
+                .getInstance(applicationContext)
+                .activityInjector
+                .inject(this)
         super.onCreate(savedInstanceState)
-        AndroidInjection.inject(this)
 
         setContentView(R.layout.activity_config)
         lifecycle.addObserver(presenter)

@@ -22,7 +22,7 @@ import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.App
+import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
 import com.doctoror.particleswallpaper.presentation.di.modules.ActivitiesContributes
 import com.doctoror.particleswallpaper.presentation.di.modules.AppModule
 import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
@@ -40,7 +40,7 @@ import javax.inject.Singleton
     AndroidInjectionModule::class,
     ConfigModule::class,
     ServicesContributes::class])
-interface AppComponent : AndroidInjector<App> {
+interface AppComponent : AndroidInjector<ApplicationlessInjection> {
 
     fun exposeApiLevelProvider(): ApiLevelProvider
 
@@ -49,6 +49,7 @@ interface AppComponent : AndroidInjector<App> {
 
     @Default
     fun exposeDefaultSettings(): SettingsRepository
+
     fun exposeDrawableConfigurator(): SceneConfigurator
     fun exposeMutableSettings(): MutableSettingsRepository
 
