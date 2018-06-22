@@ -26,6 +26,7 @@ import android.support.annotation.VisibleForTesting
 import android.util.Log
 import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.ParticlesDrawable
+import com.doctoror.particleswallpaper.data.config.HardwareCanvasBlacklist
 
 class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
 
@@ -130,9 +131,12 @@ class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
     // Inline for avoiding extra method call in draw
     @Suppress("NOTHING_TO_INLINE")
     private inline fun lockCanvas(holder: SurfaceHolder): Canvas? =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (canLockHardwareCanvas()) {
                 holder.lockHardwareCanvas()
             } else {
                 holder.lockCanvas()
             }
+
+    private fun canLockHardwareCanvas() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas(Build.DEVICE)
 }
