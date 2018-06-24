@@ -15,11 +15,15 @@
  */
 package com.doctoror.particleswallpaper.data.engine
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
-import com.doctoror.particlesdrawable.ParticlesDrawable
+import com.doctoror.particlesdrawable.ParticlesScene
+import com.doctoror.particlesdrawable.ScenePresenter
+import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
@@ -27,6 +31,7 @@ import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -40,21 +45,28 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class EnginePresenterTest {
 
+    private val requestBuilder: RequestBuilder<Bitmap> = mock()
+
     private val apiLevelProvider: ApiLevelProvider = mock()
     private val configurator: SceneConfigurator = mock()
     private val controller: EngineController = mock()
     private val glide: RequestManager = spy(Glide.with(RuntimeEnvironment.application))
+    private val renderer: GlSceneRenderer = mock()
     private val settings: SettingsRepository = mock()
-    private val view: EngineView = mock()
+    private val scene: ParticlesScene = mock()
+    private val scenePresenter: ScenePresenter = mock()
 
     private val underTest = EnginePresenter(
             apiLevelProvider,
             configurator,
             controller,
+            Schedulers.trampoline(),
             glide,
+            renderer,
             TrampolineSchedulers(),
             settings,
-            view)
+            scene,
+            scenePresenter)
 
     @Before
     fun setup() {
@@ -62,6 +74,11 @@ class EnginePresenterTest {
         whenever(settings.getBackgroundColor()).thenReturn(Observable.just(0))
         whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
         whenever(settings.getFrameDelay()).thenReturn(Observable.just(0))
+        whenever(settings.getDotScale()).thenReturn(Observable.just(1f))
+
+        whenever(glide.asBitmap()).thenReturn(requestBuilder)
+        whenever(requestBuilder.load(any<String>())).thenReturn(requestBuilder)
+        whenever(requestBuilder.apply(any())).thenReturn(requestBuilder)
     }
 
     @After
@@ -71,28 +88,26 @@ class EnginePresenterTest {
 
     @Test
     fun subscribesToConfigurator() {
-        // Given
-        val drawable: ParticlesDrawable = mock()
-        whenever(view.drawable).thenReturn(drawable)
-
         // When
         underTest.onCreate()
 
         // Then
-        verify(configurator).subscribe(drawable, settings)
+        verify(configurator).subscribe(scene, scenePresenter, settings, Schedulers.trampoline())
     }
 
     @Test
-    fun loadsBackgroundColor() {
+    fun setsBackgroundColorOnDrawFrameWhenSurfaceCreated() {
         // Given
         val color = 666
         whenever(settings.getBackgroundColor()).thenReturn(Observable.just(color))
 
         // When
         underTest.onCreate()
+        underTest.onSurfaceCreated()
+        underTest.onDrawFrame()
 
         // Then
-        verify(view).setBackgroundColor(color)
+        verify(renderer).setClearColor(color)
     }
 
     @Test
@@ -164,7 +179,7 @@ class EnginePresenterTest {
         underTest.setDimensions(1, 1)
 
         // Then
-        verify(glide).load(uri)
+        verify(requestBuilder).load(uri)
     }
 
     @Test
@@ -178,7 +193,7 @@ class EnginePresenterTest {
         underTest.onCreate()
 
         // Then
-        verify(glide).load(uri)
+        verify(requestBuilder).load(uri)
     }
 
     @Test
@@ -191,7 +206,7 @@ class EnginePresenterTest {
         underTest.onCreate()
 
         // Then
-        assertEquals(frameDelay.toLong(), underTest.delay)
+        verify(scene).frameDelay = frameDelay
     }
 
     @Test
@@ -242,7 +257,7 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun drawableBoundsChangedOnSurfaceChange() {
+    fun setsScenePresenterDimensions() {
         // Given
         val width = 1
         val height = 2
@@ -251,7 +266,7 @@ class EnginePresenterTest {
         underTest.setDimensions(width, height)
 
         // Then
-        verify(view).setDimensions(width, height)
+        verify(scenePresenter).setBounds(0, 0, width, height)
     }
 
     @Test
@@ -260,7 +275,7 @@ class EnginePresenterTest {
         underTest.visible = true
 
         // Then
-        verify(view).start()
+        verify(scenePresenter).start()
     }
 
     @Test
@@ -272,6 +287,6 @@ class EnginePresenterTest {
         underTest.visible = false
 
         // Then
-        verify(view).stop()
+        verify(scenePresenter).stop()
     }
 }

@@ -15,9 +15,9 @@
  */
 package com.doctoror.particleswallpaper.data.config
 
-import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.data.repository.MockSettingsRepositoryFactory
 import com.nhaarman.mockito_kotlin.mock
+import io.reactivex.schedulers.Schedulers
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -25,11 +25,15 @@ class SceneConfiguratorImplTest {
 
     @Test
     fun testSubscription() {
-        val c = SceneConfiguratorImpl(TrampolineSchedulers())
+        val c = SceneConfiguratorImpl()
 
         assertNull(c.disposables)
 
-        c.subscribe(mock(), MockSettingsRepositoryFactory.create())
+        c.subscribe(
+                mock(),
+                mock(),
+                MockSettingsRepositoryFactory.create(),
+                Schedulers.trampoline())
 
         assertNotNull(c.disposables)
         assertFalse(c.disposables!!.isDisposed)

@@ -16,10 +16,8 @@
 package com.doctoror.particleswallpaper.data.config
 
 import com.doctoror.particleswallpaper.domain.config.SceneConfiguratorFactory
-import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 
-class SceneConfiguratorFactoryImpl(
-        private val schedulers: SchedulersProvider) : SceneConfiguratorFactory {
+class SceneConfiguratorFactoryImpl : SceneConfiguratorFactory {
 
-    override fun newSceneConfigurator() = SceneConfiguratorImpl(schedulers)
+    override fun newSceneConfigurator() = SceneConfiguratorImpl()
 }

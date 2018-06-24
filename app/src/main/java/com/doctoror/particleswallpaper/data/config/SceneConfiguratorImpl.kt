@@ -16,11 +16,12 @@
 package com.doctoror.particleswallpaper.data.config
 
 import android.support.annotation.VisibleForTesting
-import com.doctoror.particlesdrawable.ParticlesScene
+import com.doctoror.particlesdrawable.contract.SceneConfiguration
+import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.data.mapper.DotRadiusMapper
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
-import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -28,57 +29,61 @@ import io.reactivex.disposables.CompositeDisposable
  *
  * Not thread safe!
  */
-class SceneConfiguratorImpl(private val schedulers: SchedulersProvider) : SceneConfigurator {
+class SceneConfiguratorImpl : SceneConfigurator {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var disposables: CompositeDisposable? = null
 
-    override fun subscribe(scene: ParticlesScene, settings: SettingsRepository) {
+    override fun subscribe(
+            configuration: SceneConfiguration,
+            controller: SceneController,
+            settings: SettingsRepository,
+            scheduler: Scheduler) {
         val d = CompositeDisposable()
 
         disposables?.dispose()
         disposables = d
 
         d.add(settings.getParticlesColor()
-                .observeOn(schedulers.mainThread())
+                .observeOn(scheduler)
                 .subscribe { c ->
-                    scene.dotColor = c
-                    scene.lineColor = c
+                    configuration.dotColor = c
+                    configuration.lineColor = c
                 })
 
         d.add(settings.getNumDots()
-                .observeOn(schedulers.mainThread())
+                .observeOn(scheduler)
                 .subscribe { v ->
-                    scene.numDots = v
-                    scene.makeBrandNewFrame()
+                    configuration.numDots = v
+                    controller.makeBrandNewFrame()
                 })
 
         d.add(settings.getDotScale()
-                .observeOn(schedulers.mainThread())
+                .observeOn(scheduler)
                 .subscribe { v ->
                     val radiusRange = DotRadiusMapper.transform(v)
-                    scene.setDotRadiusRange(radiusRange.first, radiusRange.second)
-                    scene.makeBrandNewFrame()
+                    configuration.setDotRadiusRange(radiusRange.first, radiusRange.second)
+                    controller.makeBrandNewFrame()
                 })
 
         d.add(settings.getLineScale()
-                .observeOn(schedulers.mainThread())
+                .observeOn(scheduler)
                 .subscribe { v ->
-                    scene.lineThickness = v
-                    scene.makeBrandNewFrame()
+                    configuration.lineThickness = v
+                    controller.makeBrandNewFrame()
                 })
 
         d.add(settings.getLineDistance()
-                .observeOn(schedulers.mainThread())
-                .subscribe(scene::setLineDistance))
+                .observeOn(scheduler)
+                .subscribe(configuration::setLineDistance))
 
         d.add(settings.getStepMultiplier()
-                .observeOn(schedulers.mainThread())
-                .subscribe(scene::setStepMultiplier))
+                .observeOn(scheduler)
+                .subscribe(configuration::setStepMultiplier))
 
         d.add(settings.getFrameDelay()
-                .observeOn(schedulers.mainThread())
-                .subscribe(scene::setFrameDelay))
+                .observeOn(scheduler)
+                .subscribe(configuration::setFrameDelay))
     }
 
     override fun dispose() {

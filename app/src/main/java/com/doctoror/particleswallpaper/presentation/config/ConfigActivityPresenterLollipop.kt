@@ -18,6 +18,8 @@ package com.doctoror.particleswallpaper.presentation.config
 import android.annotation.TargetApi
 import android.app.ActionBar
 import android.app.Activity
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.OnLifecycleEvent
 import android.os.Build
 import android.view.Menu
 import android.view.MenuItem
@@ -54,8 +56,8 @@ class ConfigActivityPresenterLollipop(
         settings,
         view) {
 
-    override fun onCreate() {
-        super.onCreate()
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun onCreate() {
         initToolbar()
     }
 

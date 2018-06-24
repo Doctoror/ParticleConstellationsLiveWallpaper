@@ -18,18 +18,19 @@ package com.doctoror.particleswallpaper.data.engine
 import android.annotation.TargetApi
 import android.app.WallpaperColors
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
+import android.support.annotation.ColorInt
 import android.support.annotation.VisibleForTesting
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.transition.Transition
+import com.doctoror.particlesdrawable.ParticlesScene
+import com.doctoror.particlesdrawable.ScenePresenter
+import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
@@ -42,17 +43,15 @@ class EnginePresenter(
         private val apiLevelProvider: ApiLevelProvider,
         private val configurator: SceneConfigurator,
         private val controller: EngineController,
+        private val glScheduler: Scheduler,
         private val glide: RequestManager,
+        private val renderer: GlSceneRenderer,
         private val schedulers: SchedulersProvider,
         private val settings: SettingsRepository,
-        private val view: EngineView) : Runnable {
-
-    private val defaultDelay = 10L
-    private val minDelay = 5L
+        private val scene: ParticlesScene,
+        private val scenePresenter: ScenePresenter) {
 
     private val disposables = CompositeDisposable()
-
-    private val handler = Handler(Looper.getMainLooper())
 
     @VisibleForTesting
     var width = 0
@@ -67,8 +66,16 @@ class EnginePresenter(
         private set
 
     @VisibleForTesting
-    var delay = defaultDelay
-        private set
+    @Volatile
+    var background: Bitmap? = null
+
+    @VisibleForTesting
+    @ColorInt
+    @Volatile
+    var backgroundColor = Color.DKGRAY
+
+    private var backgroundDirty = false
+    private var backgroundColorDirty = false
 
     private var lastUsedImageLoadTarget: ImageLoadTarget? = null
 
@@ -83,15 +90,21 @@ class EnginePresenter(
     var run = false
 
     fun onCreate() {
-        configurator.subscribe(view.drawable, settings)
+        configurator.subscribe(scene, scenePresenter, settings, glScheduler)
+
+        disposables.add(settings.getDotScale()
+                .subscribe {
+                    renderer.markParticleTextureDirty()
+                })
 
         disposables.add(settings.getFrameDelay()
-                .observeOn(schedulers.mainThread())
-                .subscribe { delay = it.toLong() })
+                .observeOn(glScheduler)
+                .subscribe { scene.frameDelay = it })
 
         disposables.add(settings.getBackgroundColor()
                 .doOnNext {
-                    view.setBackgroundColor(it)
+                    backgroundColor = it
+                    backgroundColorDirty = true
                     if (backgroundUri != null) {
                         // If background was already loaded, but color is changed afterwards.
                         notifyBackgroundColors()
@@ -107,21 +120,23 @@ class EnginePresenter(
         configurator.dispose()
         disposables.clear()
         backgroundUri = null
-        view.background = null
+        background = null
         glide.clear(lastUsedImageLoadTarget)
+        renderer.recycle()
     }
 
     private fun handleBackground(uri: String) {
         if (backgroundUri != uri) {
             backgroundUri = uri
             glide.clear(lastUsedImageLoadTarget)
-            view.background = null
+            background = null
             if (uri == NO_URI) {
                 lastUsedImageLoadTarget = null
                 notifyBackgroundColors()
             } else if (width != 0 && height != 0) {
                 val target = ImageLoadTarget(width, height)
                 glide
+                        .asBitmap()
                         .load(uri)
                         .apply(RequestOptions.noAnimation())
                         .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
@@ -135,34 +150,44 @@ class EnginePresenter(
     }
 
     fun setDimensions(width: Int, height: Int) {
-        this.width = width
-        this.height = height
-        view.setDimensions(width, height)
+        scenePresenter.setBounds(0, 0, width, height)
+        schedulers.mainThread().scheduleDirect {
+            this.width = width
+            this.height = height
 
-        // Force re-apply background
-        backgroundUri = null
-        handleBackground(settings.getBackgroundUri().blockingFirst())
+            // Force re-apply background
+            backgroundUri = null
+            handleBackground(settings.getBackgroundUri().blockingFirst())
+        }
     }
 
-    override fun run() {
-        handler.removeCallbacks(this)
-        if (run) {
-            val startTime = SystemClock.uptimeMillis()
-            view.draw()
-            handler.postDelayed(this,
-                    Math.max(delay - (SystemClock.uptimeMillis() - startTime), minDelay))
+    fun onSurfaceCreated() {
+        backgroundDirty = true
+        backgroundColorDirty = true
+    }
+
+    fun onDrawFrame() {
+        if (backgroundDirty) {
+            backgroundDirty = false
+            renderer.setBackgroundTexture(background)
         }
+
+        if (backgroundColorDirty) {
+            backgroundColorDirty = false
+            renderer.setClearColor(backgroundColor)
+        }
+
+        scenePresenter.draw()
+        scenePresenter.run()
     }
 
     private fun handleRunConstraints() {
         if (run != visible) {
             run = visible
             if (run) {
-                view.start()
-                handler.post(this)
+                scenePresenter.start()
             } else {
-                handler.removeCallbacks(this)
-                view.stop()
+                scenePresenter.stop()
             }
         }
     }
@@ -175,33 +200,26 @@ class EnginePresenter(
 
     @TargetApi(Build.VERSION_CODES.O_MR1)
     fun onComputeColors(): WallpaperColors {
-        val background = view.background
-        val colors: WallpaperColors
-        if (background != null) {
-            colors = WallpaperColors.fromDrawable(background)
-            background.setBounds(0, 0, width, height)
+        val background = background
+        return if (background != null) {
+            WallpaperColors.fromBitmap(background)
         } else {
-            colors = WallpaperColors.fromDrawable(ColorDrawable(view.backgroundPaint.color))
+            WallpaperColors.fromDrawable(ColorDrawable(backgroundColor))
         }
-        return colors
     }
 
-    private inner class ImageLoadTarget(private val width: Int, private val height: Int)
-        : SimpleTarget2<Drawable>(width, height) {
+    private inner class ImageLoadTarget(width: Int, height: Int)
+        : SimpleTarget2<Bitmap>(width, height) {
 
-        override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-            resource.setBounds(0, 0, width, height)
+        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                if (resource is BitmapDrawable) {
-                    resource.bitmap?.let {
-                        if (it.config == Bitmap.Config.ARGB_8888
-                                && it.hasAlpha() && !it.isPremultiplied) {
-                            it.isPremultiplied = true
-                        }
-                    }
+                if (resource.config == Bitmap.Config.ARGB_8888
+                        && resource.hasAlpha() && !resource.isPremultiplied) {
+                    resource.isPremultiplied = true
                 }
             }
-            view.background = resource
+            background = resource
+            backgroundDirty = true
             notifyBackgroundColors()
         }
 

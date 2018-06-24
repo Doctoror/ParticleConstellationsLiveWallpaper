@@ -16,7 +16,10 @@
 package com.doctoror.particleswallpaper.domain.config
 
 import com.doctoror.particlesdrawable.ParticlesScene
+import com.doctoror.particlesdrawable.contract.SceneConfiguration
+import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import io.reactivex.Scheduler
 
 /**
  * Created by Yaroslav Mytkalyk on 29.05.17.
@@ -25,6 +28,12 @@ import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
  * based on the settings.
  */
 interface SceneConfigurator {
-    fun subscribe(scene: ParticlesScene, settings: SettingsRepository)
+
+    fun subscribe(
+            configuration: SceneConfiguration,
+            controller: SceneController,
+            settings: SettingsRepository,
+            scheduler: Scheduler)
+
     fun dispose()
 }

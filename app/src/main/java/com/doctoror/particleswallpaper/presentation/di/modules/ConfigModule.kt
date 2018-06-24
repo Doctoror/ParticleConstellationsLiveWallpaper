@@ -24,7 +24,6 @@ import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDefault
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryImpl
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.config.SceneConfiguratorFactory
-import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
@@ -64,8 +63,7 @@ class ConfigModule {
             SceneConfigurator = factory.newSceneConfigurator()
 
     @Provides
-    fun provideSceneConfiguratorFactory(schedulers: SchedulersProvider):
-            SceneConfiguratorFactory = SceneConfiguratorFactoryImpl(schedulers)
+    fun provideSceneConfiguratorFactory(): SceneConfiguratorFactory = SceneConfiguratorFactoryImpl()
 
     @Provides
     fun provideBackgroundImageManager(context: Context): BackgroundImageManager =

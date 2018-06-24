@@ -27,8 +27,8 @@
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription"/>
 
-    <View
-        android:id="@+id/drawableContainer"
+    <com.doctoror.particlesdrawable.ParticlesView
+        android:id="@+id/particlesView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

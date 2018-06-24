@@ -23,7 +23,6 @@ import android.net.Uri
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.doctoror.particlesdrawable.ParticlesDrawable
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
@@ -32,8 +31,10 @@ import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPE
 import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -53,16 +54,10 @@ class ConfigActivityPresenterTest {
     private val underTest = ConfigActivityPresenter(
             activity, TrampolineSchedulers(), configurator, requestManager, settings, view)
 
-    @Test
-    fun setsBackgroundOnCreate() {
-        // When
-        underTest.onCreate()
-
-        // Then
-        val captor = argumentCaptor<Drawable>()
-        verify(view).setContainerBackground(captor.capture())
-
-        assertTrue(captor.firstValue is ParticlesDrawable)
+    @Before
+    fun setup() {
+        underTest.configuration = mock()
+        underTest.controller = mock()
     }
 
     @Test
@@ -84,7 +79,7 @@ class ConfigActivityPresenterTest {
     }
 
     @Test
-    fun configuesDrawable() {
+    fun configues() {
         // Given
         givenBackgroundSourcesMocked()
 
@@ -92,7 +87,7 @@ class ConfigActivityPresenterTest {
         underTest.onStart()
 
         // Then
-        verify(configurator).subscribe(any(), eq(settings))
+        verify(configurator).subscribe(any(), any(), eq(settings), eq(Schedulers.trampoline()))
     }
 
     @Test

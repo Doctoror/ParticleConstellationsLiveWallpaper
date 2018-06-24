@@ -37,7 +37,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-import com.doctoror.particlesdrawable.ParticlesDrawable
+import com.doctoror.particlesdrawable.contract.SceneConfiguration
+import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
@@ -66,31 +67,30 @@ open class ConfigActivityPresenter(
         private val view: ConfigActivityView)
     : Presenter<ConfigActivityView>, LifecycleObserver {
 
-    private val particlesDrawable = ParticlesDrawable()
-
     private var bgDisposable: Disposable? = null
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    open fun onCreate() {
-        view.setContainerBackground(particlesDrawable)
-    }
+    var configuration: SceneConfiguration? = null
+
+    var controller: SceneController? = null
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
+        val configuration = configuration ?: throw IllegalStateException("configuration not set")
+        val controller = controller ?: throw IllegalStateException("controller not set")
+
         bgDisposable = Observable.combineLatest(
                 settings.getBackgroundUri(),
                 settings.getBackgroundColor(),
                 BiFunction<String, Int, Pair<String, Int>> { t1, t2 -> Pair(t1, t2) })
                 .observeOn(schedulers.mainThread())
                 .subscribe { applyBackground(it) }
-        configurator.subscribe(particlesDrawable, settings)
-        particlesDrawable.start()
+
+        configurator.subscribe(configuration, controller, settings, schedulers.mainThread())
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onStop() {
         bgDisposable?.dispose()
-        particlesDrawable.stop()
         configurator.dispose()
     }
 

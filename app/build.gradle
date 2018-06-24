@@ -95,7 +95,8 @@ dependencies {
     implementation d.rxJava
     implementation d.rxAndroid
 
-    implementation d.particlesDrawable
+    implementation(name:'library-release', ext:'aar')
+    implementation(name:'opengl-release', ext:'aar')
     implementation d.colorPicker
 
     implementation d.supportV4

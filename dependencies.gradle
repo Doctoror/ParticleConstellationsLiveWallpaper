@@ -3,6 +3,9 @@ allprojects {
         jcenter()
         mavenCentral()
         google()
+        flatDir {
+            dirs 'libs'
+        }
     }
 }
 
@@ -71,5 +74,28 @@ ext {
 
             mockitoCore  : "org.mockito:mockito-core:$mockitoVersion",
             mockitoKotlin: "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion"
+    ]
+
+    // TODO remove when internal library dependency removed
+
+    testRunnerVersion = '1.0.2'
+
+    libraryDependencies = [
+            annotations: "com.android.support:support-annotations:$supportVersion"
+    ]
+
+    libraryTestDependencies = [
+            junit         : "junit:junit:$jUnitVersion",
+
+            kotlin        : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+
+            mockitoCore   : "org.mockito:mockito-core:$mockitoVersion",
+            mockitoKotlin: "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion",
+            mockitoAndroid: "org.mockito:mockito-android:$mockitoVersion",
+
+            robolectric   : "org.robolectric:robolectric:$robolectricVersion",
+
+            testRunner    : "com.android.support.test:runner:$testRunnerVersion",
+            testRules     : "com.android.support.test:rules:$testRunnerVersion"
     ]
 }

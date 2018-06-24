@@ -52,6 +52,12 @@
         <license>BSD 2-Clause License</license>
     </notice>
     <notice>
+        <name>GLWallpaperService</name>
+        <url>https://github.com/JesusFreke/GLWallpaperService</url>
+        <copyright>Copyright (c) 2011 Ben Gruver</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
         <name>Particles Drawable</name>
         <url>https://github.com/Doctoror/ParticlesDrawable</url>
         <copyright>Copyright 2017 Yaroslav Mytkalyk</copyright>
