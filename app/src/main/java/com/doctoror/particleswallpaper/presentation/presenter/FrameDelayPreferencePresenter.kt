@@ -36,8 +36,7 @@ class FrameDelayPreferencePresenter @Inject constructor(
 
     private lateinit var view: SeekBarPreferenceView
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    val frameDelaySeekbarMin = 10
+    private val frameDelaySeekbarMin = 10
     private val seekbarMax = 80
 
     private var disposable: Disposable? = null
