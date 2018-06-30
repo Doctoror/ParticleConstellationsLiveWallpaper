@@ -30,6 +30,11 @@ class HardwareCanvasBlacklistTest {
     }
 
     @Test
+    fun hwaneBlacklisted() {
+        assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("HWANE"))
+    }
+
+    @Test
     fun joanBlacklisted() {
         assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("joan"))
     }

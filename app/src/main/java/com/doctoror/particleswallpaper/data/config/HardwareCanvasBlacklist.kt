@@ -6,6 +6,7 @@ object HardwareCanvasBlacklist {
             "bullhead",
             "dreamlte",
             "gemini",
+            "HWANE",
             "joan",
             "whyred"
     )
