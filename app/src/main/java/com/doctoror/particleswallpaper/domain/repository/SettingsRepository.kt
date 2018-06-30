@@ -31,6 +31,7 @@ interface SettingsRepository {
     fun getLineDistance(): Observable<Float>
     fun getLineScale(): Observable<Float>
     fun getNumDots(): Observable<Int>
+    fun getNumSamples(): Observable<Int>
     fun getParticlesColor(): Observable<Int>
     fun getStepMultiplier(): Observable<Float>
 }

@@ -34,6 +34,7 @@ class SettingsRepositoryImpl(context: Context,
     private val backgroundColorSubject = BehaviorSubject.create<Int>().toSerialized()
     private val backgroundUriSubject = BehaviorSubject.create<String>().toSerialized()
     private val numDotsSubject = BehaviorSubject.create<Int>().toSerialized()
+    private val numSamplesSubject = BehaviorSubject.create<Int>().toSerialized()
     private val frameDelaySubject = BehaviorSubject.create<Int>().toSerialized()
     private val stepMultiplierSubject = BehaviorSubject.create<Float>().toSerialized()
     private val dotScaleSubject = BehaviorSubject.create<Float>().toSerialized()
@@ -51,6 +52,12 @@ class SettingsRepositoryImpl(context: Context,
         numDotsSubject.onNext(
                 if (numDots != -1) numDots
                 else defaults.getNumDots().blockingFirst()
+        )
+
+        val numSamples = prefs.numSamples
+        numSamplesSubject.onNext(
+                if (numSamples != -1) numSamples
+                else defaults.getNumSamples().blockingFirst()
         )
 
         val frameDelay = prefs.frameDelay
@@ -89,6 +96,13 @@ class SettingsRepositoryImpl(context: Context,
     override fun setNumDots(numDots: Int) {
         prefs.numDots = numDots
         numDotsSubject.onNext(numDots)
+    }
+
+    override fun getNumSamples() = numSamplesSubject
+
+    override fun setNumSamples(samples: Int) {
+        prefs.numSamples = samples
+        numSamplesSubject.onNext(samples)
     }
 
     override fun getFrameDelay() = frameDelaySubject

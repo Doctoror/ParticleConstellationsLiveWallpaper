@@ -68,7 +68,7 @@ class WallpaperServiceImpl : GLWallpaperService() {
     override fun onCreateEngine(): Engine {
         val scene = ParticlesScene()
         val renderer = GlSceneRenderer()
-        val engine = EngineImpl(renderer)
+        val engine = EngineImpl(renderer, settings.getNumSamples().blockingFirst())
         val scenePresenter = ScenePresenter(scene, renderer, engine)
 
         engine.presenter = EnginePresenter(
@@ -86,7 +86,9 @@ class WallpaperServiceImpl : GLWallpaperService() {
         return engine
     }
 
-    inner class EngineImpl(private val renderer: GlSceneRenderer)
+    inner class EngineImpl(
+            private val renderer: GlSceneRenderer,
+            samples: Int)
         : GLEngine(), EngineController, GLSurfaceView.Renderer, SceneScheduler {
 
         private val handler = Handler()
@@ -94,7 +96,9 @@ class WallpaperServiceImpl : GLWallpaperService() {
         lateinit var presenter: EnginePresenter
 
         init {
-            setEGLConfigChooser(MultisampleConfigChooser(4))
+            if (samples != 0) {
+                setEGLConfigChooser(MultisampleConfigChooser(samples))
+            }
             setEGLContextClientVersion(2)
             setRenderer(this)
             renderMode = RENDERMODE_WHEN_DIRTY

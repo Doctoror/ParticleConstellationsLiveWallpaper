@@ -61,7 +61,7 @@ public abstract class GLWallpaperService extends WallpaperService {
         public final static int RENDERMODE_WHEN_DIRTY = 0;
         public final static int RENDERMODE_CONTINUOUSLY = 1;
 
-        private Object lock = new Object();
+        private final Object lock = new Object();
         private GLSurfaceView mGLSurfaceView = null;
 
         private int debugFlags;
@@ -227,24 +227,8 @@ public abstract class GLWallpaperService extends WallpaperService {
 
         public void setEGLContextClientVersion(final int version) {
             synchronized (lock) {
-                Method method = null;
-
-                try {
-                    //the setEGLContextClientVersion method is first available in api level 8, but we would
-                    //like to support compiling against api level 7
-                    method = GLSurfaceView.class.getMethod("setEGLContextClientVersion", int.class);
-                } catch (NoSuchMethodException ex) {
-                    return;
-                }
-
                 if (mGLSurfaceView != null) {
-                    try {
-                        method.invoke(mGLSurfaceView, version);
-                    } catch (IllegalAccessException ex) {
-                        return;
-                    } catch (InvocationTargetException ex) {
-                        return;
-                    }
+                    mGLSurfaceView.setEGLContextClientVersion(version);
                 } else {
                     pendingOperations.add(new Runnable() {
                         public void run() {
