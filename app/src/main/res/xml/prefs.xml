@@ -75,6 +75,12 @@
     <PreferenceCategory
         android:title="@string/Performance">
 
+        <com.doctoror.particleswallpaper.presentation.preference.NumSamplesPreference
+            android:key="@string/pref_key_num_samples"
+            android:title="@string/Multisampling_smoothing"
+            android:entries="@array/num_samples_keys"
+            android:entryValues="@array/num_samples_values"/>
+
         <com.doctoror.particleswallpaper.presentation.preference.SpeedFactorPreference
             android:key="@string/pref_key_step_multiplier"
             android:title="@string/Speed_factor"/>

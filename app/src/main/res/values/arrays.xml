@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="num_samples_keys">
+        <item>@string/Disabled_best_performance</item>
+        <item>@string/two_x_msaa</item>
+        <item>@string/four_x_msaa_best_appearance</item>
+    </string-array>
+
+    <string-array name="num_samples_values">
+        <item>0</item>
+        <item>2</item>
+        <item>4</item>
+    </string-array>
+
+</resources>

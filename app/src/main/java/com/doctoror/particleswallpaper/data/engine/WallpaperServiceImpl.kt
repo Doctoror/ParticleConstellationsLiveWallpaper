@@ -142,10 +142,12 @@ class WallpaperServiceImpl : GLWallpaperService() {
         override fun onComputeColors() = presenter.onComputeColors()
 
         override fun scheduleNextFrame(delay: Long) {
-            if (delay == 0L) {
-                requestRender()
-            } else {
-                handler.postDelayed(renderRunnable, delay)
+            if (presenter.visible) {
+                if (delay == 0L) {
+                    requestRender()
+                } else {
+                    handler.postDelayed(renderRunnable, delay)
+                }
             }
         }
 

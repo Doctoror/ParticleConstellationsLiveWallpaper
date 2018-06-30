@@ -4,6 +4,7 @@ import com.doctoror.particleswallpaper.presentation.config.ConfigFragment
 import com.doctoror.particleswallpaper.presentation.config.ConfigFragmentLollipop
 import com.doctoror.particleswallpaper.presentation.dialogs.HowToApplyUsingChooserDialogFragment
 import com.doctoror.particleswallpaper.presentation.dialogs.HowToApplyUsingPreviewDialogFragment
+import com.doctoror.particleswallpaper.presentation.dialogs.MultisamplingRestartDialog
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -21,4 +22,7 @@ interface FragmentsContributes {
 
     @ContributesAndroidInjector
     fun howToApplyUsingPreviewDialogFragment(): HowToApplyUsingPreviewDialogFragment
+
+    @ContributesAndroidInjector
+    fun multisamplingRestartDialog(): MultisamplingRestartDialog
 }

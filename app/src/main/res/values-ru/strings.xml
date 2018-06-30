@@ -36,6 +36,11 @@
     <string name="Line_length">Длина линий</string>
     <string name="Speed_factor">Скорость</string>
     <string name="Frame_rate">Частота кадров</string>
+    <string name="Multisampling_smoothing">Сглаживание</string>
+
+    <string name="Disabled_best_performance">Отключено (лучшая производительность)</string>
+    <string name="two_x_msaa">2x MSAA</string>
+    <string name="four_x_msaa_best_appearance">4x MSAA (лучшее изображение)</string>
 
     <string name="Pick">Выбрать</string>
     <string name="Clear">Убрать</string>
@@ -51,6 +56,9 @@
 
     <string name="Open_source_licenses">Лицензии свободного ПО</string>
     <string name="Close">Закрыть</string>
+
+    <string name="Set">Применить</string>
+    <string name="Not_now">Не сейчас</string>
 
     <string name="Performance_tips">Подсказки</string>
     <string name="performance_tips"><![CDATA[
@@ -96,6 +104,10 @@
 
         \n\nЕсли эта инструкция не работает на вашем устройстве, ищите инструкцию для установки
         живых обоев для вашего устройства в Интернете.
+    ]]></string>
+
+    <string name="multisampling_restart_message"><![CDATA[
+        Для применения настройки требуется установить обои снова.
     ]]></string>
 
     <string name="_FPS">%1$d кадр/с</string>

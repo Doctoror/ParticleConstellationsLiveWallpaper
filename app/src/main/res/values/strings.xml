@@ -36,6 +36,11 @@
     <string name="Line_length">Line length</string>
     <string name="Speed_factor">Speed factor</string>
     <string name="Frame_rate">Frame rate</string>
+    <string name="Multisampling_smoothing">Multisampling (smoothing)</string>
+
+    <string name="Disabled_best_performance">Disabled (best performance)</string>
+    <string name="two_x_msaa">2x MSAA</string>
+    <string name="four_x_msaa_best_appearance">4x MSAA (best appearance)</string>
 
     <string name="Pick">Pick</string>
     <string name="Clear">Clear</string>
@@ -51,6 +56,9 @@
 
     <string name="Open_source_licenses">Open source licenses</string>
     <string name="Close">Close</string>
+
+    <string name="Set">Set</string>
+    <string name="Not_now">Not now</string>
 
     <string name="Performance_tips">Performance tips</string>
     <string name="performance_tips"><![CDATA[
@@ -91,6 +99,10 @@
 
         \n\nIf these steps are not working for you please search the instructions for your device or
         launcher on the Internet.
+    ]]></string>
+
+    <string name="multisampling_restart_message"><![CDATA[
+        For this setting to take effect, you must apply the wallpaper again.
     ]]></string>
 
     <string name="_FPS">%1$d FPS</string>

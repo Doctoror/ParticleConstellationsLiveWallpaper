@@ -36,6 +36,11 @@
     <string name="Line_length">Довжина ліній</string>
     <string name="Speed_factor">Швидкість</string>
     <string name="Frame_rate">Частота кадрів</string>
+    <string name="Multisampling_smoothing">Згладжування</string>
+
+    <string name="Disabled_best_performance">Відключено (найкраща продуктивність)</string>
+    <string name="two_x_msaa">2x MSAA</string>
+    <string name="four_x_msaa_best_appearance">4x MSAA (найкращий вигляд)</string>
 
     <string name="Pick">Вибрати</string>
     <string name="Clear">Усунути</string>
@@ -51,6 +56,9 @@
 
     <string name="Open_source_licenses">Ліцензії вільного ПЗ</string>
     <string name="Close">Закрити</string>
+
+    <string name="Set">Застосувати</string>
+    <string name="Not_now">Не зараз</string>
 
     <string name="Performance_tips">Підказки</string>
     <string name="performance_tips"><![CDATA[
@@ -94,6 +102,10 @@
 
         \n\nЯкщо ці інструкції не домопогли, шукайте інструкції для встановлення живих шпалер для
         вашого пристрою або ланчера в мережі Інтернет.
+    ]]></string>
+
+    <string name="multisampling_restart_message"><![CDATA[
+        Після зміни цього налаштування потрібно встановити шпалери знову.
     ]]></string>
 
     <string name="_FPS">%1$d кадр/с</string>

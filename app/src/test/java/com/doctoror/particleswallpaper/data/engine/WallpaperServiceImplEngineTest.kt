@@ -35,7 +35,7 @@ class WallpaperServiceImplEngineTest {
     private val presenter: EnginePresenter = mock()
     private val renderer: GlSceneRenderer = mock()
 
-    private val underTest = service.EngineImpl(renderer).apply {
+    private val underTest = service.EngineImpl(renderer, 0).apply {
         presenter = this@WallpaperServiceImplEngineTest.presenter
     }
 
