@@ -23,7 +23,7 @@ import com.doctoror.particleswallpaper.presentation.view.BackgroundColorPreferen
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class BackgroundColorPreferencePresenterTest {
 

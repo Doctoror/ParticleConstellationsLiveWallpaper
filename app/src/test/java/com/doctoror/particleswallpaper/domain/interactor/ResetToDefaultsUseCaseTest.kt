@@ -24,7 +24,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Observable
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class ResetToDefaultsUseCaseTest {
 

@@ -21,7 +21,7 @@ import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class LineScalePreferencePresenterTest {
 

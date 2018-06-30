@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.presentation.presenter
 import com.doctoror.particleswallpaper.presentation.view.LicensePreferenceView
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class LicensePreferencePresenterTest {
 

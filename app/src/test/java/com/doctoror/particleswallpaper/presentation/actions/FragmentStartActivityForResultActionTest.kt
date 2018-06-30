@@ -19,7 +19,7 @@ import android.app.Fragment
 import android.content.Intent
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class FragmentStartActivityForResultActionTest {
 

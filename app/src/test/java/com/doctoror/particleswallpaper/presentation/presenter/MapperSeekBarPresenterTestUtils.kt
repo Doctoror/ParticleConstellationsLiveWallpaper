@@ -1,6 +1,6 @@
 package com.doctoror.particleswallpaper.presentation.presenter
 
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 
 fun <T> testMapper(p: MapperSeekBarPresenter<T>) {
     testMapperMinValue(p)

@@ -18,8 +18,8 @@ package com.doctoror.particleswallpaper.data.config
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.data.repository.MockSettingsRepositoryFactory
 import com.nhaarman.mockito_kotlin.mock
-import org.junit.Assert.*
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 
 class SceneConfiguratorImplTest {
 

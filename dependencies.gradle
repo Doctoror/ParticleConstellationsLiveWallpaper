@@ -31,7 +31,7 @@ ext {
     particlesDrawableVersion = '1.0.9'
 
     //Testing
-    jUnitVersion = '4.12'
+    jUnitVersion = '5.2.0'
     mockitoVersion = '2.19.0'
     mockitoKotlinVersion = '1.5.0'
     robolectricVersion = '3.8'
@@ -65,7 +65,8 @@ ext {
             kotlinTest   : "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
             kotlinReflect: "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
 
-            junit        : "junit:junit:$jUnitVersion",
+            junitJupiter : "org.junit.jupiter:junit-jupiter-api:$jUnitVersion",
+            junitVintage : "org.junit.vintage:junit-vintage-engine:$jUnitVersion",
             robolectric  : "org.robolectric:robolectric:$robolectricVersion",
 
             mockitoCore  : "org.mockito:mockito-core:$mockitoVersion",

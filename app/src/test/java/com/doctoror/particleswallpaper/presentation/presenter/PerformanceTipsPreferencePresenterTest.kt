@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.presentation.presenter
 
 import com.doctoror.particleswallpaper.presentation.view.PerformanceTipsPreferenceView
 import com.nhaarman.mockito_kotlin.mock
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class PerformanceTipsPreferencePresenterTest {
 

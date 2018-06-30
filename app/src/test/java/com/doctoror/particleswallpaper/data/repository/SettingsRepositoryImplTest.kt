@@ -20,14 +20,14 @@ import android.content.Context
 import android.content.res.Resources
 import android.os.Build
 import android.util.TypedValue
+import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import kotlin.reflect.KFunction
 
@@ -36,7 +36,7 @@ class SettingsRepositoryImplTest {
 
     private lateinit var settings: SettingsRepositoryImpl
 
-    @Before
+    @BeforeEach
     fun setUp() {
         val fakePrefs = InMemorySharedPreferences()
 
@@ -46,17 +46,17 @@ class SettingsRepositoryImplTest {
         val typedValue = mock(TypedValue::class.java)
         val typedValueFactory = mock(SettingsRepositoryDefault.TypedValueFactory::class.java)
 
-        `when`(resources.getInteger(anyInt())).thenReturn(1)
-        `when`(resources.getDimension(anyInt())).thenReturn(1f)
-        `when`(resources.getColor(anyInt(), ArgumentMatchers.eq(theme))).thenReturn(1)
-        `when`(resources.getColor(anyInt(), ArgumentMatchers.eq(theme))).thenReturn(1)
+        whenever(resources.getInteger(anyInt())).thenReturn(1)
+        whenever(resources.getDimension(anyInt())).thenReturn(1f)
+        whenever(resources.getColor(anyInt(), ArgumentMatchers.eq(theme))).thenReturn(1)
+        whenever(resources.getColor(anyInt(), ArgumentMatchers.eq(theme))).thenReturn(1)
 
-        `when`(context.resources).thenReturn(resources)
-        `when`(context.theme).thenReturn(theme)
-        `when`(context.getSharedPreferences(anyString(), anyInt())).thenReturn(fakePrefs)
+        whenever(context.resources).thenReturn(resources)
+        whenever(context.theme).thenReturn(theme)
+        whenever(context.getSharedPreferences(anyString(), anyInt())).thenReturn(fakePrefs)
 
-        `when`(typedValue.float).thenReturn(1f)
-        `when`(typedValueFactory.newTypedValue()).thenReturn(typedValue)
+        whenever(typedValue.float).thenReturn(1f)
+        whenever(typedValueFactory.newTypedValue()).thenReturn(typedValue)
 
         settings = SettingsRepositoryImpl(context,
                 SettingsRepositoryDefault(resources, theme, typedValueFactory))
@@ -106,7 +106,7 @@ class SettingsRepositoryImplTest {
         mutator.call(testValue)
 
         assertObserverHasValueCount(observer, 2)
-        observer.assertValueAt(1, { v -> v == testValue })
+        observer.assertValueAt(1) { v -> v == testValue }
     }
 
     @Test

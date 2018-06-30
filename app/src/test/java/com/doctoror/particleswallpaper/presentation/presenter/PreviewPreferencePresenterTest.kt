@@ -24,7 +24,7 @@ import com.doctoror.particleswallpaper.presentation.view.PreviewPreferenceView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Single
 import io.reactivex.functions.Consumer
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class PreviewPreferencePresenterTest {
 

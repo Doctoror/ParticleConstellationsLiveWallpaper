@@ -83,7 +83,8 @@ dependencies {
     def d = rootProject.ext.wallpaperappDependencies
     def td = rootProject.ext.wallpaperappTestDependencies
 
-    testImplementation td.junit
+    testImplementation td.junitJupiter
+    testImplementation td.junitVintage
     testImplementation td.kotlinReflect
     testImplementation td.robolectric
     testImplementation td.mockitoCore
