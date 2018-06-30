@@ -57,7 +57,7 @@ class ResetToDefaultsPreference @JvmOverloads constructor
         AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(R.string.Are_you_sure_you_want_to_reset_all_settings_to_default_values)
-                .setPositiveButton(R.string.Reset, { _, _ -> presenter.onResetClick() })
+                .setPositiveButton(R.string.Reset) { _, _ -> presenter.onResetClick() }
                 .setNegativeButton(R.string.Cancel, null)
                 .show()
     }

@@ -24,7 +24,7 @@ import java.io.*
 class FileSaver(private val context: Context) {
 
     fun saveToPrivateFile(source: Uri, file: File) {
-        synchronized(fileLock, { saveToPrivateFileInner(source, file) })
+        synchronized(fileLock) { saveToPrivateFileInner(source, file) }
     }
 
     private fun saveToPrivateFileInner(source: Uri, target: File) {

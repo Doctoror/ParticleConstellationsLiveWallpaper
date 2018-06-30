@@ -148,10 +148,10 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         }
 
         override fun clearBackground() {
-            defaults.getBackgroundUri().take(1).subscribe({ u ->
+            defaults.getBackgroundUri().take(1).subscribe { u ->
                 settings.setBackgroundUri(u)
                 clearBackgroundFile()
-            })
+            }
         }
 
         private fun clearBackgroundFile() {

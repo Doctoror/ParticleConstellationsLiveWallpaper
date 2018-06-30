@@ -52,10 +52,10 @@ class ParticlesColorPreference @JvmOverloads constructor
 
         presenter.onTakeView(this)
 
-        setOnPreferenceChangeListener({ _, v ->
+        setOnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(v as Int?)
             true
-        })
+        }
     }
 
     override fun onClick() {

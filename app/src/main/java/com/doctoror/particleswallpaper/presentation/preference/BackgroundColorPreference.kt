@@ -52,10 +52,10 @@ class BackgroundColorPreference @JvmOverloads constructor
 
         presenter.onTakeView(this)
 
-        setOnPreferenceChangeListener({ _, v ->
+        setOnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(v as Int?)
             true
-        })
+        }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

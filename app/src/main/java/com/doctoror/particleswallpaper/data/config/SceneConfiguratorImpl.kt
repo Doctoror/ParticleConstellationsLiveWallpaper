@@ -41,50 +41,50 @@ class SceneConfiguratorImpl(private val schedulers: SchedulersProvider) : SceneC
 
         d.add(settings.getParticlesColor()
                 .observeOn(schedulers.mainThread())
-                .subscribe({ c ->
+                .subscribe { c ->
                     scene.dotColor = c
                     scene.lineColor = c
-                }))
+                })
 
         d.add(settings.getNumDots()
                 .observeOn(schedulers.mainThread())
-                .subscribe({ v ->
+                .subscribe { v ->
                     scene.numDots = v
                     scene.makeBrandNewFrame()
-                }))
+                })
 
         d.add(settings.getDotScale()
                 .observeOn(schedulers.mainThread())
-                .subscribe({ v ->
+                .subscribe { v ->
                     val radiusRange = DotRadiusMapper.transform(v)
                     scene.setDotRadiusRange(radiusRange.first, radiusRange.second)
                     scene.makeBrandNewFrame()
-                }))
+                })
 
         d.add(settings.getLineScale()
                 .observeOn(schedulers.mainThread())
-                .subscribe({ v ->
+                .subscribe { v ->
                     scene.lineThickness = v
                     scene.makeBrandNewFrame()
-                }))
+                })
 
         d.add(settings.getLineDistance()
                 .observeOn(schedulers.mainThread())
-                .subscribe({ v ->
+                .subscribe { v ->
                     scene.lineDistance = v
-                }))
+                })
 
         d.add(settings.getStepMultiplier()
                 .observeOn(schedulers.mainThread())
-                .subscribe({ v ->
+                .subscribe { v ->
                     scene.stepMultiplier = v
-                }))
+                })
 
         d.add(settings.getFrameDelay()
                 .observeOn(schedulers.mainThread())
-                .subscribe({ v ->
+                .subscribe { v ->
                     scene.frameDelay = v
-                }))
+                })
     }
 
     override fun dispose() {
