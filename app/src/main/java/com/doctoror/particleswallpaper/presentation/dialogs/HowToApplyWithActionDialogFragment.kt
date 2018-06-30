@@ -19,7 +19,6 @@ import android.app.AlertDialog
 import android.app.DialogFragment
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.presentation.actions.FragmentStartActivityForResultAction
@@ -29,9 +28,6 @@ abstract class HowToApplyWithActionDialogFragment : DialogFragment() {
 
     @Inject
     lateinit var intentProvider: OpenChangeWallpaperIntentProvider
-
-    @Inject
-    lateinit var schedulers: SchedulersProvider
 
     protected abstract val message: Int
 
@@ -46,8 +42,6 @@ abstract class HowToApplyWithActionDialogFragment : DialogFragment() {
     private fun openPreview() {
         newOpenChangeWallpaperIntentUseCase()
                 .useCase()
-                .subscribeOn(schedulers.io())
-                .subscribeOn(schedulers.mainThread())
                 .subscribe()
     }
 
