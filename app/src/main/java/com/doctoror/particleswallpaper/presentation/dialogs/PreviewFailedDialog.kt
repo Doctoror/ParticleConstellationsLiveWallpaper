@@ -16,10 +16,11 @@
 package com.doctoror.particleswallpaper.presentation.dialogs
 
 import android.app.AlertDialog
+import android.app.DialogFragment
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R
 
-class PreviewFailedDialog : android.app.DialogFragment() {
+class PreviewFailedDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog
             .Builder(activity)
