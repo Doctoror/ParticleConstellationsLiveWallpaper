@@ -4,6 +4,7 @@ object HardwareCanvasBlacklist {
 
     private val blackList = hashSetOf(
             "bullhead",
+            "cv7a",
             "dreamlte",
             "gemini",
             "HWANE",
