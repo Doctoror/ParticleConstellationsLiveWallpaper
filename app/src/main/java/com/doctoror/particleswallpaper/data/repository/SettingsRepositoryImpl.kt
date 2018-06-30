@@ -48,28 +48,40 @@ class SettingsRepositoryImpl(context: Context,
         backgroundUriSubject.onNext(prefs.backgroundUri)
 
         val numDots = prefs.numDots
-        numDotsSubject.onNext(if (numDots != -1) numDots
-        else defaults.getNumDots().blockingFirst())
+        numDotsSubject.onNext(
+                if (numDots != -1) numDots
+                else defaults.getNumDots().blockingFirst()
+        )
 
         val frameDelay = prefs.frameDelay
-        frameDelaySubject.onNext(if (frameDelay != -1) frameDelay
-        else defaults.getFrameDelay().blockingFirst())
+        frameDelaySubject.onNext(
+                if (frameDelay != -1) frameDelay
+                else defaults.getFrameDelay().blockingFirst()
+        )
 
         val stepMultiplier = prefs.stepMultiplier
-        stepMultiplierSubject.onNext(if (stepMultiplier != -1f) stepMultiplier
-        else defaults.getStepMultiplier().blockingFirst())
+        stepMultiplierSubject.onNext(
+                if (stepMultiplier != -1f) stepMultiplier
+                else defaults.getStepMultiplier().blockingFirst()
+        )
 
         val scale = prefs.dotScale
-        dotScaleSubject.onNext(if (scale != -1f) scale
-        else defaults.getDotScale().blockingFirst())
+        dotScaleSubject.onNext(
+                if (scale != -1f) scale
+                else defaults.getDotScale().blockingFirst()
+        )
 
         val lineScale = prefs.lineScale
-        lineScaleSubject.onNext(if (lineScale != -1f) lineScale
-        else defaults.getLineScale().blockingFirst())
+        lineScaleSubject.onNext(
+                if (lineScale != -1f) lineScale
+                else defaults.getLineScale().blockingFirst()
+        )
 
         val lineDistance = prefs.lineDistance
-        lineDistanceSubject.onNext(if (lineDistance != -1f) lineDistance
-        else defaults.getLineDistance().blockingFirst())
+        lineDistanceSubject.onNext(
+                if (lineDistance != -1f) lineDistance
+                else defaults.getLineDistance().blockingFirst()
+        )
     }
 
     override fun getNumDots() = numDotsSubject
