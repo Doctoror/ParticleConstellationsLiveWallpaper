@@ -15,9 +15,9 @@
  */
 package com.doctoror.particleswallpaper.presentation.util
 
-import android.support.annotation.AttrRes
 import android.content.res.Resources.Theme
 import android.graphics.Color
+import android.support.annotation.AttrRes
 import android.support.annotation.ColorInt
 
 object ThemeUtils {

@@ -15,12 +15,11 @@
  */
 package com.doctoror.particleswallpaper.data.config
 
-import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.data.repository.MockSettingsRepositoryFactory
+import com.nhaarman.mockito_kotlin.mock
 import org.junit.Assert.*
 import org.junit.Test
-import org.mockito.Mockito.*
 
 class SceneConfiguratorImplTest {
 
@@ -30,7 +29,7 @@ class SceneConfiguratorImplTest {
 
         assertNull(c.disposables)
 
-        c.subscribe(mock(ParticlesScene::class.java), MockSettingsRepositoryFactory.create())
+        c.subscribe(mock(), MockSettingsRepositoryFactory.create())
 
         assertNotNull(c.disposables)
         assertFalse(c.disposables!!.isDisposed)

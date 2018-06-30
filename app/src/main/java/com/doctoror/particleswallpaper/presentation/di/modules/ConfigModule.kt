@@ -17,7 +17,6 @@ package com.doctoror.particleswallpaper.presentation.di.modules
 
 import android.content.Context
 import com.doctoror.particleswallpaper.data.config.SceneConfiguratorFactoryImpl
-import com.doctoror.particleswallpaper.data.config.SceneConfiguratorImpl
 import com.doctoror.particleswallpaper.data.file.BackgroundImageManagerImpl
 import com.doctoror.particleswallpaper.data.file.FileSaver
 import com.doctoror.particleswallpaper.data.file.FileUriResolver
