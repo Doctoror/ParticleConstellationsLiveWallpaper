@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.presentation.di.components
 
 import android.content.Context
+import android.content.pm.PackageManager
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
@@ -23,10 +24,7 @@ import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
-import com.doctoror.particleswallpaper.presentation.di.modules.ActivitiesContributes
-import com.doctoror.particleswallpaper.presentation.di.modules.AppModule
-import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
-import com.doctoror.particleswallpaper.presentation.di.modules.ServicesContributes
+import com.doctoror.particleswallpaper.presentation.di.modules.*
 import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -39,6 +37,7 @@ import javax.inject.Singleton
     AppModule::class,
     AndroidInjectionModule::class,
     ConfigModule::class,
+    FragmentsContributes::class,
     ServicesContributes::class])
 interface AppComponent : AndroidInjector<ApplicationlessInjection> {
 
@@ -52,6 +51,9 @@ interface AppComponent : AndroidInjector<ApplicationlessInjection> {
 
     fun exposeDrawableConfigurator(): SceneConfigurator
     fun exposeMutableSettings(): MutableSettingsRepository
+
+    fun exposePackageManager(): PackageManager
+    fun exposePackageName(): String
 
     fun exposeSchedulers(): SchedulersProvider
     fun exposeSettings(): SettingsRepository

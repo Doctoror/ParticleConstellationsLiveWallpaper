@@ -23,11 +23,11 @@ import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
+import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Single
-import io.reactivex.functions.Consumer
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,6 +40,7 @@ class ConfigActivityPresenterLollipopTest {
 
     private val activity: Activity = mock()
     private val configurator: SceneConfigurator = mock()
+    private val openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider = mock()
     private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase = mock()
     private val settings: SettingsRepository = mock()
     private val requestManager: RequestManager = mock()
@@ -49,6 +50,7 @@ class ConfigActivityPresenterLollipopTest {
             activity,
             TrampolineSchedulers(),
             configurator,
+            openChangeWallpaperIntentProvider,
             openChangeWallpaperIntentUseCase,
             requestManager,
             settings,
@@ -82,11 +84,12 @@ class ConfigActivityPresenterLollipopTest {
     }
 
     @Test
-    fun inflatesOptionsMenu() {
+    fun inflatesOptionsMenuWhenHasWallpaperIntent() {
         // Given
         val menu: Menu = mock()
         val menuInflater: MenuInflater = mock()
         whenever(activity.menuInflater).thenReturn(menuInflater)
+        whenever(openChangeWallpaperIntentProvider.provideActionIntent()).thenReturn(mock())
 
         // When
         val result = underTest.onCreateOptionsMenu(menu)
@@ -94,6 +97,20 @@ class ConfigActivityPresenterLollipopTest {
         // Then
         assertTrue(result)
         verify(menuInflater).inflate(R.menu.activity_config, menu)
+    }
+
+    @Test
+    fun doesNotInflateOptionsMenuWhenHasNoWallpaperIntent() {
+        // Given
+        val menuInflater: MenuInflater = mock()
+        whenever(activity.menuInflater).thenReturn(menuInflater)
+
+        // When
+        val result = underTest.onCreateOptionsMenu(mock())
+
+        // Then
+        assertTrue(result)
+        verify(menuInflater, never()).inflate(any(), any())
     }
 
     @Test
@@ -108,29 +125,16 @@ class ConfigActivityPresenterLollipopTest {
     @Test
     fun subscribesToChangeWallpaperUseCaseOnPreviewClick() {
         // Given
-        val useCaseSingle = spy(Single.just(true))
+        val useCaseSingle = spy(Single.just(Unit))
         whenever(openChangeWallpaperIntentUseCase.useCase())
                 .thenReturn(useCaseSingle)
 
         // When
-        underTest.onOptionsItemSelected(mockMenuItemWithId(R.id.actionPreview))
+        underTest.onOptionsItemSelected(mockMenuItemWithId(R.id.actionApply))
 
         // Then
         verify(openChangeWallpaperIntentUseCase).useCase()
-        verify(useCaseSingle).subscribe(any<Consumer<Boolean>>())
-    }
-
-    @Test
-    fun showsWallpaperStartFailureWhenFailed() {
-        // Given
-        whenever(openChangeWallpaperIntentUseCase.useCase())
-                .thenReturn(Single.just(false))
-
-        // When
-        underTest.onOptionsItemSelected(mockMenuItemWithId(R.id.actionPreview))
-
-        // Then
-        verify(view).showWallpaperPreviewStartFailed()
+        verify(useCaseSingle).subscribe()
     }
 
     private fun mockMenuItemWithId(id: Int): MenuItem = mock {

@@ -20,14 +20,13 @@ import android.app.Fragment
 import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
+import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.presentation.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.dialogs.PreviewFailedDialog
 import com.doctoror.particleswallpaper.presentation.presenter.PreviewPreferencePresenter
-import com.doctoror.particleswallpaper.presentation.view.PreviewPreferenceView
+import com.doctoror.particleswallpaper.presentation.view.MvpView
 import javax.inject.Inject
 
 /**
@@ -37,10 +36,10 @@ import javax.inject.Inject
  */
 class PreviewPreference @JvmOverloads constructor
 (contextParam: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : Preference(contextParam, attrs), PreviewPreferenceView {
+    : Preference(contextParam, attrs), MvpView {
 
     @Inject
-    lateinit var apiLevelProvider: ApiLevelProvider
+    lateinit var intentProvider: OpenChangeWallpaperIntentProvider
 
     private val presenter: PreviewPreferencePresenter
 
@@ -66,15 +65,8 @@ class PreviewPreference @JvmOverloads constructor
         presenter.onClick()
     }
 
-    override fun showPreviewStartFailed() {
-        host?.fragmentManager?.let {
-            PreviewFailedDialog().show(it, "PreviewFailedDialog")
-        }
-    }
-
     private fun newOpenChangeWallpaperIntentUseCase(host: Fragment) =
             OpenChangeWallpaperIntentUseCase(
-                    apiLevelProvider,
-                    context.packageName,
+                    intentProvider,
                     FragmentStartActivityForResultAction(host))
 }

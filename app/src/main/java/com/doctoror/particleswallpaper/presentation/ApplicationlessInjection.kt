@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.presentation
 
 import android.app.Activity
+import android.app.Fragment
 import android.app.Service
 import android.content.Context
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
@@ -29,6 +30,9 @@ class ApplicationlessInjection private constructor(context: Context) {
 
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+
+    @Inject
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     @Inject
     lateinit var serviceInjector: DispatchingAndroidInjector<Service>

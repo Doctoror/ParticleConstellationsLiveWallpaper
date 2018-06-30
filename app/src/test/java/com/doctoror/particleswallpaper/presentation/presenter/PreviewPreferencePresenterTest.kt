@@ -20,16 +20,15 @@ import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperInte
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.config.ConfigFragment
-import com.doctoror.particleswallpaper.presentation.view.PreviewPreferenceView
+import com.doctoror.particleswallpaper.presentation.view.MvpView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Single
-import io.reactivex.functions.Consumer
 import org.junit.jupiter.api.Test
 
 class PreviewPreferencePresenterTest {
 
     private val activity: Activity = mock()
-    private val view: PreviewPreferenceView = mock()
+    private val view: MvpView = mock()
 
     private val useCase: OpenChangeWallpaperIntentUseCase = mock()
 
@@ -98,7 +97,7 @@ class PreviewPreferencePresenterTest {
     @Test
     fun opensChangeWallpaper() {
         // Given
-        val useCaseSource = spy(Single.just(true))
+        val useCaseSource = spy(Single.just(Unit))
         whenever(useCase.useCase()).thenReturn(useCaseSource)
         underTest.useCase = useCase
 
@@ -106,19 +105,6 @@ class PreviewPreferencePresenterTest {
         underTest.onClick()
 
         // Then
-        verify(useCaseSource).subscribe(any<Consumer<Boolean>>())
-    }
-
-    @Test
-    fun showsMessageWhenChangeWallpaperFailed() {
-        // Given
-        whenever(useCase.useCase()).thenReturn(Single.just(false))
-        underTest.useCase = useCase
-
-        // When
-        underTest.onClick()
-
-        // Then
-        verify(view).showPreviewStartFailed()
+        verify(useCaseSource).subscribe()
     }
 }

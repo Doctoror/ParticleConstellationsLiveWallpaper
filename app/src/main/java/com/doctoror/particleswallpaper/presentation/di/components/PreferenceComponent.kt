@@ -32,6 +32,7 @@ interface PreferenceComponent {
     fun inject(p: BackgroundImagePreference)
     fun inject(p: DotScalePreference)
     fun inject(p: FrameDelayPreference)
+    fun inject(p: HowToApplyPreference)
     fun inject(p: LicensePreference)
     fun inject(p: LineDistancePreference)
     fun inject(p: LineScalePreference)

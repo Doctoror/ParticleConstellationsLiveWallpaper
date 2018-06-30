@@ -18,9 +18,9 @@ package com.doctoror.particleswallpaper.presentation.config
 import android.os.Build
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
-import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.actions.ActivityStartActivityForResultAction
@@ -41,14 +41,22 @@ class ConfigActivityModule {
             activity: ConfigActivity,
             schedulers: SchedulersProvider,
             configurator: SceneConfigurator,
+            openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider,
             openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
             requestManager: RequestManager,
             settings: SettingsRepository,
             view: ConfigActivityView
     ): ConfigActivityPresenter =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ConfigActivityPresenterLollipop(activity, schedulers, configurator,
-                        openChangeWallpaperIntentUseCase, requestManager, settings, view)
+                ConfigActivityPresenterLollipop(
+                        activity,
+                        schedulers,
+                        configurator,
+                        openChangeWallpaperIntentProvider,
+                        openChangeWallpaperIntentUseCase,
+                        requestManager,
+                        settings,
+                        view)
             } else {
                 ConfigActivityPresenter(
                         activity, schedulers, configurator, requestManager, settings, view)
@@ -57,11 +65,10 @@ class ConfigActivityModule {
     @PerActivity
     @Provides
     fun provideOpenChangeWallpaperIntentUseCase(
-            apiLevelProvider: ApiLevelProvider,
-            activity: ConfigActivity) =
+            activity: ConfigActivity,
+            intentProvider: OpenChangeWallpaperIntentProvider) =
             OpenChangeWallpaperIntentUseCase(
-                    apiLevelProvider,
-                    activity.packageName,
+                    intentProvider,
                     ActivityStartActivityForResultAction(activity))
 
     @PerActivity

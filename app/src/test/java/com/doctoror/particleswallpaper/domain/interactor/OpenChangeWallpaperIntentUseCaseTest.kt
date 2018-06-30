@@ -15,92 +15,55 @@
  */
 package com.doctoror.particleswallpaper.domain.interactor
 
-import android.app.WallpaperManager
 import android.content.ActivityNotFoundException
-import android.content.ComponentName
 import android.content.Intent
-import android.os.Build
-import com.doctoror.particleswallpaper.data.engine.WallpaperServiceImpl
-import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
 import com.nhaarman.mockito_kotlin.*
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
+import org.junit.jupiter.api.Test
 
-@Config(manifest = Config.NONE)
-@RunWith(RobolectricTestRunner::class)
 class OpenChangeWallpaperIntentUseCaseTest {
 
-    private val apiLevelProvider: ApiLevelProvider = mock()
+    private val intentProvider: OpenChangeWallpaperIntentProvider = mock()
     private val action: StartActivityForResultAction = mock()
-    private val packageName = "packageName"
 
     private val underTest = OpenChangeWallpaperIntentUseCase(
-            apiLevelProvider, packageName, action)
-
-    private fun givenSdkIsJellyBean() {
-        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.JELLY_BEAN)
-    }
-
-    private fun givenSdkIsIcsMr1() {
-        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-    }
-
-    @Before
-    fun setup() {
-        givenSdkIsJellyBean()
-    }
+            intentProvider, action)
 
     @Test
-    fun opensWallpaperChoserForJellyBeanAndLater() {
-        // When
-        val o = underTest.useCase().test()
-
-        // Then
-        o.assertResult(true)
-
-        val captor = argumentCaptor<Intent>()
-        verify(action).startActivityForResult(captor.capture(), eq(REQUEST_CODE_CHANGE_WALLPAPER))
-
-        assertEquals(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER, captor.firstValue.action)
-        assertTrue(captor.firstValue.getBooleanExtra("SET_LOCKSCREEN_WALLPAPER", false))
-        assertEquals(
-                ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName),
-                captor.firstValue.getParcelableExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT))
-    }
-
-    @Test
-    fun opensWallpaperChoserForIcsMr1() {
+    fun opensWallpaperIntentWhenNotNull() {
         // Given
-        givenSdkIsIcsMr1()
-
-        // When
-        val o = underTest.useCase().test()
-
-        // Then
-        o.assertResult(true)
-
-        val captor = argumentCaptor<Intent>()
-        verify(action).startActivityForResult(captor.capture(), eq(REQUEST_CODE_CHANGE_WALLPAPER))
-
-        assertEquals(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER, captor.firstValue.action)
-    }
-
-    @Test
-    fun returnsFalseOnActivityNotFoundException() {
-        // Given
-        whenever(action.startActivityForResult(any(), any())).thenThrow(ActivityNotFoundException())
+        val intent: Intent = mock()
+        whenever(intentProvider.provideActionIntent()).thenReturn(intent)
 
         // When
         val o = underTest.useCase().test()
 
         // Then
         o.assertNoErrors()
-        o.assertResult(false)
+        verify(action).startActivityForResult(intent, REQUEST_CODE_CHANGE_WALLPAPER)
+    }
+
+    @Test
+    fun throwsWhenIntentIsNull() {
+        // When
+        val o = underTest.useCase().test()
+
+        // Then
+        o.assertError { it is RuntimeException }
+        verify(action, never()).startActivityForResult(any(), any())
+    }
+
+    @Test
+    fun deliversOnErrorOnActivityNotFoundException() {
+        // Given
+        val intent: Intent = mock()
+        whenever(intentProvider.provideActionIntent()).thenReturn(intent)
+        whenever(action.startActivityForResult(any(), any())).thenThrow(ActivityNotFoundException())
+
+        // When
+        val o = underTest.useCase().test()
+
+        // Then
+        o.assertError { it is ActivityNotFoundException }
     }
 }

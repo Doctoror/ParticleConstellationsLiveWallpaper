@@ -13,7 +13,7 @@ class ConfigFragmentLollipop: ConfigFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val p = findPreference(getString(R.string.pref_key_preview))
+        val p = findPreference(getString(R.string.pref_key_apply))
         if (p != null) {
             preferenceScreen?.removePreference(p)
         }

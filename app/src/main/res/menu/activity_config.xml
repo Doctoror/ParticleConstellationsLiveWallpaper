@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/actionPreview"
-        android:title="@string/Preview"
+        android:id="@+id/actionApply"
+        android:title="@string/Apply"
         android:showAsAction="ifRoom"/>
 
 </menu>

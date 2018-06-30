@@ -13,9 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.view
+package com.doctoror.particleswallpaper.presentation.dialogs
 
-interface PreviewPreferenceView : MvpView {
+import android.app.AlertDialog
+import android.app.DialogFragment
+import android.os.Bundle
+import com.doctoror.particleswallpaper.R
 
-    fun showPreviewStartFailed()
+class HowToApplyManuallyDialogFragment : DialogFragment() {
+
+    override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog
+            .Builder(activity)
+            .setTitle(R.string.How_to_apply)
+            .setMessage(R.string.how_to_apply_no_preview)
+            .setPositiveButton(R.string.Close, null)
+            .create()!!
 }

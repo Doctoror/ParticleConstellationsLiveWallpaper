@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.dialogs
+package com.doctoror.particleswallpaper.presentation.view
 
-import android.app.AlertDialog
-import android.app.DialogFragment
-import android.os.Bundle
-import com.doctoror.particleswallpaper.R
+interface HowToApplyPreferenceView : MvpView {
 
-class PreviewFailedDialog : DialogFragment() {
+    fun showDialogHowToApplyUsingPreview()
 
-    override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog
-            .Builder(activity)
-            .setMessage(R.string.preview_problem)
-            .setPositiveButton(R.string.Close, null)
-            .create()!!
+    fun showDialogHowToApplyUsingChooser()
+
+    fun showDialogHowToApplyWithoutPreview()
 }

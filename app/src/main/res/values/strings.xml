@@ -18,6 +18,8 @@
     <string name="app_name">Particle Constellations Live Wallpaper</string>
     <string name="Wallpaper_description">Particle Constellations Live Wallpaper</string>
 
+    <string name="How_to_apply">How to apply</string>
+
     <string name="Appearance">Appearance</string>
     <string name="Scale">Scale</string>
     <string name="Performance">Performance</string>
@@ -45,7 +47,7 @@
     </string>
 
     <string name="Reset">Reset</string>
-    <string name="Preview">Preview</string>
+    <string name="Apply">Apply</string>
 
     <string name="Open_source_licenses">Open source licenses</string>
     <string name="Close">Close</string>
@@ -68,11 +70,27 @@
         setting a background image may lower the draw performance.
     ]]></string>
 
-    <string name="preview_problem"><![CDATA[
+    <string name="how_to_apply_with_preview"><![CDATA[
+        To apply this wallpaper, press “Apply”, and set the wallpaper from there.
+    ]]></string>
+
+    <string name="how_to_apply_with_chooser"><![CDATA[
+        To apply this wallpaper, press “Apply”, then find “Particle Constellations Live Wallpaper”
+        and set the wallpaper from there.
+    ]]></string>
+
+    <string name="how_to_apply_no_preview"><![CDATA[
         Unfortunately, your device does not support starting live wallpaper previews within the app.
-        Go to your device wallpaper chooser to set this wallpaper. If you do not know how to do
-        this, you can search how to change live wallpaper on the Internet or refer to your device
-        manual.
+        Go to your device wallpaper chooser to set this wallpaper.
+
+        \n\nUsually, this is done by the following:
+        \n- go to your home screen and long press on empty space;
+        \n- press “Wallpapers”;
+        \n- scroll to find “Live Wallpapers”;
+        \n- then, find “Particle Constellations Live Wallpaper”.
+
+        \n\nIf these steps are not working for you please search the instructions for your device or
+        launcher on the Internet.
     ]]></string>
 
 </resources>

@@ -25,7 +25,6 @@ import android.widget.ImageView
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
 import com.doctoror.particleswallpaper.presentation.base.LifecycleActivity
-import com.doctoror.particleswallpaper.presentation.dialogs.PreviewFailedDialog
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
 import javax.inject.Inject
 
@@ -76,11 +75,5 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
     override fun setContainerBackground(drawable: Drawable) {
         findViewById<View>(R.id.drawableContainer).setBackgroundCompat(drawable)
-    }
-
-    override fun showWallpaperPreviewStartFailed() {
-        if (!isFinishing && fragmentTransactionsAllowed) {
-            PreviewFailedDialog().show(fragmentManager, "PreviewFailedDialog")
-        }
     }
 }

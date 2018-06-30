@@ -27,6 +27,7 @@ import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 
@@ -40,10 +41,11 @@ class ConfigActivityPresenterLollipop(
         private val activity: Activity,
         schedulers: SchedulersProvider,
         configurator: SceneConfigurator,
+        private val openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider,
         private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
         requestManager: RequestManager,
         settings: SettingsRepository,
-        private val view: ConfigActivityView)
+        view: ConfigActivityView)
     : ConfigActivityPresenter(
         activity,
         schedulers,
@@ -68,7 +70,9 @@ class ConfigActivityPresenterLollipop(
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        activity.menuInflater.inflate(R.menu.activity_config, menu)
+        if (openChangeWallpaperIntentProvider.provideActionIntent() != null) {
+            activity.menuInflater.inflate(R.menu.activity_config, menu)
+        }
         return true
     }
 
@@ -79,10 +83,8 @@ class ConfigActivityPresenterLollipop(
                 return true
             }
 
-            R.id.actionPreview -> {
-                openChangeWallpaperIntentUseCase.useCase().subscribe { started ->
-                    if (!started) view.showWallpaperPreviewStartFailed()
-                }
+            R.id.actionApply -> {
+                openChangeWallpaperIntentUseCase.useCase().subscribe()
             }
         }
         return super.onOptionsItemSelected(item)
