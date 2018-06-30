@@ -47,7 +47,7 @@ class OpenChangeWallpaperIntentUseCase(
         val intent = Intent()
         if (apiLevelProvider.provideSdkInt() >= Build.VERSION_CODES.JELLY_BEAN) {
             intent.action = WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER
-            intent.putExtra("SET_LOCKSCREEN_WALLPAPER", true);
+            intent.putExtra("SET_LOCKSCREEN_WALLPAPER", true)
             intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
                     ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName))
         } else {
