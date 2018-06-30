@@ -70,21 +70,15 @@ class SceneConfiguratorImpl(private val schedulers: SchedulersProvider) : SceneC
 
         d.add(settings.getLineDistance()
                 .observeOn(schedulers.mainThread())
-                .subscribe { v ->
-                    scene.lineDistance = v
-                })
+                .subscribe(scene::setLineDistance))
 
         d.add(settings.getStepMultiplier()
                 .observeOn(schedulers.mainThread())
-                .subscribe { v ->
-                    scene.stepMultiplier = v
-                })
+                .subscribe(scene::setStepMultiplier))
 
         d.add(settings.getFrameDelay()
                 .observeOn(schedulers.mainThread())
-                .subscribe { v ->
-                    scene.frameDelay = v
-                })
+                .subscribe(scene::setFrameDelay))
     }
 
     override fun dispose() {
