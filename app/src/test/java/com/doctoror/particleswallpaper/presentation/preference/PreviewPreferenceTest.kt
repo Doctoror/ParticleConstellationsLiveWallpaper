@@ -51,7 +51,7 @@ class PreviewPreferenceTest {
         val host: Fragment = mock()
 
         // When
-        underTest.host = host
+        underTest.fragment = host
 
         // Then
         verify(presenter).host = host
@@ -60,7 +60,7 @@ class PreviewPreferenceTest {
     @Test
     fun deliversUseCaseWithHost() {
         // When
-        underTest.host = mock()
+        underTest.fragment = mock()
 
         // Then
         verify(presenter).useCase = any()
@@ -69,7 +69,7 @@ class PreviewPreferenceTest {
     @Test
     fun resetsUseCaseWithHost() {
         // When
-        underTest.host = null
+        underTest.fragment = null
 
         // Then
         verify(presenter).useCase = null

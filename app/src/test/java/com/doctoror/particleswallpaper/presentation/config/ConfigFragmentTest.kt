@@ -18,6 +18,7 @@ package com.doctoror.particleswallpaper.presentation.config
 import android.support.annotation.StringRes
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.preference.BackgroundImagePreference
+import com.doctoror.particleswallpaper.presentation.preference.HowToApplyPreference
 import com.doctoror.particleswallpaper.presentation.preference.PreviewPreference
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -42,7 +43,7 @@ class ConfigFragmentTest {
         val backgroundImagePreference = underTest.findPreference(
                 getString(R.string.pref_key_background_image)) as BackgroundImagePreference
 
-        assertEquals(underTest, backgroundImagePreference.host)
+        assertEquals(underTest, backgroundImagePreference.fragment)
     }
 
     @Test
@@ -55,10 +56,33 @@ class ConfigFragmentTest {
         val backgroundImagePreference = underTest.findPreference(
                 getString(R.string.pref_key_background_image)) as BackgroundImagePreference
 
-        assertNull(backgroundImagePreference.host)
+        assertNull(backgroundImagePreference.fragment)
     }
 
-    @Ignore
+    @Test
+    fun howToApplyPreferenceHostSetOnCreate() {
+        val underTest = underTestController.create().get()
+
+        val howToApplyPreference = underTest.findPreference(
+                getString(R.string.pref_key_how_to_apply)) as HowToApplyPreference
+
+        assertEquals(underTest, howToApplyPreference.fragment)
+    }
+
+    @Test
+    fun howToApplyPreferenceHostResetOnDestroy() {
+        val underTest = underTestController
+                .create()
+                .destroy()
+                .get()
+
+        val howToApplyPreference = underTest.findPreference(
+                getString(R.string.pref_key_how_to_apply)) as HowToApplyPreference
+
+        assertNull(howToApplyPreference.fragment)
+    }
+
+    @Ignore // Intent provider can't be mocked this the preference gets removed
     @Test
     fun previewPreferenceHostSetOnCreate() {
         val underTest = underTestController
@@ -68,10 +92,10 @@ class ConfigFragmentTest {
         val previewPreference = underTest.findPreference(
                 getString(R.string.pref_key_apply)) as PreviewPreference
 
-        assertEquals(underTest, previewPreference.host)
+        assertEquals(underTest, previewPreference.fragment)
     }
 
-    @Ignore
+    @Ignore // Intent provider can't be mocked this the preference gets removed
     @Test
     fun previewPreferenceHostResetOnDestroy() {
         val underTest = underTestController
@@ -82,7 +106,7 @@ class ConfigFragmentTest {
         val previewPreference = underTest.findPreference(
                 getString(R.string.pref_key_apply)) as PreviewPreference
 
-        assertNull(previewPreference.host)
+        assertNull(previewPreference.fragment)
     }
 
     @Test

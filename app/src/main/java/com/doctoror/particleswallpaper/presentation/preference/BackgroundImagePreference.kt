@@ -39,12 +39,12 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.KITKAT)
 class BackgroundImagePreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : Preference(context, attrs), BackgroundImagePreferenceView {
+    : Preference(context, attrs), BackgroundImagePreferenceView, FragmentHolder {
 
     @Inject
     lateinit var presenter: BackgroundImagePreferencePresenter
 
-    var host: Fragment? = null
+    override var fragment: Fragment? = null
         set(f) {
             presenter.host = f
             field = f

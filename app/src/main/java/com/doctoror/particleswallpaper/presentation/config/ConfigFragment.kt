@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.presentation.config
 
 import android.annotation.SuppressLint
-import android.app.Fragment
 import android.arch.lifecycle.LifecycleObserver
 import android.content.Intent
 import android.os.Bundle
@@ -29,9 +28,7 @@ import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
 import com.doctoror.particleswallpaper.presentation.base.LifecyclePreferenceFragment
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHostImpl
-import com.doctoror.particleswallpaper.presentation.preference.BackgroundImagePreference
-import com.doctoror.particleswallpaper.presentation.preference.HowToApplyPreference
-import com.doctoror.particleswallpaper.presentation.preference.PreviewPreference
+import com.doctoror.particleswallpaper.presentation.preference.FragmentHolder
 import javax.inject.Inject
 
 /**
@@ -55,7 +52,7 @@ constructor(private val ch: OnActivityResultCallbackHostImpl = OnActivityResultC
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.prefs)
         hidePreviewPreferenceIfCannotStartPreview()
-        setPreferenceHost(this)
+        forEachFragmentHolder(preferenceScreen) { it.fragment = this }
         forEachLifecycleObserver(preferenceScreen) { lifecycle.addObserver(it) }
     }
 
@@ -74,25 +71,8 @@ constructor(private val ch: OnActivityResultCallbackHostImpl = OnActivityResultC
 
     override fun onDestroy() {
         super.onDestroy()
-        setPreferenceHost(null)
+        forEachFragmentHolder(preferenceScreen) { it.fragment = null }
         forEachLifecycleObserver(preferenceScreen) { lifecycle.removeObserver(it) }
-    }
-
-    private fun setPreferenceHost(host: Fragment?) {
-        val backgroundImagePreference = findPreference(getString(R.string.pref_key_background_image))
-        if (backgroundImagePreference is BackgroundImagePreference) {
-            backgroundImagePreference.host = host
-        }
-
-        val previewPreference = findPreference(getString(R.string.pref_key_apply))
-        if (previewPreference is PreviewPreference) {
-            previewPreference.host = host
-        }
-
-        val howToApplyPreference = findPreference(getString(R.string.pref_key_how_to_apply))
-        if (howToApplyPreference is HowToApplyPreference) {
-            howToApplyPreference.host = host
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -108,6 +88,18 @@ constructor(private val ch: OnActivityResultCallbackHostImpl = OnActivityResultC
             }
             if (p is PreferenceGroup) {
                 forEachLifecycleObserver(p, c)
+            }
+        }
+    }
+
+    private fun forEachFragmentHolder(g: PreferenceGroup, c: (FragmentHolder) -> Unit) {
+        for (i in 0 until g.preferenceCount) {
+            val p = g.getPreference(i)
+            if (p is FragmentHolder) {
+                c(p)
+            }
+            if (p is PreferenceGroup) {
+                forEachFragmentHolder(p, c)
             }
         }
     }

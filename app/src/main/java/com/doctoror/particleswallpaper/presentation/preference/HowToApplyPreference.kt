@@ -30,12 +30,12 @@ import javax.inject.Inject
 
 class HowToApplyPreference @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyle: Int = 0
-) : Preference(context, attrs), HowToApplyPreferenceView {
+) : Preference(context, attrs), HowToApplyPreferenceView, FragmentHolder {
 
     @Inject
     lateinit var presenter: HowToApplyPreferencePresenter
 
-    var host: Fragment? = null
+    override var fragment: Fragment? = null
 
     init {
         isPersistent = false
@@ -53,19 +53,19 @@ class HowToApplyPreference @JvmOverloads constructor(
     }
 
     override fun showDialogHowToApplyUsingPreview() {
-        host?.fragmentManager?.let {
+        fragment?.fragmentManager?.let {
             HowToApplyUsingPreviewDialogFragment().show(it, "HowToApplyUsingPreviewDialogFragment")
         }
     }
 
     override fun showDialogHowToApplyUsingChooser() {
-        host?.fragmentManager?.let {
+        fragment?.fragmentManager?.let {
             HowToApplyUsingChooserDialogFragment().show(it, "HowToApplyUsingChooserDialogFragment")
         }
     }
 
     override fun showDialogHowToApplyWithoutPreview() {
-        host?.fragmentManager?.let {
+        fragment?.fragmentManager?.let {
             HowToApplyManuallyDialogFragment().show(it, "HowToApplyManuallyDialogFragment")
         }
     }

@@ -36,14 +36,14 @@ import javax.inject.Inject
  */
 class PreviewPreference @JvmOverloads constructor
 (contextParam: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : Preference(contextParam, attrs), MvpView {
+    : Preference(contextParam, attrs), MvpView, FragmentHolder {
 
     @Inject
     lateinit var intentProvider: OpenChangeWallpaperIntentProvider
 
     private val presenter: PreviewPreferencePresenter
 
-    var host: Fragment? = null
+    override var fragment: Fragment? = null
         set(f) {
             presenter.useCase = if (f != null) newOpenChangeWallpaperIntentUseCase(f) else null
             presenter.host = f
