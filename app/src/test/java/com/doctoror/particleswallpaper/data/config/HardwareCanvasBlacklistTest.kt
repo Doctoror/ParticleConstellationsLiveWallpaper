@@ -20,6 +20,11 @@ class HardwareCanvasBlacklistTest {
     }
 
     @Test
+    fun dreamlteBlacklisted() {
+        assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("dreamlte"))
+    }
+
+    @Test
     fun geminiBlacklisted() {
         assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("gemini"))
     }
