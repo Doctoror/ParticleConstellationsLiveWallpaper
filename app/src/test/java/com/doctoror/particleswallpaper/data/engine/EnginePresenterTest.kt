@@ -66,7 +66,8 @@ class EnginePresenterTest {
             TrampolineSchedulers(),
             settings,
             scene,
-            scenePresenter)
+            scenePresenter,
+            TextureDimensionsCalculator())
 
     @Before
     fun setup() {
@@ -75,6 +76,7 @@ class EnginePresenterTest {
         whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
         whenever(settings.getFrameDelay()).thenReturn(Observable.just(0))
         whenever(settings.getDotScale()).thenReturn(Observable.just(1f))
+        whenever(settings.getTextureOptimizationEnabled()).thenReturn(Observable.just(true))
 
         whenever(glide.asBitmap()).thenReturn(requestBuilder)
         whenever(requestBuilder.load(any<String>())).thenReturn(requestBuilder)
@@ -108,6 +110,20 @@ class EnginePresenterTest {
 
         // Then
         verify(renderer).setClearColor(color)
+    }
+
+    @Test
+    fun loadsTextureOptimizationSettingBeforeBackgroundUri() {
+        // Given
+        whenever(settings.getTextureOptimizationEnabled()).thenReturn(Observable.just(false))
+        whenever(settings.getBackgroundUri()).thenReturn(Observable.never())
+
+        // When
+        underTest.onCreate()
+
+        // Then
+        assertEquals(false, underTest.optimizeTextures)
+        assertEquals(null, underTest.backgroundUri)
     }
 
     @Test

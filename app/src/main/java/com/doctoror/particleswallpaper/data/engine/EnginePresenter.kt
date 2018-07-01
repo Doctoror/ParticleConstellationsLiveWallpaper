@@ -37,6 +37,8 @@ import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.base.SimpleTarget2
+import com.doctoror.particleswallpaper.presentation.util.CenterCropAndThenResizeTransform
+import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 
 class EnginePresenter(
@@ -49,7 +51,8 @@ class EnginePresenter(
         private val schedulers: SchedulersProvider,
         private val settings: SettingsRepository,
         private val scene: ParticlesScene,
-        private val scenePresenter: ScenePresenter) {
+        private val scenePresenter: ScenePresenter,
+        private val textureDimensionsCalculator: TextureDimensionsCalculator) {
 
     private val disposables = CompositeDisposable()
 
@@ -73,6 +76,10 @@ class EnginePresenter(
     @ColorInt
     @Volatile
     var backgroundColor = Color.DKGRAY
+
+    @VisibleForTesting
+    @Volatile
+    var optimizeTextures = true
 
     private var backgroundDirty = false
     private var backgroundColorDirty = false
@@ -101,7 +108,8 @@ class EnginePresenter(
                 .observeOn(glScheduler)
                 .subscribe { scene.frameDelay = it })
 
-        disposables.add(settings.getBackgroundColor()
+        disposables.add(settings
+                .getBackgroundColor()
                 .doOnNext {
                     backgroundColor = it
                     backgroundColorDirty = true
@@ -110,6 +118,8 @@ class EnginePresenter(
                         notifyBackgroundColors()
                     }
                 }
+                .flatMap { settings.getTextureOptimizationEnabled() }
+                .doOnNext { optimizeTextures = it }
                 .flatMap { settings.getBackgroundUri() }
                 .observeOn(schedulers.mainThread())
                 .subscribe { handleBackground(it) })
@@ -135,19 +145,34 @@ class EnginePresenter(
                 notifyBackgroundColors()
             } else if (width != 0 && height != 0) {
                 val target = ImageLoadTarget(width, height)
+                val targetDimensions = textureDimensionsCalculator
+                        .calculateTextureDimensions(width, height, optimizeTextures)
+
                 glide
                         .asBitmap()
                         .load(uri)
                         .apply(RequestOptions.noAnimation())
                         .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                         .apply(RequestOptions.skipMemoryCacheOf(true))
-                        .apply(RequestOptions.centerCropTransform())
+                        .apply(makeTransformOptions(targetDimensions))
                         .into(target)
 
                 lastUsedImageLoadTarget = target
             }
         }
     }
+
+    private fun makeTransformOptions(targetDimensions: android.util.Pair<Int, Int>) =
+            if (targetDimensions.first != width || targetDimensions.second != height) {
+                RequestOptions.bitmapTransform(
+                        CenterCropAndThenResizeTransform(
+                                targetDimensions.first,
+                                targetDimensions.second
+                        )
+                )
+            } else {
+                RequestOptions.centerCropTransform()
+            }
 
     fun setDimensions(width: Int, height: Int) {
         scenePresenter.setBounds(0, 0, width, height)

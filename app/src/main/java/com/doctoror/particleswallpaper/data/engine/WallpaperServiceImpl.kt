@@ -57,6 +57,8 @@ class WallpaperServiceImpl : GLWallpaperService() {
     @Inject
     lateinit var settings: SettingsRepository
 
+    private val textureDimensionsCalculator = TextureDimensionsCalculator()
+
     override fun onCreate() {
         ApplicationlessInjection
                 .getInstance(applicationContext)
@@ -81,7 +83,8 @@ class WallpaperServiceImpl : GLWallpaperService() {
                 schedulers,
                 settings,
                 scene,
-                scenePresenter)
+                scenePresenter,
+                textureDimensionsCalculator)
 
         return engine
     }
