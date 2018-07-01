@@ -37,6 +37,9 @@
     <string name="Speed_factor">Швидкість</string>
     <string name="Frame_rate">Частота кадрів</string>
     <string name="Multisampling_smoothing">Згладжування</string>
+    <string name="Optimize_textures">Оптимізація текстур</string>
+    <string name="optimize_textures_hint">Якщо увімкнено, текстури можуть мати гіршу якість, але це
+        дає кращу продуктивність і апаратну підтримку.</string>
 
     <string name="Disabled_best_performance">Відключено (найкраща продуктивність)</string>
     <string name="two_x_msaa">2x MSAA</string>

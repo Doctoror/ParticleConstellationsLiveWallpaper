@@ -38,6 +38,7 @@ interface PreferenceComponent {
     fun inject(p: LineScalePreference)
     fun inject(p: NumDotsPreference)
     fun inject(p: NumSamplesPreference)
+    fun inject(p: OptimizeTexturesPreference)
     fun inject(p: ParticlesColorPreference)
     fun inject(p: PerformanceTipsPreference)
     fun inject(p: PreviewPreference)

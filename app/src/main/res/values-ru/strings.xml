@@ -37,6 +37,9 @@
     <string name="Speed_factor">Скорость</string>
     <string name="Frame_rate">Частота кадров</string>
     <string name="Multisampling_smoothing">Сглаживание</string>
+    <string name="Optimize_textures">Оптимизация текстур</string>
+    <string name="optimize_textures_hint">Если включено, текстуры могут иметь худшее качество, но
+    это дает лучшую производительность и аппарутную поддержку.</string>
 
     <string name="Disabled_best_performance">Отключено (лучшая производительность)</string>
     <string name="two_x_msaa">2x MSAA</string>
