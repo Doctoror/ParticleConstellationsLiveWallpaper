@@ -40,6 +40,7 @@ class SettingsRepositoryImpl(context: Context,
     private val dotScaleSubject = BehaviorSubject.create<Float>().toSerialized()
     private val lineScaleSubject = BehaviorSubject.create<Float>().toSerialized()
     private val lineDistanceSubject = BehaviorSubject.create<Float>().toSerialized()
+    private val textureOptimizationSubject = BehaviorSubject.create<Boolean>().toSerialized()
 
     private val prefs = Prefs.with(context)!!
 
@@ -89,6 +90,8 @@ class SettingsRepositoryImpl(context: Context,
                 if (lineDistance != -1f) lineDistance
                 else defaults.getLineDistance().blockingFirst()
         )
+
+        textureOptimizationSubject.onNext(prefs.isTextureOptimizationEnabled)
     }
 
     override fun getNumDots() = numDotsSubject
@@ -159,5 +162,12 @@ class SettingsRepositoryImpl(context: Context,
     override fun setBackgroundUri(uri: String) {
         prefs.backgroundUri = uri
         backgroundUriSubject.onNext(uri)
+    }
+
+    override fun getTextureOptimizationEnabled() = textureOptimizationSubject
+
+    override fun setTextureOptimizationEnabled(enabled: Boolean) {
+        prefs.isTextureOptimizationEnabled = enabled
+        textureOptimizationSubject.onNext(enabled)
     }
 }

@@ -67,6 +67,8 @@ class SettingsRepositoryDefault(
     override fun getBackgroundColor() = Observable.just(
             ResourcesCompat.getColor(res, R.color.defaultBackground, theme))!!
 
+    override fun getTextureOptimizationEnabled() = Observable.just(true)!!
+
     interface TypedValueFactory {
         fun newTypedValue(): TypedValue
     }

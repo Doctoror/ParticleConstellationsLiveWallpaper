@@ -43,4 +43,6 @@ public interface PrefsConfigImpl {
     int particlesColor = Color.WHITE;
     int backgroundColor = 0xff212121;
     String backgroundUri = NO_URI;
+
+    boolean textureOptimizationEnabled = true;
 }

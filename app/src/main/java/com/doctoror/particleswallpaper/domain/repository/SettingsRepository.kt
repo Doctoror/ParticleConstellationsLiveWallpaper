@@ -34,4 +34,5 @@ interface SettingsRepository {
     fun getNumSamples(): Observable<Int>
     fun getParticlesColor(): Observable<Int>
     fun getStepMultiplier(): Observable<Float>
+    fun getTextureOptimizationEnabled(): Observable<Boolean>
 }
