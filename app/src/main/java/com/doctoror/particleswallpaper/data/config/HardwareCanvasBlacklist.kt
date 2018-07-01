@@ -8,6 +8,7 @@ object HardwareCanvasBlacklist {
             "gemini",
             "HWANE",
             "joan",
+            "polaris",
             "whyred"
     )
 

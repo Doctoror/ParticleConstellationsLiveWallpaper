@@ -40,6 +40,11 @@ class HardwareCanvasBlacklistTest {
     }
 
     @Test
+    fun polarisBlacklisted() {
+        assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("polaris"))
+    }
+
+    @Test
     fun whyredBlacklisted() {
         assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("whyred"))
     }
