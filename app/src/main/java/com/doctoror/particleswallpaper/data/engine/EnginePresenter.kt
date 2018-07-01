@@ -84,6 +84,7 @@ class EnginePresenter(
     private var backgroundDirty = false
     private var backgroundColorDirty = false
 
+    private var lastUsedImageLoadSettings: ImageLoadSettings? = null
     private var lastUsedImageLoadTarget: ImageLoadTarget? = null
 
     var visible = false
@@ -132,34 +133,44 @@ class EnginePresenter(
         backgroundUri = null
         background = null
         glide.clear(lastUsedImageLoadTarget)
+        lastUsedImageLoadSettings = null
         renderer.recycle()
     }
 
     private fun handleBackground(uri: String) {
-        if (backgroundUri != uri) {
-            backgroundUri = uri
-            glide.clear(lastUsedImageLoadTarget)
+        if (uri == NO_URI) {
             background = null
-            if (uri == NO_URI) {
-                lastUsedImageLoadTarget = null
-                notifyBackgroundColors()
-            } else if (width != 0 && height != 0) {
-                val target = ImageLoadTarget(width, height)
-                val targetDimensions = textureDimensionsCalculator
-                        .calculateTextureDimensions(width, height, optimizeTextures)
-
-                glide
-                        .asBitmap()
-                        .load(uri)
-                        .apply(RequestOptions.noAnimation())
-                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                        .apply(RequestOptions.skipMemoryCacheOf(true))
-                        .apply(makeTransformOptions(targetDimensions))
-                        .into(target)
-
-                lastUsedImageLoadTarget = target
+            glide.clear(lastUsedImageLoadTarget)
+            lastUsedImageLoadTarget = null
+            notifyBackgroundColors()
+        } else if (width != 0 && height != 0) {
+            val imageLoadSettings = ImageLoadSettings(width, height, optimizeTextures, uri)
+            if (lastUsedImageLoadSettings != imageLoadSettings) {
+                lastUsedImageLoadSettings = imageLoadSettings
+                loadImage(imageLoadSettings)
             }
         }
+    }
+
+    private fun loadImage(settings: ImageLoadSettings) {
+        background = null
+        glide.clear(lastUsedImageLoadTarget)
+        lastUsedImageLoadTarget = null
+
+        val target = ImageLoadTarget(settings.width, settings.height)
+        val targetDimensions = textureDimensionsCalculator
+                .calculateTextureDimensions(settings.width, settings.height, settings.optimize)
+
+        glide
+                .asBitmap()
+                .load(settings.uri)
+                .apply(RequestOptions.noAnimation())
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(makeTransformOptions(targetDimensions))
+                .into(target)
+
+        lastUsedImageLoadTarget = target
     }
 
     private fun makeTransformOptions(targetDimensions: android.util.Pair<Int, Int>) =
@@ -180,8 +191,6 @@ class EnginePresenter(
             this.width = width
             this.height = height
 
-            // Force re-apply background
-            backgroundUri = null
             handleBackground(settings.getBackgroundUri().blockingFirst())
         }
     }
@@ -232,6 +241,12 @@ class EnginePresenter(
             WallpaperColors.fromDrawable(ColorDrawable(backgroundColor))
         }
     }
+
+    private data class ImageLoadSettings(
+            val width: Int,
+            val height: Int,
+            val optimize: Boolean,
+            val uri: String)
 
     private inner class ImageLoadTarget(width: Int, height: Int)
         : SimpleTarget2<Bitmap>(width, height) {
