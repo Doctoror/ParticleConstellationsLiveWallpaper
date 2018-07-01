@@ -48,14 +48,10 @@ import android.opengl.GLSurfaceView;
 import android.service.wallpaper.WallpaperService;
 import android.view.SurfaceHolder;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GLWallpaperService extends WallpaperService {
-    public interface Renderer extends GLSurfaceView.Renderer {
-    }
 
     public class GLEngine extends WallpaperService.Engine {
         public final static int RENDERMODE_WHEN_DIRTY = 0;
