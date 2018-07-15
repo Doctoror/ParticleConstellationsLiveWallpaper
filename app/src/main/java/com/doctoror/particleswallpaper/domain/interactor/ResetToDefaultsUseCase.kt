@@ -48,6 +48,8 @@ class ResetToDefaultsUseCase @Inject constructor(
         settings.setParticlesColor(defaults.getParticlesColor().blockingFirst())
 
         settings.setStepMultiplier(defaults.getStepMultiplier().blockingFirst())
+        settings.setTextureOptimizationEnabled(
+                defaults.getTextureOptimizationEnabled().blockingFirst())
 
         backgroundImageManager.clearBackgroundImage()
     }

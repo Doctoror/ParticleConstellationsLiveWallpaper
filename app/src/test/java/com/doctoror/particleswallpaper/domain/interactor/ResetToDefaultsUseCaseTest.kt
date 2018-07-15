@@ -38,6 +38,7 @@ class ResetToDefaultsUseCaseTest {
         on(it.getNumDots()).doReturn(Observable.just(1))
         on(it.getParticlesColor()).doReturn(Observable.just(Color.WHITE))
         on(it.getStepMultiplier()).doReturn(Observable.just(1.1f))
+        on(it.getTextureOptimizationEnabled()).doReturn(Observable.just(true))
     }
 
     private val settings: MutableSettingsRepository = mock()
@@ -133,5 +134,15 @@ class ResetToDefaultsUseCaseTest {
 
         // Then
         verify(backgroundImageManager).clearBackgroundImage()
+    }
+
+    @Test
+    fun setsDefaultTextureOptimizationSettings() {
+        // When
+        underTest.useCase().test()
+
+        // Then
+        verify(settings).setTextureOptimizationEnabled(
+                defaults.getTextureOptimizationEnabled().blockingFirst())
     }
 }
