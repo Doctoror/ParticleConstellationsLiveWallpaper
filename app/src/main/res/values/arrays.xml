@@ -7,7 +7,7 @@
         <item>@string/four_x_msaa_best_appearance</item>
     </string-array>
 
-    <string-array name="num_samples_values">
+    <string-array name="num_samples_values" translatable="false">
         <item>0</item>
         <item>2</item>
         <item>4</item>
