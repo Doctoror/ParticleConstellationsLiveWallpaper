@@ -63,6 +63,8 @@
     <string name="Set">Застосувати</string>
     <string name="Not_now">Не зараз</string>
 
+    <string name="Unsupported">Не підтримується</string>
+
     <string name="Performance_tips">Підказки</string>
     <string name="performance_tips"><![CDATA[
         Налаштування присвоюються одразу, не потрібно встановлювати шпалери знову після зміни

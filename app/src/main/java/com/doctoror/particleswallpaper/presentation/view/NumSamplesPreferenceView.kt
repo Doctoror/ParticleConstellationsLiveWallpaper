@@ -17,6 +17,8 @@ package com.doctoror.particleswallpaper.presentation.view
 
 interface NumSamplesPreferenceView : MvpView {
 
+    fun setPreferenceSupported(supported: Boolean)
+
     fun setValue(value: Int)
 
     fun showRestartDialog()

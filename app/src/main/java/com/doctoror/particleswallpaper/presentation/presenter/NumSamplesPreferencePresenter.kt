@@ -15,21 +15,23 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.interactor.WallpaperCheckerUseCase
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.view.NumSamplesPreferenceView
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class NumSamplesPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
+        private val settingsDevice: SettingsRepositoryDevice,
         private val wallpaperChecker: WallpaperCheckerUseCase) : Presenter<NumSamplesPreferenceView> {
 
     private lateinit var view: NumSamplesPreferenceView
 
-    private var disposable: Disposable? = null
+    private val disposables = CompositeDisposable()
 
     override fun onTakeView(view: NumSamplesPreferenceView) {
         this.view = view
@@ -50,12 +52,18 @@ class NumSamplesPreferencePresenter @Inject constructor(
     }
 
     fun onStart() {
-        disposable = settings.getNumSamples()
+        disposables.add(settings
+                .getNumSamples()
                 .observeOn(schedulers.mainThread())
-                .subscribe(view::setValue)
+                .subscribe(view::setValue))
+
+        disposables.add(settingsDevice
+                .getMultisamplingSupported()
+                .observeOn(schedulers.mainThread())
+                .subscribe(view::setPreferenceSupported))
     }
 
     fun onStop() {
-        disposable?.dispose()
+        disposables.clear()
     }
 }

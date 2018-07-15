@@ -63,6 +63,8 @@
     <string name="Set">Применить</string>
     <string name="Not_now">Не сейчас</string>
 
+    <string name="Unsupported">Не поддерживается</string>
+
     <string name="Performance_tips">Подсказки</string>
     <string name="performance_tips"><![CDATA[
         Настройки применяются на ходу, вам не нужно устанавливать обои снова после смены

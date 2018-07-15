@@ -1,6 +1,7 @@
 package com.doctoror.particleswallpaper.presentation.presenter
 
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.domain.interactor.WallpaperCheckerUseCase
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.view.NumSamplesPreferenceView
@@ -15,6 +16,10 @@ class NumSamplesPreferencePresenterTest {
         on { it.getNumSamples() }.doReturn(Observable.just(0))
     }
 
+    private val settingsDevice: SettingsRepositoryDevice = mock {
+        on { it.getMultisamplingSupported() }.doReturn(Observable.just(false))
+    }
+
     private val wallpaperChecker: WallpaperCheckerUseCase = mock {
         on { it.useCase() }.doReturn(Single.just(false))
     }
@@ -22,7 +27,7 @@ class NumSamplesPreferencePresenterTest {
     private val view: NumSamplesPreferenceView = mock()
 
     private val underTest = NumSamplesPreferencePresenter(
-            TrampolineSchedulers(), settings, wallpaperChecker).apply {
+            TrampolineSchedulers(), settings, settingsDevice, wallpaperChecker).apply {
         onTakeView(view)
     }
 
@@ -37,6 +42,19 @@ class NumSamplesPreferencePresenterTest {
 
         // Then
         verify(view).setValue(value)
+    }
+
+    @Test
+    fun loadsSupportedStateAndSetsToView() {
+        // Given
+        val value = true
+        whenever(settingsDevice.getMultisamplingSupported()).thenReturn(Observable.just(value))
+
+        // When
+        underTest.onStart()
+
+        // Then
+        verify(view).setPreferenceSupported(value)
     }
 
     @Test

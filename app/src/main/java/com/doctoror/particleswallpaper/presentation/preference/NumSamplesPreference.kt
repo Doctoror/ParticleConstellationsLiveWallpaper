@@ -22,6 +22,7 @@ import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.preference.ListPreference
 import android.util.AttributeSet
+import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
 import com.doctoror.particleswallpaper.presentation.dialogs.MultisamplingRestartDialog
@@ -36,6 +37,8 @@ class NumSamplesPreference @JvmOverloads constructor(context: Context, attrs: At
 
     @Inject
     lateinit var presenter: NumSamplesPreferencePresenter
+
+    private var supported = true;
 
     init {
         DaggerPreferenceComponent.builder()
@@ -65,14 +68,24 @@ class NumSamplesPreference @JvmOverloads constructor(context: Context, attrs: At
         presenter.onStop()
     }
 
+    override fun setPreferenceSupported(supported: Boolean) {
+        this.supported = supported
+        applySummary()
+        isEnabled = supported
+    }
+
     override fun setValue(value: Int) {
         setValue(value.toString())
-        summary = entry
+        applySummary()
     }
 
     override fun showRestartDialog() {
         fragment?.let {
             MultisamplingRestartDialog().show(it.fragmentManager, "MultisamplingRestartDialog")
         }
+    }
+
+    private fun applySummary() {
+        summary = if (supported) entry else context.getText(R.string.Unsupported)
     }
 }

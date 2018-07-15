@@ -63,6 +63,8 @@
     <string name="Set">Set</string>
     <string name="Not_now">Not now</string>
 
+    <string name="Unsupported">Unsupported</string>
+
     <string name="Performance_tips">Performance tips</string>
     <string name="performance_tips"><![CDATA[
         Settings apply on-the-fly, no need to set wallpaper again after changing

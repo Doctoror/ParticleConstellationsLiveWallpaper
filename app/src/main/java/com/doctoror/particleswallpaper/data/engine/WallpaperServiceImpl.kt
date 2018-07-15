@@ -27,6 +27,7 @@ import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
@@ -56,6 +57,9 @@ class WallpaperServiceImpl : GLWallpaperService() {
 
     @Inject
     lateinit var settings: SettingsRepository
+
+    @Inject
+    lateinit var settingsDevice: SettingsRepositoryDevice
 
     private val textureDimensionsCalculator = TextureDimensionsCalculator()
 
@@ -99,8 +103,16 @@ class WallpaperServiceImpl : GLWallpaperService() {
         lateinit var presenter: EnginePresenter
 
         init {
-            if (samples != 0) {
-                setEGLConfigChooser(MultisampleConfigChooser(samples))
+            if (samples != 0 && settingsDevice.getMultisamplingSupported().blockingFirst()) {
+                setEGLConfigChooser(MultisampleConfigChooser(
+                        samples,
+                        MultisampleConfigChooser.Callback {
+                            // When multisampling requested as 4, it means both 4 and 2 are not supported.
+                            // Only then we want to mark this as unsupported.
+                            if (samples == 4 && it == 0)
+                                settingsDevice.setMultisamplingSupported(false)
+                        })
+                )
             }
             setEGLContextClientVersion(2)
             setRenderer(this)

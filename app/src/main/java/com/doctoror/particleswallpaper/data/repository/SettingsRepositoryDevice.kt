@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.data.repository
 
 import com.doctoror.particleswallpaper.data.prefs.DevicePrefs
+import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
 class SettingsRepositoryDevice(private val prefs: DevicePrefs) {
@@ -26,7 +27,7 @@ class SettingsRepositoryDevice(private val prefs: DevicePrefs) {
         multisamplingSupportedSubject.onNext(prefs.isMultisamplingSupported)
     }
 
-    fun getMultisamplingSupported() = multisamplingSupportedSubject
+    fun getMultisamplingSupported(): Observable<Boolean> = multisamplingSupportedSubject
 
     fun setMultisamplingSupported(multisamplingSupported: Boolean) {
         prefs.isMultisamplingSupported = multisamplingSupported
