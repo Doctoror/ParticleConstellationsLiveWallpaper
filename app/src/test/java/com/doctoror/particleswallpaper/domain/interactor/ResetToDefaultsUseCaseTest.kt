@@ -36,6 +36,7 @@ class ResetToDefaultsUseCaseTest {
         on(it.getLineDistance()).doReturn(Observable.just(86f))
         on(it.getLineScale()).doReturn(Observable.just(1.1f))
         on(it.getNumDots()).doReturn(Observable.just(1))
+        on(it.getNumSamples()).doReturn(Observable.just(1))
         on(it.getParticlesColor()).doReturn(Observable.just(Color.WHITE))
         on(it.getStepMultiplier()).doReturn(Observable.just(1.1f))
         on(it.getTextureOptimizationEnabled()).doReturn(Observable.just(true))
@@ -107,6 +108,15 @@ class ResetToDefaultsUseCaseTest {
 
         // Then
         verify(settings).setNumDots(defaults.getNumDots().blockingFirst())
+    }
+
+    @Test
+    fun setsDefaultNumSamples() {
+        // When
+        underTest.useCase().test()
+
+        // Then
+        verify(settings).setNumSamples(defaults.getNumSamples().blockingFirst())
     }
 
     @Test

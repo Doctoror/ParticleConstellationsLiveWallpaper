@@ -45,6 +45,7 @@ class ResetToDefaultsUseCase @Inject constructor(
         settings.setLineScale(defaults.getLineScale().blockingFirst())
 
         settings.setNumDots(defaults.getNumDots().blockingFirst())
+        settings.setNumSamples(defaults.getNumSamples().blockingFirst())
         settings.setParticlesColor(defaults.getParticlesColor().blockingFirst())
 
         settings.setStepMultiplier(defaults.getStepMultiplier().blockingFirst())
