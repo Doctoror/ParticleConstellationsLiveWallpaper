@@ -28,5 +28,6 @@ object HardwareCanvasBlacklist {
             "ysl"
     )
 
-    fun isNotBlacklistedForLockHardwareCanvas(device: String) = !blackList.contains(device)
+    fun isBlacklistedForLockHardwareCanvas(device: String, product: String) =
+            blackList.contains(device) || blackList.contains(product)
 }

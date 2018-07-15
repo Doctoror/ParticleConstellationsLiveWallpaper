@@ -11,51 +11,13 @@ class HardwareCanvasBlacklistTest {
 
     @Test
     fun randomDeviceNotBlacklisted() {
-        assertTrue(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("hammerhead"))
+        assertFalse(HardwareCanvasBlacklist.isBlacklistedForLockHardwareCanvas(
+                "hammerhead", "hammerhead"))
     }
 
     @Test
     fun bullheadBlacklisted() {
-        assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("bullhead"))
-    }
-
-    @Test
-    fun dreamlteBlacklisted() {
-        assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("dreamlte"))
-    }
-
-    @Test
-    fun geminiBlacklisted() {
-        assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("gemini"))
-    }
-
-    @Test
-    fun hwaneBlacklisted() {
-        assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("HWANE"))
-    }
-
-    @Test
-    fun hwcmr09Blacklisted() {
-        assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("HWCMR09"))
-    }
-
-    @Test
-    fun joanBlacklisted() {
-        assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("joan"))
-    }
-
-    @Test
-    fun polarisBlacklisted() {
-        assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("polaris"))
-    }
-
-    @Test
-    fun wayneBlacklisted() {
-        assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("wayne"))
-    }
-
-    @Test
-    fun whyredBlacklisted() {
-        assertFalse(HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas("whyred"))
+        assertTrue(HardwareCanvasBlacklist.isBlacklistedForLockHardwareCanvas(
+                "bullhead", "bullhead"))
     }
 }

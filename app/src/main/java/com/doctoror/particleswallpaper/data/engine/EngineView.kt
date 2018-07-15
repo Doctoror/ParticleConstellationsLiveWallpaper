@@ -138,5 +138,5 @@ class EngineView(private val surfaceHolderProvider: SurfaceHolderProvider) {
             }
 
     private fun canLockHardwareCanvas() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-            HardwareCanvasBlacklist.isNotBlacklistedForLockHardwareCanvas(Build.DEVICE)
+            !HardwareCanvasBlacklist.isBlacklistedForLockHardwareCanvas(Build.DEVICE, Build.PRODUCT)
 }
