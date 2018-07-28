@@ -117,7 +117,7 @@ open class ConfigActivityPresenter(
             val target = ImageLoadTarget(bg, color)
             requestManager.load(uri)
                     .apply(RequestOptions.noAnimation())
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE))
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.centerCropTransform())
                     .listener(object : RequestListener<Drawable> {
