@@ -20,6 +20,7 @@ import android.content.*
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
+import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
@@ -50,6 +51,7 @@ class BackgroundImagePreferencePresenterTest {
     }
 
     private val context: Context = mock()
+    private val glide: Glide = mock()
     private val pickImageGetContentUseCase: PickImageGetContentUseCase = mock()
     private val pickImageDocumentUseCase: PickImageDocumentUseCase = mock()
     private val settings: MutableSettingsRepository = mock()
@@ -62,6 +64,7 @@ class BackgroundImagePreferencePresenterTest {
     private fun newBackgrodundImagePreferencePresenter() = BackgroundImagePreferencePresenter(
             apiLevelProvider,
             context,
+            glide,
             pickImageGetContentUseCase,
             pickImageDocumentUseCase,
             TrampolineSchedulers(),
@@ -136,6 +139,15 @@ class BackgroundImagePreferencePresenterTest {
 
         // Then
         verify(backgroundImageManager).clearBackgroundImage()
+    }
+
+    @Test
+    fun clearsGlideMemoryOnClearBackgroundImage() {
+        // When
+        underTest.clearBackground()
+
+        // Then
+        verify(glide).clearMemory()
     }
 
     @Test
@@ -276,6 +288,21 @@ class BackgroundImagePreferencePresenterTest {
         underTest.pickBackground()
 
         // Then RuntimeException is not propagated
+    }
+
+    @Test
+    fun clearsGlideMemoryOnImageResult() {
+        // Given
+        val callback = setHostAndExtractOnActivityResultCallback()
+        val uri = Uri.parse("content://shit")
+
+        // When
+        callback.onActivityResult(REQUEST_CODE_OPEN_DOCUMENT, Activity.RESULT_OK, Intent().apply {
+            data = uri
+        })
+
+        // Then
+        verify(glide).clearMemory()
     }
 
     @Test

@@ -27,6 +27,7 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.Log
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
@@ -56,6 +57,7 @@ import javax.inject.Inject
 class BackgroundImagePreferencePresenter @Inject constructor(
         apiLevelProvider: ApiLevelProvider,
         private val context: Context,
+        private val glide: Glide,
         private val pickImageGetContentUseCase: PickImageGetContentUseCase,
         private val pickImageDocumentUseCase: PickImageDocumentUseCase,
         private val schedulers: SchedulersProvider,
@@ -103,6 +105,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
 
     fun clearBackground() {
         imageHandler.clearBackground()
+        glide.clearMemory()
     }
 
     fun pickBackground() {
@@ -120,6 +123,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
                         if (uri == null) {
                             Log.w(tag, "onActivityResult(), data uri is null")
                         } else {
+                            glide.clearMemory()
                             imageHandler.onActivityResultAvailable(requestCode, uri)
                         }
                     }
