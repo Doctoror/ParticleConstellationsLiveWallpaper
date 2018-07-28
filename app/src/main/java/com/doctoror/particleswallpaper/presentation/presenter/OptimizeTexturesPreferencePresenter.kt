@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
+import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
@@ -24,6 +25,7 @@ import javax.inject.Inject
 
 @PerPreference
 class OptimizeTexturesPreferencePresenter @Inject constructor(
+        private val glide: Glide,
         private val settings: MutableSettingsRepository,
         private val schedulers: SchedulersProvider
 ) : Presenter<OptimizeTexturesView> {
@@ -49,5 +51,6 @@ class OptimizeTexturesPreferencePresenter @Inject constructor(
 
     fun onValueChanged(value: Boolean) {
         settings.setTextureOptimizationEnabled(value)
+        glide.clearMemory()
     }
 }

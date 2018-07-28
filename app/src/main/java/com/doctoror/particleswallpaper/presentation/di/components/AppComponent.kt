@@ -17,6 +17,7 @@ package com.doctoror.particleswallpaper.presentation.di.components
 
 import android.content.Context
 import android.content.pm.PackageManager
+import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
@@ -46,6 +47,8 @@ interface AppComponent : AndroidInjector<ApplicationlessInjection> {
 
     fun exposeBackgroundImageManager(): BackgroundImageManager
     fun exposeContext(): Context
+
+    fun exposeGlide(): Glide
 
     @Default
     fun exposeDefaultSettings(): SettingsRepository

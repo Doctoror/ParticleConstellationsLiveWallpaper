@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
+import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.view.OptimizeTexturesView
@@ -26,10 +27,12 @@ import org.junit.jupiter.api.Test
 
 class OptimizeTexturesPreferencePresenterTest {
 
+    private val glide: Glide = mock()
     private val settings: MutableSettingsRepository = mock()
     private val view: OptimizeTexturesView = mock()
 
     private val underTest = OptimizeTexturesPreferencePresenter(
+            glide,
             settings,
             TrampolineSchedulers()
     ).apply {
@@ -55,5 +58,14 @@ class OptimizeTexturesPreferencePresenterTest {
 
         // Then
         verify(settings).setTextureOptimizationEnabled(true)
+    }
+
+    @Test
+    fun clearsGlideCacheOnValueChange() {
+        // When
+        underTest.onValueChanged(false)
+
+        // Then
+        verify(glide).clearMemory()
     }
 }

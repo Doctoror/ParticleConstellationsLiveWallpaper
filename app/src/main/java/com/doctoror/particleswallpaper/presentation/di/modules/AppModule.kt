@@ -17,6 +17,7 @@ package com.doctoror.particleswallpaper.presentation.di.modules
 
 import android.content.Context
 import android.content.pm.PackageManager
+import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.data.execution.SchedulersProviderImpl
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
@@ -30,6 +31,9 @@ class AppModule(private val context: Context) {
     @Singleton
     @Provides
     fun provideContext() = context
+
+    @Provides
+    fun provideGlide() = Glide.get(context)
 
     @Singleton
     @Provides
