@@ -68,6 +68,19 @@ class FrameDelayPreferencePresenterTest {
     }
 
     @Test
+    fun updatesFrameRateOnStart() {
+        // Given
+        val frameDelay = 16
+        whenever(settings.getFrameDelay()).thenReturn(Observable.just(frameDelay))
+
+        // When
+        underTest.onStart()
+
+        // Then
+        verify(view).setFrameRate(60)
+    }
+
+    @Test
     fun doesNotSetFrameDelayAfterOnStop() {
         // Given
         val frameDelaySource = PublishSubject.create<Int>()
@@ -85,13 +98,25 @@ class FrameDelayPreferencePresenterTest {
     @Test
     fun storesFrameDelayOnChange() {
         // Given
-        val progress = 80
+        val progress = 25
 
         // When
         underTest.onPreferenceChange(progress)
 
         // Then
         verify(settings).setFrameDelay(transformToRealValue(progress))
+    }
+
+    @Test
+    fun notifiesFrameRateOnChange() {
+        // Given
+        val progress = 25
+
+        // When
+        underTest.onPreferenceChange(progress)
+
+        // Then
+        verify(view).setFrameRate(60)
     }
 
     private fun transformToProgress(value: Int): Int {
