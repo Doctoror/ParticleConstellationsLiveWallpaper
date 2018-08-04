@@ -19,7 +19,7 @@ import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
+import com.doctoror.particleswallpaper.presentation.view.FrameDelayPreferenceView
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
@@ -31,17 +31,17 @@ import javax.inject.Inject
 @PerPreference
 class FrameDelayPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
-        private val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
+        private val settings: MutableSettingsRepository) : Presenter<FrameDelayPreferenceView>,
         MapperSeekBarPresenter<Int> {
 
-    private lateinit var view: SeekBarPreferenceView
+    private lateinit var view: FrameDelayPreferenceView
 
-    private val frameDelaySeekbarMin = 10
-    private val seekbarMax = 80
+    private val frameDelaySeekbarMin = 16
+    private val seekbarMax = 25
 
     private var disposable: Disposable? = null
 
-    override fun onTakeView(view: SeekBarPreferenceView) {
+    override fun onTakeView(view: FrameDelayPreferenceView) {
         view.setMaxInt(seekbarMax)
         this.view = view
     }
@@ -50,17 +50,28 @@ class FrameDelayPreferencePresenter @Inject constructor(
         if (v != null) {
             val value = transformToRealValue(v)
             settings.setFrameDelay(value)
+            view.setFrameRate(transformToFrameRate(value))
         }
     }
 
     fun onStart() {
         disposable = settings.getFrameDelay()
                 .observeOn(schedulers.mainThread())
-                .subscribe { view.setProgressInt(transformToProgress(it)) }
+                .subscribe {
+                    val progress = transformToProgress(it)
+                    view.setProgressInt(progress)
+                    view.setFrameRate(transformToFrameRate(transformToRealValue(progress)))
+                }
     }
 
     fun onStop() {
         disposable?.dispose()
+    }
+
+    private fun transformToFrameRate(value: Int) = if (value == 0) {
+        60
+    } else {
+        Math.min(1000 / value, 60)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
@@ -70,12 +81,18 @@ class FrameDelayPreferencePresenter @Inject constructor(
      * The seek bar represents frame rate as percentage.
      * Converts the seek bar value between 0 and 30 to percent and then the percentage to a
      * frame delay, where
-     * 10 ms = 100%
-     * 40 ms = 0%
+     * 16 ms = 100%
+     * 41 ms = 0%
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    override fun transformToRealValue(progress: Int) = (frameDelaySeekbarMin.toFloat()
-            + view.getMaxInt().toFloat() * (1f - progress.toFloat() / view.getMaxInt().toFloat())).toInt()
+    override fun transformToRealValue(progress: Int): Int {
+        var value = (frameDelaySeekbarMin.toFloat() + view.getMaxInt().toFloat() *
+                (1f - progress.toFloat() / view.getMaxInt().toFloat())).toInt()
+        if (value <= 16) {
+            value = 0
+        }
+        return value
+    }
 
     /**
      * Converts frame delay to seek bar frame rate.
@@ -83,6 +100,9 @@ class FrameDelayPreferencePresenter @Inject constructor(
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     override fun transformToProgress(value: Int): Int {
+        if (value == 0) {
+            return seekbarMax
+        }
         val percent = (value.toFloat() - frameDelaySeekbarMin.toFloat()) / view.getMaxInt().toFloat()
         return ((1f - percent) * view.getMaxInt().toFloat()).toInt()
     }

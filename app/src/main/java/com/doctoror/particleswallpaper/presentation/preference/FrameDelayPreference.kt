@@ -20,10 +20,11 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
+import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
 import com.doctoror.particleswallpaper.presentation.presenter.FrameDelayPreferencePresenter
-import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
+import com.doctoror.particleswallpaper.presentation.view.FrameDelayPreferenceView
 import javax.inject.Inject
 
 /**
@@ -34,7 +35,7 @@ import javax.inject.Inject
 class FrameDelayPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : SeekBarPreference(context, attrs, defStyle),
-        SeekBarPreferenceView,
+        FrameDelayPreferenceView,
         LifecycleObserver {
 
     @Inject
@@ -71,6 +72,10 @@ class FrameDelayPreference @JvmOverloads constructor
 
     override fun setProgressInt(progress: Int) {
         this.progress = progress
+    }
+
+    override fun setFrameRate(frameRate: Int) {
+        summary = context.getString(R.string._FPS, frameRate)
     }
 
     override fun getMaxInt() = max

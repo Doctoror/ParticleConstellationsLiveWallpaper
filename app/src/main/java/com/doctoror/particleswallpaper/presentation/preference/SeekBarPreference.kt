@@ -62,8 +62,6 @@ open class SeekBarPreference @JvmOverloads constructor
         seekBar.isEnabled = isEnabled
     }
 
-    override fun getSummary(): CharSequence? = null
-
     override fun onSetInitialValue(restoreValue: Boolean, defaultValue: Any?) {
         progress = when {
             restoreValue -> getPersistedInt(mProgress)

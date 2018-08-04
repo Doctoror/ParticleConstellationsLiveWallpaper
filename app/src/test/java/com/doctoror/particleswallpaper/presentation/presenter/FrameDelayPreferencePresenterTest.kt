@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.presentation.presenter
 
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
-import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
+import com.doctoror.particleswallpaper.presentation.view.FrameDelayPreferenceView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -26,12 +26,12 @@ import org.junit.jupiter.api.Test
 
 class FrameDelayPreferencePresenterTest {
 
-    private val frameDelaySeekbarMin = 10
+    private val frameDelaySeekbarMin = 16
 
     private val settings: MutableSettingsRepository = mock()
 
-    private val view: SeekBarPreferenceView = mock {
-        on(it.getMaxInt()).doReturn(80)
+    private val view: FrameDelayPreferenceView = mock {
+        on(it.getMaxInt()).doReturn(25)
     }
 
     private val underTest = FrameDelayPreferencePresenter(TrampolineSchedulers(), settings).apply {
@@ -45,18 +45,18 @@ class FrameDelayPreferencePresenterTest {
 
     @Test
     fun testMinValue() {
-        assertEquals(frameDelaySeekbarMin, transformToRealValue(underTest.getSeekbarMax()))
+        assertEquals(0, transformToRealValue(underTest.getSeekbarMax()))
     }
 
     @Test
     fun setsMaxValueOnTakeView() {
-        verify(view).setMaxInt(80)
+        verify(view).setMaxInt(25)
     }
 
     @Test
     fun setsFrameDelayOnStart() {
         // Given
-        val frameDelay = 9
+        val frameDelay = 16
         whenever(settings.getFrameDelay()).thenReturn(Observable.just(frameDelay))
 
         // When
@@ -99,6 +99,12 @@ class FrameDelayPreferencePresenterTest {
         return ((1f - percent) * view.getMaxInt().toFloat()).toInt()
     }
 
-    private fun transformToRealValue(progress: Int) = (frameDelaySeekbarMin.toFloat()
-            + view.getMaxInt().toFloat() * (1f - progress.toFloat() / view.getMaxInt().toFloat())).toInt()
+    private fun transformToRealValue(progress: Int): Int {
+        var value = (frameDelaySeekbarMin.toFloat() + view.getMaxInt().toFloat() *
+                (1f - progress.toFloat() / view.getMaxInt().toFloat())).toInt()
+        if (value <= 16) {
+            value = 0
+        }
+        return value
+    }
 }

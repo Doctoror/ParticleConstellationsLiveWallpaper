@@ -93,4 +93,6 @@
         launcher on the Internet.
     ]]></string>
 
+    <string name="_FPS">%1$d FPS</string>
+
 </resources>
