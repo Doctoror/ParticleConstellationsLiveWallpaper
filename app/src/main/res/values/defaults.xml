@@ -4,7 +4,7 @@
     <color name="defaultBackground">#212121</color>
     <color name="defaultParticlesColor">@android:color/white</color>
 
-    <integer name="defaultFrameDelay">15</integer>
+    <integer name="defaultFrameDelay">0</integer>
     <item type="dimen" format="float" name="defaultStepMultiplier">0.7</item>
 
     <integer name="default_density">60</integer>
