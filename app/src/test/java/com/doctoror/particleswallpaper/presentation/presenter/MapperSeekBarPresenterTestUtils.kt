@@ -9,12 +9,12 @@ fun <T> testMapper(p: MapperSeekBarPresenter<T>) {
 
 private fun <T> testMapperMinValue(p: MapperSeekBarPresenter<T>) {
     val seekBarValue = 0
-    val frameDelay = p.transformToRealValue(seekBarValue)
-    assertEquals(seekBarValue, p.transformToProgress(frameDelay))
+    val realValue = p.transformToRealValue(seekBarValue)
+    assertEquals(seekBarValue, p.transformToProgress(realValue))
 }
 
 private fun <T> testMapperMaxValue(p: MapperSeekBarPresenter<T>) {
     val seekBarValue = p.getSeekbarMax()
-    val frameDelay = p.transformToRealValue(seekBarValue)
-    assertEquals(seekBarValue, p.transformToProgress(frameDelay))
+    val realValue = p.transformToRealValue(seekBarValue)
+    assertEquals(seekBarValue, p.transformToProgress(realValue))
 }
