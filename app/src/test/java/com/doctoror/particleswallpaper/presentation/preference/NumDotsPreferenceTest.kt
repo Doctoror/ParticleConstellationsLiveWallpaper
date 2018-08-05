@@ -75,4 +75,16 @@ class NumDotsPreferenceTest {
         // Then
         assertEquals(underTest.progress, progress)
     }
+
+    @Test
+    fun setsSummary() {
+        // Given
+        val progress = 3
+
+        // When
+        underTest.setProgressInt(progress)
+
+        // Then
+        assertEquals(underTest.summary, (progress + 1).toString())
+    }
 }
