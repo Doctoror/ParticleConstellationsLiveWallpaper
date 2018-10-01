@@ -1,8 +1,11 @@
 package com.doctoror.particleswallpaper.presentation
 
 import android.app.Application
+import android.os.Looper
 import android.os.StrictMode
 import com.doctoror.particleswallpaper.BuildConfig
+import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 /**
  * Created by Yaroslav Mytkalyk on 01.06.17.
@@ -14,6 +17,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         initStrictMode()
+        initAsyncScheduler()
     }
 
     private fun initStrictMode() {
@@ -27,6 +31,12 @@ class App : Application() {
                     .detectAll()
                     .penaltyLog()
                     .build())
+        }
+    }
+
+    private fun initAsyncScheduler() {
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler {
+            AndroidSchedulers.from(Looper.getMainLooper(), true)
         }
     }
 }
