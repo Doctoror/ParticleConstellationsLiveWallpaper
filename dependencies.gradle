@@ -15,7 +15,7 @@ ext {
 
     //Libraries
     kotlin_version = rootProject.ext.kotlin_version
-    rxJavaVersion = '2.1.17'
+    rxJavaVersion = '2.2.2'
     rxAndroidVersion = '2.0.2'
 
     daggerVersion = '2.17'
