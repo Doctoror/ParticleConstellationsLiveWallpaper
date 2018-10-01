@@ -35,7 +35,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.ParticlesDrawable
@@ -44,6 +43,7 @@ import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
+import com.doctoror.particleswallpaper.presentation.base.SimpleTarget2
 import com.doctoror.particleswallpaper.presentation.extensions.removeOnGlobalLayoutListenerCompat
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
 import com.doctoror.particleswallpaper.presentation.presenter.Presenter
@@ -187,10 +187,15 @@ open class ConfigActivityPresenter(
 
     private inner class ImageLoadTarget(private val target: ImageView,
                                         @ColorInt private val bgColor: Int)
-        : SimpleTarget<Drawable>(target.width, target.height) {
+        : SimpleTarget2<Drawable>(target.width, target.height) {
 
         override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
             applyBackground(target, resource, bgColor)
+        }
+
+        override fun onLoadCleared(placeholder: Drawable?) {
+            // Should not clear background here, as we cannot now if the clear has happened before
+            // or after new request is finished.
         }
     }
 }

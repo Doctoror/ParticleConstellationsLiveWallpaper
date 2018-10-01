@@ -29,13 +29,13 @@ import android.support.annotation.VisibleForTesting
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.presentation.base.SimpleTarget2
 import io.reactivex.disposables.CompositeDisposable
 
 class EnginePresenter(
@@ -187,7 +187,7 @@ class EnginePresenter(
     }
 
     private inner class ImageLoadTarget(private val width: Int, private val height: Int)
-        : SimpleTarget<Drawable>(width, height) {
+        : SimpleTarget2<Drawable>(width, height) {
 
         override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
             resource.setBounds(0, 0, width, height)
@@ -203,6 +203,11 @@ class EnginePresenter(
             }
             view.background = resource
             notifyBackgroundColors()
+        }
+
+        override fun onLoadCleared(placeholder: Drawable?) {
+            // Should not clear background here, as we cannot now if the clear has happened before
+            // or after new request is finished.
         }
     }
 }
