@@ -76,6 +76,7 @@ android {
 
     lintOptions {
         checkAllWarnings true
+        ignore "AppCompatResource"
     }
 }
 
