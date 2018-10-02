@@ -11,7 +11,7 @@ ext {
     androidBuildToolsVersion = "28.0.3"
     androidMinSdkVersion = 14
     androidTargetSdkVersion = 27
-    androidCompileSdkVersion = 27
+    androidCompileSdkVersion = 28
 
     //Libraries
     kotlin_version = rootProject.ext.kotlin_version
