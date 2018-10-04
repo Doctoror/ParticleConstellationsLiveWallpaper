@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.preference.PreferenceGroup
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.doctoror.particleswallpaper.BuildConfig
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
@@ -51,9 +52,25 @@ constructor(private val ch: OnActivityResultCallbackHostImpl = OnActivityResultC
 
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.prefs)
+        hideOpenGlPreferencesIfApplicable()
         hidePreviewPreferenceIfCannotStartPreview()
         forEachFragmentHolder(preferenceScreen) { it.fragment = this }
         forEachLifecycleObserver(preferenceScreen) { lifecycle.addObserver(it) }
+    }
+
+    private fun hideOpenGlPreferencesIfApplicable() {
+        if (!BuildConfig.OPEN_GL_VARIANT) {
+            val group = findPreference(getString(R.string.pref_key_performance))
+            if (group is PreferenceGroup) {
+                group.findPreference(getString(R.string.pref_key_num_samples))?.let {
+                    group.removePreference(it)
+                }
+
+                findPreference(getString(R.string.pref_key_optimize_textures))?.let {
+                    group.removePreference(it)
+                }
+            }
+        }
     }
 
     private fun hidePreviewPreferenceIfCannotStartPreview() {
