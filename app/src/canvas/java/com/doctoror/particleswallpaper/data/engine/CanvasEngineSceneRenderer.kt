@@ -26,19 +26,17 @@ class CanvasEngineSceneRenderer(
 
     private val backgroundPaint = Paint()
 
-    private var background: Drawable? = null
+    private var width = 0
+    private var height = 0
 
+    @JvmField // Optimize to avoid getter invocation in onDraw
+    @VisibleForTesting
+    var background: Drawable? = null
+
+    @JvmField // Optimize to avoid getter invocation in onDraw
     var surfaceHolderProvider: SurfaceHolderProvider? = null
 
-    @VisibleForTesting
-    var width = 0
-        private set
-
-    @VisibleForTesting
-    var height = 0
-        private set
-
-    @JvmField
+    @JvmField // Optimize to avoid getter invocation in onDraw
     @VisibleForTesting
     var surfaceHolder: SurfaceHolder? = null
 
@@ -77,6 +75,7 @@ class CanvasEngineSceneRenderer(
     }
 
     override fun recycle() {
+        surfaceHolder = null
         background = null
     }
 
