@@ -75,7 +75,7 @@ class WallpaperServiceImpl : GLWallpaperService() {
         val scene = ParticlesScene()
         val renderer = GlSceneRenderer()
         val engine = EngineImpl(renderer, settings.getNumSamples().blockingFirst())
-        val scenePresenter = ScenePresenter(scene, renderer, engine)
+        val scenePresenter = ScenePresenter(scene, engine, renderer)
 
         engine.presenter = EnginePresenter(
                 apiLevelProvider,
