@@ -66,7 +66,9 @@ class CommonCanvasSceneRenderer(
         background = if (texture == null) {
             null
         } else {
-            BitmapDrawable(resources, texture)
+            BitmapDrawable(resources, texture).apply {
+                setBounds(0, 0, width, height)
+            }
         }
     }
 
@@ -105,14 +107,16 @@ class CommonCanvasSceneRenderer(
         }
     }
 
-    private fun canLockHardwareCanvas() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+    // Inline for avoiding extra method call in draw
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun canLockHardwareCanvas() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
             !HardwareCanvasBlacklist.isBlacklistedForLockHardwareCanvas(Build.DEVICE, Build.PRODUCT)
 
     // Inline for avoiding extra method call in draw
     @Suppress("NOTHING_TO_INLINE")
     private inline fun drawBackground(c: Canvas) {
         val background = background
-        if (background == null) {
+        if (background == null || isBackgroundRecycled()) {
             drawBackgroundColor(c)
         } else {
             if (background is BitmapDrawable) {
@@ -126,6 +130,19 @@ class CommonCanvasSceneRenderer(
         }
     }
 
+    // Inline for avoiding extra method call in draw
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun isBackgroundRecycled(): Boolean {
+        val background = background
+        return if (background is BitmapDrawable) {
+            background.bitmap?.isRecycled ?: false
+        } else {
+            false
+        }
+    }
+
+    // Inline for avoiding extra method call in draw
+    @Suppress("NOTHING_TO_INLINE")
     private fun drawBackgroundColor(c: Canvas) {
         c.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
     }
