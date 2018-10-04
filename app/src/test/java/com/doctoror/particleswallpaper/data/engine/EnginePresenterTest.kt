@@ -51,7 +51,7 @@ class EnginePresenterTest {
     private val configurator: SceneConfigurator = mock()
     private val controller: EngineController = mock()
     private val glide: RequestManager = spy(Glide.with(RuntimeEnvironment.application))
-    private val renderer: CommonSceneRenderer = mock()
+    private val renderer: EngineSceneRenderer = mock()
     private val settings: SettingsRepository = mock()
     private val settingsOpenGL: SettingsRepositoryOpenGL = mock()
     private val scene: ParticlesScene = mock()

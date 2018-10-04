@@ -63,7 +63,7 @@ class WallpaperServiceImpl : WallpaperService() {
 
     override fun onCreateEngine(): Engine {
         val scene = ParticlesScene()
-        val renderer = CommonCanvasSceneRenderer(CanvasSceneRenderer(), resources)
+        val renderer = CanvasEngineSceneRenderer(CanvasSceneRenderer(), resources)
         val engine = EngineImpl(renderer)
         renderer.surfaceHolderProvider = engine
         val scenePresenter = ScenePresenter(scene, engine, renderer)
@@ -85,7 +85,7 @@ class WallpaperServiceImpl : WallpaperService() {
         return engine
     }
 
-    inner class EngineImpl(private val renderer: CommonCanvasSceneRenderer) :
+    inner class EngineImpl(private val renderer: CanvasEngineSceneRenderer) :
             Engine(), EngineController, SceneScheduler, SurfaceHolderProvider {
 
         private val handler = Handler()

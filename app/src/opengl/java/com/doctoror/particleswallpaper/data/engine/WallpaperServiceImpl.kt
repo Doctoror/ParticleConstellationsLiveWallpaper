@@ -71,7 +71,7 @@ class WallpaperServiceImpl : GLWallpaperService() {
 
     override fun onCreateEngine(): Engine {
         val scene = ParticlesScene()
-        val renderer = CommonGlSceneRenderer()
+        val renderer = GlEngineSceneRenderer()
         val engine = EngineImpl(renderer, settingsOpenGL.observeNumSamples().blockingFirst())
         val scenePresenter = ScenePresenter(scene, engine, renderer)
 

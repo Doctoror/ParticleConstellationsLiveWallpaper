@@ -47,7 +47,7 @@ class EnginePresenter(
         private val controller: EngineController,
         private val glScheduler: Scheduler,
         private val glide: RequestManager,
-        private val renderer: CommonSceneRenderer,
+        private val renderer: EngineSceneRenderer,
         private val schedulers: SchedulersProvider,
         private val settings: SettingsRepository,
         private val settingsOpenGL: SettingsRepositoryOpenGL,

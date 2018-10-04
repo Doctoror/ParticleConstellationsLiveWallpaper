@@ -17,10 +17,10 @@ import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer
 import com.doctoror.particleswallpaper.data.config.HardwareCanvasBlacklist
 
-class CommonCanvasSceneRenderer(
+class CanvasEngineSceneRenderer(
         private val canvasSceneRenderer: CanvasSceneRenderer,
         private val resources: Resources
-) : DefaultSceneRenderer(canvasSceneRenderer), CommonSceneRenderer {
+) : DefaultSceneRenderer(canvasSceneRenderer), EngineSceneRenderer {
 
     private val tag = "EngineView"
 
