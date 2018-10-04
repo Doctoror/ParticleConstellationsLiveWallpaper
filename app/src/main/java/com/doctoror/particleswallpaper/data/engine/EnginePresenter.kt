@@ -30,7 +30,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
-import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
@@ -48,7 +47,7 @@ class EnginePresenter(
         private val controller: EngineController,
         private val glScheduler: Scheduler,
         private val glide: RequestManager,
-        private val renderer: GlSceneRenderer,
+        private val renderer: CommonSceneRenderer,
         private val schedulers: SchedulersProvider,
         private val settings: SettingsRepository,
         private val settingsOpenGL: SettingsRepositoryOpenGL,

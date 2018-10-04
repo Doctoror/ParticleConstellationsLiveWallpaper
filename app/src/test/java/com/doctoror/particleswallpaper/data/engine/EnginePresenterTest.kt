@@ -23,7 +23,6 @@ import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
-import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
@@ -52,7 +51,7 @@ class EnginePresenterTest {
     private val configurator: SceneConfigurator = mock()
     private val controller: EngineController = mock()
     private val glide: RequestManager = spy(Glide.with(RuntimeEnvironment.application))
-    private val renderer: GlSceneRenderer = mock()
+    private val renderer: CommonSceneRenderer = mock()
     private val settings: SettingsRepository = mock()
     private val settingsOpenGL: SettingsRepositoryOpenGL = mock()
     private val scene: ParticlesScene = mock()
