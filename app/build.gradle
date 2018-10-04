@@ -41,6 +41,18 @@ android {
         }
     }
 
+    flavorDimensions 'default'
+
+    productFlavors {
+        canvas {
+            
+        }
+
+        opengl {
+
+        }
+    }
+
     buildTypes {
 
         debug {
