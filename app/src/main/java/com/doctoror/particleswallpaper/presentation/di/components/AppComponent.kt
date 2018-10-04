@@ -19,6 +19,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDevice
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
@@ -62,5 +63,6 @@ interface AppComponent : AndroidInjector<ApplicationlessInjection> {
     fun exposeSchedulers(): SchedulersProvider
     fun exposeSettings(): SettingsRepository
     fun exposeSettingsDevice(): SettingsRepositoryDevice
+    fun exposeSettingsOpenGL(): SettingsRepositoryOpenGL
 
 }

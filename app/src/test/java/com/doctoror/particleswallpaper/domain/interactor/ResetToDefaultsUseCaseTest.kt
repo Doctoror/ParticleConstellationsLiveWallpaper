@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.domain.interactor
 
 import android.graphics.Color
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
@@ -36,16 +37,16 @@ class ResetToDefaultsUseCaseTest {
         on(it.getLineDistance()).doReturn(Observable.just(86f))
         on(it.getLineScale()).doReturn(Observable.just(1.1f))
         on(it.getNumDots()).doReturn(Observable.just(1))
-        on(it.getNumSamples()).doReturn(Observable.just(1))
         on(it.getParticlesColor()).doReturn(Observable.just(Color.WHITE))
         on(it.getStepMultiplier()).doReturn(Observable.just(1.1f))
-        on(it.getTextureOptimizationEnabled()).doReturn(Observable.just(true))
     }
 
     private val settings: MutableSettingsRepository = mock()
+    private val settingsOpenGL: SettingsRepositoryOpenGL = mock()
     private val backgroundImageManager: BackgroundImageManager = mock()
 
-    private val underTest = ResetToDefaultsUseCase(settings, defaults, backgroundImageManager)
+    private val underTest = ResetToDefaultsUseCase(
+            settings, settingsOpenGL, defaults, backgroundImageManager)
 
     @Test
     fun setsDefaultBackgroundColor() {
@@ -111,15 +112,6 @@ class ResetToDefaultsUseCaseTest {
     }
 
     @Test
-    fun setsDefaultNumSamples() {
-        // When
-        underTest.useCase().test()
-
-        // Then
-        verify(settings).setNumSamples(defaults.getNumSamples().blockingFirst())
-    }
-
-    @Test
     fun setsDefaultParticlesColor() {
         // When
         underTest.useCase().test()
@@ -147,12 +139,11 @@ class ResetToDefaultsUseCaseTest {
     }
 
     @Test
-    fun setsDefaultTextureOptimizationSettings() {
+    fun resetsOpenGLSettingsToDefault() {
         // When
         underTest.useCase().test()
 
         // Then
-        verify(settings).setTextureOptimizationEnabled(
-                defaults.getTextureOptimizationEnabled().blockingFirst())
+        verify(settingsOpenGL).resetToDefaults()
     }
 }

@@ -28,6 +28,7 @@ import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDevice
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
@@ -59,6 +60,9 @@ class WallpaperServiceImpl : GLWallpaperService() {
     lateinit var settings: SettingsRepository
 
     @Inject
+    lateinit var settingsOpenGL: SettingsRepositoryOpenGL
+
+    @Inject
     lateinit var settingsDevice: SettingsRepositoryDevice
 
     private val textureDimensionsCalculator = TextureDimensionsCalculator()
@@ -74,7 +78,7 @@ class WallpaperServiceImpl : GLWallpaperService() {
     override fun onCreateEngine(): Engine {
         val scene = ParticlesScene()
         val renderer = GlSceneRenderer()
-        val engine = EngineImpl(renderer, settings.getNumSamples().blockingFirst())
+        val engine = EngineImpl(renderer, settingsOpenGL.observeNumSamples().blockingFirst())
         val scenePresenter = ScenePresenter(scene, engine, renderer)
 
         engine.presenter = EnginePresenter(
@@ -86,6 +90,7 @@ class WallpaperServiceImpl : GLWallpaperService() {
                 renderer,
                 schedulers,
                 settings,
+                settingsOpenGL,
                 scene,
                 scenePresenter,
                 textureDimensionsCalculator)

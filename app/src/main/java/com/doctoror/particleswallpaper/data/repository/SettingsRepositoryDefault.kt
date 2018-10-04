@@ -37,8 +37,6 @@ class SettingsRepositoryDefault(
     override fun getNumDots() = Observable.just(
             res.getInteger(R.integer.default_density))!!
 
-    override fun getNumSamples() = Observable.just(4)!!
-
     override fun getFrameDelay() = Observable.just(
             res.getInteger(R.integer.defaultFrameDelay))!!
 
@@ -66,8 +64,6 @@ class SettingsRepositoryDefault(
 
     override fun getBackgroundColor() = Observable.just(
             ResourcesCompat.getColor(res, R.color.defaultBackground, theme))!!
-
-    override fun getTextureOptimizationEnabled() = Observable.just(true)!!
 
     interface TypedValueFactory {
         fun newTypedValue(): TypedValue

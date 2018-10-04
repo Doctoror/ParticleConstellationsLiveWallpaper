@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.domain.interactor
 
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
@@ -29,6 +30,7 @@ import javax.inject.Inject
  */
 class ResetToDefaultsUseCase @Inject constructor(
         private val settings: MutableSettingsRepository,
+        private val settingsOpenGL: SettingsRepositoryOpenGL,
         @Default private val defaults: SettingsRepository,
         private val backgroundImageManager: BackgroundImageManager) : UseCase<Unit> {
 
@@ -45,12 +47,10 @@ class ResetToDefaultsUseCase @Inject constructor(
         settings.setLineScale(defaults.getLineScale().blockingFirst())
 
         settings.setNumDots(defaults.getNumDots().blockingFirst())
-        settings.setNumSamples(defaults.getNumSamples().blockingFirst())
         settings.setParticlesColor(defaults.getParticlesColor().blockingFirst())
 
         settings.setStepMultiplier(defaults.getStepMultiplier().blockingFirst())
-        settings.setTextureOptimizationEnabled(
-                defaults.getTextureOptimizationEnabled().blockingFirst())
+        settingsOpenGL.resetToDefaults()
 
         backgroundImageManager.clearBackgroundImage()
     }

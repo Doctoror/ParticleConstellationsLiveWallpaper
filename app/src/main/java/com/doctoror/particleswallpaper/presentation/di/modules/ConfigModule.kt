@@ -21,9 +21,7 @@ import com.doctoror.particleswallpaper.data.file.BackgroundImageManagerImpl
 import com.doctoror.particleswallpaper.data.file.FileSaver
 import com.doctoror.particleswallpaper.data.file.FileUriResolver
 import com.doctoror.particleswallpaper.data.prefs.DevicePrefs
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDefault
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDevice
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryImpl
+import com.doctoror.particleswallpaper.data.repository.*
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.config.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
@@ -75,5 +73,11 @@ class ConfigModule {
     @Provides
     fun provideBackgroundImageManager(context: Context): BackgroundImageManager =
             BackgroundImageManagerImpl(context, FileSaver(context), FileUriResolver(context))
+
+    @Singleton
+    @Provides
+    fun provideSettingsOpenGL(context: Context) = SettingsRepositoryOpenGL(
+            context.getSharedPreferences(PREFERENCES_NAME_OPENGL, Context.MODE_PRIVATE)
+    )
 
 }

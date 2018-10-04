@@ -29,8 +29,6 @@ interface MutableSettingsRepository : SettingsRepository {
     fun setLineDistance(lineDistance: Float)
     fun setLineScale(lineScale: Float)
     fun setNumDots(numDots: Int)
-    fun setNumSamples(samples: Int)
     fun setParticlesColor(@ColorInt color: Int)
     fun setStepMultiplier(stepMultiplier: Float)
-    fun setTextureOptimizationEnabled(enabled: Boolean)
 }

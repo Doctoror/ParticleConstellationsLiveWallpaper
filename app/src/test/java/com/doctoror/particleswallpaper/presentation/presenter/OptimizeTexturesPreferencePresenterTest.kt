@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.presentation.presenter
 
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.presentation.view.OptimizeTexturesView
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test
 class OptimizeTexturesPreferencePresenterTest {
 
     private val glide: Glide = mock()
-    private val settings: MutableSettingsRepository = mock()
+    private val settings: SettingsRepositoryOpenGL = mock()
     private val view: OptimizeTexturesView = mock()
 
     private val underTest = OptimizeTexturesPreferencePresenter(
@@ -42,7 +42,7 @@ class OptimizeTexturesPreferencePresenterTest {
     @Test
     fun setsCheckedStateBasedOnSettingsOnStart() {
         // Given
-        whenever(settings.getTextureOptimizationEnabled()).thenReturn(Observable.just(true))
+        whenever(settings.observeOptimizeTextures()).thenReturn(Observable.just(true))
 
         // When
         underTest.onStart()
@@ -57,7 +57,7 @@ class OptimizeTexturesPreferencePresenterTest {
         underTest.onValueChanged(true)
 
         // Then
-        verify(settings).setTextureOptimizationEnabled(true)
+        verify(settings).optimizeTextures = true
     }
 
     @Test

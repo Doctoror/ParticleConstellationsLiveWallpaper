@@ -16,16 +16,16 @@
 package com.doctoror.particleswallpaper.presentation.presenter
 
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDevice
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.interactor.WallpaperCheckerUseCase
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.view.NumSamplesPreferenceView
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class NumSamplesPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
-        private val settings: MutableSettingsRepository,
+        private val settings: SettingsRepositoryOpenGL,
         private val settingsDevice: SettingsRepositoryDevice,
         private val wallpaperChecker: WallpaperCheckerUseCase) : Presenter<NumSamplesPreferenceView> {
 
@@ -38,7 +38,7 @@ class NumSamplesPreferencePresenter @Inject constructor(
     }
 
     fun onPreferenceChange(v: Int) {
-        settings.setNumSamples(v)
+        settings.numSamples = v
 
         wallpaperChecker
                 .useCase()
@@ -53,7 +53,7 @@ class NumSamplesPreferencePresenter @Inject constructor(
 
     fun onStart() {
         disposables.add(settings
-                .getNumSamples()
+                .observeNumSamples()
                 .observeOn(schedulers.mainThread())
                 .subscribe(view::setValue))
 

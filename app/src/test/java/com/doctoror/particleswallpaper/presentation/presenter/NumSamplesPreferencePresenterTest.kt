@@ -2,8 +2,8 @@ package com.doctoror.particleswallpaper.presentation.presenter
 
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDevice
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.interactor.WallpaperCheckerUseCase
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.view.NumSamplesPreferenceView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
@@ -12,8 +12,8 @@ import org.junit.Test
 
 class NumSamplesPreferencePresenterTest {
 
-    private val settings: MutableSettingsRepository = mock {
-        on { it.getNumSamples() }.doReturn(Observable.just(0))
+    private val settings: SettingsRepositoryOpenGL = mock {
+        on { it.observeNumSamples() }.doReturn(Observable.just(0))
     }
 
     private val settingsDevice: SettingsRepositoryDevice = mock {
@@ -35,7 +35,7 @@ class NumSamplesPreferencePresenterTest {
     fun loadsNumSamplesAndSetsToView() {
         // Given
         val value = 4
-        whenever(settings.getNumSamples()).thenReturn(Observable.just(value))
+        whenever(settings.observeNumSamples()).thenReturn(Observable.just(value))
 
         // When
         underTest.onStart()
@@ -66,7 +66,7 @@ class NumSamplesPreferencePresenterTest {
         underTest.onPreferenceChange(value)
 
         // Then
-        verify(settings).setNumSamples(value)
+        verify(settings).numSamples = value
     }
 
     @Test

@@ -25,6 +25,7 @@ import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.repository.NO_URI
@@ -53,6 +54,7 @@ class EnginePresenterTest {
     private val glide: RequestManager = spy(Glide.with(RuntimeEnvironment.application))
     private val renderer: GlSceneRenderer = mock()
     private val settings: SettingsRepository = mock()
+    private val settingsOpenGL: SettingsRepositoryOpenGL = mock()
     private val scene: ParticlesScene = mock()
     private val scenePresenter: ScenePresenter = mock()
 
@@ -65,6 +67,7 @@ class EnginePresenterTest {
             renderer,
             TrampolineSchedulers(),
             settings,
+            settingsOpenGL,
             scene,
             scenePresenter,
             TextureDimensionsCalculator())
@@ -76,7 +79,7 @@ class EnginePresenterTest {
         whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
         whenever(settings.getFrameDelay()).thenReturn(Observable.just(0))
         whenever(settings.getDotScale()).thenReturn(Observable.just(1f))
-        whenever(settings.getTextureOptimizationEnabled()).thenReturn(Observable.just(true))
+        whenever(settingsOpenGL.observeOptimizeTextures()).thenReturn(Observable.just(true))
 
         whenever(glide.asBitmap()).thenReturn(requestBuilder)
         whenever(requestBuilder.load(any<String>())).thenReturn(requestBuilder)
@@ -115,7 +118,7 @@ class EnginePresenterTest {
     @Test
     fun loadsTextureOptimizationSettingBeforeBackgroundUri() {
         // Given
-        whenever(settings.getTextureOptimizationEnabled()).thenReturn(Observable.just(false))
+        whenever(settingsOpenGL.observeOptimizeTextures()).thenReturn(Observable.just(false))
         whenever(settings.getBackgroundUri()).thenReturn(Observable.never())
 
         // When

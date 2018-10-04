@@ -31,6 +31,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
+import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
@@ -50,6 +51,7 @@ class EnginePresenter(
         private val renderer: GlSceneRenderer,
         private val schedulers: SchedulersProvider,
         private val settings: SettingsRepository,
+        private val settingsOpenGL: SettingsRepositoryOpenGL,
         private val scene: ParticlesScene,
         private val scenePresenter: ScenePresenter,
         private val textureDimensionsCalculator: TextureDimensionsCalculator) {
@@ -122,7 +124,7 @@ class EnginePresenter(
                         notifyBackgroundColors()
                     }
                 }
-                .flatMap { settings.getTextureOptimizationEnabled() }
+                .flatMap { settingsOpenGL.observeOptimizeTextures() }
                 .doOnNext { optimizeTextures = it }
                 .flatMap { settings.getBackgroundUri() }
                 .observeOn(schedulers.mainThread())
