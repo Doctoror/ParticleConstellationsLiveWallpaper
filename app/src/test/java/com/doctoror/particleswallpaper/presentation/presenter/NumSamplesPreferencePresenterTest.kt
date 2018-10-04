@@ -17,7 +17,7 @@ class NumSamplesPreferencePresenterTest {
     }
 
     private val settingsDevice: SettingsRepositoryDevice = mock {
-        on { it.getMultisamplingSupported() }.doReturn(Observable.just(false))
+        on { it.observeMultisamplingSupported() }.doReturn(Observable.just(false))
     }
 
     private val wallpaperChecker: WallpaperCheckerUseCase = mock {
@@ -48,7 +48,7 @@ class NumSamplesPreferencePresenterTest {
     fun loadsSupportedStateAndSetsToView() {
         // Given
         val value = true
-        whenever(settingsDevice.getMultisamplingSupported()).thenReturn(Observable.just(value))
+        whenever(settingsDevice.observeMultisamplingSupported()).thenReturn(Observable.just(value))
 
         // When
         underTest.onStart()

@@ -108,14 +108,14 @@ class WallpaperServiceImpl : GLWallpaperService() {
         lateinit var presenter: EnginePresenter
 
         init {
-            if (samples != 0 && settingsDevice.getMultisamplingSupported().blockingFirst()) {
+            if (samples != 0 && settingsDevice.observeMultisamplingSupported().blockingFirst()) {
                 setEGLConfigChooser(MultisampleConfigChooser(
                         samples,
                         MultisampleConfigChooser.Callback {
                             // When multisampling requested as 4, it means both 4 and 2 are not supported.
                             // Only then we want to mark this as unsupported.
                             if (samples == 4 && it == 0)
-                                settingsDevice.setMultisamplingSupported(false)
+                                settingsDevice.multisamplingSupported = false
                         })
                 )
             }

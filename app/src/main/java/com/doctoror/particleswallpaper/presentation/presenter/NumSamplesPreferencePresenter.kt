@@ -58,7 +58,7 @@ class NumSamplesPreferencePresenter @Inject constructor(
                 .subscribe(view::setValue))
 
         disposables.add(settingsDevice
-                .getMultisamplingSupported()
+                .observeMultisamplingSupported()
                 .observeOn(schedulers.mainThread())
                 .subscribe(view::setPreferenceSupported))
     }

@@ -20,7 +20,6 @@ import com.doctoror.particleswallpaper.data.config.SceneConfiguratorFactoryImpl
 import com.doctoror.particleswallpaper.data.file.BackgroundImageManagerImpl
 import com.doctoror.particleswallpaper.data.file.FileSaver
 import com.doctoror.particleswallpaper.data.file.FileUriResolver
-import com.doctoror.particleswallpaper.data.prefs.DevicePrefs
 import com.doctoror.particleswallpaper.data.repository.*
 import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.config.SceneConfiguratorFactory
@@ -49,7 +48,8 @@ class ConfigModule {
     @Provides
     @Singleton
     fun provideDeviceSettings(context: Context) = SettingsRepositoryDevice(
-            DevicePrefs.with(context))
+            context.getSharedPreferences(PREFERENCES_NAME_DEVICE, Context.MODE_PRIVATE)
+    )
 
     @Singleton
     @Provides
