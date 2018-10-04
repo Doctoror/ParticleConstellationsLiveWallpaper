@@ -45,11 +45,11 @@ android {
 
     productFlavors {
         canvas {
-            buildConfigField 'boolean', 'openGlVariant', 'false'
+            buildConfigField 'boolean', 'OPEN_GL_VARIANT', 'false'
         }
 
         opengl {
-            buildConfigField 'boolean', 'openGlVariant', 'true'
+            buildConfigField 'boolean', 'OPEN_GL_VARIANT', 'true'
         }
     }
 
