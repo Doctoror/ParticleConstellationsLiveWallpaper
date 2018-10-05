@@ -3,7 +3,6 @@ package com.doctoror.particleswallpaper.userprefs.multisampling
 import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
-import com.doctoror.particleswallpaper.domain.interactor.WallpaperCheckerUseCase
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.Single

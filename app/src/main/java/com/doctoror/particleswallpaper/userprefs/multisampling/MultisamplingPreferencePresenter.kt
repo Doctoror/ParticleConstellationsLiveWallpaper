@@ -18,7 +18,6 @@ package com.doctoror.particleswallpaper.userprefs.multisampling
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.domain.interactor.WallpaperCheckerUseCase
 import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

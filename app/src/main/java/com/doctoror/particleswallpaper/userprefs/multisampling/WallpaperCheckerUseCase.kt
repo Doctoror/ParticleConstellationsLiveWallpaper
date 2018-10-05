@@ -1,7 +1,8 @@
-package com.doctoror.particleswallpaper.domain.interactor
+package com.doctoror.particleswallpaper.userprefs.multisampling
 
 import android.app.WallpaperManager
 import android.content.Context
+import com.doctoror.particleswallpaper.domain.interactor.UseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
