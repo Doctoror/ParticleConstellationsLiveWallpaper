@@ -13,17 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.license
 
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.view.LicensePreferenceView
+import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 05.06.17.
- *
- * Presenter for [com.doctoror.particleswallpaper.presentation.preference.LicensePreference]
- */
 @PerPreference
 class LicensePreferencePresenter @Inject constructor() : Presenter<LicensePreferenceView> {
 
