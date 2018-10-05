@@ -136,7 +136,7 @@ class WallpaperServiceImpl : WallpaperService() {
         }
 
         override fun unscheduleNextFrame() {
-            handler.removeCallbacks(renderRunnable)
+            handler.removeCallbacksAndMessages(null)
         }
 
         override fun requestRender() {

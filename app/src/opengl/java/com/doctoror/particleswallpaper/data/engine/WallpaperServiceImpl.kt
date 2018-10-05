@@ -166,7 +166,7 @@ class WallpaperServiceImpl : GLWallpaperService() {
         }
 
         override fun unscheduleNextFrame() {
-            handler.removeCallbacks(renderRunnable)
+            handler.removeCallbacksAndMessages(null)
         }
 
         private val renderRunnable = this::requestRender
