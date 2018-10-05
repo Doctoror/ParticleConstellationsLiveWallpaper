@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.linelength
 
-import com.doctoror.particleswallpaper.userprefs.linelength.LineLengthPreference
-import com.doctoror.particleswallpaper.userprefs.linelength.LineLengthPreferencePresenter
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Assert.assertEquals
@@ -28,11 +26,11 @@ import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class LineDistancePreferenceTest {
+class LineLengthPreferenceTest {
 
     private val presenter: LineLengthPreferencePresenter = mock()
     private val underTest = LineLengthPreference(RuntimeEnvironment.application).apply {
-        this.presenter = this@LineDistancePreferenceTest.presenter
+        this.presenter = this@LineLengthPreferenceTest.presenter
     }
 
     @Test
