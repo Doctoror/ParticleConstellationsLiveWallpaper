@@ -18,7 +18,6 @@ package com.doctoror.particleswallpaper.file
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import java.io.File
 import java.io.IOException
 import java.util.regex.Pattern

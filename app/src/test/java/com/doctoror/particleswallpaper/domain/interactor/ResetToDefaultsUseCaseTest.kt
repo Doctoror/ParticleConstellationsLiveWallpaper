@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.domain.interactor
 
 import android.graphics.Color
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
-import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
+import com.doctoror.particleswallpaper.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.settings.NO_URI
 import com.doctoror.particleswallpaper.settings.SettingsRepository

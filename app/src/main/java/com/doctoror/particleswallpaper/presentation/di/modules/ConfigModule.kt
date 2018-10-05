@@ -23,7 +23,7 @@ import com.doctoror.particleswallpaper.file.FileUriResolver
 import com.doctoror.particleswallpaper.settings.*
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactory
-import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
+import com.doctoror.particleswallpaper.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
