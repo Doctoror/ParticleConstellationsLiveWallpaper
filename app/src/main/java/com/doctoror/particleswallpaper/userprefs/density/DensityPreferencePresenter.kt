@@ -13,23 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.density
 
 import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
+import com.doctoror.particleswallpaper.presentation.presenter.MapperSeekBarPresenter
+import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 03.06.17.
- *
- * Presenter for [com.doctoror.particleswallpaper.presentation.preference.NumDotsPreference]
- */
 @PerPreference
-class NumDotsPreferencePresenter @Inject constructor(
+class DensityPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
         MapperSeekBarPresenter<Int> {

@@ -19,7 +19,7 @@
     <string translatable="false" name="pref_key_how_to_apply">pref_key_how_to_apply</string>
     <string translatable="false" name="pref_key_apply">pref_key_apply</string>
     <string translatable="false" name="pref_key_reset_to_defaults">pref_key_reset_to_defaults</string>
-    <string translatable="false" name="pref_key_num_dots">pref_key_num_dots</string>
+    <string translatable="false" name="pref_key_density">pref_key_density</string>
     <string translatable="false" name="pref_key_color">pref_key_color</string>
     <string translatable="false" name="pref_key_background_color">pref_background_color</string>
     <string translatable="false" name="pref_key_background_image">pref_background_image</string>

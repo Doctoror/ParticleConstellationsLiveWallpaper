@@ -19,6 +19,7 @@ import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.preference.*
 import com.doctoror.particleswallpaper.userprefs.bgcolor.BackgroundColorPreference
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreference
+import com.doctoror.particleswallpaper.userprefs.density.DensityPreference
 import com.doctoror.particleswallpaper.userprefs.framedelay.FrameDelayPreference
 import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference
 import com.doctoror.particleswallpaper.userprefs.license.LicensePreference
@@ -44,7 +45,7 @@ interface PreferenceComponent {
     fun inject(p: LicensePreference)
     fun inject(p: LineLengthPreference)
     fun inject(p: LineScalePreference)
-    fun inject(p: NumDotsPreference)
+    fun inject(p: DensityPreference)
     fun inject(p: NumSamplesPreference)
     fun inject(p: OptimizeTexturesPreference)
     fun inject(p: ParticleScalePreference)

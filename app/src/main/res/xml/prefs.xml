@@ -49,8 +49,8 @@
             android:key="@string/pref_key_background_image"
             android:title="@string/Background_image"/>
 
-        <com.doctoror.particleswallpaper.presentation.preference.NumDotsPreference
-            android:key="@string/pref_key_num_dots"
+        <com.doctoror.particleswallpaper.userprefs.density.DensityPreference
+            android:key="@string/pref_key_density"
             android:title="@string/Density"/>
 
     </PreferenceCategory>

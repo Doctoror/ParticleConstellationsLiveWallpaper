@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.density
 
-import com.doctoror.particleswallpaper.presentation.presenter.NumDotsPreferencePresenter
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Assert.assertEquals
@@ -27,11 +26,11 @@ import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class NumDotsPreferenceTest {
+class DensityPreferenceTest {
 
-    private val presenter: NumDotsPreferencePresenter = mock()
-    private val underTest = NumDotsPreference(RuntimeEnvironment.application).apply {
-        this.presenter = this@NumDotsPreferenceTest.presenter
+    private val presenter: DensityPreferencePresenter = mock()
+    private val underTest = DensityPreference(RuntimeEnvironment.application).apply {
+        this.presenter = this@DensityPreferenceTest.presenter
     }
 
     @Test
