@@ -19,7 +19,7 @@ import android.annotation.TargetApi
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Build
-import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_OPEN_DOCUMENT
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
 import javax.inject.Inject
 
 class PickImageDocumentUseCase @Inject constructor(

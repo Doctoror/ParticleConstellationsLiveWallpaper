@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.domain.interactor
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_GET_CONTENT
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

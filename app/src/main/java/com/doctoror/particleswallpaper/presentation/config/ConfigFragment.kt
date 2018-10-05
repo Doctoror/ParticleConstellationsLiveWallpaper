@@ -25,7 +25,7 @@ import android.view.ViewGroup
 import com.doctoror.particleswallpaper.BuildConfig
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
-import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
+import com.doctoror.particleswallpaper.app.ApplicationlessInjection
 import com.doctoror.particleswallpaper.presentation.base.LifecyclePreferenceFragment
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHostImpl

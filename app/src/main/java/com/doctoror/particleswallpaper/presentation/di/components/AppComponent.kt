@@ -26,7 +26,7 @@ import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.settings.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
+import com.doctoror.particleswallpaper.app.ApplicationlessInjection
 import com.doctoror.particleswallpaper.presentation.di.modules.*
 import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import dagger.Component

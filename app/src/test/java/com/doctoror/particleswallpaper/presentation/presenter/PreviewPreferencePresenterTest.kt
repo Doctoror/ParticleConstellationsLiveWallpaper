@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.presentation.presenter
 
 import android.app.Activity
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
-import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.config.ConfigFragment
 import com.doctoror.particleswallpaper.presentation.view.MvpView

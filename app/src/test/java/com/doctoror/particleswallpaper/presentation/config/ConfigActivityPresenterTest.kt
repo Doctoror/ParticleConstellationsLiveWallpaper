@@ -27,7 +27,7 @@ import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.settings.NO_URI
 import com.doctoror.particleswallpaper.settings.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable

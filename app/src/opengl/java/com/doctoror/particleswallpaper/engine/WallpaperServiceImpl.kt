@@ -32,7 +32,7 @@ import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.settings.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
+import com.doctoror.particleswallpaper.app.ApplicationlessInjection
 import com.doctoror.particleswallpaper.scheduler.GlScheduler
 import net.rbgrn.android.glwallpaperservice.GLWallpaperService
 import javax.inject.Inject

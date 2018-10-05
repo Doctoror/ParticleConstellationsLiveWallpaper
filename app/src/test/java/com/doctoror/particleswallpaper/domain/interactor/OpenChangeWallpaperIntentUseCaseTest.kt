@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.domain.interactor
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.nhaarman.mockito_kotlin.*
 import org.junit.jupiter.api.Test
 

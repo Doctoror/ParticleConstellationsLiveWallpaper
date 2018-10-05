@@ -1,4 +1,4 @@
-package com.doctoror.particleswallpaper.presentation
+package com.doctoror.particleswallpaper.app
 
 import android.app.Application
 import android.os.Looper

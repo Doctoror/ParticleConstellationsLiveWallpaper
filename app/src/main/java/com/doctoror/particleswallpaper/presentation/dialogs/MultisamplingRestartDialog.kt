@@ -8,7 +8,7 @@ import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
-import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
+import com.doctoror.particleswallpaper.app.ApplicationlessInjection
 import com.doctoror.particleswallpaper.presentation.actions.FragmentStartActivityForResultAction
 import javax.inject.Inject
 

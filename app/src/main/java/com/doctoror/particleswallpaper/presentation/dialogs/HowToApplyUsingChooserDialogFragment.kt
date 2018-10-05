@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.presentation.dialogs
 
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
+import com.doctoror.particleswallpaper.app.ApplicationlessInjection
 
 class HowToApplyUsingChooserDialogFragment : HowToApplyWithActionDialogFragment() {
 

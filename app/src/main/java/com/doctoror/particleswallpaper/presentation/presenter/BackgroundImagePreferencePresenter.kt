@@ -37,8 +37,8 @@ import com.doctoror.particleswallpaper.domain.interactor.PickImageGetContentUseC
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.settings.NO_URI
 import com.doctoror.particleswallpaper.settings.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_GET_CONTENT
-import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_OPEN_DOCUMENT
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.presentation.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
