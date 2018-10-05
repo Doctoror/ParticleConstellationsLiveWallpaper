@@ -169,6 +169,6 @@ class WallpaperServiceImpl : GLWallpaperService() {
             handler.removeCallbacksAndMessages(null)
         }
 
-        private val renderRunnable = this::requestRender
+        private val renderRunnable = Runnable { requestRender() }
     }
 }

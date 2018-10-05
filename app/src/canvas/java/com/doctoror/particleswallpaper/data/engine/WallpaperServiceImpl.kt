@@ -143,6 +143,6 @@ class WallpaperServiceImpl : WallpaperService() {
             presenter.onDrawFrame()
         }
 
-        private val renderRunnable = this::requestRender
+        private val renderRunnable = Runnable { requestRender() }
     }
 }
