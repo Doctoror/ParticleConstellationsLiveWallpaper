@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.performancetips
 
 import android.app.AlertDialog
 import android.content.Context
@@ -22,8 +22,6 @@ import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.presenter.PerformanceTipsPreferencePresenter
-import com.doctoror.particleswallpaper.presentation.view.PerformanceTipsPreferenceView
 import javax.inject.Inject
 
 /**

@@ -25,7 +25,7 @@
         android:key="@string/pref_key_apply"
         android:title="@string/Apply"/>
 
-    <com.doctoror.particleswallpaper.presentation.preference.PerformanceTipsPreference
+    <com.doctoror.particleswallpaper.userprefs.performancetips.PerformanceTipsPreference
         android:key="@string/pref_key_performance_tips"
         android:title="@string/Performance_tips"/>
 

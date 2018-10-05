@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.performancetips
 
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.view.PerformanceTipsPreferenceView
+import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import javax.inject.Inject
 
 /**

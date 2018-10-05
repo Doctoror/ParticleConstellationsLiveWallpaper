@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.performancetips
 
-import com.doctoror.particleswallpaper.presentation.view.PerformanceTipsPreferenceView
+import com.doctoror.particleswallpaper.userprefs.performancetips.PerformanceTipsPreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.performancetips.PerformanceTipsPreferenceView
 import com.nhaarman.mockito_kotlin.mock
 import org.junit.jupiter.api.Test
 
