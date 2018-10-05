@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.data.repository
+package com.doctoror.particleswallpaper.settings
 
 import android.content.res.Resources
 import android.graphics.Color
 import android.util.TypedValue
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.repository.NO_URI
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify

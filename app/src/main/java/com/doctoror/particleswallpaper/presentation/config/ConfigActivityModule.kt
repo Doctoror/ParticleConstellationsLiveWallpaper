@@ -22,7 +22,7 @@ import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.actions.ActivityStartActivityForResultAction
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
 import dagger.Module

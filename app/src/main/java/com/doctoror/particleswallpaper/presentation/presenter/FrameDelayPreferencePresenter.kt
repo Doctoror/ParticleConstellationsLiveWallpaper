@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.presentation.presenter
 
 import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
+import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.FrameDelayPreferenceView
 import io.reactivex.disposables.Disposable

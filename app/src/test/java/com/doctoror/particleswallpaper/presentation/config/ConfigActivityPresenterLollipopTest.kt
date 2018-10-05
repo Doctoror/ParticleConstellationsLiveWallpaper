@@ -25,7 +25,7 @@ import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Single
 import org.junit.Assert.assertTrue

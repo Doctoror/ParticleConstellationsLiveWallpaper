@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.repository
+package com.doctoror.particleswallpaper.settings
 
 import android.support.annotation.ColorInt
 

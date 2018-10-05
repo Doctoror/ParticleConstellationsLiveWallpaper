@@ -15,10 +15,10 @@
  */
 package com.doctoror.particleswallpaper.domain.interactor
 
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
+import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import io.reactivex.Single
 import javax.inject.Inject

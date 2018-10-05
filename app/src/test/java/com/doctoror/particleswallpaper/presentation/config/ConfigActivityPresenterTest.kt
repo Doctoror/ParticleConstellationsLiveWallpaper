@@ -25,8 +25,8 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
-import com.doctoror.particleswallpaper.domain.repository.NO_URI
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.settings.NO_URI
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 import com.nhaarman.mockito_kotlin.*

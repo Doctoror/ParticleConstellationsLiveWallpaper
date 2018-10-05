@@ -15,8 +15,8 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDevice
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
+import com.doctoror.particleswallpaper.settings.SettingsRepositoryDevice
+import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.interactor.WallpaperCheckerUseCase
 import com.doctoror.particleswallpaper.presentation.view.NumSamplesPreferenceView

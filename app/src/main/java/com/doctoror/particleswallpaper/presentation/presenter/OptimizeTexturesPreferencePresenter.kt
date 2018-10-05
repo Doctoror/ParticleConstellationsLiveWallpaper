@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.presentation.presenter
 
 import com.bumptech.glide.Glide
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
+import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.OptimizeTexturesView

@@ -20,12 +20,12 @@ import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactoryImpl
 import com.doctoror.particleswallpaper.file.BackgroundImageManagerImpl
 import com.doctoror.particleswallpaper.file.FileSaver
 import com.doctoror.particleswallpaper.file.FileUriResolver
-import com.doctoror.particleswallpaper.data.repository.*
+import com.doctoror.particleswallpaper.settings.*
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import dagger.Module
 import dagger.Provides

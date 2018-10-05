@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.data.repository
+package com.doctoror.particleswallpaper.settings
 
 import android.content.res.Resources
 import android.support.v4.content.res.ResourcesCompat
 import android.util.TypedValue
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.repository.NO_URI
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import io.reactivex.Observable
 
 /**

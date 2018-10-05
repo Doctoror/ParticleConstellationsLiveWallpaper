@@ -34,9 +34,9 @@ import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.interactor.PickImageDocumentUseCase
 import com.doctoror.particleswallpaper.domain.interactor.PickImageGetContentUseCase
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
-import com.doctoror.particleswallpaper.domain.repository.NO_URI
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
+import com.doctoror.particleswallpaper.settings.NO_URI
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.presentation.actions.FragmentStartActivityForResultAction

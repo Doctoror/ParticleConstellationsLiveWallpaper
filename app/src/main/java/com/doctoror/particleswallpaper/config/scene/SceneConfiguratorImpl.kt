@@ -19,7 +19,7 @@ import android.support.annotation.VisibleForTesting
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.mapper.DotRadiusMapper
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 

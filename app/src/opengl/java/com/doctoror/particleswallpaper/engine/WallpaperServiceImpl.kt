@@ -26,12 +26,12 @@ import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDevice
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
+import com.doctoror.particleswallpaper.settings.SettingsRepositoryDevice
+import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
 import com.doctoror.particleswallpaper.scheduler.GlScheduler
 import net.rbgrn.android.glwallpaperservice.GLWallpaperService

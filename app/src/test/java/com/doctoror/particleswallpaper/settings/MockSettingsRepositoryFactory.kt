@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.data.repository
+package com.doctoror.particleswallpaper.settings
 
-import com.doctoror.particleswallpaper.domain.repository.NO_URI
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
 import org.mockito.Mockito.mock

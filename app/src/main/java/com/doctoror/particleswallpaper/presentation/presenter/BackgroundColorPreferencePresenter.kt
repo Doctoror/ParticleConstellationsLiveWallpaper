@@ -16,8 +16,8 @@
 package com.doctoror.particleswallpaper.presentation.presenter
 
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.BackgroundColorPreferenceView

@@ -15,8 +15,7 @@
  */
 package com.doctoror.particleswallpaper.config.scene
 
-import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorImpl
-import com.doctoror.particleswallpaper.data.repository.MockSettingsRepositoryFactory
+import com.doctoror.particleswallpaper.settings.MockSettingsRepositoryFactory
 import com.nhaarman.mockito_kotlin.mock
 import io.reactivex.schedulers.Schedulers
 import org.junit.jupiter.api.Assertions.*

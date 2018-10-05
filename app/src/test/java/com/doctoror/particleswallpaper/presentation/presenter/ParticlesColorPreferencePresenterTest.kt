@@ -17,8 +17,8 @@ package com.doctoror.particleswallpaper.presentation.presenter
 
 import android.graphics.Color
 import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
+import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.view.ParticlesColorPreferenceView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
