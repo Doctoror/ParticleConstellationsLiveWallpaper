@@ -21,9 +21,6 @@ import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.dialogs.HowToApplyManuallyDialogFragment
-import com.doctoror.particleswallpaper.presentation.dialogs.HowToApplyUsingChooserDialogFragment
-import com.doctoror.particleswallpaper.presentation.dialogs.HowToApplyUsingPreviewDialogFragment
 import com.doctoror.particleswallpaper.presentation.preference.FragmentHolder
 import javax.inject.Inject
 

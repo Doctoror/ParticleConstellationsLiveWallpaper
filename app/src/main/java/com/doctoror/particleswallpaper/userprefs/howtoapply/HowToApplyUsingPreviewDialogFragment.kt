@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.dialogs
+package com.doctoror.particleswallpaper.userprefs.howtoapply
 
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R

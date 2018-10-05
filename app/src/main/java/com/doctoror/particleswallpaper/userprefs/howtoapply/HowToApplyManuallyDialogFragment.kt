@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.dialogs
+package com.doctoror.particleswallpaper.userprefs.howtoapply
 
+import android.app.AlertDialog
+import android.app.DialogFragment
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.app.ApplicationlessInjection
 
-class HowToApplyUsingChooserDialogFragment : HowToApplyWithActionDialogFragment() {
+class HowToApplyManuallyDialogFragment : DialogFragment() {
 
-    override val message = R.string.how_to_apply_with_chooser
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        ApplicationlessInjection
-                .getInstance(activity.applicationContext)
-                .fragmentInjector
-                .inject(this)
-        super.onCreate(savedInstanceState)
-    }
+    override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog
+            .Builder(activity)
+            .setTitle(R.string.How_to_apply)
+            .setMessage(R.string.how_to_apply_no_preview)
+            .setPositiveButton(R.string.Close, null)
+            .create()!!
 }
