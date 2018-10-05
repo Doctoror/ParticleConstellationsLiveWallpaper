@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.data.engine
+package com.doctoror.particleswallpaper.engine
 
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -30,7 +30,7 @@ import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer
-import com.doctoror.particleswallpaper.data.config.HardwareCanvasBlacklist
+import com.doctoror.particleswallpaper.config.app.HardwareCanvasBlacklist
 
 class CanvasEngineSceneRenderer(
         private val canvasSceneRenderer: CanvasSceneRenderer,

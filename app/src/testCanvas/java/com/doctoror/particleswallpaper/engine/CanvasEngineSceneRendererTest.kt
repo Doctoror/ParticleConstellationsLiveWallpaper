@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.data.engine
+package com.doctoror.particleswallpaper.engine
 
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -25,7 +25,10 @@ import android.util.DisplayMetrics
 import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.argumentCaptor
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.runner.RunWith
@@ -169,20 +172,5 @@ class CanvasEngineSceneRendererTest {
         return mock {
             on { it.displayMetrics }.thenReturn(displayMetrics)
         }
-    }
-
-    private fun givenHasSurfaceHolderWithMockCanvas(): Canvas {
-        val canvas: Canvas = mock()
-
-        val surfaceHolder: SurfaceHolder = mock {
-            on { it.lockCanvas() }.thenReturn(canvas)
-            on { it.lockHardwareCanvas() }.thenReturn(canvas)
-        }
-
-        underTest.surfaceHolderProvider = mock {
-            on { it.provideSurfaceHolder() }.thenReturn(surfaceHolder)
-        }
-
-        return canvas
     }
 }

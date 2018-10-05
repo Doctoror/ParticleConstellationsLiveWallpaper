@@ -13,9 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.data.engine
+package com.doctoror.particleswallpaper.engine
 
-interface EngineController {
+import android.util.Pair
+import com.doctoror.particlesdrawable.opengl.util.PotCalculator
 
-    fun notifyColorsChanged()
+class TextureDimensionsCalculator {
+
+    fun calculateTextureDimensions(
+            width: Int,
+            height: Int,
+            optimizeTextures: Boolean) = if (optimizeTextures) {
+        PotCalculator.toLargerPotDimensions(width, height)
+    } else {
+        Pair(width, height)
+    }
 }

@@ -1,4 +1,4 @@
-package com.doctoror.particleswallpaper.data.engine
+package com.doctoror.particleswallpaper.engine
 
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 

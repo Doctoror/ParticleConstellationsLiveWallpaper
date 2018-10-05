@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.data.engine
+package com.doctoror.particleswallpaper.engine
 
 import android.annotation.TargetApi
 import android.app.WallpaperColors

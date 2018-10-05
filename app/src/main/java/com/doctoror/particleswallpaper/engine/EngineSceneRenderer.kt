@@ -13,11 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.data.engine
+package com.doctoror.particleswallpaper.engine
 
-import android.view.SurfaceHolder
+import android.graphics.Bitmap
+import android.support.annotation.ColorInt
 
-interface SurfaceHolderProvider {
+interface EngineSceneRenderer {
 
-    fun provideSurfaceHolder(): SurfaceHolder
+    fun markParticleTextureDirty()
+
+    fun setBackgroundTexture(texture: Bitmap?)
+
+    fun setClearColor(@ColorInt color: Int)
+
+    fun recycle()
 }

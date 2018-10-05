@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.di.modules
 
-import com.doctoror.particleswallpaper.data.engine.WallpaperServiceImpl
+import com.doctoror.particleswallpaper.engine.WallpaperServiceImpl
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
