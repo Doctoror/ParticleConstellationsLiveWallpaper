@@ -20,7 +20,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Build
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
-import com.doctoror.particleswallpaper.domain.interactor.StartActivityForResultAction
+import com.doctoror.particleswallpaper.app.actions.StartActivityForResultAction
 import javax.inject.Inject
 
 class PickImageDocumentUseCase @Inject constructor(

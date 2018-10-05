@@ -17,7 +17,6 @@ package com.doctoror.particleswallpaper.app.actions
 
 import android.app.Activity
 import android.content.Intent
-import com.doctoror.particleswallpaper.domain.interactor.StartActivityForResultAction
 
 class ActivityStartActivityForResultAction(private val activity: Activity)
     : StartActivityForResultAction {

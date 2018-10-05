@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.domain.interactor
 
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
+import com.doctoror.particleswallpaper.app.actions.StartActivityForResultAction
 import io.reactivex.Single
 
 /**
