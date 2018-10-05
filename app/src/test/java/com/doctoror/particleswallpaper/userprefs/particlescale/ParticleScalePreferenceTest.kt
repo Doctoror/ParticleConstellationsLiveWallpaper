@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.particlescale
 
-import com.doctoror.particleswallpaper.presentation.presenter.DotScalePreferencePresenter
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Assert.assertEquals
@@ -27,11 +26,11 @@ import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class DotScalePreferenceTest {
+class ParticleScalePreferenceTest {
 
-    private val presenter: DotScalePreferencePresenter = mock()
-    private val underTest = DotScalePreference(RuntimeEnvironment.application).apply {
-        this.presenter = this@DotScalePreferenceTest.presenter
+    private val presenter: ParticleScalePreferencePresenter = mock()
+    private val underTest = ParticleScalePreference(RuntimeEnvironment.application).apply {
+        this.presenter = this@ParticleScalePreferenceTest.presenter
     }
 
     @Test

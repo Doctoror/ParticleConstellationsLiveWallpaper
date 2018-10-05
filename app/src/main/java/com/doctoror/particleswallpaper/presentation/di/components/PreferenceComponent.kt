@@ -20,6 +20,7 @@ import com.doctoror.particleswallpaper.presentation.preference.*
 import com.doctoror.particleswallpaper.userprefs.bgcolor.BackgroundColorPreference
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreference
 import com.doctoror.particleswallpaper.userprefs.particlecolor.ParticlesColorPreference
+import com.doctoror.particleswallpaper.userprefs.particlescale.ParticleScalePreference
 import dagger.Component
 
 /**
@@ -33,7 +34,6 @@ interface PreferenceComponent {
 
     fun inject(p: BackgroundColorPreference)
     fun inject(p: BackgroundImagePreference)
-    fun inject(p: DotScalePreference)
     fun inject(p: FrameDelayPreference)
     fun inject(p: HowToApplyPreference)
     fun inject(p: LicensePreference)
@@ -42,6 +42,7 @@ interface PreferenceComponent {
     fun inject(p: NumDotsPreference)
     fun inject(p: NumSamplesPreference)
     fun inject(p: OptimizeTexturesPreference)
+    fun inject(p: ParticleScalePreference)
     fun inject(p: ParticlesColorPreference)
     fun inject(p: PerformanceTipsPreference)
     fun inject(p: PreviewPreference)

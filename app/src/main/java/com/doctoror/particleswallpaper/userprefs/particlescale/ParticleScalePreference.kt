@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.particlescale
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
@@ -22,21 +22,16 @@ import android.content.Context
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.presenter.DotScalePreferencePresenter
+import com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 30.05.17.
- *
- * Dot scale preference
- */
-class DotScalePreference @JvmOverloads constructor
+class ParticleScalePreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : SeekBarPreference(context, attrs, defStyle), LifecycleObserver, SeekBarPreferenceView {
 
     @Inject
-    lateinit var presenter: DotScalePreferencePresenter
+    lateinit var presenter: ParticleScalePreferencePresenter
 
     init {
         DaggerPreferenceComponent.builder()
