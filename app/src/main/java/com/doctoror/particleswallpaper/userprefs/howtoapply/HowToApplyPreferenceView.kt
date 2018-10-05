@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.view
+package com.doctoror.particleswallpaper.userprefs.howtoapply
+
+import com.doctoror.particleswallpaper.presentation.view.MvpView
 
 interface HowToApplyPreferenceView : MvpView {
 

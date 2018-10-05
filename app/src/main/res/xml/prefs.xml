@@ -17,7 +17,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.doctoror.particleswallpaper.presentation.preference.HowToApplyPreference
+    <com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference
         android:key="@string/pref_key_how_to_apply"
         android:title="@string/How_to_apply"/>
 

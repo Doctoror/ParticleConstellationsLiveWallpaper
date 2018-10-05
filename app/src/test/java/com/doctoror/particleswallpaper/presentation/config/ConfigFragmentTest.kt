@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.presentation.config
 import android.support.annotation.StringRes
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreference
-import com.doctoror.particleswallpaper.presentation.preference.HowToApplyPreference
+import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference
 import com.doctoror.particleswallpaper.presentation.preference.PreviewPreference
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.howtoapply
 
 import android.content.Intent
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
-import com.doctoror.particleswallpaper.presentation.view.HowToApplyPreferenceView
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
