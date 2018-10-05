@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.optimizetextures
 
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
-import com.doctoror.particleswallpaper.presentation.view.OptimizeTexturesView
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever

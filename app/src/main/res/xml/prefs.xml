@@ -90,7 +90,7 @@
             android:entries="@array/num_samples_keys"
             android:entryValues="@array/num_samples_values"/>
 
-        <com.doctoror.particleswallpaper.presentation.preference.OptimizeTexturesPreference
+        <com.doctoror.particleswallpaper.userprefs.optimizetextures.OptimizeTexturesPreference
             android:key="@string/pref_key_optimize_textures"
             android:title="@string/Optimize_textures"
             android:summary="@string/optimize_textures_hint"/>

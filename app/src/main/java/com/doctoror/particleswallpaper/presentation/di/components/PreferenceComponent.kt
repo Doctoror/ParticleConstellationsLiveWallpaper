@@ -28,6 +28,7 @@ import com.doctoror.particleswallpaper.userprefs.linescale.LineScalePreference
 import com.doctoror.particleswallpaper.userprefs.multisampling.MultisamplingPreference
 import com.doctoror.particleswallpaper.userprefs.particlecolor.ParticlesColorPreference
 import com.doctoror.particleswallpaper.userprefs.particlescale.ParticleScalePreference
+import com.doctoror.particleswallpaper.userprefs.optimizetextures.OptimizeTexturesPreference
 import dagger.Component
 
 /**

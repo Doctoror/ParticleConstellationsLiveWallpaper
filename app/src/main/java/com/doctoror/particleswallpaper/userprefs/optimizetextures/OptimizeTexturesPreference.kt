@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.optimizetextures
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
@@ -23,8 +23,6 @@ import android.preference.CheckBoxPreference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.presenter.OptimizeTexturesPreferencePresenter
-import com.doctoror.particleswallpaper.presentation.view.OptimizeTexturesView
 import javax.inject.Inject
 
 class OptimizeTexturesPreference @JvmOverloads constructor(
