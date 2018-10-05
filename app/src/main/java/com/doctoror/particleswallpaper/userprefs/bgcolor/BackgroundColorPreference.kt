@@ -23,7 +23,7 @@ import android.util.AttributeSet
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.preference.ColorPreferenceNoPreview
+import com.doctoror.particleswallpaper.userprefs.particlecolor.ColorPreferenceNoPreview
 import javax.inject.Inject
 
 /**

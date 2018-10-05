@@ -19,6 +19,7 @@ import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.preference.*
 import com.doctoror.particleswallpaper.userprefs.bgcolor.BackgroundColorPreference
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreference
+import com.doctoror.particleswallpaper.userprefs.particlecolor.ParticlesColorPreference
 import dagger.Component
 
 /**
