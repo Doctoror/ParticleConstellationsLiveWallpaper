@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.data.file
+package com.doctoror.particleswallpaper.file
 
 import android.content.ContentResolver
 import android.content.Context
