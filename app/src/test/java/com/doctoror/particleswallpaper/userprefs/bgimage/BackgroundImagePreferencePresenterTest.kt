@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.bgimage
 
 import android.app.Activity
 import android.content.*
@@ -33,7 +33,6 @@ import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.config.ConfigFragment
-import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import org.junit.Before
@@ -213,6 +212,7 @@ class BackgroundImagePreferencePresenterTest {
         // Then no crash
     }
 
+    @Test
     fun doesNotCheckForUriPermissionsWhenUriNotSet() {
         // Given
         val contentResolver: ContentResolver = mock()

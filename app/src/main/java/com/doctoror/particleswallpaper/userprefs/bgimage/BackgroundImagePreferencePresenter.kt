@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.bgimage
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
@@ -44,15 +44,10 @@ import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.app.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
+import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import io.reactivex.Observable
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 03.06.17.
- *
- * Presenter for [BackgroundImagePreferenceView]
- */
 @PerPreference
 class BackgroundImagePreferencePresenter @Inject constructor(
         apiLevelProvider: ApiLevelProvider,

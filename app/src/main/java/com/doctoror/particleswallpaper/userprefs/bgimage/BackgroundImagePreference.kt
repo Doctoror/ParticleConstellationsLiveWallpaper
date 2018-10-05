@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.bgimage
 
 import android.annotation.TargetApi
 import android.app.AlertDialog
@@ -26,13 +26,10 @@ import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.presenter.BackgroundImagePreferencePresenter
-import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
+import com.doctoror.particleswallpaper.presentation.preference.FragmentHolder
 import javax.inject.Inject
 
 /**
- * Created by Yaroslav Mytkalyk on 31.05.17.
- *
  * Preferece for picking or clearing the background image
  */
 @TargetApi(Build.VERSION_CODES.KITKAT)

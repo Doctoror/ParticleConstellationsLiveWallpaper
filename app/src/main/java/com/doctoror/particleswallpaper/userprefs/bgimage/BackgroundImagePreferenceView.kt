@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.view
+package com.doctoror.particleswallpaper.userprefs.bgimage
 
-/**
- * Created by Yaroslav Mytkalyk on 03.06.17.
- *
- * Background image preference view
- */
+import com.doctoror.particleswallpaper.presentation.view.MvpView
+
 interface BackgroundImagePreferenceView : MvpView {
 
     fun showActionDialog()
-
 }
