@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.view
+package com.doctoror.particleswallpaper.userprefs.multisampling
 
-interface NumSamplesPreferenceView : MvpView {
+import com.doctoror.particleswallpaper.presentation.view.MvpView
+
+interface MultisamplingPreferenceView : MvpView {
 
     fun setPreferenceSupported(supported: Boolean)
 

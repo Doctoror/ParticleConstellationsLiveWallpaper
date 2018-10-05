@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.multisampling
 
 import android.app.Fragment
 import android.arch.lifecycle.Lifecycle
@@ -26,17 +26,16 @@ import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
 import com.doctoror.particleswallpaper.presentation.dialogs.MultisamplingRestartDialog
-import com.doctoror.particleswallpaper.presentation.presenter.NumSamplesPreferencePresenter
-import com.doctoror.particleswallpaper.presentation.view.NumSamplesPreferenceView
+import com.doctoror.particleswallpaper.presentation.preference.FragmentHolder
 import javax.inject.Inject
 
-class NumSamplesPreference @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
-    : ListPreference(context, attrs), NumSamplesPreferenceView, LifecycleObserver, FragmentHolder {
+class MultisamplingPreference @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
+    : ListPreference(context, attrs), MultisamplingPreferenceView, LifecycleObserver, FragmentHolder {
 
     override var fragment: Fragment? = null
 
     @Inject
-    lateinit var presenter: NumSamplesPreferencePresenter
+    lateinit var presenter: MultisamplingPreferencePresenter
 
     private var supported = true;
 

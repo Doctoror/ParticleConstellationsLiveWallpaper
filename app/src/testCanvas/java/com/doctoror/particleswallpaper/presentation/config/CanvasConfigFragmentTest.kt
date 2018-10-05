@@ -35,7 +35,7 @@ class CanvasConfigFragmentTest {
     fun multisamplingPreferenceDoesNotExist() {
         val underTest = underTestController.create().get()
 
-        val preference = underTest.findPreference(getString(R.string.pref_key_num_samples))
+        val preference = underTest.findPreference(getString(R.string.pref_key_multisampling))
 
         assertNull(preference)
     }

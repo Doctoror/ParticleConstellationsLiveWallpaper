@@ -62,7 +62,7 @@ constructor(private val ch: OnActivityResultCallbackHostImpl = OnActivityResultC
         if (!BuildConfig.OPEN_GL_VARIANT) {
             val group = findPreference(getString(R.string.pref_key_performance))
             if (group is PreferenceGroup) {
-                group.findPreference(getString(R.string.pref_key_num_samples))?.let {
+                group.findPreference(getString(R.string.pref_key_multisampling))?.let {
                     group.removePreference(it)
                 }
 

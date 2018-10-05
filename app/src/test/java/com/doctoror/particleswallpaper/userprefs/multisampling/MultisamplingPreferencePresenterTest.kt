@@ -1,16 +1,15 @@
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.multisampling
 
 import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.domain.interactor.WallpaperCheckerUseCase
-import com.doctoror.particleswallpaper.presentation.view.NumSamplesPreferenceView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.Single
 import org.junit.Test
 
-class NumSamplesPreferencePresenterTest {
+class MultisamplingPreferencePresenterTest {
 
     private val settings: SettingsRepositoryOpenGL = mock {
         on { it.observeNumSamples() }.doReturn(Observable.just(0))
@@ -24,9 +23,9 @@ class NumSamplesPreferencePresenterTest {
         on { it.useCase() }.doReturn(Single.just(false))
     }
 
-    private val view: NumSamplesPreferenceView = mock()
+    private val view: MultisamplingPreferenceView = mock()
 
-    private val underTest = NumSamplesPreferencePresenter(
+    private val underTest = MultisamplingPreferencePresenter(
             TrampolineSchedulers(), settings, settingsDevice, wallpaperChecker).apply {
         onTakeView(view)
     }

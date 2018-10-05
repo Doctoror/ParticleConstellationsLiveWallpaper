@@ -25,6 +25,7 @@ import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference
 import com.doctoror.particleswallpaper.userprefs.license.LicensePreference
 import com.doctoror.particleswallpaper.userprefs.linelength.LineLengthPreference
 import com.doctoror.particleswallpaper.userprefs.linescale.LineScalePreference
+import com.doctoror.particleswallpaper.userprefs.multisampling.MultisamplingPreference
 import com.doctoror.particleswallpaper.userprefs.particlecolor.ParticlesColorPreference
 import com.doctoror.particleswallpaper.userprefs.particlescale.ParticleScalePreference
 import dagger.Component
@@ -46,7 +47,7 @@ interface PreferenceComponent {
     fun inject(p: LineLengthPreference)
     fun inject(p: LineScalePreference)
     fun inject(p: DensityPreference)
-    fun inject(p: NumSamplesPreference)
+    fun inject(p: MultisamplingPreference)
     fun inject(p: OptimizeTexturesPreference)
     fun inject(p: ParticleScalePreference)
     fun inject(p: ParticlesColorPreference)
