@@ -13,16 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.config
+package com.doctoror.particleswallpaper.config.scene
 
-import android.os.Build
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+interface SceneConfiguratorFactory {
 
-class ApiLevelProviderTest {
-
-    @Test
-    fun providesSdkInt() {
-        assertEquals(Build.VERSION.SDK_INT, ApiLevelProvider().provideSdkInt())
-    }
+    fun newSceneConfigurator(): SceneConfigurator
 }

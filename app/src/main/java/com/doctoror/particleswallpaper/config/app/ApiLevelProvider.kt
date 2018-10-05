@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.config
+package com.doctoror.particleswallpaper.config.app
 
-interface SceneConfiguratorFactory {
+import android.os.Build
 
-    fun newSceneConfigurator(): SceneConfigurator
+class ApiLevelProvider {
+
+    fun provideSdkInt() = Build.VERSION.SDK_INT
 }

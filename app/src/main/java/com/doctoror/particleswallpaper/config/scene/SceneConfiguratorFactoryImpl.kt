@@ -15,8 +15,6 @@
  */
 package com.doctoror.particleswallpaper.config.scene
 
-import com.doctoror.particleswallpaper.domain.config.SceneConfiguratorFactory
-
 class SceneConfiguratorFactoryImpl : SceneConfiguratorFactory {
 
     override fun newSceneConfigurator() = SceneConfiguratorImpl()

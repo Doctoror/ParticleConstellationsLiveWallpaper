@@ -29,7 +29,7 @@ import android.util.Log
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
+import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.interactor.PickImageDocumentUseCase

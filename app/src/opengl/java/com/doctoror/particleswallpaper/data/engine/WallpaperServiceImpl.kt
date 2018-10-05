@@ -28,8 +28,8 @@ import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
-import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
-import com.doctoror.particleswallpaper.domain.config.SceneConfiguratorFactory
+import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection

@@ -21,8 +21,8 @@ import com.doctoror.particleswallpaper.data.file.BackgroundImageManagerImpl
 import com.doctoror.particleswallpaper.data.file.FileSaver
 import com.doctoror.particleswallpaper.data.file.FileUriResolver
 import com.doctoror.particleswallpaper.data.repository.*
-import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
-import com.doctoror.particleswallpaper.domain.config.SceneConfiguratorFactory
+import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
+import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository

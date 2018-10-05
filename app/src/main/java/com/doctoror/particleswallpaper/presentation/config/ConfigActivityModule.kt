@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.presentation.config
 import android.os.Build
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
-import com.doctoror.particleswallpaper.domain.config.SceneConfigurator
+import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase

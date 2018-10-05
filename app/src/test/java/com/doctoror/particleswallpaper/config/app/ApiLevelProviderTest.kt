@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.config
+package com.doctoror.particleswallpaper.config.app
 
 import android.os.Build
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
-class ApiLevelProvider {
+class ApiLevelProviderTest {
 
-    fun provideSdkInt() = Build.VERSION.SDK_INT
+    @Test
+    fun providesSdkInt() {
+        assertEquals(Build.VERSION.SDK_INT, ApiLevelProvider().provideSdkInt())
+    }
 }

@@ -24,7 +24,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.data.engine.WallpaperServiceImpl
-import com.doctoror.particleswallpaper.domain.config.ApiLevelProvider
+import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import javax.inject.Inject
 
 class OpenChangeWallpaperIntentProvider @Inject constructor(
