@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.view
+package com.doctoror.particleswallpaper.userprefs.bgcolor
+
+import com.doctoror.particleswallpaper.presentation.view.MvpView
 
 /**
  * Created by Yaroslav Mytkalyk on 03.06.17.

@@ -17,6 +17,7 @@ package com.doctoror.particleswallpaper.presentation.di.components
 
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.preference.*
+import com.doctoror.particleswallpaper.userprefs.bgcolor.BackgroundColorPreference
 import dagger.Component
 
 /**
