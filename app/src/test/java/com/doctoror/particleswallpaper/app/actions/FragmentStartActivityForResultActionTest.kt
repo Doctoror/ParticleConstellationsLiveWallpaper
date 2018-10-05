@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.actions
+package com.doctoror.particleswallpaper.app.actions
 
-import android.app.Activity
+import android.app.Fragment
 import android.content.Intent
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.jupiter.api.Test
 
-class ActivityStartActivityForResultActionTest {
+class FragmentStartActivityForResultActionTest {
 
-    private val activity: Activity = mock()
-    private val underTest = ActivityStartActivityForResultAction(activity)
+    private val fragment: Fragment = mock()
+    private val underTest = FragmentStartActivityForResultAction(fragment)
 
     @Test
     fun startsActivityForResult() {
@@ -36,6 +36,6 @@ class ActivityStartActivityForResultActionTest {
         underTest.startActivityForResult(intent, requestCode)
 
         // Then
-        verify(activity).startActivityForResult(intent, requestCode)
+        verify(fragment).startActivityForResult(intent, requestCode)
     }
 }

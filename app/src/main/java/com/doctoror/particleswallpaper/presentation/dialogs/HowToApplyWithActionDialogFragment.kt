@@ -21,7 +21,7 @@ import android.os.Bundle
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
-import com.doctoror.particleswallpaper.presentation.actions.FragmentStartActivityForResultAction
+import com.doctoror.particleswallpaper.app.actions.FragmentStartActivityForResultAction
 import javax.inject.Inject
 
 abstract class HowToApplyWithActionDialogFragment : DialogFragment() {
