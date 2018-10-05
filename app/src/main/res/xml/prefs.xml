@@ -80,7 +80,7 @@
             android:key="@string/pref_key_step_multiplier"
             android:title="@string/Speed_factor"/>
 
-        <com.doctoror.particleswallpaper.presentation.preference.FrameDelayPreference
+        <com.doctoror.particleswallpaper.userprefs.framedelay.FrameDelayPreference
             android:key="@string/pref_key_frame_delay"
             android:title="@string/Frame_rate"/>
 

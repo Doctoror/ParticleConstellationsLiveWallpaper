@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.framedelay
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
@@ -23,15 +23,9 @@ import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.presenter.FrameDelayPreferencePresenter
-import com.doctoror.particleswallpaper.presentation.view.FrameDelayPreferenceView
+import com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 30.05.17.
- *
- * The frame delay preference
- */
 class FrameDelayPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : SeekBarPreference(context, attrs, defStyle),

@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.framedelay
 
 import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
-import com.doctoror.particleswallpaper.presentation.view.FrameDelayPreferenceView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -40,7 +39,7 @@ class FrameDelayPreferencePresenterTest {
 
     @Test
     fun testMapper() {
-        testMapper(underTest)
+        com.doctoror.particleswallpaper.presentation.presenter.testMapper(underTest)
     }
 
     @Test
