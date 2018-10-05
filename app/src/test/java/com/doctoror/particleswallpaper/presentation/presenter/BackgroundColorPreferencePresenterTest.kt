@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.presentation.presenter
 
 import android.graphics.Color
-import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.view.BackgroundColorPreferenceView

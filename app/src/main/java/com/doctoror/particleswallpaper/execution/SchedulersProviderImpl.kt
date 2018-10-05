@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.data.execution
+package com.doctoror.particleswallpaper.execution
 
 import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
 import io.reactivex.android.schedulers.AndroidSchedulers

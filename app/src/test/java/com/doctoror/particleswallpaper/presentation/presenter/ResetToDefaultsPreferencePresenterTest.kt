@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
-import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.interactor.ResetToDefaultsUseCase
 import com.doctoror.particleswallpaper.presentation.view.ResetToDefaultsPreferenceView
 import com.nhaarman.mockito_kotlin.mock

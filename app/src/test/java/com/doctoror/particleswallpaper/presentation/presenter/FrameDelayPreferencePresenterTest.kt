@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.presentation.presenter
 
-import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.view.FrameDelayPreferenceView
 import com.nhaarman.mockito_kotlin.*

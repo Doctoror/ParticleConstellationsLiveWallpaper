@@ -21,7 +21,7 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import com.bumptech.glide.Glide
-import com.doctoror.particleswallpaper.data.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.domain.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.domain.interactor.PickImageDocumentUseCase
