@@ -13,16 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.base
+package com.doctoror.particleswallpaper.app.base
+
+import android.content.Intent
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.
  *
- * Hosts [OnActivityResultCallback]. The implementation should foward
- * [OnActivityResultCallback.onActivityResult] to the registered callbacks.
+ * onActivityResult() callback.
+ *
+ * This class overloads [equals] and [hashCode] to compare references instead of equality, which
+ * allows, for example, to compare them in "contains" and "remove" methods of Collections.
  */
-interface OnActivityResultCallbackHost {
+abstract class OnActivityResultCallback {
 
-    fun registerCallback(callback : OnActivityResultCallback)
-    fun unregsiterCallback(callback: OnActivityResultCallback)
+    abstract fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+
+    override operator fun equals(other: Any?) = this === other
+    override fun hashCode() = 0
 }

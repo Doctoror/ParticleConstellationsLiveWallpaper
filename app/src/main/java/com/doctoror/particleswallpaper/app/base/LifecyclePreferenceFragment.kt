@@ -13,28 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.base
+package com.doctoror.particleswallpaper.app.base
 
-import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
-import android.os.Bundle
+import android.preference.PreferenceFragment
 
 /**
- * [LifecycleOwner] [Activity]
+ * Created by Yaroslav Mytkalyk on 01.06.17.
+ *
+ * [LifecycleOwner] [PreferenceFragment].
+ * Forwards [Lifecycle.Event.ON_START] and [Lifecycle.Event.ON_STOP] lifecycle events to [LifecycleRegistry]
  */
-abstract class LifecycleActivity : Activity(), LifecycleOwner {
+abstract class LifecyclePreferenceFragment : PreferenceFragment(), LifecycleOwner {
 
     @Suppress("LeakingThis")
     private val lifecycleRegistry = LifecycleRegistry(this)
 
     override fun getLifecycle() = lifecycleRegistry
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    }
 
     override fun onStart() {
         super.onStart()

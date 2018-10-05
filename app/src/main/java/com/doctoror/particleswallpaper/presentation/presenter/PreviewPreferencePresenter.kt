@@ -20,8 +20,8 @@ import android.app.Fragment
 import android.content.Intent
 import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
-import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
-import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
+import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
+import com.doctoror.particleswallpaper.app.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.MvpView
 

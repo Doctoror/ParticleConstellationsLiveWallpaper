@@ -31,7 +31,7 @@ import com.doctoror.particleswallpaper.settings.NO_URI
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
-import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
+import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.config.ConfigFragment
 import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
 import com.nhaarman.mockito_kotlin.*

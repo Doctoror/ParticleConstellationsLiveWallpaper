@@ -23,7 +23,7 @@ import android.widget.ImageView
 import com.doctoror.particlesdrawable.ParticlesView
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.app.ApplicationlessInjection
-import com.doctoror.particleswallpaper.presentation.base.LifecycleActivity
+import com.doctoror.particleswallpaper.app.base.LifecycleActivity
 import javax.inject.Inject
 
 class ConfigActivity : LifecycleActivity(), ConfigActivityView {

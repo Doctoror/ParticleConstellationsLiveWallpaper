@@ -40,8 +40,8 @@ import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.app.actions.FragmentStartActivityForResultAction
-import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallback
-import com.doctoror.particleswallpaper.presentation.base.OnActivityResultCallbackHost
+import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
+import com.doctoror.particleswallpaper.app.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.BackgroundImagePreferenceView
