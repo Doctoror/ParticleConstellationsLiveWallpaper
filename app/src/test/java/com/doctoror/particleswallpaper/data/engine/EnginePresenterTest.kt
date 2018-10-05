@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.data.engine
 
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import com.bumptech.glide.Glide
@@ -306,5 +307,35 @@ class EnginePresenterTest {
 
         // Then
         verify(scenePresenter).stop()
+    }
+
+    @Test
+    fun onDrawFrameWhenBackgroundAndColorDirty() {
+        val background: Bitmap = mock()
+        underTest.background = background
+
+        val color = Color.CYAN
+        underTest.backgroundColor = color
+
+        underTest.onSurfaceCreated()
+
+        underTest.onDrawFrame()
+
+        verify(renderer).setBackgroundTexture(background)
+        verify(renderer).setClearColor(color)
+
+        verify(scenePresenter).draw()
+        verify(scenePresenter).run()
+    }
+
+    @Test
+    fun onDrawFrameWhenBackgroundAndColorNotDirty() {
+        underTest.onDrawFrame()
+
+        verify(renderer, never()).setBackgroundTexture(any())
+        verify(renderer, never()).setClearColor(any())
+
+        verify(scenePresenter).draw()
+        verify(scenePresenter).run()
     }
 }
