@@ -40,7 +40,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
-import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.settings.NO_URI
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.REQUEST_CODE_CHANGE_WALLPAPER

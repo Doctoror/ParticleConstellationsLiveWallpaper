@@ -30,7 +30,7 @@ import com.doctoror.particleswallpaper.settings.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactory
-import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
 import com.doctoror.particleswallpaper.scheduler.GlScheduler
