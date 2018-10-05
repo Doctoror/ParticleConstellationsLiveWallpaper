@@ -24,8 +24,6 @@ import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.file.BackgroundImageManager
-import com.doctoror.particleswallpaper.domain.interactor.PickImageDocumentUseCase
-import com.doctoror.particleswallpaper.domain.interactor.PickImageGetContentUseCase
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.settings.NO_URI
 import com.doctoror.particleswallpaper.settings.SettingsRepository

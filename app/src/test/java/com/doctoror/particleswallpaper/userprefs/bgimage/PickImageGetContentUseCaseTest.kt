@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.interactor
+package com.doctoror.particleswallpaper.userprefs.bgimage
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
+import com.doctoror.particleswallpaper.domain.interactor.StartActivityForResultAction
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

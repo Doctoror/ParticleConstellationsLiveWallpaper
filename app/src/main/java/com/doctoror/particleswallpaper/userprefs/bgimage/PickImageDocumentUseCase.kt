@@ -13,27 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.interactor
+package com.doctoror.particleswallpaper.userprefs.bgimage
 
+import android.annotation.TargetApi
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
+import android.os.Build
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
+import com.doctoror.particleswallpaper.domain.interactor.StartActivityForResultAction
 import javax.inject.Inject
 
-class PickImageGetContentUseCase @Inject constructor() {
+class PickImageDocumentUseCase @Inject constructor(
+        private val getContentUseCase: PickImageGetContentUseCase) {
 
-    @Throws(ActivityNotFoundException::class)
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     fun invoke(startActivityForResultAction: StartActivityForResultAction) {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
         intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
         try {
-            startActivityForResultAction.startActivityForResult(
-                    Intent.createChooser(intent, null), REQUEST_CODE_GET_CONTENT)
+            startActivityForResultAction.startActivityForResult(intent, REQUEST_CODE_OPEN_DOCUMENT)
         } catch (e: ActivityNotFoundException) {
-            startActivityForResultAction.startActivityForResult(intent, REQUEST_CODE_GET_CONTENT)
+            getContentUseCase.invoke(startActivityForResultAction)
         }
     }
 }
