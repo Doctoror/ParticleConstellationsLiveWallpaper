@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.data.repository
 
 import android.content.Context
 import android.support.annotation.ColorInt
-import com.doctoror.particleswallpaper.data.prefs.Prefs
+import com.doctoror.particleswallpaper.prefs.Prefs
 import com.doctoror.particleswallpaper.domain.repository.MutableSettingsRepository
 import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
 import io.reactivex.subjects.BehaviorSubject
