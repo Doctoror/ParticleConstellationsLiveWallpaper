@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.linelength
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
@@ -22,21 +22,16 @@ import android.content.Context
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.presenter.LineDistancePreferencePresenter
+import com.doctoror.particleswallpaper.presentation.preference.SeekBarPreference
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 30.05.17.
- *
- * The line distance preference.
- */
-class LineDistancePreference @JvmOverloads constructor
+class LineLengthPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : SeekBarPreference(context, attrs, defStyle), SeekBarPreferenceView, LifecycleObserver {
 
     @Inject
-    lateinit var presenter: LineDistancePreferencePresenter
+    lateinit var presenter: LineLengthPreferencePresenter
 
     init {
         DaggerPreferenceComponent.builder()

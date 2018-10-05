@@ -66,8 +66,8 @@
             android:key="@string/pref_key_line_scale"
             android:title="@string/Line_thickness"/>
 
-        <com.doctoror.particleswallpaper.presentation.preference.LineDistancePreference
-            android:key="@string/pref_key_line_distance"
+        <com.doctoror.particleswallpaper.userprefs.linelength.LineLengthPreference
+            android:key="@string/pref_key_line_length"
             android:title="@string/Line_length"/>
 
     </PreferenceCategory>

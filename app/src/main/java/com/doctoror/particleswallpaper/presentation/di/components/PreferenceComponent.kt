@@ -22,6 +22,7 @@ import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreferen
 import com.doctoror.particleswallpaper.userprefs.framedelay.FrameDelayPreference
 import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference
 import com.doctoror.particleswallpaper.userprefs.license.LicensePreference
+import com.doctoror.particleswallpaper.userprefs.linelength.LineLengthPreference
 import com.doctoror.particleswallpaper.userprefs.particlecolor.ParticlesColorPreference
 import com.doctoror.particleswallpaper.userprefs.particlescale.ParticleScalePreference
 import dagger.Component
@@ -40,7 +41,7 @@ interface PreferenceComponent {
     fun inject(p: FrameDelayPreference)
     fun inject(p: HowToApplyPreference)
     fun inject(p: LicensePreference)
-    fun inject(p: LineDistancePreference)
+    fun inject(p: LineLengthPreference)
     fun inject(p: LineScalePreference)
     fun inject(p: NumDotsPreference)
     fun inject(p: NumSamplesPreference)
