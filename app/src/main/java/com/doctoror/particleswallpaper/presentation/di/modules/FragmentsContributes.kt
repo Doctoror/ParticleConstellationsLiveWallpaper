@@ -4,7 +4,7 @@ import com.doctoror.particleswallpaper.presentation.config.ConfigFragment
 import com.doctoror.particleswallpaper.presentation.config.ConfigFragmentLollipop
 import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyUsingChooserDialogFragment
 import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyUsingPreviewDialogFragment
-import com.doctoror.particleswallpaper.presentation.dialogs.MultisamplingRestartDialog
+import com.doctoror.particleswallpaper.userprefs.multisampling.MultisamplingRestartDialog
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

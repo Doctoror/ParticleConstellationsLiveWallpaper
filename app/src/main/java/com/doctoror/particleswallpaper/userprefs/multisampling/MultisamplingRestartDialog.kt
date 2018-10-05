@@ -1,4 +1,4 @@
-package com.doctoror.particleswallpaper.presentation.dialogs
+package com.doctoror.particleswallpaper.userprefs.multisampling
 
 import android.app.AlertDialog
 import android.app.Dialog
