@@ -62,7 +62,7 @@
             android:key="@string/pref_key_particle_scale"
             android:title="@string/Dot_scale"/>
 
-        <com.doctoror.particleswallpaper.presentation.preference.LineScalePreference
+        <com.doctoror.particleswallpaper.userprefs.linescale.LineScalePreference
             android:key="@string/pref_key_line_scale"
             android:title="@string/Line_thickness"/>
 

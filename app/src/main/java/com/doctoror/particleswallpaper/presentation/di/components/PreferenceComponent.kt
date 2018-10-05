@@ -23,6 +23,7 @@ import com.doctoror.particleswallpaper.userprefs.framedelay.FrameDelayPreference
 import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference
 import com.doctoror.particleswallpaper.userprefs.license.LicensePreference
 import com.doctoror.particleswallpaper.userprefs.linelength.LineLengthPreference
+import com.doctoror.particleswallpaper.userprefs.linescale.LineScalePreference
 import com.doctoror.particleswallpaper.userprefs.particlecolor.ParticlesColorPreference
 import com.doctoror.particleswallpaper.userprefs.particlescale.ParticleScalePreference
 import dagger.Component
