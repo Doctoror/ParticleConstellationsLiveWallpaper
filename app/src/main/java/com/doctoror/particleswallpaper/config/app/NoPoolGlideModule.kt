@@ -1,4 +1,4 @@
-package com.doctoror.particleswallpaper.data.config
+package com.doctoror.particleswallpaper.config.app
 
 import android.content.Context
 import com.bumptech.glide.GlideBuilder

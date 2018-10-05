@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.data.config
+package com.doctoror.particleswallpaper.config.scene
 
 import android.support.annotation.VisibleForTesting
 import com.doctoror.particlesdrawable.contract.SceneConfiguration

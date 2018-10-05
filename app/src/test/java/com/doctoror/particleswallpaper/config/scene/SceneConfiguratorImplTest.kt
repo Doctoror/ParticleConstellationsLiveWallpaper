@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.data.config
+package com.doctoror.particleswallpaper.config.scene
 
+import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorImpl
 import com.doctoror.particleswallpaper.data.repository.MockSettingsRepositoryFactory
 import com.nhaarman.mockito_kotlin.mock
 import io.reactivex.schedulers.Schedulers
