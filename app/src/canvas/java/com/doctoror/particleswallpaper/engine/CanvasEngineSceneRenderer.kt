@@ -30,7 +30,7 @@ import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer
-import com.doctoror.particleswallpaper.config.app.HardwareCanvasBlacklist
+import com.doctoror.particleswallpaper.framework.app.HardwareCanvasBlacklist
 
 class CanvasEngineSceneRenderer(
         private val canvasSceneRenderer: CanvasSceneRenderer,
