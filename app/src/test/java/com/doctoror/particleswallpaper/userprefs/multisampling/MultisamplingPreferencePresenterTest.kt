@@ -19,7 +19,7 @@ class MultisamplingPreferencePresenterTest {
     }
 
     private val wallpaperChecker: WallpaperCheckerUseCase = mock {
-        on { it.useCase() }.doReturn(Single.just(false))
+        on { it.wallpaperInstalledSource() }.doReturn(Single.just(false))
     }
 
     private val view: MultisamplingPreferenceView = mock()
@@ -70,7 +70,7 @@ class MultisamplingPreferencePresenterTest {
     @Test
     fun doesNotShowWallpaperRestartDialogIfNotSetYet() {
         // Given
-        whenever(wallpaperChecker.useCase()).thenReturn(Single.just(false))
+        whenever(wallpaperChecker.wallpaperInstalledSource()).thenReturn(Single.just(false))
 
         // When
         underTest.onPreferenceChange(0)
@@ -82,7 +82,7 @@ class MultisamplingPreferencePresenterTest {
     @Test
     fun showsWallpaperRestartDialogIfAlreadySet() {
         // Given
-        whenever(wallpaperChecker.useCase()).thenReturn(Single.just(true))
+        whenever(wallpaperChecker.wallpaperInstalledSource()).thenReturn(Single.just(true))
 
         // When
         underTest.onPreferenceChange(0)

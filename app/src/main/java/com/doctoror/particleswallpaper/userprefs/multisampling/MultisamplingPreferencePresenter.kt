@@ -40,7 +40,7 @@ class MultisamplingPreferencePresenter @Inject constructor(
         settings.numSamples = v
 
         wallpaperChecker
-                .useCase()
+                .wallpaperInstalledSource()
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.mainThread())
                 .subscribe { isInstalled ->

@@ -3,7 +3,6 @@ package com.doctoror.particleswallpaper.userprefs.multisampling
 import android.app.WallpaperInfo
 import android.app.WallpaperManager
 import android.content.Context
-import com.doctoror.particleswallpaper.userprefs.multisampling.WallpaperCheckerUseCase
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -21,33 +20,33 @@ class WallpaperCheckerUseCaseTest {
 
     @Test
     fun returnsFalseWhenWallpaperServiceIsNull() {
-        underTest.useCase().test().assertResult(false)
+        underTest.wallpaperInstalledSource().test().assertResult(false)
     }
 
     @Test
     fun returnsFalseWhenWallpaperInfoIsNull() {
         mockWallpaperManagerWithWallpaperInfo(null)
-        underTest.useCase().test().assertResult(false)
+        underTest.wallpaperInstalledSource().test().assertResult(false)
     }
 
     @Test
     fun returnsFalseWhenWallpaperInfoIsPackageIsNull() {
         mockWallpaperManagerWithWallpaperInfo(mockWallpaperInfoWithPackageName(null))
-        underTest.useCase().test().assertResult(false)
+        underTest.wallpaperInstalledSource().test().assertResult(false)
     }
 
     @Test
     fun returnsFalseWhenWallpaperInfoPackageDiffers() {
         mockWallpaperManagerWithWallpaperInfo(
                 mockWallpaperInfoWithPackageName("com.doctoror.particlesdrawable"))
-        underTest.useCase().test().assertResult(false)
+        underTest.wallpaperInstalledSource().test().assertResult(false)
     }
 
     @Test
     fun returnsTrueWhenWallpaperInfoPackageMatches() {
         mockWallpaperManagerWithWallpaperInfo(
                 mockWallpaperInfoWithPackageName(packageName))
-        underTest.useCase().test().assertResult(true)
+        underTest.wallpaperInstalledSource().test().assertResult(true)
     }
 
     private fun mockWallpaperInfoWithPackageName(packageName: String?): WallpaperInfo = mock {
