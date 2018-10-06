@@ -15,19 +15,18 @@
  */
 package com.doctoror.particleswallpaper.userprefs.howtoapply
 
-import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.presenter.Presenter
+import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import javax.inject.Inject
 
 @PerPreference
 class HowToApplyPreferencePresenter @Inject constructor(
         private val intentProvider: OpenChangeWallpaperIntentProvider
-) : Presenter<HowToApplyPreferenceView> {
+) {
 
     private lateinit var view: HowToApplyPreferenceView
 
-    override fun onTakeView(view: HowToApplyPreferenceView) {
+    fun onTakeView(view: HowToApplyPreferenceView) {
         this.view = view
     }
 
