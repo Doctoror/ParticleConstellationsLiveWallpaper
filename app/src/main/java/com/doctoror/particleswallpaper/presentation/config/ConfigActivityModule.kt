@@ -20,8 +20,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
-import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
+import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
+import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.app.actions.ActivityStartActivityForResultAction
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity

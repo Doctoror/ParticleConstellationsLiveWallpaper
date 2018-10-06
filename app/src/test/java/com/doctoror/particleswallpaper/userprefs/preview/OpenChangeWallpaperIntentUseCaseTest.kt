@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.interactor
+package com.doctoror.particleswallpaper.userprefs.preview
 
 import android.content.ActivityNotFoundException
 import android.content.Intent

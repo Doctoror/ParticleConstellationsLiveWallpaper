@@ -13,23 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.preview
 
 import android.app.Activity
 import android.app.Fragment
 import android.content.Intent
-import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.app.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
+import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import com.doctoror.particleswallpaper.presentation.view.MvpView
 
-/**
- * Created by Yaroslav Mytkalyk on 03.06.17.
- *
- * Presenter for [com.doctoror.particleswallpaper.presentation.preference.PreviewPreference]
- */
 @PerPreference
 class PreviewPreferencePresenter(private val activity: Activity)
     : Presenter<MvpView> {

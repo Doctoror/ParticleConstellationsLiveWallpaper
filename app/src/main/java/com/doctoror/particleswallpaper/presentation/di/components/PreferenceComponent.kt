@@ -30,6 +30,7 @@ import com.doctoror.particleswallpaper.userprefs.particlecolor.ParticlesColorPre
 import com.doctoror.particleswallpaper.userprefs.particlescale.ParticleScalePreference
 import com.doctoror.particleswallpaper.userprefs.optimizetextures.OptimizeTexturesPreference
 import com.doctoror.particleswallpaper.userprefs.performancetips.PerformanceTipsPreference
+import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreference
 import dagger.Component
 
 /**

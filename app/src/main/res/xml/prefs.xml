@@ -21,7 +21,7 @@
         android:key="@string/pref_key_how_to_apply"
         android:title="@string/How_to_apply"/>
 
-    <com.doctoror.particleswallpaper.presentation.preference.PreviewPreference
+    <com.doctoror.particleswallpaper.userprefs.preview.PreviewPreference
         android:key="@string/pref_key_apply"
         android:title="@string/Apply"/>
 

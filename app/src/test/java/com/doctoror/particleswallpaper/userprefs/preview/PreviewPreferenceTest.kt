@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.preview
 
 import android.app.Activity
 import android.app.Fragment
 import android.content.res.TypedArray
-import com.doctoror.particleswallpaper.presentation.presenter.PreviewPreferencePresenter
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Test
 import org.junit.runner.RunWith

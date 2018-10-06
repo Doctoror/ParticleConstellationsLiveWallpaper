@@ -13,25 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.preview
 
 import android.app.Activity
 import android.app.Fragment
 import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
-import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.app.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.presenter.PreviewPreferencePresenter
+import com.doctoror.particleswallpaper.presentation.preference.FragmentHolder
 import com.doctoror.particleswallpaper.presentation.view.MvpView
 import javax.inject.Inject
 
 /**
- * Created by Yaroslav Mytkalyk on 31.05.17.
- *
  * Preference for showing the wallpaper preview.
  */
 class PreviewPreference @JvmOverloads constructor

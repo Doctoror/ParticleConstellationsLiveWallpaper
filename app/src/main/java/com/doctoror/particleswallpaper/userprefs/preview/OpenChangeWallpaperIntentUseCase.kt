@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.interactor
+package com.doctoror.particleswallpaper.userprefs.preview
 
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.app.actions.StartActivityForResultAction
+import com.doctoror.particleswallpaper.domain.interactor.UseCase
 import io.reactivex.Single
 
 /**

@@ -19,8 +19,8 @@ import android.app.AlertDialog
 import android.app.DialogFragment
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentProvider
-import com.doctoror.particleswallpaper.domain.interactor.OpenChangeWallpaperIntentUseCase
+import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
+import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.app.actions.FragmentStartActivityForResultAction
 import javax.inject.Inject
 
