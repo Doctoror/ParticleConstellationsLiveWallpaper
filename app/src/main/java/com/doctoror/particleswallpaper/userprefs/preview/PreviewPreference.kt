@@ -20,7 +20,7 @@ import android.app.Fragment
 import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.app.FragmentHolder
+import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent

@@ -25,7 +25,7 @@ import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.app.FragmentHolder
+import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import javax.inject.Inject
 
 class MultisamplingPreference @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
