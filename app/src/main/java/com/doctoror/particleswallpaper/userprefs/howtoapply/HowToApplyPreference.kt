@@ -21,7 +21,7 @@ import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.preference.FragmentHolder
+import com.doctoror.particleswallpaper.app.FragmentHolder
 import javax.inject.Inject
 
 class HowToApplyPreference @JvmOverloads constructor(

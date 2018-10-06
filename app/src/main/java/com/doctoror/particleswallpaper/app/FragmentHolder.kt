@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.app
 
 import android.app.Fragment
 

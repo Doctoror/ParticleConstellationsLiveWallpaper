@@ -23,7 +23,7 @@ import android.util.AttributeSet
 import com.doctoror.particleswallpaper.app.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.preference.FragmentHolder
+import com.doctoror.particleswallpaper.app.FragmentHolder
 import com.doctoror.particleswallpaper.presentation.view.MvpView
 import javax.inject.Inject
 

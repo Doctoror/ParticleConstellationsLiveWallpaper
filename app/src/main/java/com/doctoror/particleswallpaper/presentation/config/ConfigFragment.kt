@@ -29,7 +29,7 @@ import com.doctoror.particleswallpaper.app.ApplicationlessInjection
 import com.doctoror.particleswallpaper.app.base.LifecyclePreferenceFragment
 import com.doctoror.particleswallpaper.app.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.app.base.OnActivityResultCallbackHostImpl
-import com.doctoror.particleswallpaper.presentation.preference.FragmentHolder
+import com.doctoror.particleswallpaper.app.FragmentHolder
 import javax.inject.Inject
 
 /**
