@@ -25,12 +25,12 @@ import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
+import com.doctoror.particleswallpaper.app.ApplicationlessInjection
 import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactory
-import com.doctoror.particleswallpaper.data.repository.SettingsRepositoryOpenGL
-import com.doctoror.particleswallpaper.domain.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.domain.repository.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.ApplicationlessInjection
+import com.doctoror.particleswallpaper.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.settings.SettingsRepository
+import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
