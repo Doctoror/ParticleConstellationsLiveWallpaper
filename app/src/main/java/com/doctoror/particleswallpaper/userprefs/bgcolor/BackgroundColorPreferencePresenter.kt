@@ -16,31 +16,24 @@
 package com.doctoror.particleswallpaper.userprefs.bgcolor
 
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
-import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.presenter.Presenter
+import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 03.06.17.
- *
- * Presenter for [BackgroundColorPreferenceView]
- */
 @PerPreference
 class BackgroundColorPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
-        @Default private val defaults: SettingsRepository)
-    : Presenter<BackgroundColorPreferenceView> {
+        @Default private val defaults: SettingsRepository) {
 
     private lateinit var view: BackgroundColorPreferenceView
 
     private var disposable: Disposable? = null
 
-    override fun onTakeView(view: BackgroundColorPreferenceView) {
+    fun onTakeView(view: BackgroundColorPreferenceView) {
         this.view = view
     }
 
