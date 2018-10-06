@@ -52,7 +52,7 @@ class CenterCropAndThenResizeTransform(
         // We don't add or remove alpha, so keep the alpha setting of the Bitmap we were given.
         TransformationUtils.setAlpha(toTransform, result)
 
-        com.doctoror.particleswallpaper.presentation.util.TransformationUtils.applyMatrix(toTransform, result, matrix)
+        com.doctoror.particleswallpaper.engine.TransformationUtils.applyMatrix(toTransform, result, matrix)
 
         return result
     }
