@@ -23,8 +23,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.support.annotation.VisibleForTesting
-import com.doctoror.particleswallpaper.engine.WallpaperServiceImpl
 import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.engine.WallpaperServiceImpl
 import javax.inject.Inject
 
 class OpenChangeWallpaperIntentProvider @Inject constructor(
@@ -83,7 +83,8 @@ class OpenChangeWallpaperIntentProvider @Inject constructor(
             Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).apply {
                 putExtra("SET_LOCKSCREEN_WALLPAPER", true)
                 putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                        ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName))
+                        ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName!!)
+                )
             }
 
     @VisibleForTesting
