@@ -19,7 +19,7 @@ import android.app.Activity
 import android.app.Fragment
 import android.app.Service
 import android.content.Context
-import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
+import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
 import dagger.android.DispatchingAndroidInjector
 import javax.inject.Inject
 

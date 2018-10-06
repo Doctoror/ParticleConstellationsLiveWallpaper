@@ -13,15 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.di.modules
+package com.doctoror.particleswallpaper.framework.di.qualifiers
 
-import com.doctoror.particleswallpaper.engine.WallpaperServiceImpl
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import javax.inject.Qualifier
 
-@Module
-interface ServicesContributes {
-
-    @ContributesAndroidInjector
-    fun wallpaperService(): WallpaperServiceImpl
-}
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Default

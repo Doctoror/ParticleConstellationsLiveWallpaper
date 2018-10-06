@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.userprefs.optimizetextures
 
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
+import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject

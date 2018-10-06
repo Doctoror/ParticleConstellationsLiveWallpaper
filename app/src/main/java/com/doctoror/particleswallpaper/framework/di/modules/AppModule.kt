@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.di.modules
+package com.doctoror.particleswallpaper.framework.di.modules
 
 import android.content.Context
 import android.content.pm.PackageManager

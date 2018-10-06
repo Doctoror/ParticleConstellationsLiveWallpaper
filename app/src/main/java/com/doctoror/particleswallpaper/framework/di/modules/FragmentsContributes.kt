@@ -1,4 +1,4 @@
-package com.doctoror.particleswallpaper.presentation.di.modules
+package com.doctoror.particleswallpaper.framework.di.modules
 
 import com.doctoror.particleswallpaper.userprefs.ConfigFragment
 import com.doctoror.particleswallpaper.userprefs.ConfigFragmentLollipop

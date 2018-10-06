@@ -20,8 +20,8 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
-import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
+import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
+import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
 import com.doctoror.particleswallpaper.preference.SeekBarPreference
 import com.doctoror.particleswallpaper.preference.SeekBarPreferenceView
 import javax.inject.Inject

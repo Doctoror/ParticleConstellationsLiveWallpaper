@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.howtoapply
 
-import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
+import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import javax.inject.Inject
 

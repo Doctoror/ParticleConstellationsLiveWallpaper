@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.di.modules
+package com.doctoror.particleswallpaper.framework.di.modules
 
 import android.content.Context
 import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactoryImpl
@@ -26,7 +26,7 @@ import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.settings.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
+import com.doctoror.particleswallpaper.framework.di.qualifiers.Default
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

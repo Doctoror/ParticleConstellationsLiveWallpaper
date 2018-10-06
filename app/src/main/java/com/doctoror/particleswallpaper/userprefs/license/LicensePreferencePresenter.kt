@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.license
 
-import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
+import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import javax.inject.Inject
 
 @PerPreference

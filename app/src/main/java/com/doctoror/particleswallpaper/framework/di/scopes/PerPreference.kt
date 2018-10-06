@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Yaroslav Mytkalyk
+ * Copyright (C) 2017 Yaroslav Mytkalyk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.di.modules
+package com.doctoror.particleswallpaper.framework.di.scopes
 
-import com.doctoror.particleswallpaper.userprefs.ConfigActivity
-import com.doctoror.particleswallpaper.userprefs.ConfigActivityModule
-import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import javax.inject.Scope
 
-@Module
-interface ActivitiesContributes {
-
-    @PerActivity
-    @ContributesAndroidInjector(modules = [ConfigActivityModule::class])
-    fun configActivity(): ConfigActivity
-}
+/**
+ * Created by Yaroslav Mytkalyk on 14.06.17.
+ *
+ * Activity scope
+ */
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class PerPreference

@@ -21,8 +21,8 @@ import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.preference.CheckBoxPreference
 import android.util.AttributeSet
-import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
-import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
+import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
+import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
 import javax.inject.Inject
 
 class OptimizeTexturesPreference @JvmOverloads constructor(

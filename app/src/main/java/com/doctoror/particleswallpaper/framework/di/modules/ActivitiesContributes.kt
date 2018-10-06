@@ -13,10 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.di.qualifiers
+package com.doctoror.particleswallpaper.framework.di.modules
 
-import javax.inject.Qualifier
+import com.doctoror.particleswallpaper.userprefs.ConfigActivity
+import com.doctoror.particleswallpaper.userprefs.ConfigActivityModule
+import com.doctoror.particleswallpaper.framework.di.scopes.PerActivity
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class Default
+@Module
+interface ActivitiesContributes {
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = [ConfigActivityModule::class])
+    fun configActivity(): ConfigActivity
+}

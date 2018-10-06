@@ -24,7 +24,7 @@ import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperInte
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.app.actions.ActivityStartActivityForResultAction
-import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
+import com.doctoror.particleswallpaper.framework.di.scopes.PerActivity
 import dagger.Module
 import dagger.Provides
 

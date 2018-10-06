@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.di.components
+package com.doctoror.particleswallpaper.framework.di.components
 
 import android.content.Context
-import com.doctoror.particleswallpaper.presentation.di.modules.AppModule
-import com.doctoror.particleswallpaper.presentation.di.modules.ConfigModule
+import com.doctoror.particleswallpaper.framework.di.modules.AppModule
+import com.doctoror.particleswallpaper.framework.di.modules.ConfigModule
 
 object AppComponentProvider {
 

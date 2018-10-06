@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.di.components
+package com.doctoror.particleswallpaper.framework.di.components
 
 import android.content.Context
 import android.content.pm.PackageManager
@@ -27,8 +27,8 @@ import com.doctoror.particleswallpaper.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.app.ApplicationlessInjection
-import com.doctoror.particleswallpaper.presentation.di.modules.*
-import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
+import com.doctoror.particleswallpaper.framework.di.modules.*
+import com.doctoror.particleswallpaper.framework.di.qualifiers.Default
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector

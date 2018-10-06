@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
+import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import javax.inject.Inject
 
 @PerPreference

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.di.components
+package com.doctoror.particleswallpaper.framework.di.components
 
-import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
+import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.userprefs.bgcolor.BackgroundColorPreference
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreference
 import com.doctoror.particleswallpaper.userprefs.density.DensityPreference
