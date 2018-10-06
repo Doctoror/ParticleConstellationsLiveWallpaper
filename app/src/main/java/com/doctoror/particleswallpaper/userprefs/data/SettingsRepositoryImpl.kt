@@ -17,7 +17,6 @@ package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.Context
 import android.support.annotation.ColorInt
-import com.doctoror.particleswallpaper.prefs.Prefs
 import io.reactivex.subjects.BehaviorSubject
 
 /**
