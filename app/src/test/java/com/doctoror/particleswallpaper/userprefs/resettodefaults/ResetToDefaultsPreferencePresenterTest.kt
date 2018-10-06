@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
-import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever

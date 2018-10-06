@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.framedelay
 
 import android.support.annotation.VisibleForTesting
-import com.doctoror.particleswallpaper.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.mapper.SeekBarMapper
 import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository

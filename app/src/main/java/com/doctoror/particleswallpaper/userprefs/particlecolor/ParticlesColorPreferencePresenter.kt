@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.particlecolor
 
-import com.doctoror.particleswallpaper.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.di.qualifiers.Default
 import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository

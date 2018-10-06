@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.density
 
 import android.support.annotation.VisibleForTesting
-import com.doctoror.particleswallpaper.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.mapper.SeekBarMapper
 import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.preference.SeekBarPreferenceView

@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.bgcolor
 
 import android.graphics.Color
-import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.nhaarman.mockito_kotlin.*

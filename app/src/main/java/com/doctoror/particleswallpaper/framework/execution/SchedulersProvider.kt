@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.execution
+package com.doctoror.particleswallpaper.framework.execution
 
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.Scheduler
 
 /**
  * Created by Yaroslav Mytkalyk on 15.06.17.
  *
- * The default [SchedulersProvider] implementation.
+ * The [Scheduler] provider
  */
-class SchedulersProviderImpl: SchedulersProvider {
+interface SchedulersProvider {
 
-    override fun mainThread() = AndroidSchedulers.mainThread()!!
-    override fun io() = Schedulers.io()
+    fun mainThread(): Scheduler
+    fun io(): Scheduler
+
 }

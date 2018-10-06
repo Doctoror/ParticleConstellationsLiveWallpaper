@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.linelength
 
-import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.preference.SeekBarPreferenceView
 import com.nhaarman.mockito_kotlin.*

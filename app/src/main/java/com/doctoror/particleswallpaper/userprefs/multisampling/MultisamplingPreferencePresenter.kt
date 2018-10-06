@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.multisampling
 
-import com.doctoror.particleswallpaper.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import io.reactivex.disposables.CompositeDisposable

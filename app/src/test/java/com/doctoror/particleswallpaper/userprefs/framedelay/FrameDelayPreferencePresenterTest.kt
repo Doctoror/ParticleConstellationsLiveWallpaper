@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.framedelay
 
-import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable

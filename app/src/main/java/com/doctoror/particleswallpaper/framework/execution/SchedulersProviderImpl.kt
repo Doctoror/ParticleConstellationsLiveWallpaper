@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Yaroslav Mytkalyk
+ * Copyright (C) 2017 Yaroslav Mytkalyk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.execution
+package com.doctoror.particleswallpaper.framework.execution
 
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
- * The trampoline [SchedulersProvider] implementation.
+ * Created by Yaroslav Mytkalyk on 15.06.17.
+ *
+ * The default [SchedulersProvider] implementation.
  */
-class TrampolineSchedulers : SchedulersProvider {
+class SchedulersProviderImpl: SchedulersProvider {
 
-    override fun mainThread() = Schedulers.trampoline()
-    override fun io() = Schedulers.trampoline()
+    override fun mainThread() = AndroidSchedulers.mainThread()!!
+    override fun io() = Schedulers.io()
 }

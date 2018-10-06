@@ -1,6 +1,6 @@
 package com.doctoror.particleswallpaper.userprefs.multisampling
 
-import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.nhaarman.mockito_kotlin.*

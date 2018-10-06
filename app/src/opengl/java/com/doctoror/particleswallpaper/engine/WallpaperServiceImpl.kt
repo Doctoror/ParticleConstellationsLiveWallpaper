@@ -30,10 +30,10 @@ import com.doctoror.particleswallpaper.settings.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactory
-import com.doctoror.particleswallpaper.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.app.ApplicationlessInjection
-import com.doctoror.particleswallpaper.execution.GlScheduler
+import com.doctoror.particleswallpaper.framework.execution.GlScheduler
 import net.rbgrn.android.glwallpaperservice.GLWallpaperService
 import javax.inject.Inject
 import javax.microedition.khronos.egl.EGLConfig
