@@ -16,15 +16,14 @@
 package com.doctoror.particleswallpaper.userprefs.license
 
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import javax.inject.Inject
 
 @PerPreference
-class LicensePreferencePresenter @Inject constructor() : Presenter<LicensePreferenceView> {
+class LicensePreferencePresenter @Inject constructor() {
 
     private lateinit var view: LicensePreferenceView
 
-    override fun onTakeView(view: LicensePreferenceView) {
+    fun onTakeView(view: LicensePreferenceView) {
         this.view = view
     }
 
