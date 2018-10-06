@@ -17,10 +17,10 @@ package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import android.graphics.Color
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
-import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
-import com.doctoror.particleswallpaper.settings.NO_URI
-import com.doctoror.particleswallpaper.settings.SettingsRepository
-import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
+import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.NO_URI
+import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify

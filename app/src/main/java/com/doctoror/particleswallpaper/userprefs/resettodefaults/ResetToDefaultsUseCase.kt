@@ -17,9 +17,9 @@ package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.di.qualifiers.Default
-import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
-import com.doctoror.particleswallpaper.settings.SettingsRepository
-import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
+import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import io.reactivex.Completable
 import javax.inject.Inject
 

@@ -13,15 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.settings
+package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.SharedPreferences
 
-/**
- * Created by Yaroslav Mytkalyk on 15.06.17.
- *
- * The in-memory shared preferences
- */
 open class InMemorySharedPreferences : SharedPreferences {
 
     private var listeners = listOf<SharedPreferences.OnSharedPreferenceChangeListener?>()
@@ -50,8 +45,8 @@ open class InMemorySharedPreferences : SharedPreferences {
     override fun getFloat(key: String?, defValue: Float) = map[key] as Float? ?: defValue
 
     @Suppress("UNCHECKED_CAST")
-    override fun getStringSet(key: String?, defValues: MutableSet<String>?)
-            = map[key] as MutableSet<String>? ?: defValues
+    override fun getStringSet(key: String?, defValues: MutableSet<String>?) = map[key] as MutableSet<String>?
+            ?: defValues
 
     override fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener?) {
         if (listener != null && !containsListener(listener)) {
@@ -61,8 +56,7 @@ open class InMemorySharedPreferences : SharedPreferences {
 
     override fun getString(key: String?, defValue: String?) = map[key] as String? ?: defValue
 
-    private fun containsListener(listener: SharedPreferences.OnSharedPreferenceChangeListener)
-            = listeners.any { it === listener }
+    private fun containsListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) = listeners.any { it === listener }
 
     private fun putValueAndNotify(key: String?, value: Any?) {
         map[key] = value
@@ -118,8 +112,7 @@ open class InMemorySharedPreferences : SharedPreferences {
             return this
         }
 
-        override fun apply()
-                = doCommit()
+        override fun apply() = doCommit()
 
         override fun putString(key: String?, value: String?): SharedPreferences.Editor {
             map[key] = value as Any

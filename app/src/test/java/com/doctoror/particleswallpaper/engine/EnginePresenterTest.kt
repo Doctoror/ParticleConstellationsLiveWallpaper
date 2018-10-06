@@ -25,11 +25,11 @@ import com.bumptech.glide.RequestManager
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
+import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
-import com.doctoror.particleswallpaper.settings.NO_URI
-import com.doctoror.particleswallpaper.settings.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.NO_URI
+import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers

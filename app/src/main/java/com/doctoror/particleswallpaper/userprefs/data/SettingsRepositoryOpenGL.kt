@@ -1,4 +1,4 @@
-package com.doctoror.particleswallpaper.settings
+package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.SharedPreferences
 import io.reactivex.Observable

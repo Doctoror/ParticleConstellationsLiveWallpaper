@@ -30,12 +30,12 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
-import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
+import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.settings.NO_URI
-import com.doctoror.particleswallpaper.settings.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.NO_URI
+import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import com.doctoror.particleswallpaper.app.base.SimpleTarget2
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable

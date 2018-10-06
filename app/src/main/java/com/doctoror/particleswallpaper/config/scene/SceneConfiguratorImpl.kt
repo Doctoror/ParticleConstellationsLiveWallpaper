@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.config.scene
 import android.support.annotation.VisibleForTesting
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
-import com.doctoror.particleswallpaper.settings.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 

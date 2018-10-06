@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.particlescale
 
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable

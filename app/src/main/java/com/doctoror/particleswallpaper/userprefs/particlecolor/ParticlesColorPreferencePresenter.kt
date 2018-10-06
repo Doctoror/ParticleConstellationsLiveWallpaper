@@ -18,8 +18,8 @@ package com.doctoror.particleswallpaper.userprefs.particlecolor
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.di.qualifiers.Default
 import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
-import com.doctoror.particleswallpaper.settings.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 

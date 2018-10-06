@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.settings
+package com.doctoror.particleswallpaper.userprefs.data
 
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
 import org.mockito.Mockito.mock
 
 /**
- * Created by Yaroslav Mytkalyk on 16.06.17.
- *
  * Used for creating mock [SettingsRepository] implementations that return stub data.
  */
 object MockSettingsRepositoryFactory {

@@ -20,7 +20,7 @@ import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.mapper.SeekBarMapper
 import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
-import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 

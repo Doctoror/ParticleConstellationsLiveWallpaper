@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.config.scene
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
-import com.doctoror.particleswallpaper.settings.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import io.reactivex.Scheduler
 
 /**
