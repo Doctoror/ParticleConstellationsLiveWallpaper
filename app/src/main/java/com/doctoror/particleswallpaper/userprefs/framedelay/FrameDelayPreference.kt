@@ -23,7 +23,7 @@ import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.preference.SeekBarPreference
+import com.doctoror.particleswallpaper.framework.preference.SeekBarPreference
 import javax.inject.Inject
 
 class FrameDelayPreference @JvmOverloads constructor
