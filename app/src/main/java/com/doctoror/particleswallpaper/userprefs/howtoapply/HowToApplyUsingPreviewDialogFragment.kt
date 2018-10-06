@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.userprefs.howtoapply
 
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.app.ApplicationlessInjection
+import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 
 class HowToApplyUsingPreviewDialogFragment : HowToApplyWithActionDialogFragment() {
 

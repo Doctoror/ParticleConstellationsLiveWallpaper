@@ -25,7 +25,7 @@ import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
-import com.doctoror.particleswallpaper.app.ApplicationlessInjection
+import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
