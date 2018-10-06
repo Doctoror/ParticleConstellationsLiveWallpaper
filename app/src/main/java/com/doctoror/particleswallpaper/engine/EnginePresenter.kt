@@ -37,7 +37,6 @@ import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.settings.NO_URI
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.app.base.SimpleTarget2
-import com.doctoror.particleswallpaper.presentation.util.CenterCropAndThenResizeTransform
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 
