@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.extensions
+package com.doctoror.particleswallpaper.framework.view
 
 import android.graphics.drawable.Drawable
 import android.os.Build
