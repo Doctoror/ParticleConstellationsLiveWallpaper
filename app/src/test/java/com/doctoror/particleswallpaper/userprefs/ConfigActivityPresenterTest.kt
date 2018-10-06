@@ -173,7 +173,6 @@ class ConfigActivityPresenterTest {
         whenever(settings.getBackgroundUri()).thenReturn(Observable.just(uri))
 
         // When
-        underTest.onTakeView(view)
         underTest.onStart()
 
         // Then
