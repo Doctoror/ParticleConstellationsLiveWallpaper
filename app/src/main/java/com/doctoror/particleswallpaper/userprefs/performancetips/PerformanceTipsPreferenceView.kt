@@ -15,13 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.performancetips
 
-import com.doctoror.particleswallpaper.presentation.view.MvpView
+interface PerformanceTipsPreferenceView {
 
-/**
- * Created by Yaroslav Mytkalyk on 06.06.17.
- *
- * Performance tips preference view
- */
-interface PerformanceTipsPreferenceView : MvpView {
     fun showDialog()
 }

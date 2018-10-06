@@ -15,14 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.bgcolor
 
-import com.doctoror.particleswallpaper.presentation.view.MvpView
-
-/**
- * Created by Yaroslav Mytkalyk on 03.06.17.
- *
- * Background color preference view
- */
-interface BackgroundColorPreferenceView : MvpView {
+interface BackgroundColorPreferenceView {
 
     fun setColor(color: Int)
 }

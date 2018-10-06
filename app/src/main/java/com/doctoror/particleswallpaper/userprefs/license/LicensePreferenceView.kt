@@ -15,9 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.license
 
-import com.doctoror.particleswallpaper.presentation.view.MvpView
-
-interface LicensePreferenceView : MvpView {
+interface LicensePreferenceView {
 
     fun showLicenseDialog()
 }

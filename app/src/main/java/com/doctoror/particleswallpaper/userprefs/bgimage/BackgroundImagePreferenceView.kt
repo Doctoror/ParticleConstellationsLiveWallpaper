@@ -15,9 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.bgimage
 
-import com.doctoror.particleswallpaper.presentation.view.MvpView
-
-interface BackgroundImagePreferenceView : MvpView {
+interface BackgroundImagePreferenceView {
 
     fun showActionDialog()
 }

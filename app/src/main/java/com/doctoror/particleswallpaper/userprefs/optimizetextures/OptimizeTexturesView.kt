@@ -15,9 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.optimizetextures
 
-import com.doctoror.particleswallpaper.presentation.view.MvpView
-
-interface OptimizeTexturesView : MvpView {
+interface OptimizeTexturesView {
 
     fun setChecked(checked: Boolean)
 }

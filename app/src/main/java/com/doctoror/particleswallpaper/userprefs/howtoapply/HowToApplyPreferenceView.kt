@@ -15,9 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.howtoapply
 
-import com.doctoror.particleswallpaper.presentation.view.MvpView
-
-interface HowToApplyPreferenceView : MvpView {
+interface HowToApplyPreferenceView {
 
     fun showDialogHowToApplyUsingPreview()
 

@@ -16,14 +16,8 @@
 package com.doctoror.particleswallpaper.userprefs
 
 import android.widget.ImageView
-import com.doctoror.particleswallpaper.presentation.view.MvpView
 
-/**
- * Created by Yaroslav Mytkalyk on 17.06.17.
- *
- * [ConfigActivity] view
- */
-interface ConfigActivityView : MvpView {
+interface ConfigActivityView {
 
     fun getBackgroundView(): ImageView
 }

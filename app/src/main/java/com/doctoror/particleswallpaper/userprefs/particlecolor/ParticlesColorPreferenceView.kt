@@ -15,16 +15,8 @@
  */
 package com.doctoror.particleswallpaper.userprefs.particlecolor
 
-import com.doctoror.particleswallpaper.presentation.view.MvpView
-
-/**
- * Created by Yaroslav Mytkalyk on 03.06.17.
- *
- * Particles color preference view
- */
-interface ParticlesColorPreferenceView : MvpView {
+interface ParticlesColorPreferenceView {
 
     fun setColor(color: Int)
     fun showPreferenceDialog()
-
 }

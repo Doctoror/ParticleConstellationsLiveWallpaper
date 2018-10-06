@@ -15,9 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.multisampling
 
-import com.doctoror.particleswallpaper.presentation.view.MvpView
-
-interface MultisamplingPreferenceView : MvpView {
+interface MultisamplingPreferenceView {
 
     fun setPreferenceSupported(supported: Boolean)
 

@@ -19,7 +19,6 @@ import android.app.Activity
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.userprefs.ConfigFragment
-import com.doctoror.particleswallpaper.presentation.view.MvpView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Completable
 import org.junit.jupiter.api.Test
@@ -27,13 +26,10 @@ import org.junit.jupiter.api.Test
 class PreviewPreferencePresenterTest {
 
     private val activity: Activity = mock()
-    private val view: MvpView = mock()
 
     private val useCase: OpenChangeWallpaperIntentUseCase = mock()
 
-    private val underTest = PreviewPreferencePresenter(activity).apply {
-        onTakeView(view)
-    }
+    private val underTest = PreviewPreferencePresenter(activity)
 
     private fun setHostAndExtractOnActivityResultCallback(
             host: ConfigFragment = mock()): OnActivityResultCallback {

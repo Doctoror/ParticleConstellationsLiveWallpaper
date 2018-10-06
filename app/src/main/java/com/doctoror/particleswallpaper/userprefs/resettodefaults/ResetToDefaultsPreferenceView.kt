@@ -15,9 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
-import com.doctoror.particleswallpaper.presentation.view.MvpView
-
-interface ResetToDefaultsPreferenceView : MvpView {
+interface ResetToDefaultsPreferenceView {
 
     fun showWarningDialog()
 }
