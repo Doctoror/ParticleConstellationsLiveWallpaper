@@ -17,18 +17,16 @@ package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import javax.inject.Inject
 
 @PerPreference
 class ResetToDefaultsPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
-        private val useCase: ResetToDefaultsUseCase)
-    : Presenter<ResetToDefaultsPreferenceView> {
+        private val useCase: ResetToDefaultsUseCase) {
 
     private lateinit var view: ResetToDefaultsPreferenceView
 
-    override fun onTakeView(view: ResetToDefaultsPreferenceView) {
+    fun onTakeView(view: ResetToDefaultsPreferenceView) {
         this.view = view
     }
 
