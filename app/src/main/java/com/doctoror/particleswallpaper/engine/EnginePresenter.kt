@@ -34,6 +34,7 @@ import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.framework.glide.CenterCropAndThenResizeTransform
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import com.doctoror.particleswallpaper.framework.glide.SimpleTarget2

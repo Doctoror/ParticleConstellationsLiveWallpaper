@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.engine
+package com.doctoror.particleswallpaper.framework.glide
 
 import android.graphics.Bitmap
 import android.graphics.Matrix
@@ -52,7 +52,7 @@ class CenterCropAndThenResizeTransform(
         // We don't add or remove alpha, so keep the alpha setting of the Bitmap we were given.
         TransformationUtils.setAlpha(toTransform, result)
 
-        com.doctoror.particleswallpaper.engine.TransformationUtils.applyMatrix(toTransform, result, matrix)
+        com.doctoror.particleswallpaper.framework.glide.TransformationUtils.applyMatrix(toTransform, result, matrix)
 
         return result
     }

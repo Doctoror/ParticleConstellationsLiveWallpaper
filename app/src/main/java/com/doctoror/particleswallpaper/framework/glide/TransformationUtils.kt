@@ -26,7 +26,7 @@
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied, of Google, Inc.
  */
-package com.doctoror.particleswallpaper.engine
+package com.doctoror.particleswallpaper.framework.glide
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
