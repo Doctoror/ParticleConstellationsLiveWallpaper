@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.config.scene
+package com.doctoror.particleswallpaper.engine.configurator
 
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.contract.SceneConfiguration

@@ -13,9 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.config.scene
+package com.doctoror.particleswallpaper.engine.configurator
 
-class SceneConfiguratorFactoryImpl : SceneConfiguratorFactory {
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
-    override fun newSceneConfigurator() = SceneConfiguratorImpl()
+class DotRadiusMapperTest {
+
+    private val minDotRadius = 1f
+    private val maxDotRadius = 3f
+
+    @Test
+    fun mapsDotScaleToDotRadiusPair() {
+        // Given
+        val dotScale = 1.2f
+
+        // When
+        val result = DotRadiusMapper.transform(dotScale)
+
+        // Then
+        assertEquals(minDotRadius * dotScale to maxDotRadius * dotScale, result)
+    }
 }

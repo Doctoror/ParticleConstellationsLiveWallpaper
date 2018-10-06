@@ -26,7 +26,7 @@ import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser
-import com.doctoror.particleswallpaper.config.scene.SceneConfiguratorFactory
+import com.doctoror.particleswallpaper.engine.configurator.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.execution.GlScheduler

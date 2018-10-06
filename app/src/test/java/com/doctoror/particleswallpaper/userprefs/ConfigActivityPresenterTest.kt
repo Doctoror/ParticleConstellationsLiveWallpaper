@@ -24,7 +24,7 @@ import android.view.ViewTreeObserver
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
-import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
+import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository

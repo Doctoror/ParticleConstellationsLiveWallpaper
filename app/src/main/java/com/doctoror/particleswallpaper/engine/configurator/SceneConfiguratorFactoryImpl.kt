@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.config.scene
+package com.doctoror.particleswallpaper.engine.configurator
 
-interface SceneConfiguratorFactory {
+class SceneConfiguratorFactoryImpl : SceneConfiguratorFactory {
 
-    fun newSceneConfigurator(): SceneConfigurator
+    override fun newSceneConfigurator() = SceneConfiguratorImpl()
 }
