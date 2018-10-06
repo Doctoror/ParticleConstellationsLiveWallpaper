@@ -15,25 +15,80 @@
  */
 package com.doctoror.particleswallpaper.engine.configurator
 
+import android.support.annotation.VisibleForTesting
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import io.reactivex.Scheduler
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by Yaroslav Mytkalyk on 29.05.17.
  *
- * Implementation should monitor for [SettingsRepository] changes and configure [ParticlesScene]
- * based on the settings.
+ * Monitors for [SettingsRepository] changes and configures [ParticlesScene] based on the settings.
+ *
+ * Not thread safe!
  */
-interface SceneConfigurator {
+class SceneConfigurator {
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    var disposables: CompositeDisposable? = null
 
     fun subscribe(
             configuration: SceneConfiguration,
             controller: SceneController,
             settings: SettingsRepository,
-            scheduler: Scheduler)
+            scheduler: Scheduler) {
+        val d = CompositeDisposable()
 
-    fun dispose()
+        disposables?.dispose()
+        disposables = d
+
+        d.add(settings.getParticlesColor()
+                .observeOn(scheduler)
+                .subscribe { c ->
+                    configuration.dotColor = c
+                    configuration.lineColor = c
+                })
+
+        d.add(settings.getNumDots()
+                .observeOn(scheduler)
+                .subscribe { v ->
+                    configuration.numDots = v
+                    controller.makeBrandNewFrame()
+                })
+
+        d.add(settings.getDotScale()
+                .observeOn(scheduler)
+                .subscribe { v ->
+                    val radiusRange = DotRadiusMapper.transform(v)
+                    configuration.setDotRadiusRange(radiusRange.first, radiusRange.second)
+                    controller.makeBrandNewFrame()
+                })
+
+        d.add(settings.getLineScale()
+                .observeOn(scheduler)
+                .subscribe { v ->
+                    configuration.lineThickness = v
+                    controller.makeBrandNewFrame()
+                })
+
+        d.add(settings.getLineDistance()
+                .observeOn(scheduler)
+                .subscribe(configuration::setLineDistance))
+
+        d.add(settings.getStepMultiplier()
+                .observeOn(scheduler)
+                .subscribe(configuration::setStepMultiplier))
+
+        d.add(settings.getFrameDelay()
+                .observeOn(scheduler)
+                .subscribe(configuration::setFrameDelay))
+    }
+
+    fun dispose() {
+        disposables?.dispose()
+        disposables = null
+    }
 }

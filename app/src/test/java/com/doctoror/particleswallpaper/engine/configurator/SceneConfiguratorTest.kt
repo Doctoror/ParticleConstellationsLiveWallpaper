@@ -21,11 +21,11 @@ import io.reactivex.schedulers.Schedulers
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-class SceneConfiguratorImplTest {
+class SceneConfiguratorTest {
 
     @Test
     fun testSubscription() {
-        val c = SceneConfiguratorImpl()
+        val c = SceneConfigurator()
 
         assertNull(c.disposables)
 
