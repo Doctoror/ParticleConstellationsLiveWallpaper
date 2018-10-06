@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.userprefs.preview
 
 import android.app.Activity
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
-import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
+import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.userprefs.ConfigFragment
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Completable

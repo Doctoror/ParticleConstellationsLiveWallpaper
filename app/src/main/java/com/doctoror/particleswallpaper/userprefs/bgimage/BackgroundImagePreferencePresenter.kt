@@ -32,8 +32,8 @@ import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
-import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
-import com.doctoror.particleswallpaper.app.base.OnActivityResultCallbackHost
+import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
+import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager

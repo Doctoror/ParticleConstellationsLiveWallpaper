@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.app.base
+package com.doctoror.particleswallpaper.framework.lifecycle
 
 /**
  * Created by Yaroslav Mytkalyk on 31.05.17.

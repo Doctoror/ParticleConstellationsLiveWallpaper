@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.app.base
+package com.doctoror.particleswallpaper.framework.lifecycle
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
@@ -24,20 +24,26 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.android.controller.FragmentController
+import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class LifecyclePreferenceFragmentTest {
+class LifecycleActivityTest {
 
-    private val underTest = TestLifecycleFragment()
-    private val underTestController = FragmentController.of(underTest)
+    private val underTest = TestLifecycleActivity()
+    private val underTestController = ActivityController.of(underTest)
 
     private val testObserver = object : LifecycleObserver {
 
+        var onCreateCount = 0
         var onStartCount = 0
         var onStopCount = 0
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+        fun onCreate() {
+            onCreateCount++
+        }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_START)
         fun onStart() {
@@ -61,11 +67,18 @@ class LifecyclePreferenceFragmentTest {
     }
 
     @Test
+    fun notifiesOnCreateLifecycleEvent() {
+        // When
+        underTestController.start()
+
+        // Then
+        assertEquals(1, testObserver.onCreateCount)
+    }
+
+    @Test
     fun notifiesOnStartLifecycleEvent() {
         // When
-        underTestController
-                .create()
-                .start()
+        underTestController.start()
 
         // Then
         assertEquals(1, testObserver.onStartCount)
@@ -75,7 +88,6 @@ class LifecyclePreferenceFragmentTest {
     fun notifiesOnStopLifecycleEvent() {
         // When
         underTestController
-                .create()
                 .start()
                 .stop()
 
@@ -83,5 +95,5 @@ class LifecyclePreferenceFragmentTest {
         assertEquals(1, testObserver.onStopCount)
     }
 
-    class TestLifecycleFragment : LifecyclePreferenceFragment()
+    class TestLifecycleActivity : LifecycleActivity()
 }

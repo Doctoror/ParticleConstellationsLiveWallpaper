@@ -19,8 +19,8 @@ import android.app.Activity
 import android.app.Fragment
 import android.content.Intent
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
-import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
-import com.doctoror.particleswallpaper.app.base.OnActivityResultCallbackHost
+import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
+import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 
 @PerPreference

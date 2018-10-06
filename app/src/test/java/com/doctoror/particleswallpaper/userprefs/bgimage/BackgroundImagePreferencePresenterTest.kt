@@ -29,7 +29,7 @@ import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
-import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
+import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.userprefs.ConfigFragment
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
