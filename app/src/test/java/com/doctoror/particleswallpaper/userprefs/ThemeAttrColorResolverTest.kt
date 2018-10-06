@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.util
+package com.doctoror.particleswallpaper.userprefs
 
 import android.content.res.Resources
 import android.content.res.TypedArray
@@ -24,13 +24,15 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class ThemeUtilsTest {
+class ThemeAttrColorResolverTest {
 
     private val attributes: TypedArray = mock()
 
     private val theme: Resources.Theme = mock {
         on(it.obtainStyledAttributes(intArrayOf(1))).doReturn(attributes)
     }
+
+    private val underTest = ThemeAttrColorResolver()
 
     @Test
     fun obtainsColorFromTheme() {
@@ -40,7 +42,7 @@ class ThemeUtilsTest {
         whenever(attributes.getColor(0, Color.TRANSPARENT)).thenReturn(expectedResult)
 
         // When
-        val result = ThemeUtils.getColor(theme, attr)
+        val result = underTest.getColor(theme, attr)
 
         // Then
         assertEquals(expectedResult, result)

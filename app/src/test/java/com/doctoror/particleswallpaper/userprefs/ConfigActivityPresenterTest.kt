@@ -26,7 +26,6 @@ import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 import com.doctoror.particleswallpaper.settings.NO_URI
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.nhaarman.mockito_kotlin.*
@@ -49,10 +48,18 @@ class ConfigActivityPresenterTest {
     private val configurator: SceneConfigurator = mock()
     private val settings: SettingsRepository = mock()
     private val requestManager = spy(Glide.with(RuntimeEnvironment.application))
+    private val themeAttrColorResolver: ThemeAttrColorResolver = mock()
     private val view: ConfigActivityView = mock()
 
     private val underTest = ConfigActivityPresenter(
-            activity, TrampolineSchedulers(), configurator, requestManager, settings, view)
+            activity,
+            TrampolineSchedulers(),
+            configurator,
+            requestManager,
+            settings,
+            view,
+            themeAttrColorResolver
+    )
 
     @Before
     fun setup() {
@@ -123,8 +130,10 @@ class ConfigActivityPresenterTest {
         }
         whenever(view.getBackgroundView()).thenReturn(target)
 
-        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(ThemeUtils.getColor(
-                RuntimeEnvironment.application.theme, android.R.attr.windowBackground)))
+        val windowBackground = Color.WHITE
+        whenever(themeAttrColorResolver.getColor(any(), eq(android.R.attr.windowBackground)))
+                .thenReturn(windowBackground)
+        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(windowBackground))
 
         whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
 

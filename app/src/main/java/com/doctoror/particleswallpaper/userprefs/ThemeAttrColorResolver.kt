@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.util
+package com.doctoror.particleswallpaper.userprefs
 
 import android.content.res.Resources.Theme
 import android.graphics.Color
 import android.support.annotation.AttrRes
 import android.support.annotation.ColorInt
 
-object ThemeUtils {
+class ThemeAttrColorResolver {
 
     /**
      * Returns color for attr from the [Theme]

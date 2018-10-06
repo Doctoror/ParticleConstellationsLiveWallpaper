@@ -45,7 +45,6 @@ import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.presentation.extensions.removeOnGlobalLayoutListenerCompat
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
-import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 import com.doctoror.particleswallpaper.settings.NO_URI
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import io.reactivex.Observable
@@ -58,7 +57,9 @@ open class ConfigActivityPresenter(
         private val configurator: SceneConfigurator,
         private val requestManager: RequestManager,
         private val settings: SettingsRepository,
-        private val view: ConfigActivityView) : LifecycleObserver {
+        private val view: ConfigActivityView,
+        private val themeAttrColorResolver: ThemeAttrColorResolver = ThemeAttrColorResolver()
+) : LifecycleObserver {
 
     private var bgDisposable: Disposable? = null
 
@@ -149,7 +150,7 @@ open class ConfigActivityPresenter(
                     else ColorDrawable(color))
 
     private fun colorIsWindowBackground(context: Context, @ColorInt color: Int) = try {
-        color == ThemeUtils.getColor(context.theme, android.R.attr.windowBackground)
+        color == themeAttrColorResolver.getColor(context.theme, android.R.attr.windowBackground)
     } catch (e: UnsupportedOperationException) {
         // Can happen on some themes
         Log.w("ConfigPresenter", e)
