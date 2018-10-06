@@ -17,24 +17,18 @@ package com.doctoror.particleswallpaper.userprefs.preview
 
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.app.actions.StartActivityForResultAction
-import com.doctoror.particleswallpaper.domain.interactor.UseCase
-import io.reactivex.Single
+import io.reactivex.Completable
 
 /**
- * Created by Yaroslav Mytkalyk on 31.05.17.
- *
  * Opens live wallpaper preview, or wallpaper chooser for pre-Jellybean devices.
  */
 class OpenChangeWallpaperIntentUseCase(
         private val intentProvider: OpenChangeWallpaperIntentProvider,
-        private val startActivityForResultAction: StartActivityForResultAction)
-    : UseCase<Unit> {
+        private val startActivityForResultAction: StartActivityForResultAction) {
 
-    override fun useCase() = Single.fromCallable { action() }!!
-
-    private fun action() {
+    fun action() = Completable.fromAction {
         val intent = intentProvider.provideActionIntent()
                 ?: throw RuntimeException("No supported Intent for preview")
         startActivityForResultAction.startActivityForResult(intent, REQUEST_CODE_CHANGE_WALLPAPER)
-    }
+    }!!
 }

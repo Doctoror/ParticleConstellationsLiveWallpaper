@@ -21,13 +21,13 @@ import android.view.*
 import android.widget.Toolbar
 import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
+import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
-import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.nhaarman.mockito_kotlin.*
-import io.reactivex.Single
+import io.reactivex.Completable
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -125,16 +125,16 @@ class ConfigActivityPresenterLollipopTest {
     @Test
     fun subscribesToChangeWallpaperUseCaseOnPreviewClick() {
         // Given
-        val useCaseSingle = spy(Single.just(Unit))
-        whenever(openChangeWallpaperIntentUseCase.useCase())
-                .thenReturn(useCaseSingle)
+        val useCaseCompletable = spy(Completable.complete())
+        whenever(openChangeWallpaperIntentUseCase.action())
+                .thenReturn(useCaseCompletable)
 
         // When
         underTest.onOptionsItemSelected(mockMenuItemWithId(R.id.actionApply))
 
         // Then
-        verify(openChangeWallpaperIntentUseCase).useCase()
-        verify(useCaseSingle).subscribe()
+        verify(openChangeWallpaperIntentUseCase).action()
+        verify(useCaseCompletable).subscribe()
     }
 
     private fun mockMenuItemWithId(id: Int): MenuItem = mock {

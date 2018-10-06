@@ -37,7 +37,7 @@ class OpenChangeWallpaperIntentUseCaseTest {
         whenever(intentProvider.provideActionIntent()).thenReturn(intent)
 
         // When
-        val o = underTest.useCase().test()
+        val o = underTest.action().test()
 
         // Then
         o.assertNoErrors()
@@ -47,7 +47,7 @@ class OpenChangeWallpaperIntentUseCaseTest {
     @Test
     fun throwsWhenIntentIsNull() {
         // When
-        val o = underTest.useCase().test()
+        val o = underTest.action().test()
 
         // Then
         o.assertError { it is RuntimeException }
@@ -62,7 +62,7 @@ class OpenChangeWallpaperIntentUseCaseTest {
         whenever(action.startActivityForResult(any(), any())).thenThrow(ActivityNotFoundException())
 
         // When
-        val o = underTest.useCase().test()
+        val o = underTest.action().test()
 
         // Then
         o.assertError { it is ActivityNotFoundException }

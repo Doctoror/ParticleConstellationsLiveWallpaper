@@ -54,6 +54,6 @@ class MultisamplingRestartDialog : DialogFragment() {
     private fun canStartPreview() = intentProvider.provideActionIntent() != null
 
     private fun startPreview() {
-        useCase.useCase().subscribe()
+        useCase.action().subscribe()
     }
 }

@@ -86,7 +86,7 @@ class ConfigActivityPresenterLollipop(
             }
 
             R.id.actionApply -> {
-                openChangeWallpaperIntentUseCase.useCase().subscribe()
+                openChangeWallpaperIntentUseCase.action().subscribe()
             }
         }
         return super.onOptionsItemSelected(item)

@@ -53,7 +53,7 @@ class PreviewPreferencePresenter(private val activity: Activity)
 
     fun onClick() {
         useCase!!
-                .useCase()
+                .action()
                 .subscribe()
     }
 

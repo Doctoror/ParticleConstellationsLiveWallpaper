@@ -41,7 +41,7 @@ abstract class HowToApplyWithActionDialogFragment : DialogFragment() {
 
     private fun openPreview() {
         newOpenChangeWallpaperIntentUseCase()
-                .useCase()
+                .action()
                 .subscribe()
     }
 

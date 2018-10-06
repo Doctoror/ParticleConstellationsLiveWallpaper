@@ -21,7 +21,7 @@ import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.presentation.config.ConfigFragment
 import com.doctoror.particleswallpaper.presentation.view.MvpView
 import com.nhaarman.mockito_kotlin.*
-import io.reactivex.Single
+import io.reactivex.Completable
 import org.junit.jupiter.api.Test
 
 class PreviewPreferencePresenterTest {
@@ -96,8 +96,8 @@ class PreviewPreferencePresenterTest {
     @Test
     fun opensChangeWallpaper() {
         // Given
-        val useCaseSource = spy(Single.just(Unit))
-        whenever(useCase.useCase()).thenReturn(useCaseSource)
+        val useCaseSource = spy(Completable.complete())
+        whenever(useCase.action()).thenReturn(useCaseSource)
         underTest.useCase = useCase
 
         // When
