@@ -29,20 +29,19 @@ import android.util.Log
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
-import com.doctoror.particleswallpaper.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.file.BackgroundImageManager
-import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
-import com.doctoror.particleswallpaper.settings.NO_URI
-import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.app.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.app.base.OnActivityResultCallbackHost
+import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.presenter.Presenter
+import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
+import com.doctoror.particleswallpaper.settings.NO_URI
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -56,8 +55,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
         @Default private val defaults: SettingsRepository,
-        private val backgroundImageManager: BackgroundImageManager)
-    : Presenter<BackgroundImagePreferenceView> {
+        private val backgroundImageManager: BackgroundImageManager) {
 
     private val tag = "BgImagePrefPresenter"
 
@@ -88,7 +86,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
             }
         }
 
-    override fun onTakeView(view: BackgroundImagePreferenceView) {
+    fun onTakeView(view: BackgroundImagePreferenceView) {
         this.view = view
     }
 
@@ -166,7 +164,8 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         }
 
         private fun handleGetContentUriResult(uri: Uri) {
-            Observable.fromCallable { backgroundImageManager.copyBackgroundToFile(uri) }
+            Observable
+                    .fromCallable { backgroundImageManager.copyBackgroundToFile(uri) }
                     .subscribeOn(schedulers.io())
                     .subscribe(
                             { settings.setBackgroundUri(it.toString()) },
