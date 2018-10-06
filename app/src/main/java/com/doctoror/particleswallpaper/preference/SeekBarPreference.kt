@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.preference
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -26,9 +26,6 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import com.doctoror.particleswallpaper.R
 
-/**
- * [SeekBar] [Preference]
- */
 open class SeekBarPreference @JvmOverloads constructor
 (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     : Preference(context, attrs, defStyle), OnSeekBarChangeListener {
@@ -183,11 +180,9 @@ open class SeekBarPreference @JvmOverloads constructor
             @JvmField
             val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
 
-                override fun createFromParcel(p: Parcel)
-                        = SavedState(p)
+                override fun createFromParcel(p: Parcel) = SavedState(p)
 
-                override fun newArray(size: Int): Array<SavedState?>
-                        = arrayOfNulls(size)
+                override fun newArray(size: Int): Array<SavedState?> = arrayOfNulls(size)
             }
         }
     }
