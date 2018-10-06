@@ -19,7 +19,7 @@ import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.presenter.MapperSeekBarPresenter
+import com.doctoror.particleswallpaper.mapper.SeekBarMapper
 import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import io.reactivex.disposables.Disposable
@@ -29,7 +29,7 @@ import javax.inject.Inject
 class DensityPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
-        MapperSeekBarPresenter<Int> {
+        SeekBarMapper<Int> {
 
     private lateinit var view: SeekBarPreferenceView
 

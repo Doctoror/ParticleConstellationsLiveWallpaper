@@ -1,19 +1,19 @@
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.mapper
 
 import org.junit.jupiter.api.Assertions.assertEquals
 
-fun <T> testMapper(p: MapperSeekBarPresenter<T>) {
+fun <T> testMapper(p: SeekBarMapper<T>) {
     testMapperMinValue(p)
     testMapperMaxValue(p)
 }
 
-private fun <T> testMapperMinValue(p: MapperSeekBarPresenter<T>) {
+private fun <T> testMapperMinValue(p: SeekBarMapper<T>) {
     val seekBarValue = 0
     val realValue = p.transformToRealValue(seekBarValue)
     assertEquals(seekBarValue, p.transformToProgress(realValue))
 }
 
-private fun <T> testMapperMaxValue(p: MapperSeekBarPresenter<T>) {
+private fun <T> testMapperMaxValue(p: SeekBarMapper<T>) {
     val seekBarValue = p.getSeekbarMax()
     val realValue = p.transformToRealValue(seekBarValue)
     assertEquals(seekBarValue, p.transformToProgress(realValue))

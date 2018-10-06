@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.userprefs.speedfactor
 import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.presenter.MapperSeekBarPresenter
+import com.doctoror.particleswallpaper.mapper.SeekBarMapper
 import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
@@ -29,7 +29,7 @@ import javax.inject.Inject
 class SpeedFactorPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
-        MapperSeekBarPresenter<Float> {
+        SeekBarMapper<Float> {
 
     private lateinit var view: SeekBarPreferenceView
 

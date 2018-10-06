@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.mapper
 
 import android.support.annotation.VisibleForTesting
 
 /**
- * Created by Yaroslav Mytkalyk on 03.06.17.
- *
- * Presenter that maps between SeekBar progress values and raw values
+ * Maps between SeekBar progress values and raw values.
  */
-interface MapperSeekBarPresenter<T> {
+interface SeekBarMapper<T> {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     fun getSeekbarMax(): Int
@@ -31,6 +29,6 @@ interface MapperSeekBarPresenter<T> {
     fun transformToRealValue(progress: Int): T
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    fun transformToProgress(value : T) : Int
+    fun transformToProgress(value: T): Int
 
 }

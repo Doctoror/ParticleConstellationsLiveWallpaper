@@ -19,7 +19,7 @@ import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.presenter.MapperSeekBarPresenter
+import com.doctoror.particleswallpaper.mapper.SeekBarMapper
 import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -28,7 +28,7 @@ import javax.inject.Inject
 class FrameDelayPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository) : Presenter<FrameDelayPreferenceView>,
-        MapperSeekBarPresenter<Int> {
+        SeekBarMapper<Int> {
 
     private lateinit var view: FrameDelayPreferenceView
 

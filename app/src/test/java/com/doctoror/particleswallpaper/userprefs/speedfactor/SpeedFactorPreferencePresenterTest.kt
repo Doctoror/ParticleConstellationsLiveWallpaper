@@ -32,7 +32,7 @@ class SpeedFactorPreferencePresenterTest {
 
     @Test
     fun testMapper() {
-        com.doctoror.particleswallpaper.presentation.presenter.testMapper(underTest)
+        com.doctoror.particleswallpaper.mapper.testMapper(underTest)
     }
 
     @Test
