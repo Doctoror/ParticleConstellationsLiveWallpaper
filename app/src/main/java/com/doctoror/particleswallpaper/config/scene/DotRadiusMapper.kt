@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Yaroslav Mytkalyk
+ * Copyright (C) 2017 Yaroslav Mytkalyk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.mapper
+package com.doctoror.particleswallpaper.config.scene
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+/**
+ * Maps dot scale to dot radius range
+ */
+object DotRadiusMapper {
 
-class DotRadiusMapperTest {
+    private const val MIN_DOT_RADIUS = 1f
+    private const val MAX_DOT_RADIUS = 3f
 
-    private val minDotRadius = 1f
-    private val maxDotRadius = 3f
-
-    @Test
-    fun mapsDotScaleToDotRadiusPair() {
-        // Given
-        val dotScale = 1.2f
-
-        // When
-        val result = DotRadiusMapper.transform(dotScale)
-
-        // Then
-        assertEquals(minDotRadius * dotScale to maxDotRadius * dotScale, result)
-    }
+    fun transform(dotScale: Float) = MIN_DOT_RADIUS * dotScale to MAX_DOT_RADIUS * dotScale
 }
