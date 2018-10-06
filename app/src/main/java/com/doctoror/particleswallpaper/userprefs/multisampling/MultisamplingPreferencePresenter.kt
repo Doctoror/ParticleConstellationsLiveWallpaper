@@ -15,10 +15,9 @@
  */
 package com.doctoror.particleswallpaper.userprefs.multisampling
 
+import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
-import com.doctoror.particleswallpaper.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -26,13 +25,13 @@ class MultisamplingPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: SettingsRepositoryOpenGL,
         private val settingsDevice: SettingsRepositoryDevice,
-        private val wallpaperChecker: WallpaperCheckerUseCase) : Presenter<MultisamplingPreferenceView> {
+        private val wallpaperChecker: WallpaperCheckerUseCase) {
 
     private lateinit var view: MultisamplingPreferenceView
 
     private val disposables = CompositeDisposable()
 
-    override fun onTakeView(view: MultisamplingPreferenceView) {
+    fun onTakeView(view: MultisamplingPreferenceView) {
         this.view = view
     }
 
