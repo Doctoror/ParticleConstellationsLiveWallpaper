@@ -1,4 +1,4 @@
-package com.doctoror.particleswallpaper.mapper
+package com.doctoror.particleswallpaper.framework.preference
 
 import org.junit.jupiter.api.Assertions.assertEquals
 

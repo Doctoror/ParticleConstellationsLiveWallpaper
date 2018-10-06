@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.userprefs.particlescale
 
 import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.mapper.SeekBarMapper
+import com.doctoror.particleswallpaper.framework.preference.SeekBarMapper
 import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
 import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository

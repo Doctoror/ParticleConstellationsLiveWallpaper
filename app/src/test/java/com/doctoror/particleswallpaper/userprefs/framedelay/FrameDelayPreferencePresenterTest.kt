@@ -39,7 +39,7 @@ class FrameDelayPreferencePresenterTest {
 
     @Test
     fun testMapper() {
-        com.doctoror.particleswallpaper.mapper.testMapper(underTest)
+        com.doctoror.particleswallpaper.framework.preference.testMapper(underTest)
     }
 
     @Test
