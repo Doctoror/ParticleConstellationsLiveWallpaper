@@ -17,26 +17,24 @@ package com.doctoror.particleswallpaper.userprefs.density
 
 import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
-import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.mapper.SeekBarMapper
-import com.doctoror.particleswallpaper.presentation.presenter.Presenter
+import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
+import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 @PerPreference
 class DensityPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
-        private val settings: MutableSettingsRepository) : Presenter<SeekBarPreferenceView>,
-        SeekBarMapper<Int> {
+        private val settings: MutableSettingsRepository) : SeekBarMapper<Int> {
 
     private lateinit var view: SeekBarPreferenceView
 
     private val seekBarMaxValue = 149
     private var disposable: Disposable? = null
 
-    override fun onTakeView(view: SeekBarPreferenceView) {
+    fun onTakeView(view: SeekBarPreferenceView) {
         view.setMaxInt(seekBarMaxValue)
         this.view = view
     }
