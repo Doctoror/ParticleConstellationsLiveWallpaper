@@ -16,21 +16,14 @@
 package com.doctoror.particleswallpaper.userprefs.performancetips
 
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 06.06.17.
- *
- * Presenter for [com.doctoror.particleswallpaper.presentation.preference.PerformanceTipsPreference]
- */
 @PerPreference
-class PerformanceTipsPreferencePresenter @Inject constructor()
-    : Presenter<PerformanceTipsPreferenceView> {
+class PerformanceTipsPreferencePresenter @Inject constructor() {
 
     private lateinit var view: PerformanceTipsPreferenceView
 
-    override fun onTakeView(view: PerformanceTipsPreferenceView) {
+    fun onTakeView(view: PerformanceTipsPreferenceView) {
         this.view = view
     }
 
