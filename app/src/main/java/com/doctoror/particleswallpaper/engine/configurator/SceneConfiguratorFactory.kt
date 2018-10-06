@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.engine.configurator
 
-interface SceneConfiguratorFactory {
+class SceneConfiguratorFactory {
 
-    fun newSceneConfigurator(): SceneConfigurator
+    fun newSceneConfigurator() = SceneConfiguratorImpl()
 }

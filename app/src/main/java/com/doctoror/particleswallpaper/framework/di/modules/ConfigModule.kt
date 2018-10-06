@@ -16,14 +16,13 @@
 package com.doctoror.particleswallpaper.framework.di.modules
 
 import android.content.Context
-import com.doctoror.particleswallpaper.engine.configurator.SceneConfiguratorFactoryImpl
+import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
+import com.doctoror.particleswallpaper.engine.configurator.SceneConfiguratorFactory
+import com.doctoror.particleswallpaper.framework.di.qualifiers.Default
+import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManagerImpl
 import com.doctoror.particleswallpaper.framework.file.FileSaver
 import com.doctoror.particleswallpaper.framework.file.FileUriResolver
-import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
-import com.doctoror.particleswallpaper.engine.configurator.SceneConfiguratorFactory
-import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
-import com.doctoror.particleswallpaper.framework.di.qualifiers.Default
 import com.doctoror.particleswallpaper.userprefs.data.*
 import dagger.Module
 import dagger.Provides
@@ -66,7 +65,7 @@ class ConfigModule {
             SceneConfigurator = factory.newSceneConfigurator()
 
     @Provides
-    fun provideSceneConfiguratorFactory(): SceneConfiguratorFactory = SceneConfiguratorFactoryImpl()
+    fun provideSceneConfiguratorFactory() = SceneConfiguratorFactory()
 
     @Provides
     fun provideBackgroundImageManager(context: Context): BackgroundImageManager =
