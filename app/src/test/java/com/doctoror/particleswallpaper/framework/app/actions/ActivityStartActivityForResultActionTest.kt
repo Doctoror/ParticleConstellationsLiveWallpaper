@@ -13,15 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.app.actions
+package com.doctoror.particleswallpaper.framework.app.actions
 
 import android.app.Activity
 import android.content.Intent
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import org.junit.jupiter.api.Test
 
-class ActivityStartActivityForResultAction(private val activity: Activity)
-    : StartActivityForResultAction {
+class ActivityStartActivityForResultActionTest {
 
-    override fun startActivityForResult(intent: Intent, requestCode: Int) {
-        activity.startActivityForResult(intent, requestCode)
+    private val activity: Activity = mock()
+    private val underTest = ActivityStartActivityForResultAction(activity)
+
+    @Test
+    fun startsActivityForResult() {
+        // Given
+        val intent = Intent()
+        val requestCode = 1
+
+        // When
+        underTest.startActivityForResult(intent, requestCode)
+
+        // Then
+        verify(activity).startActivityForResult(intent, requestCode)
     }
 }

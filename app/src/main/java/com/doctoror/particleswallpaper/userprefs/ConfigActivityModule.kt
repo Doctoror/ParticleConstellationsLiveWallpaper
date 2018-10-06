@@ -23,7 +23,7 @@ import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
-import com.doctoror.particleswallpaper.app.actions.ActivityStartActivityForResultAction
+import com.doctoror.particleswallpaper.framework.app.actions.ActivityStartActivityForResultAction
 import com.doctoror.particleswallpaper.framework.di.scopes.PerActivity
 import dagger.Module
 import dagger.Provides

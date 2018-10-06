@@ -9,7 +9,7 @@ import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import com.doctoror.particleswallpaper.app.ApplicationlessInjection
-import com.doctoror.particleswallpaper.app.actions.FragmentStartActivityForResultAction
+import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
 import javax.inject.Inject
 
 class MultisamplingRestartDialog : DialogFragment() {

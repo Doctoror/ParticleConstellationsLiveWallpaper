@@ -13,11 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.app.actions
+package com.doctoror.particleswallpaper.framework.app.actions
 
+import android.app.Activity
 import android.content.Intent
 
-interface StartActivityForResultAction {
+class ActivityStartActivityForResultAction(private val activity: Activity)
+    : StartActivityForResultAction {
 
-    fun startActivityForResult(intent: Intent, requestCode: Int)
+    override fun startActivityForResult(intent: Intent, requestCode: Int) {
+        activity.startActivityForResult(intent, requestCode)
+    }
 }
