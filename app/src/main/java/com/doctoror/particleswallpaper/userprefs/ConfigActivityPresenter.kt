@@ -39,33 +39,26 @@ import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
-import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
-import com.doctoror.particleswallpaper.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.settings.NO_URI
-import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.app.base.SimpleTarget2
+import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
+import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.presentation.extensions.removeOnGlobalLayoutListenerCompat
 import com.doctoror.particleswallpaper.presentation.extensions.setBackgroundCompat
-import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
+import com.doctoror.particleswallpaper.settings.NO_URI
+import com.doctoror.particleswallpaper.settings.SettingsRepository
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 
-/**
- * Created by Yaroslav Mytkalyk on 17.06.17.
- *
- * [ConfigActivity] presenter.
- */
 open class ConfigActivityPresenter(
         private val activity: Activity,
         private val schedulers: SchedulersProvider,
         private val configurator: SceneConfigurator,
         private val requestManager: RequestManager,
         private val settings: SettingsRepository,
-        private val view: ConfigActivityView)
-    : Presenter<ConfigActivityView>, LifecycleObserver {
+        private val view: ConfigActivityView) : LifecycleObserver {
 
     private var bgDisposable: Disposable? = null
 
