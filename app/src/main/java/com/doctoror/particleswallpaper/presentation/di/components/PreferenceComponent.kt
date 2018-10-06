@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.presentation.di.components
 
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.preference.*
 import com.doctoror.particleswallpaper.userprefs.bgcolor.BackgroundColorPreference
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreference
 import com.doctoror.particleswallpaper.userprefs.density.DensityPreference
@@ -32,6 +31,7 @@ import com.doctoror.particleswallpaper.userprefs.optimizetextures.OptimizeTextur
 import com.doctoror.particleswallpaper.userprefs.performancetips.PerformanceTipsPreference
 import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreference
 import com.doctoror.particleswallpaper.userprefs.resettodefaults.ResetToDefaultsPreference
+import com.doctoror.particleswallpaper.userprefs.speedfactor.SpeedFactorPreference
 import dagger.Component
 
 /**

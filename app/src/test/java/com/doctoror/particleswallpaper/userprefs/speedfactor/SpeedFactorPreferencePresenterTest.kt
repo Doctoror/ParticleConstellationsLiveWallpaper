@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.speedfactor
 
 import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
@@ -32,7 +32,7 @@ class SpeedFactorPreferencePresenterTest {
 
     @Test
     fun testMapper() {
-        testMapper(underTest)
+        com.doctoror.particleswallpaper.presentation.presenter.testMapper(underTest)
     }
 
     @Test

@@ -76,7 +76,7 @@
         android:title="@string/Performance"
         android:key="@string/pref_key_performance">
 
-        <com.doctoror.particleswallpaper.presentation.preference.SpeedFactorPreference
+        <com.doctoror.particleswallpaper.userprefs.speedfactor.SpeedFactorPreference
             android:key="@string/pref_key_step_multiplier"
             android:title="@string/Speed_factor"/>
 
