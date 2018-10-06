@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.preference
+package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import android.app.AlertDialog
 import android.content.Context
@@ -22,13 +22,9 @@ import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.presentation.presenter.ResetToDefaultsPreferencePresenter
-import com.doctoror.particleswallpaper.presentation.view.ResetToDefaultsPreferenceView
 import javax.inject.Inject
 
 /**
- * Created by Yaroslav Mytkalyk on 31.05.17.
- *
  * Preference for resetting configuration to default values.
  */
 class ResetToDefaultsPreference @JvmOverloads constructor

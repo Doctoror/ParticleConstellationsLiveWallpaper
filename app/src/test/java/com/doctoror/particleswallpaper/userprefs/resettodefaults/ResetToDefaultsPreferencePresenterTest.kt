@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.domain.interactor.ResetToDefaultsUseCase
-import com.doctoror.particleswallpaper.presentation.view.ResetToDefaultsPreferenceView
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever

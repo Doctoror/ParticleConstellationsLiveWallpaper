@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.domain.interactor
+package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
+import com.doctoror.particleswallpaper.domain.interactor.UseCase
 import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository

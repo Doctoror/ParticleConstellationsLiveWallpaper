@@ -13,19 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.presenter
+package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.domain.interactor.ResetToDefaultsUseCase
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.view.ResetToDefaultsPreferenceView
+import com.doctoror.particleswallpaper.presentation.presenter.Presenter
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 03.06.17.
- *
- * Presenter for [com.doctoror.particleswallpaper.presentation.preference.ResetToDefaultsPreference]
- */
 @PerPreference
 class ResetToDefaultsPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,

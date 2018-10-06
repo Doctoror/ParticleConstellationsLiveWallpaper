@@ -29,7 +29,7 @@
         android:key="@string/pref_key_performance_tips"
         android:title="@string/Performance_tips"/>
 
-    <com.doctoror.particleswallpaper.presentation.preference.ResetToDefaultsPreference
+    <com.doctoror.particleswallpaper.userprefs.resettodefaults.ResetToDefaultsPreference
         android:key="@string/pref_key_reset_to_defaults"
         android:title="@string/Reset_to_defaults"/>
 

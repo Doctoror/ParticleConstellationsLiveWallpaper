@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.view
+package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
-/**
- * Created by Yaroslav Mytkalyk on 03.06.17.
- *
- * Reset to defaults preference view
- */
+import com.doctoror.particleswallpaper.presentation.view.MvpView
+
 interface ResetToDefaultsPreferenceView : MvpView {
 
     fun showWarningDialog()
