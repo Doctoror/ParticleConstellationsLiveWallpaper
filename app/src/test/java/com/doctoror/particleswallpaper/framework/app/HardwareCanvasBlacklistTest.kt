@@ -1,5 +1,6 @@
-package com.doctoror.particleswallpaper.config.app
+package com.doctoror.particleswallpaper.framework.app
 
+import com.doctoror.particleswallpaper.framework.app.HardwareCanvasBlacklist
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

@@ -21,7 +21,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import com.doctoror.particleswallpaper.engine.WallpaperServiceImpl
-import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Assert.*
 import org.junit.Before

@@ -1,4 +1,4 @@
-package com.doctoror.particleswallpaper.config.app
+package com.doctoror.particleswallpaper.framework.app
 
 object HardwareCanvasBlacklist {
 

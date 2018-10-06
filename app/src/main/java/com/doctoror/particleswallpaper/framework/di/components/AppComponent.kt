@@ -20,7 +20,7 @@ import android.content.pm.PackageManager
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryDevice
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
-import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
