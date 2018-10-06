@@ -16,10 +16,9 @@
 package com.doctoror.particleswallpaper.userprefs.optimizetextures
 
 import com.bumptech.glide.Glide
-import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.presenter.Presenter
+import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
@@ -27,15 +26,13 @@ import javax.inject.Inject
 class OptimizeTexturesPreferencePresenter @Inject constructor(
         private val glide: Glide,
         private val settings: SettingsRepositoryOpenGL,
-        private val schedulers: SchedulersProvider
-) : Presenter<OptimizeTexturesView> {
+        private val schedulers: SchedulersProvider) {
 
     private var disposable: Disposable? = null
 
     private lateinit var view: OptimizeTexturesView
 
-    override fun onTakeView(view: OptimizeTexturesView) {
-        super.onTakeView(view)
+    fun onTakeView(view: OptimizeTexturesView) {
         this.view = view
     }
 
