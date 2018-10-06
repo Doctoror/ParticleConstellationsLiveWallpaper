@@ -20,11 +20,10 @@ import android.app.Fragment
 import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
+import com.doctoror.particleswallpaper.app.FragmentHolder
 import com.doctoror.particleswallpaper.app.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.presentation.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.presentation.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.app.FragmentHolder
-import com.doctoror.particleswallpaper.presentation.view.MvpView
 import javax.inject.Inject
 
 /**
@@ -32,7 +31,7 @@ import javax.inject.Inject
  */
 class PreviewPreference @JvmOverloads constructor
 (contextParam: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : Preference(contextParam, attrs), MvpView, FragmentHolder {
+    : Preference(contextParam, attrs), FragmentHolder {
 
     @Inject
     lateinit var intentProvider: OpenChangeWallpaperIntentProvider
@@ -54,7 +53,6 @@ class PreviewPreference @JvmOverloads constructor
                 .inject(this)
 
         presenter = PreviewPreferencePresenter(contextParam as Activity)
-        presenter.onTakeView(this)
     }
 
     override fun onClick() {

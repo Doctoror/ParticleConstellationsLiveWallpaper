@@ -22,18 +22,9 @@ import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.app.base.OnActivityResultCallback
 import com.doctoror.particleswallpaper.app.base.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.presenter.Presenter
-import com.doctoror.particleswallpaper.presentation.view.MvpView
 
 @PerPreference
-class PreviewPreferencePresenter(private val activity: Activity)
-    : Presenter<MvpView> {
-
-    private lateinit var view: MvpView
-
-    override fun onTakeView(view: MvpView) {
-        this.view = view
-    }
+class PreviewPreferencePresenter(private val activity: Activity) {
 
     var useCase: OpenChangeWallpaperIntentUseCase? = null
 
