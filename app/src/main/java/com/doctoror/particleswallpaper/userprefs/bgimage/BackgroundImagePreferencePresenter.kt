@@ -204,9 +204,9 @@ class BackgroundImagePreferencePresenter @Inject constructor(
                     val uri = Uri.parse(uriString)
                     val permissions = contentResolver.persistedUriPermissions
                     permissions
-                            ?.filter { uri == it.uri }
-                            ?.forEach {
-                                contentResolver.releasePersistableUriPermission(uri,
+                            .filter { uri == it.uri }
+                            .forEach {
+                                contentResolver.releasePersistableUriPermission(it.uri,
                                         Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             }
                 }
