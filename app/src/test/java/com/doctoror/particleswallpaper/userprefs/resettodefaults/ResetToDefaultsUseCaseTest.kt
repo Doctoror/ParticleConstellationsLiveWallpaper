@@ -51,7 +51,7 @@ class ResetToDefaultsUseCaseTest {
     @Test
     fun setsDefaultBackgroundColor() {
         // When
-        underTest.useCase().test()
+        underTest.action().test()
 
         // Then
         verify(settings).setBackgroundColor(defaults.getBackgroundColor().blockingFirst())
@@ -60,7 +60,7 @@ class ResetToDefaultsUseCaseTest {
     @Test
     fun setsDefaultBackgroundUri() {
         // When
-        underTest.useCase().test()
+        underTest.action().test()
 
         // Then
         verify(settings).setBackgroundUri(defaults.getBackgroundUri().blockingFirst())
@@ -69,7 +69,7 @@ class ResetToDefaultsUseCaseTest {
     @Test
     fun setsDefaultDotScale() {
         // When
-        underTest.useCase().test()
+        underTest.action().test()
 
         // Then
         verify(settings).setDotScale(defaults.getDotScale().blockingFirst())
@@ -78,7 +78,7 @@ class ResetToDefaultsUseCaseTest {
     @Test
     fun setsDefaultFrameDelay() {
         // When
-        underTest.useCase().test()
+        underTest.action().test()
 
         // Then
         verify(settings).setFrameDelay(defaults.getFrameDelay().blockingFirst())
@@ -87,7 +87,7 @@ class ResetToDefaultsUseCaseTest {
     @Test
     fun setsDefaultLineDistance() {
         // When
-        underTest.useCase().test()
+        underTest.action().test()
 
         // Then
         verify(settings).setLineDistance(defaults.getLineDistance().blockingFirst())
@@ -96,7 +96,7 @@ class ResetToDefaultsUseCaseTest {
     @Test
     fun setsDefaultLineScale() {
         // When
-        underTest.useCase().test()
+        underTest.action().test()
 
         // Then
         verify(settings).setLineScale(defaults.getLineScale().blockingFirst())
@@ -105,7 +105,7 @@ class ResetToDefaultsUseCaseTest {
     @Test
     fun setsDefaultNumDots() {
         // When
-        underTest.useCase().test()
+        underTest.action().test()
 
         // Then
         verify(settings).setNumDots(defaults.getNumDots().blockingFirst())
@@ -114,7 +114,7 @@ class ResetToDefaultsUseCaseTest {
     @Test
     fun setsDefaultParticlesColor() {
         // When
-        underTest.useCase().test()
+        underTest.action().test()
 
         // Then
         verify(settings).setParticlesColor(defaults.getParticlesColor().blockingFirst())
@@ -123,7 +123,7 @@ class ResetToDefaultsUseCaseTest {
     @Test
     fun setsDefaultStepMultiplier() {
         // When
-        underTest.useCase().test()
+        underTest.action().test()
 
         // Then
         verify(settings).setStepMultiplier(defaults.getStepMultiplier().blockingFirst())
@@ -132,7 +132,7 @@ class ResetToDefaultsUseCaseTest {
     @Test
     fun clearsBackgroundImage() {
         // When
-        underTest.useCase().test()
+        underTest.action().test()
 
         // Then
         verify(backgroundImageManager).clearBackgroundImage()
@@ -141,7 +141,7 @@ class ResetToDefaultsUseCaseTest {
     @Test
     fun resetsOpenGLSettingsToDefault() {
         // When
-        underTest.useCase().test()
+        underTest.action().test()
 
         // Then
         verify(settingsOpenGL).resetToDefaults()

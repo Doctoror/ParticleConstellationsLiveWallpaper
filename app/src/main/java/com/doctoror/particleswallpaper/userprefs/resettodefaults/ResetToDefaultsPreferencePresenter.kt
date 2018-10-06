@@ -37,7 +37,7 @@ class ResetToDefaultsPreferencePresenter @Inject constructor(
     }
 
     fun onResetClick() {
-        useCase.useCase()
+        useCase.action()
                 .subscribeOn(schedulers.io())
                 .subscribe()
     }

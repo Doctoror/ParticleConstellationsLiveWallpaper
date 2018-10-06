@@ -19,7 +19,7 @@ import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Single
+import io.reactivex.Completable
 import org.junit.jupiter.api.Test
 
 class ResetToDefaultsPreferencePresenterTest {
@@ -42,12 +42,12 @@ class ResetToDefaultsPreferencePresenterTest {
     @Test
     fun startsUseCaseOnResetClick() {
         // Given
-        whenever(useCase.useCase()).thenReturn(Single.just(Unit))
+        whenever(useCase.action()).thenReturn(Completable.complete())
 
         // When
         underTest.onResetClick()
 
         // Then
-        verify(useCase).useCase()
+        verify(useCase).action()
     }
 }

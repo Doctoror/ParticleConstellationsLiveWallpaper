@@ -15,29 +15,24 @@
  */
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
-import com.doctoror.particleswallpaper.domain.interactor.UseCase
-import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.file.BackgroundImageManager
+import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.settings.SettingsRepository
-import com.doctoror.particleswallpaper.presentation.di.qualifiers.Default
-import io.reactivex.Single
+import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
+import io.reactivex.Completable
 import javax.inject.Inject
 
 /**
- * Created by Yaroslav Mytkalyk on 31.05.17.
- *
  * Resets all configurations to default values.
  */
 class ResetToDefaultsUseCase @Inject constructor(
         private val settings: MutableSettingsRepository,
         private val settingsOpenGL: SettingsRepositoryOpenGL,
         @Default private val defaults: SettingsRepository,
-        private val backgroundImageManager: BackgroundImageManager) : UseCase<Unit> {
+        private val backgroundImageManager: BackgroundImageManager) {
 
-    override fun useCase() = Single.fromCallable { reset() }!!
-
-    private fun reset() {
+    fun action() = Completable.fromAction {
         settings.setBackgroundUri(defaults.getBackgroundUri().blockingFirst())
         settings.setBackgroundColor(defaults.getBackgroundColor().blockingFirst())
 
@@ -54,5 +49,5 @@ class ResetToDefaultsUseCase @Inject constructor(
         settingsOpenGL.resetToDefaults()
 
         backgroundImageManager.clearBackgroundImage()
-    }
+    }!!
 }
