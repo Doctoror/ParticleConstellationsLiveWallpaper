@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.config
+package com.doctoror.particleswallpaper.userprefs
 
 import android.widget.ImageView
 import com.doctoror.particleswallpaper.presentation.view.MvpView

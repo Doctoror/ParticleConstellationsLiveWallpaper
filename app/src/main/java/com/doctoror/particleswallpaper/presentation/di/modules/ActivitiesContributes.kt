@@ -15,8 +15,8 @@
  */
 package com.doctoror.particleswallpaper.presentation.di.modules
 
-import com.doctoror.particleswallpaper.presentation.config.ConfigActivity
-import com.doctoror.particleswallpaper.presentation.config.ConfigActivityModule
+import com.doctoror.particleswallpaper.userprefs.ConfigActivity
+import com.doctoror.particleswallpaper.userprefs.ConfigActivityModule
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

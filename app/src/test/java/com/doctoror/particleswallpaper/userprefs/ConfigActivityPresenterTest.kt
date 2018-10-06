@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.presentation.config
+package com.doctoror.particleswallpaper.userprefs
 
 import android.app.Activity
 import android.graphics.Color
@@ -23,12 +23,12 @@ import android.net.Uri
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
+import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 import com.doctoror.particleswallpaper.settings.NO_URI
 import com.doctoror.particleswallpaper.settings.SettingsRepository
-import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
-import com.doctoror.particleswallpaper.presentation.util.ThemeUtils
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers

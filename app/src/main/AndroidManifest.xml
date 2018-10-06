@@ -13,7 +13,7 @@
         android:fullBackupContent="@xml/backup_descriptor">
 
         <activity
-            android:name=".presentation.config.ConfigActivity"
+            android:name=".userprefs.ConfigActivity"
             android:launchMode="singleTop">
 
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.doctoror.particleswallpaper.presentation.config
+package com.doctoror.particleswallpaper.userprefs
 
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R
