@@ -23,7 +23,7 @@ import com.doctoror.particleswallpaper.settings.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.config.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.file.BackgroundImageManager
+import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.settings.SettingsRepository
 import com.doctoror.particleswallpaper.app.ApplicationlessInjection

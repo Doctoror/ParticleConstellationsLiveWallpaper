@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import android.graphics.Color
-import com.doctoror.particleswallpaper.file.BackgroundImageManager
+import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.settings.NO_URI
 import com.doctoror.particleswallpaper.settings.SettingsRepository

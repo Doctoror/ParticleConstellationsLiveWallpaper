@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
-import com.doctoror.particleswallpaper.file.BackgroundImageManager
+import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.di.qualifiers.Default
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import com.doctoror.particleswallpaper.settings.SettingsRepository
