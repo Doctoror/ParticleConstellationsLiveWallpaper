@@ -40,7 +40,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
-import com.doctoror.particleswallpaper.app.base.SimpleTarget2
+import com.doctoror.particleswallpaper.framework.glide.SimpleTarget2
 import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.view.removeOnGlobalLayoutListenerCompat

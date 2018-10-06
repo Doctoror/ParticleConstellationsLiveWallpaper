@@ -36,7 +36,7 @@ import com.doctoror.particleswallpaper.config.scene.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
-import com.doctoror.particleswallpaper.app.base.SimpleTarget2
+import com.doctoror.particleswallpaper.framework.glide.SimpleTarget2
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 

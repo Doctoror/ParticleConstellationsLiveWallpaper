@@ -28,7 +28,7 @@
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied, of Google, Inc.
  */
-package com.doctoror.particleswallpaper.app.base
+package com.doctoror.particleswallpaper.framework.glide
 
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.request.Request
