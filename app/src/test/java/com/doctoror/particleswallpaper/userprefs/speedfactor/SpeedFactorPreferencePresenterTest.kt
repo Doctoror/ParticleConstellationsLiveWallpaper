@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.userprefs.speedfactor
 
 import com.doctoror.particleswallpaper.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
-import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
+import com.doctoror.particleswallpaper.preference.SeekBarPreferenceView
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject

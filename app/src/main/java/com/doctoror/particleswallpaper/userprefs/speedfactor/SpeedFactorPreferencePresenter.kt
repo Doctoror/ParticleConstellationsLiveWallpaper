@@ -19,7 +19,7 @@ import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.mapper.SeekBarMapper
 import com.doctoror.particleswallpaper.presentation.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
+import com.doctoror.particleswallpaper.preference.SeekBarPreferenceView
 import com.doctoror.particleswallpaper.settings.MutableSettingsRepository
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject

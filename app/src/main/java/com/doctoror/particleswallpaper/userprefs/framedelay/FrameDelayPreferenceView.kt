@@ -1,6 +1,6 @@
 package com.doctoror.particleswallpaper.userprefs.framedelay
 
-import com.doctoror.particleswallpaper.presentation.view.SeekBarPreferenceView
+import com.doctoror.particleswallpaper.preference.SeekBarPreferenceView
 
 interface FrameDelayPreferenceView : SeekBarPreferenceView {
 
