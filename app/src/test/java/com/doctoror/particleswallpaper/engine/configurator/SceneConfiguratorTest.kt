@@ -15,13 +15,27 @@
  */
 package com.doctoror.particleswallpaper.engine.configurator
 
-import com.doctoror.particleswallpaper.userprefs.data.MockSceneSettingsFactory
+import com.doctoror.particleswallpaper.userprefs.data.NO_URI
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.mock
+import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class SceneConfiguratorTest {
+
+    private val sceneSettings: SceneSettings = mock {
+        on { it.observeBackgroundColor() }.thenReturn(Observable.just(1))
+        on { it.observeBackgroundUri() }.thenReturn(Observable.just(NO_URI))
+        on { it.observeDensity() }.thenReturn(Observable.just(1))
+        on { it.observeFrameDelay() }.thenReturn(Observable.just(1))
+        on { it.observeLineLength() }.thenReturn(Observable.just(1f))
+        on { it.observeLineScale() }.thenReturn(Observable.just(1f))
+        on { it.observeParticleColor() }.thenReturn(Observable.just(1))
+        on { it.observeParticleScale() }.thenReturn(Observable.just(1f))
+        on { it.observeSpeedFactor() }.thenReturn(Observable.just(1f))
+    }
 
     @Test
     fun testSubscription() {
@@ -32,7 +46,7 @@ class SceneConfiguratorTest {
         c.subscribe(
                 mock(),
                 mock(),
-                MockSceneSettingsFactory.create(),
+                sceneSettings,
                 Schedulers.trampoline())
 
         assertNotNull(c.disposables)
