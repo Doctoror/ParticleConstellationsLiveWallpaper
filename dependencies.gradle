@@ -17,7 +17,7 @@ ext {
     androidCompileSdkVersion = 28
 
     //Libraries
-    kotlin_version = rootProject.ext.kotlin_version
+    kotlinVersion = rootProject.ext.kotlinVersion
     rxJavaVersion = '2.2.2'
     rxAndroidVersion = '2.1.0'
 
@@ -40,7 +40,7 @@ ext {
             androidxAnnotations   : "androidx.annotation:annotation:1.0.0",
             androidxSupportV4     : "androidx.legacy:legacy-support-v4:1.0.0",
 
-            kotlin                : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            kotlin                : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
             rxJava                : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
             rxAndroid             : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
 
@@ -57,9 +57,9 @@ ext {
     ]
 
     wallpaperappTestDependencies = [
-            kotlin       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
-            kotlinTest   : "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
-            kotlinReflect: "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
+            kotlin       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+            kotlinTest   : "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion",
+            kotlinReflect: "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
 
             junitJupiter : "org.junit.jupiter:junit-jupiter-api:$jUnitVersion",
             junitVintage : "org.junit.vintage:junit-vintage-engine:$jUnitVersion",
@@ -76,7 +76,7 @@ ext {
     libraryTestDependencies = [
             junit         : "junit:junit:$jUnitVersion",
 
-            kotlin        : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            kotlin        : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
 
             mockitoCore   : "org.mockito:mockito-core:$mockitoVersion",
             mockitoKotlin : "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion",
