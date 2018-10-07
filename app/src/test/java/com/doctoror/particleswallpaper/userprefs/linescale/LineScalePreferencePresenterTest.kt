@@ -16,8 +16,8 @@
 package com.doctoror.particleswallpaper.userprefs.linescale
 
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test
 
 class LineScalePreferencePresenterTest {
 
-    private val settings: MutableSettingsRepository = mock()
+    private val settings: SceneSettings = mock()
     private val view: SeekBarPreferenceView = mock()
 
     private val underTest = LineScalePreferencePresenter(TrampolineSchedulers(), settings)
@@ -48,7 +48,7 @@ class LineScalePreferencePresenterTest {
     fun setsLineScaleOnStart() {
         // Given
         val scale = 1.1f
-        whenever(settings.getLineScale()).thenReturn(Observable.just(scale))
+        whenever(settings.observeLineScale()).thenReturn(Observable.just(scale))
         underTest.onTakeView(view)
 
         // When
@@ -62,7 +62,7 @@ class LineScalePreferencePresenterTest {
     fun doesNotSetLineScaleAfterOnStop() {
         // Given
         val lineScaleSource = PublishSubject.create<Float>()
-        whenever(settings.getLineScale()).thenReturn(lineScaleSource)
+        whenever(settings.observeLineScale()).thenReturn(lineScaleSource)
         underTest.onTakeView(view)
 
         // When
@@ -83,6 +83,6 @@ class LineScalePreferencePresenterTest {
         underTest.onPreferenceChange(progress)
 
         // Then
-        verify(settings).setLineScale(progress.toFloat() / 5f + 1f)
+        verify(settings).lineScale = progress.toFloat() / 5f + 1f
     }
 }

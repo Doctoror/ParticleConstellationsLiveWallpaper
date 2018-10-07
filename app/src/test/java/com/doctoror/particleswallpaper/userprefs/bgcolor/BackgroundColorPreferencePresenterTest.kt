@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.userprefs.bgcolor
 import android.graphics.Color
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test
 
 class BackgroundColorPreferencePresenterTest {
 
-    private val settings: MutableSettingsRepository = mock()
+    private val settings: SceneSettings = mock()
     private val defaults: DefaultSceneSettings = mock()
     private val view: BackgroundColorPreferenceView = mock()
 
@@ -37,7 +37,7 @@ class BackgroundColorPreferencePresenterTest {
     fun setsColorOnStart() {
         // Given
         val color = Color.CYAN
-        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(color))
+        whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(color))
         underTest.onTakeView(view)
 
         // When
@@ -51,7 +51,7 @@ class BackgroundColorPreferencePresenterTest {
     fun doesNotSetColorAfterOnStop() {
         // Given
         val colorSource = PublishSubject.create<Int>()
-        whenever(settings.getBackgroundColor()).thenReturn(colorSource)
+        whenever(settings.observeBackgroundColor()).thenReturn(colorSource)
         underTest.onTakeView(view)
 
         // When
@@ -72,7 +72,7 @@ class BackgroundColorPreferencePresenterTest {
         underTest.onPreferenceChange(color)
 
         // Then
-        verify(settings).setBackgroundColor(color)
+        verify(settings).backgroundColor = color
     }
 
     @Test
@@ -85,6 +85,6 @@ class BackgroundColorPreferencePresenterTest {
         underTest.onPreferenceChange(null)
 
         // Then
-        verify(settings).setBackgroundColor(defaultColor)
+        verify(settings).backgroundColor = defaultColor
     }
 }

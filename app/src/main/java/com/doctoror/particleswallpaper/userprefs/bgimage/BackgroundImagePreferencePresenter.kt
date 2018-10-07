@@ -39,8 +39,8 @@ import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -52,7 +52,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         private val pickImageGetContentUseCase: PickImageGetContentUseCase,
         private val pickImageDocumentUseCase: PickImageDocumentUseCase,
         private val schedulers: SchedulersProvider,
-        private val settings: MutableSettingsRepository,
+        private val settings: SceneSettings,
         private val defaults: DefaultSceneSettings,
         private val backgroundImageManager: BackgroundImageManager) {
 
@@ -142,7 +142,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         }
 
         override fun clearBackground() {
-            settings.setBackgroundUri(defaults.backgroundUri)
+            settings.backgroundUri = defaults.backgroundUri
             clearBackgroundFile()
         }
 
@@ -165,7 +165,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
                     .fromCallable { backgroundImageManager.copyBackgroundToFile(uri) }
                     .subscribeOn(schedulers.io())
                     .subscribe(
-                            { settings.setBackgroundUri(it.toString()) },
+                            { settings.backgroundUri = it.toString() },
                             {
                                 Log.w(tag, "Failed copying to private file", it)
                                 handleDefaultUriResult(uri)
@@ -173,7 +173,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         }
 
         private fun handleDefaultUriResult(uri: Uri) {
-            settings.setBackgroundUri(uri.toString())
+            settings.backgroundUri = uri.toString()
         }
     }
 
@@ -193,7 +193,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         }
 
         override fun clearBackground() {
-            val uriString = settings.getBackgroundUri().blockingFirst()
+            val uriString = settings.backgroundUri
             if (uriString != NO_URI) {
                 val contentResolver = context.contentResolver
                 if (contentResolver != null) {

@@ -104,17 +104,17 @@ class EnginePresenter(
     fun onCreate() {
         configurator.subscribe(scene, scenePresenter, settings, glScheduler)
 
-        disposables.add(settings.getDotScale()
+        disposables.add(settings.observeParticleScale()
                 .subscribe {
                     renderer.markParticleTextureDirty()
                 })
 
-        disposables.add(settings.getFrameDelay()
+        disposables.add(settings.observeFrameDelay()
                 .observeOn(glScheduler)
                 .subscribe { scene.frameDelay = it })
 
         disposables.add(settings
-                .getBackgroundColor()
+                .observeBackgroundColor()
                 .doOnNext {
                     backgroundColor = it
                     backgroundColorDirty = true
@@ -125,7 +125,7 @@ class EnginePresenter(
                 }
                 .flatMap { settingsOpenGL.observeOptimizeTextures() }
                 .doOnNext { optimizeTextures = it }
-                .flatMap { settings.getBackgroundUri() }
+                .flatMap { settings.observeBackgroundUri() }
                 .observeOn(schedulers.mainThread())
                 .subscribe { handleBackground(it) })
     }
@@ -195,7 +195,7 @@ class EnginePresenter(
             this.width = width
             this.height = height
 
-            handleBackground(settings.getBackgroundUri().blockingFirst())
+            handleBackground(settings.backgroundUri)
         }
     }
 

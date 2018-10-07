@@ -29,8 +29,8 @@ import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.userprefs.ConfigFragment
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import org.junit.Before
@@ -51,7 +51,7 @@ class BackgroundImagePreferencePresenterTest {
     private val glide: Glide = mock()
     private val pickImageGetContentUseCase: PickImageGetContentUseCase = mock()
     private val pickImageDocumentUseCase: PickImageDocumentUseCase = mock()
-    private val settings: MutableSettingsRepository = mock()
+    private val settings: SceneSettings = mock()
     private val defaults: DefaultSceneSettings = mock()
     private val backgroundImageManager: BackgroundImageManager = mock()
     private val view: BackgroundImagePreferenceView = mock()
@@ -74,7 +74,8 @@ class BackgroundImagePreferencePresenterTest {
     @Before
     fun setup() {
         whenever(defaults.backgroundUri).thenReturn(NO_URI)
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
+        whenever(settings.backgroundUri).thenReturn(NO_URI)
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
     }
 
     private fun setHostAndExtractOnActivityResultCallback(
@@ -126,7 +127,7 @@ class BackgroundImagePreferencePresenterTest {
         underTest.clearBackground()
 
         // Then
-        verify(settings).setBackgroundUri(NO_URI)
+        verify(settings).backgroundUri = NO_URI
     }
 
     @Test
@@ -189,7 +190,7 @@ class BackgroundImagePreferencePresenterTest {
         val uri = Uri.parse("content://shithost")
 
         whenever(context.contentResolver).thenReturn(contentResolver)
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(uri.toString()))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(uri.toString()))
 
         // When
         underTest.clearBackground()
@@ -202,7 +203,8 @@ class BackgroundImagePreferencePresenterTest {
     @Test
     fun doesNotCrashOnReleaseUriPermissionsWhenContentResolverNotSet() {
         // Given
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just("content://shithost"))
+        whenever(settings.observeBackgroundUri())
+                .thenReturn(Observable.just("content://shithost"))
 
         // When
         underTest.clearBackground()
@@ -215,7 +217,7 @@ class BackgroundImagePreferencePresenterTest {
         // Given
         val contentResolver: ContentResolver = mock()
         whenever(context.contentResolver).thenReturn(contentResolver)
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
 
         // When
         underTest.clearBackground()
@@ -232,7 +234,7 @@ class BackgroundImagePreferencePresenterTest {
 
         whenever(contentResolver.persistedUriPermissions).doReturn(listOf(uriPermission))
         whenever(context.contentResolver).thenReturn(contentResolver)
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(uri.toString()))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(uri.toString()))
     }
 
     @Test
@@ -319,7 +321,7 @@ class BackgroundImagePreferencePresenterTest {
 
         // Then
         verify(contentResolver).takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        verify(settings).setBackgroundUri(uri.toString())
+        verify(settings).backgroundUri = uri.toString()
     }
 
     @Test
@@ -337,7 +339,7 @@ class BackgroundImagePreferencePresenterTest {
         })
 
         // Then
-        verify(settings).setBackgroundUri(localUri.toString())
+        verify(settings).backgroundUri = localUri.toString()
     }
 
     @Test
@@ -355,7 +357,7 @@ class BackgroundImagePreferencePresenterTest {
         })
 
         // Then
-        verify(settings).setBackgroundUri(uri.toString())
+        verify(settings).backgroundUri = uri.toString()
     }
 
     private fun givenContextHasResourcesWithStrings() {

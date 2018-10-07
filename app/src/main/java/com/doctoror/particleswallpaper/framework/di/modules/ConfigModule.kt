@@ -47,15 +47,13 @@ class ConfigModule {
 
     @Singleton
     @Provides
-    fun provideMutableSceneSettings(
+    fun provideSceneSettings(
             context: Context,
-            defaults: DefaultSceneSettings):
-            MutableSettingsRepository = SettingsRepositoryImpl(context, defaults)
-
-    @Singleton
-    @Provides
-    fun provideSceneSettings(settings: MutableSettingsRepository):
-            SceneSettings = settings
+            defaults: DefaultSceneSettings
+    ) = SceneSettings(
+            defaults,
+            context.getSharedPreferences(SCENE_PREFERENCES_NAME, Context.MODE_PRIVATE)
+    )
 
     @Provides
     fun provideSceneConfigurator(factory: SceneConfiguratorFactory):

@@ -107,8 +107,8 @@ dependencies {
     implementation d.rxJava
     implementation d.rxAndroid
 
-    implementation(name:'library-exposed-release', ext:'aar')
-    implementation(name:'opengl-exposed-release', ext:'aar')
+    implementation(name: 'library-exposed-release', ext: 'aar')
+    implementation(name: 'opengl-exposed-release', ext: 'aar')
     implementation d.colorPicker
 
     implementation d.supportV4
@@ -120,9 +120,6 @@ dependencies {
 
     implementation d.glide
     kapt d.glideCompiler
-
-    implementation d.gendalf
-    kapt d.gendalfCompiler
 
     implementation d.dagger
     implementation d.daggerAndroid

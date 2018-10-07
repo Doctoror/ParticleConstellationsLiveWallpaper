@@ -19,14 +19,14 @@ import android.support.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.preference.SeekBarMapper
 import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 @PerPreference
 class FrameDelayPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
-        private val settings: MutableSettingsRepository) : SeekBarMapper<Int> {
+        private val settings: SceneSettings) : SeekBarMapper<Int> {
 
     private lateinit var view: FrameDelayPreferenceView
 
@@ -43,13 +43,14 @@ class FrameDelayPreferencePresenter @Inject constructor(
     fun onPreferenceChange(v: Int?) {
         if (v != null) {
             val value = transformToRealValue(v)
-            settings.setFrameDelay(value)
+            settings.frameDelay = value
             view.setFrameRate(transformToFrameRate(value))
         }
     }
 
     fun onStart() {
-        disposable = settings.getFrameDelay()
+        disposable = settings
+                .observeFrameDelay()
                 .observeOn(schedulers.mainThread())
                 .subscribe {
                     val progress = transformToProgress(it)

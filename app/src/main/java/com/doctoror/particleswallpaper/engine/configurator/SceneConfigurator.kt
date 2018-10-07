@@ -24,8 +24,6 @@ import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 
 /**
- * Created by Yaroslav Mytkalyk on 29.05.17.
- *
  * Monitors for [SceneSettings] changes and configures [ParticlesScene] based on the settings.
  *
  * Not thread safe!
@@ -45,21 +43,21 @@ class SceneConfigurator {
         disposables?.dispose()
         disposables = d
 
-        d.add(settings.getParticlesColor()
+        d.add(settings.observeParticleColor()
                 .observeOn(scheduler)
                 .subscribe { c ->
                     configuration.dotColor = c
                     configuration.lineColor = c
                 })
 
-        d.add(settings.getNumDots()
+        d.add(settings.observeDensity()
                 .observeOn(scheduler)
                 .subscribe { v ->
                     configuration.numDots = v
                     controller.makeBrandNewFrame()
                 })
 
-        d.add(settings.getDotScale()
+        d.add(settings.observeParticleScale()
                 .observeOn(scheduler)
                 .subscribe { v ->
                     val radiusRange = DotRadiusMapper.transform(v)
@@ -67,22 +65,22 @@ class SceneConfigurator {
                     controller.makeBrandNewFrame()
                 })
 
-        d.add(settings.getLineScale()
+        d.add(settings.observeLineScale()
                 .observeOn(scheduler)
                 .subscribe { v ->
                     configuration.lineThickness = v
                     controller.makeBrandNewFrame()
                 })
 
-        d.add(settings.getLineDistance()
+        d.add(settings.observeLineLength()
                 .observeOn(scheduler)
                 .subscribe(configuration::setLineDistance))
 
-        d.add(settings.getStepMultiplier()
+        d.add(settings.observeSpeedFactor()
                 .observeOn(scheduler)
                 .subscribe(configuration::setStepMultiplier))
 
-        d.add(settings.getFrameDelay()
+        d.add(settings.observeFrameDelay()
                 .observeOn(scheduler)
                 .subscribe(configuration::setFrameDelay))
     }

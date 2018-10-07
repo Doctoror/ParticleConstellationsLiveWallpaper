@@ -16,18 +16,18 @@
 package com.doctoror.particleswallpaper.userprefs.speedfactor
 
 import android.support.annotation.VisibleForTesting
+import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.preference.SeekBarMapper
-import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 @PerPreference
 class SpeedFactorPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
-        private val settings: MutableSettingsRepository) : SeekBarMapper<Float> {
+        private val settings: SceneSettings) : SeekBarMapper<Float> {
 
     private lateinit var view: SeekBarPreferenceView
 
@@ -42,12 +42,13 @@ class SpeedFactorPreferencePresenter @Inject constructor(
     fun onPreferenceChange(v: Int?) {
         if (v != null) {
             val value = transformToRealValue(v)
-            settings.setStepMultiplier(value)
+            settings.speedFactor = value
         }
     }
 
     fun onStart() {
-        disposable = settings.getStepMultiplier()
+        disposable = settings
+                .observeSpeedFactor()
                 .observeOn(schedulers.mainThread())
                 .subscribe { view.setProgressInt(transformToProgress(it)) }
     }

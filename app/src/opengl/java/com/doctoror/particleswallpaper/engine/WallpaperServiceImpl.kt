@@ -31,8 +31,8 @@ import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.execution.GlScheduler
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryDevice
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import net.rbgrn.android.glwallpaperservice.GLWallpaperService
 import javax.inject.Inject
@@ -51,13 +51,13 @@ class WallpaperServiceImpl : GLWallpaperService() {
     lateinit var configuratorFactory: SceneConfiguratorFactory
 
     @Inject
-    lateinit var settings: SettingsRepository
+    lateinit var settings: SceneSettings
 
     @Inject
     lateinit var settingsOpenGL: SettingsRepositoryOpenGL
 
     @Inject
-    lateinit var settingsDevice: SettingsRepositoryDevice
+    lateinit var settingsDevice: DeviceSettings
 
     private val textureDimensionsCalculator = TextureDimensionsCalculator()
 

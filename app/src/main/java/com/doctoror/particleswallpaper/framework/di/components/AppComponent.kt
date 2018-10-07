@@ -18,13 +18,16 @@ package com.doctoror.particleswallpaper.framework.di.components
 import android.content.Context
 import android.content.pm.PackageManager
 import com.bumptech.glide.Glide
-import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
-import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
+import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.di.modules.*
-import com.doctoror.particleswallpaper.userprefs.data.*
+import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
+import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
+import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
@@ -52,7 +55,6 @@ interface AppComponent : AndroidInjector<ApplicationlessInjection> {
     fun exposeDrawableConfigurator(): SceneConfigurator
 
     fun exposeSceneSettings(): SceneSettings
-    fun exposeMutableSceneSettings(): MutableSettingsRepository
 
     fun exposePackageManager(): PackageManager
     fun exposePackageName(): String

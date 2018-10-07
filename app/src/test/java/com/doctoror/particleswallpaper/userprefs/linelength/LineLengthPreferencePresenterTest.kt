@@ -16,8 +16,8 @@
 package com.doctoror.particleswallpaper.userprefs.linelength
 
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test
 
 class LineLengthPreferencePresenterTest {
 
-    private val settings: MutableSettingsRepository = mock()
+    private val settings: SceneSettings = mock()
     private val view: SeekBarPreferenceView = mock()
 
     private val underTest = LineLengthPreferencePresenter(TrampolineSchedulers(), settings)
@@ -45,10 +45,10 @@ class LineLengthPreferencePresenterTest {
     }
 
     @Test
-    fun setsLineDistanceOnStart() {
+    fun setsLineLengthOnStart() {
         // Given
         val distance = 12f
-        whenever(settings.getLineDistance()).thenReturn(Observable.just(distance))
+        whenever(settings.observeLineLength()).thenReturn(Observable.just(distance))
         underTest.onTakeView(view)
 
         // When
@@ -59,10 +59,10 @@ class LineLengthPreferencePresenterTest {
     }
 
     @Test
-    fun doesNotSetLineDistanceAfterOnStop() {
+    fun doesNotSetLineLengthAfterOnStop() {
         // Given
         val lineDistanceSource = PublishSubject.create<Float>()
-        whenever(settings.getLineDistance()).thenReturn(lineDistanceSource)
+        whenever(settings.observeLineLength()).thenReturn(lineDistanceSource)
         underTest.onTakeView(view)
 
         // When
@@ -75,7 +75,7 @@ class LineLengthPreferencePresenterTest {
     }
 
     @Test
-    fun storesLineDistanceOnChange() {
+    fun storesLineLengthOnChange() {
         // Given
         val progress = 1
 
@@ -83,6 +83,6 @@ class LineLengthPreferencePresenterTest {
         underTest.onPreferenceChange(progress)
 
         // Then
-        verify(settings).setLineDistance(progress.toFloat() * 3f)
+        verify(settings).lineLength = progress.toFloat() * 3f
     }
 }

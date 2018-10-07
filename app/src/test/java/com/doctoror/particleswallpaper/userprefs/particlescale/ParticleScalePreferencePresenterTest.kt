@@ -16,8 +16,8 @@
 package com.doctoror.particleswallpaper.userprefs.particlescale
 
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test
 
 class ParticleScalePreferencePresenterTest {
 
-    private val settings: MutableSettingsRepository = mock()
+    private val settings: SceneSettings = mock()
     private val view: SeekBarPreferenceView = mock()
 
     private val underTest = ParticleScalePreferencePresenter(TrampolineSchedulers(), settings)
@@ -45,10 +45,10 @@ class ParticleScalePreferencePresenterTest {
     }
 
     @Test
-    fun setsDotScaleOnStart() {
+    fun setsValueOnStart() {
         // Given
         val scale = 1.1f
-        whenever(settings.getDotScale()).thenReturn(Observable.just(scale))
+        whenever(settings.observeParticleScale()).thenReturn(Observable.just(scale))
         underTest.onTakeView(view)
 
         // When
@@ -59,10 +59,10 @@ class ParticleScalePreferencePresenterTest {
     }
 
     @Test
-    fun doesNotSetDotScaleAfterOnStop() {
+    fun doesNotSetValueAfterOnStop() {
         // Given
         val dotScaleSource = PublishSubject.create<Float>()
-        whenever(settings.getDotScale()).thenReturn(dotScaleSource)
+        whenever(settings.observeParticleScale()).thenReturn(dotScaleSource)
         underTest.onTakeView(view)
 
         // When
@@ -75,7 +75,7 @@ class ParticleScalePreferencePresenterTest {
     }
 
     @Test
-    fun storesDotScaleOnChange() {
+    fun storesValueOnChange() {
         // Given
         val progress = 1
 
@@ -83,6 +83,6 @@ class ParticleScalePreferencePresenterTest {
         underTest.onPreferenceChange(progress)
 
         // Then
-        verify(settings).setDotScale(progress.toFloat() / 5f + 0.5f)
+        verify(settings).particleScale = progress.toFloat() / 5f + 0.5f
     }
 }

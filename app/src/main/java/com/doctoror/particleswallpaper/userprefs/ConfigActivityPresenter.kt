@@ -73,8 +73,8 @@ open class ConfigActivityPresenter(
         val controller = controller ?: throw IllegalStateException("controller not set")
 
         bgDisposable = Observable.combineLatest(
-                settings.getBackgroundUri(),
-                settings.getBackgroundColor(),
+                settings.observeBackgroundUri(),
+                settings.observeBackgroundColor(),
                 BiFunction<String, Int, Pair<String, Int>> { t1, t2 -> Pair(t1, t2) })
                 .observeOn(schedulers.mainThread())
                 .subscribe { applyBackground(it) }

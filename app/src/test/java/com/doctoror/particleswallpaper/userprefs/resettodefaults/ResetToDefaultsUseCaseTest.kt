@@ -18,8 +18,8 @@ package com.doctoror.particleswallpaper.userprefs.resettodefaults
 import android.graphics.Color
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
@@ -40,12 +40,12 @@ class ResetToDefaultsUseCaseTest {
         on(it.speedFactor).doReturn(1.1f)
     }
 
-    private val settings: MutableSettingsRepository = mock()
+    private val settings: SceneSettings = mock()
     private val settingsOpenGL: SettingsRepositoryOpenGL = mock()
     private val backgroundImageManager: BackgroundImageManager = mock()
 
     private val underTest = ResetToDefaultsUseCase(
-            settings, settingsOpenGL, defaults, backgroundImageManager)
+            defaults, settings, settingsOpenGL, backgroundImageManager)
 
     @Test
     fun setsDefaultBackgroundColor() {
@@ -53,7 +53,7 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setBackgroundColor(defaults.backgroundColor)
+        verify(settings).backgroundColor = defaults.backgroundColor
     }
 
     @Test
@@ -62,7 +62,7 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setBackgroundUri(defaults.backgroundUri)
+        verify(settings).backgroundUri = defaults.backgroundUri
     }
 
     @Test
@@ -71,7 +71,7 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setNumDots(defaults.density)
+        verify(settings).density = defaults.density
     }
 
     @Test
@@ -80,7 +80,7 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setFrameDelay(defaults.frameDelay)
+        verify(settings).frameDelay = defaults.frameDelay
     }
 
     @Test
@@ -89,7 +89,7 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setLineDistance(defaults.lineLength)
+        verify(settings).lineLength = defaults.lineLength
     }
 
     @Test
@@ -98,7 +98,7 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setLineScale(defaults.lineScale)
+        verify(settings).lineScale = defaults.lineScale
     }
 
     @Test
@@ -107,7 +107,7 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setParticlesColor(defaults.particleColor)
+        verify(settings).particleColor = defaults.particleColor
     }
 
     @Test
@@ -116,7 +116,7 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setDotScale(defaults.particleScale)
+        verify(settings).particleScale = defaults.particleScale
     }
 
     @Test
@@ -125,7 +125,7 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setStepMultiplier(defaults.speedFactor)
+        verify(settings).speedFactor = defaults.speedFactor
     }
 
     @Test

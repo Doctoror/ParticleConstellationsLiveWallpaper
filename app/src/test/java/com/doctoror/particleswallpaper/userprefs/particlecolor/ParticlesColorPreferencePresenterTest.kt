@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.userprefs.particlecolor
 import android.graphics.Color
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test
 
 class ParticlesColorPreferencePresenterTest {
 
-    private val settings: MutableSettingsRepository = mock()
+    private val settings: SceneSettings = mock()
     private val defaults: DefaultSceneSettings = mock()
     private val view: ParticlesColorPreferenceView = mock()
 
@@ -39,7 +39,7 @@ class ParticlesColorPreferencePresenterTest {
     fun setsColorOnStart() {
         // Given
         val color = Color.GRAY
-        whenever(settings.getParticlesColor()).thenReturn(Observable.just(color))
+        whenever(settings.observeParticleColor()).thenReturn(Observable.just(color))
 
         // When
         underTest.onStart()
@@ -52,7 +52,7 @@ class ParticlesColorPreferencePresenterTest {
     fun doesNotSetColorAfterOnStop() {
         // Given
         val colorSource = PublishSubject.create<Int>()
-        whenever(settings.getParticlesColor()).thenReturn(colorSource)
+        whenever(settings.observeParticleColor()).thenReturn(colorSource)
 
         // When
         underTest.onStart()
@@ -72,7 +72,7 @@ class ParticlesColorPreferencePresenterTest {
         underTest.onPreferenceChange(color)
 
         // Then
-        verify(settings).setParticlesColor(color)
+        verify(settings).particleColor = color
     }
 
     @Test
@@ -85,7 +85,7 @@ class ParticlesColorPreferencePresenterTest {
         underTest.onPreferenceChange(null)
 
         // Then
-        verify(settings).setParticlesColor(defaultColor)
+        verify(settings).particleColor = defaultColor
     }
 
     @Test

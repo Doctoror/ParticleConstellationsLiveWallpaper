@@ -75,10 +75,11 @@ class EnginePresenterTest {
     @Before
     fun setup() {
         whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION.SDK_INT)
-        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(0))
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
-        whenever(settings.getFrameDelay()).thenReturn(Observable.just(0))
-        whenever(settings.getDotScale()).thenReturn(Observable.just(1f))
+        whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(0))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
+        whenever(settings.backgroundUri).thenReturn(NO_URI)
+        whenever(settings.observeFrameDelay()).thenReturn(Observable.just(0))
+        whenever(settings.observeParticleScale()).thenReturn(Observable.just(1f))
         whenever(settingsOpenGL.observeOptimizeTextures()).thenReturn(Observable.just(true))
 
         whenever(glide.asBitmap()).thenReturn(requestBuilder)
@@ -104,7 +105,7 @@ class EnginePresenterTest {
     fun setsBackgroundColorOnDrawFrameWhenSurfaceCreated() {
         // Given
         val color = 666
-        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(color))
+        whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(color))
 
         // When
         underTest.onCreate()
@@ -119,7 +120,7 @@ class EnginePresenterTest {
     fun loadsTextureOptimizationSettingBeforeBackgroundUri() {
         // Given
         whenever(settingsOpenGL.observeOptimizeTextures()).thenReturn(Observable.just(false))
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.never())
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.never())
 
         // When
         underTest.onCreate()
@@ -133,7 +134,7 @@ class EnginePresenterTest {
     fun loadsBackgroundUri() {
         // Given
         val uri = "uri://scheme"
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(uri))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(uri))
 
         // When
         underTest.onCreate()
@@ -178,7 +179,7 @@ class EnginePresenterTest {
     @Test
     fun doesNotLoadUriWhenWidthOrHeightIs0() {
         // Given
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just("content://"))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just("content://"))
 
         // When
         underTest.onCreate()
@@ -191,7 +192,7 @@ class EnginePresenterTest {
     fun loadsUriWhenWidthOrHeightIsNot0AfterOnCreate() {
         // Given
         val uri = "content://"
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(uri))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(uri))
 
         // When
         underTest.onCreate()
@@ -205,7 +206,7 @@ class EnginePresenterTest {
     fun loadsUriWhenWidthOrHeightIsNot0BeforeOnCreate() {
         // Given
         val uri = "content://"
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(uri))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(uri))
 
         // When
         underTest.setDimensions(1, 1)
@@ -219,7 +220,7 @@ class EnginePresenterTest {
     fun loadsFrameDelay() {
         // Given
         val frameDelay = 666
-        whenever(settings.getFrameDelay()).thenReturn(Observable.just(frameDelay))
+        whenever(settings.observeFrameDelay()).thenReturn(Observable.just(frameDelay))
 
         // When
         underTest.onCreate()

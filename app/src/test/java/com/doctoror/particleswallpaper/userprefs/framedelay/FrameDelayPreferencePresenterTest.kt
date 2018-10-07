@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.framedelay
 
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -27,7 +27,7 @@ class FrameDelayPreferencePresenterTest {
 
     private val frameDelaySeekbarMin = 16
 
-    private val settings: MutableSettingsRepository = mock()
+    private val settings: SceneSettings = mock()
 
     private val view: FrameDelayPreferenceView = mock {
         on(it.getMaxInt()).doReturn(25)
@@ -56,7 +56,7 @@ class FrameDelayPreferencePresenterTest {
     fun setsFrameDelayOnStart() {
         // Given
         val frameDelay = 16
-        whenever(settings.getFrameDelay()).thenReturn(Observable.just(frameDelay))
+        whenever(settings.observeFrameDelay()).thenReturn(Observable.just(frameDelay))
 
         // When
         underTest.onStart()
@@ -70,7 +70,7 @@ class FrameDelayPreferencePresenterTest {
     fun updatesFrameRateOnStart() {
         // Given
         val frameDelay = 16
-        whenever(settings.getFrameDelay()).thenReturn(Observable.just(frameDelay))
+        whenever(settings.observeFrameDelay()).thenReturn(Observable.just(frameDelay))
 
         // When
         underTest.onStart()
@@ -83,7 +83,7 @@ class FrameDelayPreferencePresenterTest {
     fun doesNotSetFrameDelayAfterOnStop() {
         // Given
         val frameDelaySource = PublishSubject.create<Int>()
-        whenever(settings.getFrameDelay()).thenReturn(frameDelaySource)
+        whenever(settings.observeFrameDelay()).thenReturn(frameDelaySource)
 
         // When
         underTest.onStart()
@@ -103,7 +103,7 @@ class FrameDelayPreferencePresenterTest {
         underTest.onPreferenceChange(progress)
 
         // Then
-        verify(settings).setFrameDelay(transformToRealValue(progress))
+        verify(settings).frameDelay = transformToRealValue(progress)
     }
 
     @Test

@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.engine.configurator
 
-import com.doctoror.particleswallpaper.userprefs.data.MockSettingsRepositoryFactory
+import com.doctoror.particleswallpaper.userprefs.data.MockSceneSettingsFactory
 import com.nhaarman.mockito_kotlin.mock
 import io.reactivex.schedulers.Schedulers
 import org.junit.jupiter.api.Assertions.*
@@ -32,7 +32,7 @@ class SceneConfiguratorTest {
         c.subscribe(
                 mock(),
                 mock(),
-                MockSettingsRepositoryFactory.create(),
+                MockSceneSettingsFactory.create(),
                 Schedulers.trampoline())
 
         assertNotNull(c.disposables)

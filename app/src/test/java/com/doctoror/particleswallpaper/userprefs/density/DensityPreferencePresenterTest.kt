@@ -16,8 +16,8 @@
 package com.doctoror.particleswallpaper.userprefs.density
 
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test
 
 class DensityPreferencePresenterTest {
 
-    private val settings: MutableSettingsRepository = mock()
+    private val settings: SceneSettings = mock()
     private val view: SeekBarPreferenceView = mock()
 
     private val underTest = DensityPreferencePresenter(TrampolineSchedulers(), settings)
@@ -48,7 +48,7 @@ class DensityPreferencePresenterTest {
     fun setsNumDotsOnStart() {
         // Given
         val numDots = 128
-        whenever(settings.getNumDots()).thenReturn(Observable.just(numDots))
+        whenever(settings.observeDensity()).thenReturn(Observable.just(numDots))
         underTest.onTakeView(view)
 
         // When
@@ -62,7 +62,7 @@ class DensityPreferencePresenterTest {
     fun doesNotSetNumDotsAfterOnStop() {
         // Given
         val numDotsSource = PublishSubject.create<Int>()
-        whenever(settings.getNumDots()).thenReturn(numDotsSource)
+        whenever(settings.observeDensity()).thenReturn(numDotsSource)
         underTest.onTakeView(view)
 
         // When
@@ -83,6 +83,6 @@ class DensityPreferencePresenterTest {
         underTest.onPreferenceChange(progress)
 
         // Then
-        verify(settings).setNumDots(progress + 1)
+        verify(settings).density = progress + 1
     }
 }

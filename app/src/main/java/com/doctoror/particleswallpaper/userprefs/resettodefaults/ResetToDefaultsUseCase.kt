@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import io.reactivex.Completable
 import javax.inject.Inject
@@ -26,25 +26,25 @@ import javax.inject.Inject
  * Resets all configurations to default values.
  */
 class ResetToDefaultsUseCase @Inject constructor(
-        private val settings: MutableSettingsRepository,
-        private val settingsOpenGL: SettingsRepositoryOpenGL,
         private val defaults: DefaultSceneSettings,
+        private val settings: SceneSettings,
+        private val settingsOpenGL: SettingsRepositoryOpenGL,
         private val backgroundImageManager: BackgroundImageManager) {
 
     fun action() = Completable.fromAction {
-        settings.setBackgroundColor(defaults.backgroundColor)
-        settings.setBackgroundUri(defaults.backgroundUri)
+        settings.backgroundColor = defaults.backgroundColor
+        settings.backgroundUri = defaults.backgroundUri
 
-        settings.setDotScale(defaults.particleScale)
-        settings.setFrameDelay(defaults.frameDelay)
+        settings.density = defaults.density
+        settings.frameDelay = defaults.frameDelay
 
-        settings.setLineDistance(defaults.lineLength)
-        settings.setLineScale(defaults.lineScale)
+        settings.lineLength = defaults.lineLength
+        settings.lineScale = defaults.lineScale
 
-        settings.setNumDots(defaults.density)
-        settings.setParticlesColor(defaults.particleColor)
+        settings.particleColor = defaults.particleColor
+        settings.particleScale = defaults.particleScale
 
-        settings.setStepMultiplier(defaults.speedFactor)
+        settings.speedFactor = defaults.speedFactor
         settingsOpenGL.resetToDefaults()
 
         backgroundImageManager.clearBackgroundImage()

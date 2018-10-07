@@ -16,8 +16,8 @@
 package com.doctoror.particleswallpaper.userprefs.speedfactor
 
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test
 
 class SpeedFactorPreferencePresenterTest {
 
-    private val settings: MutableSettingsRepository = mock()
+    private val settings: SceneSettings = mock()
     private val view: SeekBarPreferenceView = mock()
 
     private val underTest = SpeedFactorPreferencePresenter(TrampolineSchedulers(), settings)
@@ -48,7 +48,7 @@ class SpeedFactorPreferencePresenterTest {
     fun setsSpeedFactorOnStart() {
         // Given
         val speedFactor = 1.5f
-        whenever(settings.getStepMultiplier()).thenReturn(Observable.just(speedFactor))
+        whenever(settings.observeSpeedFactor()).thenReturn(Observable.just(speedFactor))
         underTest.onTakeView(view)
 
         // When
@@ -62,7 +62,7 @@ class SpeedFactorPreferencePresenterTest {
     fun doesNotSetSpeedFactorAfterOnStop() {
         // Given
         val speedFactorSource = PublishSubject.create<Float>()
-        whenever(settings.getStepMultiplier()).thenReturn(speedFactorSource)
+        whenever(settings.observeSpeedFactor()).thenReturn(speedFactorSource)
         underTest.onTakeView(view)
 
         // When
@@ -83,6 +83,6 @@ class SpeedFactorPreferencePresenterTest {
         underTest.onPreferenceChange(progress)
 
         // Then
-        verify(settings).setStepMultiplier(progress.toFloat() / 10f + 0.1f)
+        verify(settings).speedFactor = progress.toFloat() / 10f + 0.1f
     }
 }

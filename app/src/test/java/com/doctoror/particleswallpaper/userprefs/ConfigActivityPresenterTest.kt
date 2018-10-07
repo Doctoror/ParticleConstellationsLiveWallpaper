@@ -106,8 +106,8 @@ class ConfigActivityPresenterTest {
         whenever(view.getBackgroundView()).thenReturn(target)
 
         val color = Color.CYAN
-        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(color))
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
+        whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(color))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
 
         // When
         underTest.onStart()
@@ -133,9 +133,9 @@ class ConfigActivityPresenterTest {
         val windowBackground = Color.WHITE
         whenever(themeAttrColorResolver.getColor(any(), eq(android.R.attr.windowBackground)))
                 .thenReturn(windowBackground)
-        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(windowBackground))
+        whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(windowBackground))
 
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
 
         // When
         underTest.onStart()
@@ -156,8 +156,8 @@ class ConfigActivityPresenterTest {
         }
         whenever(view.getBackgroundView()).thenReturn(target)
 
-        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(Color.TRANSPARENT))
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just("uri"))
+        whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(Color.TRANSPARENT))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just("uri"))
 
         // When
         underTest.onStart()
@@ -178,8 +178,8 @@ class ConfigActivityPresenterTest {
         whenever(view.getBackgroundView()).thenReturn(target)
 
         val uri = "uri"
-        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(Color.TRANSPARENT))
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(uri))
+        whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(Color.TRANSPARENT))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(uri))
 
         // When
         underTest.onStart()
@@ -195,7 +195,7 @@ class ConfigActivityPresenterTest {
     private fun givenBackgroundSourcesMocked() {
         val backgroundView = mockBackgroundView()
         whenever(view.getBackgroundView()).thenReturn(backgroundView)
-        whenever(settings.getBackgroundColor()).thenReturn(Observable.just(Color.TRANSPARENT))
-        whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
+        whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(Color.TRANSPARENT))
+        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
     }
 }
