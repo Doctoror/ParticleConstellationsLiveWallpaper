@@ -26,11 +26,11 @@ import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfiguratorFactory
-import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
@@ -49,7 +49,7 @@ class WallpaperServiceImpl : WallpaperService() {
     lateinit var settings: SceneSettings
 
     @Inject
-    lateinit var settingsGl: SettingsRepositoryOpenGL
+    lateinit var settingsGl: OpenGlSettings
 
     private val textureDimensionsCalculator = TextureDimensionsCalculator()
 
