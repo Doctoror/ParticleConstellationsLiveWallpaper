@@ -19,7 +19,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.doctoror.particlesdrawable.ParticlesScene
@@ -39,7 +38,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
@@ -51,7 +49,7 @@ class EnginePresenterTest {
     private val apiLevelProvider: ApiLevelProvider = mock()
     private val configurator: SceneConfigurator = mock()
     private val controller: EngineController = mock()
-    private val glide: RequestManager = spy(Glide.with(RuntimeEnvironment.application))
+    private val glide: RequestManager = mock()
     private val renderer: EngineSceneRenderer = mock()
     private val settings: SceneSettings = mock()
     private val settingsOpenGL: OpenGlSettings = mock()
