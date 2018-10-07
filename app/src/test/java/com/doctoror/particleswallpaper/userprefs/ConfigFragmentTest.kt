@@ -86,7 +86,7 @@ class ConfigFragmentTest {
         assertNull(howToApplyPreference.fragment)
     }
 
-    @Ignore // Intent provider can't be mocked this the preference gets removed
+    @Ignore // Intent provider can't be mocked thus the preference gets removed
     @Test
     fun previewPreferenceHostSetOnCreate() {
         val underTest = underTestController
@@ -113,15 +113,6 @@ class ConfigFragmentTest {
         ) as PreviewPreference
 
         assertNull(previewPreference.fragment)
-    }
-
-    @Test
-    fun lifecycleObserversRegisteredOnCreate() {
-        val underTest = underTestController
-            .create()
-            .get()
-
-        assertEquals(8, underTest.lifecycle.observerCount)
     }
 
     @Test

@@ -17,6 +17,7 @@ package com.doctoror.particleswallpaper.userprefs
 
 import androidx.annotation.StringRes
 import com.doctoror.particleswallpaper.R
+import org.junit.Assert
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,6 +31,15 @@ import org.robolectric.annotation.Config
 class CanvasConfigFragmentTest {
 
     private val underTestController = FragmentController.of(ConfigFragment())
+
+    @Test
+    fun lifecycleObserversRegisteredOnCreate() {
+        val underTest = underTestController
+            .create()
+            .get()
+
+        Assert.assertEquals(8, underTest.lifecycle.observerCount)
+    }
 
     @Test
     fun multisamplingPreferenceDoesNotExist() {
