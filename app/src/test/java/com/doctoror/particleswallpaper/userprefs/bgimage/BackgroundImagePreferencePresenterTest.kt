@@ -28,7 +28,7 @@ import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.userprefs.ConfigFragment
-import com.doctoror.particleswallpaper.userprefs.data.DefaultAppearanceSettings
+import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.nhaarman.mockito_kotlin.*
@@ -52,7 +52,7 @@ class BackgroundImagePreferencePresenterTest {
     private val pickImageGetContentUseCase: PickImageGetContentUseCase = mock()
     private val pickImageDocumentUseCase: PickImageDocumentUseCase = mock()
     private val settings: MutableSettingsRepository = mock()
-    private val defaults: DefaultAppearanceSettings = mock()
+    private val defaults: DefaultSceneSettings = mock()
     private val backgroundImageManager: BackgroundImageManager = mock()
     private val view: BackgroundImagePreferenceView = mock()
 

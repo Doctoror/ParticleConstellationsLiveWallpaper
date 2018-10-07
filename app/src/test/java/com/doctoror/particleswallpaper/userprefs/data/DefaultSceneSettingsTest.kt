@@ -26,11 +26,11 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class DefaultAppearanceSettingsTest {
+class DefaultSceneSettingsTest {
 
     private val res: Resources = mock()
     private val theme: Resources.Theme = mock()
-    private val typedValueFactory: DefaultAppearanceSettings.TypedValueFactory = mock()
+    private val typedValueFactory: DefaultSceneSettings.TypedValueFactory = mock()
 
     @Test
     fun obtainsBackgroundColorFromResources() {
@@ -49,7 +49,7 @@ class DefaultAppearanceSettingsTest {
 
     @Test
     fun backgroundUriIsNoUri() {
-        val underTest = DefaultAppearanceSettings(res, theme, typedValueFactory)
+        val underTest = DefaultSceneSettings(res, theme, typedValueFactory)
         assertEquals(NO_URI, underTest.backgroundUri)
     }
 
@@ -176,5 +176,5 @@ class DefaultAppearanceSettingsTest {
         assertEquals(value, underTest.speedFactor)
     }
 
-    private fun newUnderTestInstance() = DefaultAppearanceSettings(res, theme, typedValueFactory)
+    private fun newUnderTestInstance() = DefaultSceneSettings(res, theme, typedValueFactory)
 }

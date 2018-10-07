@@ -44,7 +44,7 @@ class SettingsRepositoryImplTest {
         val resources = mock<Resources>(Resources::class.java)
         val theme = mock(Resources.Theme::class.java)
         val typedValue = mock(TypedValue::class.java)
-        val typedValueFactory = mock(DefaultAppearanceSettings.TypedValueFactory::class.java)
+        val typedValueFactory = mock(DefaultSceneSettings.TypedValueFactory::class.java)
 
         whenever(resources.getInteger(anyInt())).thenReturn(1)
         whenever(resources.getDimension(anyInt())).thenReturn(1f)
@@ -59,7 +59,7 @@ class SettingsRepositoryImplTest {
         whenever(typedValueFactory.newTypedValue()).thenReturn(typedValue)
 
         settings = SettingsRepositoryImpl(context,
-                DefaultAppearanceSettings(resources, theme, typedValueFactory))
+                DefaultSceneSettings(resources, theme, typedValueFactory))
     }
 
     private fun <T> assertObserverHasValueCount(o: TestObserver<T>, count: Int) {

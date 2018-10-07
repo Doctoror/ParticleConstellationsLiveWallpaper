@@ -47,7 +47,7 @@ interface AppComponent : AndroidInjector<ApplicationlessInjection> {
 
     fun exposeGlide(): Glide
 
-    fun exposeDefaultAppearanceSettings(): DefaultAppearanceSettings
+    fun exposeDefaultSceneSettings(): DefaultSceneSettings
 
     fun exposeDrawableConfigurator(): SceneConfigurator
     fun exposeMutableSettings(): MutableSettingsRepository

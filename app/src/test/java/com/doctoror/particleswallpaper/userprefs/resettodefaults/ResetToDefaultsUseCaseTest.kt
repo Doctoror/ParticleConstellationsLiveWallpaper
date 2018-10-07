@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import android.graphics.Color
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
-import com.doctoror.particleswallpaper.userprefs.data.DefaultAppearanceSettings
+import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test
 
 class ResetToDefaultsUseCaseTest {
 
-    private val defaults: DefaultAppearanceSettings = mock {
+    private val defaults: DefaultSceneSettings = mock {
         on(it.backgroundColor).doReturn(0xff212121.toInt())
         on(it.backgroundUri).doReturn(NO_URI)
         on(it.density).doReturn(1)

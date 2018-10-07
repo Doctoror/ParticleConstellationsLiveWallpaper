@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.userprefs.bgcolor
 
 import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.userprefs.data.DefaultAppearanceSettings
+import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -26,7 +26,7 @@ import javax.inject.Inject
 class BackgroundColorPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
-        private val defaults: DefaultAppearanceSettings) {
+        private val defaults: DefaultSceneSettings) {
 
     private lateinit var view: BackgroundColorPreferenceView
 

@@ -38,7 +38,7 @@ import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
-import com.doctoror.particleswallpaper.userprefs.data.DefaultAppearanceSettings
+import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import io.reactivex.Observable
@@ -53,7 +53,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         private val pickImageDocumentUseCase: PickImageDocumentUseCase,
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
-        private val defaults: DefaultAppearanceSettings,
+        private val defaults: DefaultSceneSettings,
         private val backgroundImageManager: BackgroundImageManager) {
 
     private val tag = "BgImagePrefPresenter"

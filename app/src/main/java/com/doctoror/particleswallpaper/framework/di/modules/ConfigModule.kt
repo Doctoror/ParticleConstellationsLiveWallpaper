@@ -36,8 +36,8 @@ import javax.inject.Singleton
 class ConfigModule {
 
     @Provides
-    fun provideDefaultAppearanceSettings(context: Context) =
-            DefaultAppearanceSettings(context.resources!!, context.theme!!)
+    fun provideDefaultSceneSettings(context: Context) =
+            DefaultSceneSettings(context.resources!!, context.theme!!)
 
     @Provides
     @Singleton
@@ -49,7 +49,7 @@ class ConfigModule {
     @Provides
     fun provideMutableSettings(
             context: Context,
-            defaults: DefaultAppearanceSettings):
+            defaults: DefaultSceneSettings):
             MutableSettingsRepository = SettingsRepositoryImpl(context, defaults)
 
     @Singleton

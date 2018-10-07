@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.userprefs.particlecolor
 
 import android.graphics.Color
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.userprefs.data.DefaultAppearanceSettings
+import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test
 class ParticlesColorPreferencePresenterTest {
 
     private val settings: MutableSettingsRepository = mock()
-    private val defaults: DefaultAppearanceSettings = mock()
+    private val defaults: DefaultSceneSettings = mock()
     private val view: ParticlesColorPreferenceView = mock()
 
     private val underTest = ParticlesColorPreferencePresenter(

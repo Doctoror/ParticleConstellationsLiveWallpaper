@@ -20,7 +20,7 @@ import android.support.v4.content.res.ResourcesCompat
 import android.util.TypedValue
 import com.doctoror.particleswallpaper.R
 
-class DefaultAppearanceSettings(
+class DefaultSceneSettings(
         res: Resources,
         theme: Resources.Theme,
         typedValueFactory: TypedValueFactory = DefaultTypedValueFactory()) {
