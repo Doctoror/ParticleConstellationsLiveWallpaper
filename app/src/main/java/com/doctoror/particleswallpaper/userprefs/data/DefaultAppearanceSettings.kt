@@ -29,17 +29,17 @@ class DefaultAppearanceSettings(
 
     val backgroundUri = NO_URI
 
-    val density = res.getInteger(R.integer.default_density)
+    val density = res.getInteger(R.integer.defaultDensity)
 
     val frameDelay = res.getInteger(R.integer.defaultFrameDelay)
 
-    val lineLength = res.getDimension(R.dimen.default_line_distance)
+    val lineLength = res.getDimension(R.dimen.defaultLineLength)
 
-    val lineScale = Math.max(1f, res.getDimension(R.dimen.default_line_scale))
+    val lineScale = Math.max(1f, res.getDimension(R.dimen.defaultLineScale))
 
-    val particleColor = ResourcesCompat.getColor(res, R.color.defaultParticlesColor, theme)
+    val particleColor = ResourcesCompat.getColor(res, R.color.defaultParticleColor, theme)
 
-    val particleScale = Math.max(0.5f, res.getDimension(R.dimen.default_dot_scale))
+    val particleScale = Math.max(0.5f, res.getDimension(R.dimen.defaultParticleScale))
 
     val speedFactor = resolveSpeedFactor(res, typedValueFactory)
 
@@ -47,7 +47,7 @@ class DefaultAppearanceSettings(
             res: Resources,
             typedValueFactory: TypedValueFactory): Float {
         val outValue = typedValueFactory.newTypedValue()
-        res.getValue(R.dimen.defaultStepMultiplier, outValue, true)
+        res.getValue(R.dimen.defaultSpeedFactor, outValue, true)
         return outValue.float
     }
 

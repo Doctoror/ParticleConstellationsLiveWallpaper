@@ -57,7 +57,7 @@ class DefaultAppearanceSettingsTest {
     fun obtainsParticleScaleFromResources() {
         // Given
         val value = 0.6f
-        whenever(res.getDimension(R.dimen.default_dot_scale)).thenReturn(value)
+        whenever(res.getDimension(R.dimen.defaultParticleScale)).thenReturn(value)
 
         // When
         val underTest = newUnderTestInstance()
@@ -70,7 +70,7 @@ class DefaultAppearanceSettingsTest {
     fun doesNotReturnParticleScaleLessThanHalf() {
         // Given
         val value = 0.49f
-        whenever(res.getDimension(R.dimen.default_dot_scale)).thenReturn(value)
+        whenever(res.getDimension(R.dimen.defaultParticleScale)).thenReturn(value)
 
         // When
         val underTest = newUnderTestInstance()
@@ -96,7 +96,7 @@ class DefaultAppearanceSettingsTest {
     fun obtainsLineLengthFromResources() {
         // Given
         val value = 1.1f
-        whenever(res.getDimension(R.dimen.default_line_distance)).thenReturn(value)
+        whenever(res.getDimension(R.dimen.defaultLineLength)).thenReturn(value)
 
         // When
         val underTest = newUnderTestInstance()
@@ -109,7 +109,7 @@ class DefaultAppearanceSettingsTest {
     fun obtainsLineScaleFromResources() {
         // Given
         val value = 1.1f
-        whenever(res.getDimension(R.dimen.default_line_scale)).thenReturn(value)
+        whenever(res.getDimension(R.dimen.defaultLineScale)).thenReturn(value)
 
         // When
         val underTest = newUnderTestInstance()
@@ -122,7 +122,7 @@ class DefaultAppearanceSettingsTest {
     fun doesNotReturnLineScaleLessThan1() {
         // Given
         val value = 0.99f
-        whenever(res.getDimension(R.dimen.default_line_scale)).thenReturn(value)
+        whenever(res.getDimension(R.dimen.defaultLineScale)).thenReturn(value)
 
         // When
         val underTest = newUnderTestInstance()
@@ -135,7 +135,7 @@ class DefaultAppearanceSettingsTest {
     fun obtainsDensityFromResources() {
         // Given
         val value = 2
-        whenever(res.getInteger(R.integer.default_density)).thenReturn(value)
+        whenever(res.getInteger(R.integer.defaultDensity)).thenReturn(value)
 
         // When
         val underTest = newUnderTestInstance()
@@ -149,8 +149,8 @@ class DefaultAppearanceSettingsTest {
         // Given
         val value = Color.CYAN
         @Suppress("DEPRECATION")
-        whenever(res.getColor(R.color.defaultParticlesColor)).thenReturn(value)
-        whenever(res.getColor(R.color.defaultParticlesColor, theme)).thenReturn(value)
+        whenever(res.getColor(R.color.defaultParticleColor)).thenReturn(value)
+        whenever(res.getColor(R.color.defaultParticleColor, theme)).thenReturn(value)
 
         // When
         val underTest = newUnderTestInstance()
@@ -172,7 +172,7 @@ class DefaultAppearanceSettingsTest {
         val underTest = newUnderTestInstance()
 
         // Then
-        verify(res).getValue(R.dimen.defaultStepMultiplier, typedValue, true)
+        verify(res).getValue(R.dimen.defaultSpeedFactor, typedValue, true)
         assertEquals(value, underTest.speedFactor)
     }
 

@@ -2,14 +2,19 @@
 <resources>
 
     <color name="defaultBackground">#212121</color>
-    <color name="defaultParticlesColor">@android:color/white</color>
+
+    <integer name="defaultDensity">60</integer>
 
     <integer name="defaultFrameDelay">0</integer>
-    <item type="dimen" format="float" name="defaultStepMultiplier">0.7</item>
 
-    <integer name="default_density">60</integer>
-    <dimen name="default_dot_scale">1dp</dimen>
-    <dimen name="default_line_scale">1dp</dimen>
-    <dimen name="default_line_distance">86dp</dimen>
+    <dimen name="defaultLineLength">86dp</dimen>
+
+    <dimen name="defaultLineScale">1dp</dimen>
+
+    <color name="defaultParticleColor">@android:color/white</color>
+
+    <dimen name="defaultParticleScale">1dp</dimen>
+
+    <item name="defaultSpeedFactor" format="float" type="dimen">0.7</item>
 
 </resources>
