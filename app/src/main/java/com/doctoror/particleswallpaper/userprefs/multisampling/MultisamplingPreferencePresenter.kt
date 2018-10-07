@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.multisampling
 
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryDevice
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class MultisamplingPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: SettingsRepositoryOpenGL,
-        private val settingsDevice: SettingsRepositoryDevice,
+        private val settingsDevice: DeviceSettings,
         private val wallpaperChecker: WallpaperCheckerUseCase) {
 
     private lateinit var view: MultisamplingPreferenceView

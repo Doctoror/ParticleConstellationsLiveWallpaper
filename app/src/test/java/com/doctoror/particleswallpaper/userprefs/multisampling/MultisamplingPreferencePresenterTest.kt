@@ -1,7 +1,7 @@
 package com.doctoror.particleswallpaper.userprefs.multisampling
 
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryDevice
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
@@ -14,7 +14,7 @@ class MultisamplingPreferencePresenterTest {
         on { it.observeNumSamples() }.doReturn(Observable.just(0))
     }
 
-    private val settingsDevice: SettingsRepositoryDevice = mock {
+    private val settingsDevice: DeviceSettings = mock {
         on { it.observeMultisamplingSupported() }.doReturn(Observable.just(false))
     }
 

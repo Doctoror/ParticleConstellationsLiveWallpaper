@@ -58,7 +58,7 @@ interface AppComponent : AndroidInjector<ApplicationlessInjection> {
     fun exposePackageName(): String
 
     fun exposeSchedulers(): SchedulersProvider
-    fun exposeSettingsDevice(): SettingsRepositoryDevice
+    fun exposeSettingsDevice(): DeviceSettings
     fun exposeSettingsOpenGL(): SettingsRepositoryOpenGL
 
 }

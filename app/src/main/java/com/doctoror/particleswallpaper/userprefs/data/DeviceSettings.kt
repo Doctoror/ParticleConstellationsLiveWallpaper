@@ -22,7 +22,7 @@ import io.reactivex.subjects.BehaviorSubject
 const val PREFERENCES_NAME_DEVICE = "prefs_device"
 const val KEY_MULTISAMPLING_SUPPORTED = "multisampling_supported"
 
-class SettingsRepositoryDevice(private val prefs: SharedPreferences) {
+class DeviceSettings(private val prefs: SharedPreferences) {
 
     private val multisamplingSupportedSubject = BehaviorSubject.create<Boolean>().toSerialized()
 

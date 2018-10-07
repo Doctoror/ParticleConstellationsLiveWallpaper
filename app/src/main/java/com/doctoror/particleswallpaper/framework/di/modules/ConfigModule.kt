@@ -41,7 +41,7 @@ class ConfigModule {
 
     @Provides
     @Singleton
-    fun provideDeviceSettings(context: Context) = SettingsRepositoryDevice(
+    fun provideDeviceSettings(context: Context) = DeviceSettings(
             context.getSharedPreferences(PREFERENCES_NAME_DEVICE, Context.MODE_PRIVATE)
     )
 
