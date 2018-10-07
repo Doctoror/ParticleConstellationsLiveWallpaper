@@ -46,15 +46,16 @@ import javax.inject.Inject
 
 @PerPreference
 class BackgroundImagePreferencePresenter @Inject constructor(
-        apiLevelProvider: ApiLevelProvider,
-        private val context: Context,
-        private val glide: Glide,
-        private val pickImageGetContentUseCase: PickImageGetContentUseCase,
-        private val pickImageDocumentUseCase: PickImageDocumentUseCase,
-        private val schedulers: SchedulersProvider,
-        private val settings: SceneSettings,
-        private val defaults: DefaultSceneSettings,
-        private val backgroundImageManager: BackgroundImageManager) {
+    apiLevelProvider: ApiLevelProvider,
+    private val context: Context,
+    private val glide: Glide,
+    private val pickImageGetContentUseCase: PickImageGetContentUseCase,
+    private val pickImageDocumentUseCase: PickImageDocumentUseCase,
+    private val schedulers: SchedulersProvider,
+    private val settings: SceneSettings,
+    private val defaults: DefaultSceneSettings,
+    private val backgroundImageManager: BackgroundImageManager
+) {
 
     private val tag = "BgImagePrefPresenter"
 
@@ -136,7 +137,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
                     pickImageGetContentUseCase.invoke(FragmentStartActivityForResultAction(it))
                 } catch (e: ActivityNotFoundException) {
                     Toast.makeText(context, R.string.Failed_to_open_image_picker, Toast.LENGTH_LONG)
-                            .show()
+                        .show()
                 }
             }
         }
@@ -148,8 +149,8 @@ class BackgroundImagePreferencePresenter @Inject constructor(
 
         private fun clearBackgroundFile() {
             Observable.fromCallable { backgroundImageManager.clearBackgroundImage() }
-                    .subscribeOn(schedulers.io())
-                    .subscribe()
+                .subscribeOn(schedulers.io())
+                .subscribe()
         }
 
         override fun onActivityResultAvailable(requestCode: Int, uri: Uri) {
@@ -162,14 +163,14 @@ class BackgroundImagePreferencePresenter @Inject constructor(
 
         private fun handleGetContentUriResult(uri: Uri) {
             Observable
-                    .fromCallable { backgroundImageManager.copyBackgroundToFile(uri) }
-                    .subscribeOn(schedulers.io())
-                    .subscribe(
-                            { settings.backgroundUri = it.toString() },
-                            {
-                                Log.w(tag, "Failed copying to private file", it)
-                                handleDefaultUriResult(uri)
-                            })
+                .fromCallable { backgroundImageManager.copyBackgroundToFile(uri) }
+                .subscribeOn(schedulers.io())
+                .subscribe(
+                    { settings.backgroundUri = it.toString() },
+                    {
+                        Log.w(tag, "Failed copying to private file", it)
+                        handleDefaultUriResult(uri)
+                    })
         }
 
         private fun handleDefaultUriResult(uri: Uri) {
@@ -187,7 +188,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
                     pickImageDocumentUseCase.invoke(FragmentStartActivityForResultAction(it))
                 } catch (e: ActivityNotFoundException) {
                     Toast.makeText(context, R.string.Failed_to_open_image_picker, Toast.LENGTH_LONG)
-                            .show()
+                        .show()
                 }
             }
         }
@@ -200,11 +201,13 @@ class BackgroundImagePreferencePresenter @Inject constructor(
                     val uri = Uri.parse(uriString)
                     val permissions = contentResolver.persistedUriPermissions
                     permissions
-                            .filter { uri == it.uri }
-                            .forEach {
-                                contentResolver.releasePersistableUriPermission(it.uri,
-                                        Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            }
+                        .filter { uri == it.uri }
+                        .forEach {
+                            contentResolver.releasePersistableUriPermission(
+                                it.uri,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            )
+                        }
                 }
             }
             super.clearBackground()
@@ -213,8 +216,10 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         override fun onActivityResultAvailable(requestCode: Int, uri: Uri) {
             if (requestCode == REQUEST_CODE_OPEN_DOCUMENT) {
                 try {
-                    context.contentResolver?.takePersistableUriPermission(uri,
-                            Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    context.contentResolver?.takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
                 } catch (e: SecurityException) {
                     // This might happen if openByGetContent() was called within this handler
                     Log.w(tag, "Failed to take persistable Uri permission", e)

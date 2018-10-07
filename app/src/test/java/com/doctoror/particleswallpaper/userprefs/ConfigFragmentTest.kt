@@ -41,7 +41,8 @@ class ConfigFragmentTest {
         val underTest = underTestController.create().get()
 
         val backgroundImagePreference = underTest.findPreference(
-                getString(R.string.pref_key_background_image)) as BackgroundImagePreference
+            getString(R.string.pref_key_background_image)
+        ) as BackgroundImagePreference
 
         assertEquals(underTest, backgroundImagePreference.fragment)
     }
@@ -49,12 +50,13 @@ class ConfigFragmentTest {
     @Test
     fun backgroundImagePreferenceHostResetOnDestroy() {
         val underTest = underTestController
-                .create()
-                .destroy()
-                .get()
+            .create()
+            .destroy()
+            .get()
 
         val backgroundImagePreference = underTest.findPreference(
-                getString(R.string.pref_key_background_image)) as BackgroundImagePreference
+            getString(R.string.pref_key_background_image)
+        ) as BackgroundImagePreference
 
         assertNull(backgroundImagePreference.fragment)
     }
@@ -64,7 +66,8 @@ class ConfigFragmentTest {
         val underTest = underTestController.create().get()
 
         val howToApplyPreference = underTest.findPreference(
-                getString(R.string.pref_key_how_to_apply)) as HowToApplyPreference
+            getString(R.string.pref_key_how_to_apply)
+        ) as HowToApplyPreference
 
         assertEquals(underTest, howToApplyPreference.fragment)
     }
@@ -72,12 +75,13 @@ class ConfigFragmentTest {
     @Test
     fun howToApplyPreferenceHostResetOnDestroy() {
         val underTest = underTestController
-                .create()
-                .destroy()
-                .get()
+            .create()
+            .destroy()
+            .get()
 
         val howToApplyPreference = underTest.findPreference(
-                getString(R.string.pref_key_how_to_apply)) as HowToApplyPreference
+            getString(R.string.pref_key_how_to_apply)
+        ) as HowToApplyPreference
 
         assertNull(howToApplyPreference.fragment)
     }
@@ -86,11 +90,12 @@ class ConfigFragmentTest {
     @Test
     fun previewPreferenceHostSetOnCreate() {
         val underTest = underTestController
-                .create()
-                .get()
+            .create()
+            .get()
 
         val previewPreference = underTest.findPreference(
-                getString(R.string.pref_key_apply)) as PreviewPreference
+            getString(R.string.pref_key_apply)
+        ) as PreviewPreference
 
         assertEquals(underTest, previewPreference.fragment)
     }
@@ -99,12 +104,13 @@ class ConfigFragmentTest {
     @Test
     fun previewPreferenceHostResetOnDestroy() {
         val underTest = underTestController
-                .create()
-                .destroy()
-                .get()
+            .create()
+            .destroy()
+            .get()
 
         val previewPreference = underTest.findPreference(
-                getString(R.string.pref_key_apply)) as PreviewPreference
+            getString(R.string.pref_key_apply)
+        ) as PreviewPreference
 
         assertNull(previewPreference.fragment)
     }
@@ -112,8 +118,8 @@ class ConfigFragmentTest {
     @Test
     fun lifecycleObserversRegisteredOnCreate() {
         val underTest = underTestController
-                .create()
-                .get()
+            .create()
+            .get()
 
         assertEquals(8, underTest.lifecycle.observerCount)
     }
@@ -121,9 +127,9 @@ class ConfigFragmentTest {
     @Test
     fun lifecycleObserversUnregisteredOnDestroy() {
         val underTest = underTestController
-                .create()
-                .destroy()
-                .get()
+            .create()
+            .destroy()
+            .get()
 
         assertEquals(0, underTest.lifecycle.observerCount)
     }

@@ -26,8 +26,9 @@ import javax.inject.Inject
 
 @PerPreference
 class LineLengthPreferencePresenter @Inject constructor(
-        private val schedulers: SchedulersProvider,
-        private val settings: SceneSettings) : SeekBarMapper<Float> {
+    private val schedulers: SchedulersProvider,
+    private val settings: SceneSettings
+) : SeekBarMapper<Float> {
 
     private lateinit var view: SeekBarPreferenceView
 
@@ -41,9 +42,9 @@ class LineLengthPreferencePresenter @Inject constructor(
 
     fun onStart() {
         disposable = settings
-                .observeLineLength()
-                .observeOn(schedulers.mainThread())
-                .subscribe { view.setProgressInt(transformToProgress(it)) }
+            .observeLineLength()
+            .observeOn(schedulers.mainThread())
+            .subscribe { view.setProgressInt(transformToProgress(it)) }
     }
 
     fun onStop() {

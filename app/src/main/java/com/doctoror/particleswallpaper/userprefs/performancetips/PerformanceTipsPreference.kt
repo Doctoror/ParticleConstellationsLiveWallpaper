@@ -24,24 +24,20 @@ import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvi
 import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 06.06.17.
- *
- * Preference that opens the performance tips.
- */
-class PerformanceTipsPreference @JvmOverloads constructor
-(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : Preference(context, attrs),
-        PerformanceTipsPreferenceView {
+class PerformanceTipsPreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : Preference(context, attrs), PerformanceTipsPreferenceView {
 
     @Inject
     lateinit var presenter: PerformanceTipsPreferencePresenter
 
     init {
         DaggerPreferenceComponent.builder()
-                .appComponent(AppComponentProvider.provideAppComponent(context))
-                .build()
-                .inject(this)
+            .appComponent(AppComponentProvider.provideAppComponent(context))
+            .build()
+            .inject(this)
 
         presenter.onTakeView(this)
         isPersistent = false
@@ -53,9 +49,9 @@ class PerformanceTipsPreference @JvmOverloads constructor
 
     override fun showDialog() {
         AlertDialog.Builder(context)
-                .setTitle(title)
-                .setMessage(R.string.performance_tips)
-                .setPositiveButton(R.string.Close, null)
-                .show()
+            .setTitle(title)
+            .setMessage(R.string.performance_tips)
+            .setPositiveButton(R.string.Close, null)
+            .show()
     }
 }

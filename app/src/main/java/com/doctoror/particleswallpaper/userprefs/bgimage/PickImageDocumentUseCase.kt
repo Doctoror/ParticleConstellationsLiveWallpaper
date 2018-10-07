@@ -24,7 +24,8 @@ import com.doctoror.particleswallpaper.framework.app.actions.StartActivityForRes
 import javax.inject.Inject
 
 class PickImageDocumentUseCase @Inject constructor(
-        private val getContentUseCase: PickImageGetContentUseCase) {
+    private val getContentUseCase: PickImageGetContentUseCase
+) {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     fun invoke(startActivityForResultAction: StartActivityForResultAction) {

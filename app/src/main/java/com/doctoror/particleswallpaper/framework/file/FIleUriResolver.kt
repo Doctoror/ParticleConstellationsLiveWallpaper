@@ -27,5 +27,5 @@ class FileUriResolver(private val context: Context) {
      * Resolve [File] [Uri] for default [FileProvider]
      */
     fun getUriForFile(file: File): Uri? = FileProvider
-            .getUriForFile(context, context.getString(R.string.file_provider_authority), file)
+        .getUriForFile(context, context.getString(R.string.file_provider_authority), file)
 }

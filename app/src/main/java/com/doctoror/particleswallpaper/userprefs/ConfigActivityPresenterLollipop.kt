@@ -29,9 +29,9 @@ import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
-import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 
 /**
  * Created by Yaroslav Mytkalyk on 17.06.17.
@@ -40,21 +40,22 @@ import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class ConfigActivityPresenterLollipop(
-        private val activity: Activity,
-        schedulers: SchedulersProvider,
-        configurator: SceneConfigurator,
-        private val openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider,
-        private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
-        requestManager: RequestManager,
-        settings: SceneSettings,
-        view: ConfigActivityView)
-    : ConfigActivityPresenter(
-        activity,
-        schedulers,
-        configurator,
-        requestManager,
-        settings,
-        view) {
+    private val activity: Activity,
+    schedulers: SchedulersProvider,
+    configurator: SceneConfigurator,
+    private val openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider,
+    private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
+    requestManager: RequestManager,
+    settings: SceneSettings,
+    view: ConfigActivityView
+) : ConfigActivityPresenter(
+    activity,
+    schedulers,
+    configurator,
+    requestManager,
+    settings,
+    view
+) {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onCreate() {
@@ -64,7 +65,7 @@ class ConfigActivityPresenterLollipop(
     private fun initToolbar() {
         val root = activity.findViewById<ViewGroup>(R.id.toolbarContainer)!!
         val toolbar = activity.layoutInflater
-                .inflate(R.layout.activity_config_toolbar, root, false) as Toolbar
+            .inflate(R.layout.activity_config_toolbar, root, false) as Toolbar
         root.addView(toolbar, 0)
         activity.setActionBar(toolbar)
         activity.actionBar?.displayOptions =

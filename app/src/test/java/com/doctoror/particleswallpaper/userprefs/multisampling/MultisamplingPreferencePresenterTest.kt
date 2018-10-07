@@ -25,7 +25,8 @@ class MultisamplingPreferencePresenterTest {
     private val view: MultisamplingPreferenceView = mock()
 
     private val underTest = MultisamplingPreferencePresenter(
-            TrampolineSchedulers(), settings, settingsDevice, wallpaperChecker).apply {
+        TrampolineSchedulers(), settings, settingsDevice, wallpaperChecker
+    ).apply {
         onTakeView(view)
     }
 

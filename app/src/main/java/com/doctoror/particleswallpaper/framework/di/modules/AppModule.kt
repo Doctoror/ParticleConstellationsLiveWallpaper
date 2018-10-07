@@ -18,9 +18,9 @@ package com.doctoror.particleswallpaper.framework.di.modules
 import android.content.Context
 import android.content.pm.PackageManager
 import com.bumptech.glide.Glide
-import com.doctoror.particleswallpaper.framework.execution.SchedulersProviderImpl
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.framework.execution.SchedulersProviderImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

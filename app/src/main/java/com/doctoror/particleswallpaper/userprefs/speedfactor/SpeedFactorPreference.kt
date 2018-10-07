@@ -26,25 +26,23 @@ import com.doctoror.particleswallpaper.framework.preference.SeekBarPreference
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 30.05.17.
- *
- * Preferences for setting the speed factor.
- */
-class SpeedFactorPreference @JvmOverloads constructor
-(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : SeekBarPreference(context, attrs, defStyle),
-        SeekBarPreferenceView,
-        LifecycleObserver {
+class SpeedFactorPreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) :
+    SeekBarPreference(context, attrs, defStyle),
+    SeekBarPreferenceView,
+    LifecycleObserver {
 
     @Inject
     lateinit var presenter: SpeedFactorPreferencePresenter
 
     init {
         DaggerPreferenceComponent.builder()
-                .appComponent(AppComponentProvider.provideAppComponent(context))
-                .build()
-                .inject(this)
+            .appComponent(AppComponentProvider.provideAppComponent(context))
+            .build()
+            .inject(this)
 
         isPersistent = false
         presenter.onTakeView(this)

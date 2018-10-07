@@ -31,7 +31,8 @@ class ParticlesColorPreferencePresenterTest {
     private val view: ParticlesColorPreferenceView = mock()
 
     private val underTest = ParticlesColorPreferencePresenter(
-            TrampolineSchedulers(), settings, defaults).apply {
+        TrampolineSchedulers(), settings, defaults
+    ).apply {
         onTakeView(view)
     }
 

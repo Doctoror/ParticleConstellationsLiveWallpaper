@@ -55,7 +55,7 @@ class PickImageDocumentUseCaseTest {
         // Given
         val action: StartActivityForResultAction = mock {
             on(it.startActivityForResult(any(), eq(REQUEST_CODE_OPEN_DOCUMENT)))
-                    .doThrow(ActivityNotFoundException())
+                .doThrow(ActivityNotFoundException())
         }
 
         // When

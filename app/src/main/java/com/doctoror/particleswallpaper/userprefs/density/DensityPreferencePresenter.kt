@@ -26,8 +26,9 @@ import javax.inject.Inject
 
 @PerPreference
 class DensityPreferencePresenter @Inject constructor(
-        private val schedulers: SchedulersProvider,
-        private val settings: SceneSettings) : SeekBarMapper<Int> {
+    private val schedulers: SchedulersProvider,
+    private val settings: SceneSettings
+) : SeekBarMapper<Int> {
 
     private lateinit var view: SeekBarPreferenceView
 
@@ -48,9 +49,9 @@ class DensityPreferencePresenter @Inject constructor(
 
     fun onStart() {
         disposable = settings
-                .observeDensity()
-                .observeOn(schedulers.mainThread())
-                .subscribe { view.setProgressInt(transformToProgress(it)) }
+            .observeDensity()
+            .observeOn(schedulers.mainThread())
+            .subscribe { view.setProgressInt(transformToProgress(it)) }
     }
 
     fun onStop() {

@@ -24,11 +24,11 @@ import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
-import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
-import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
+import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
+import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
@@ -59,18 +59,19 @@ class EnginePresenterTest {
     private val scenePresenter: ScenePresenter = mock()
 
     private val underTest = EnginePresenter(
-            apiLevelProvider,
-            configurator,
-            controller,
-            Schedulers.trampoline(),
-            glide,
-            renderer,
-            TrampolineSchedulers(),
-            settings,
-            settingsOpenGL,
-            scene,
-            scenePresenter,
-            TextureDimensionsCalculator())
+        apiLevelProvider,
+        configurator,
+        controller,
+        Schedulers.trampoline(),
+        glide,
+        renderer,
+        TrampolineSchedulers(),
+        settings,
+        settingsOpenGL,
+        scene,
+        scenePresenter,
+        TextureDimensionsCalculator()
+    )
 
     @Before
     fun setup() {

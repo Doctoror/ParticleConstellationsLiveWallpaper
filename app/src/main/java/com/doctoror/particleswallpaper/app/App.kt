@@ -32,15 +32,19 @@ class App : Application() {
 
     private fun initStrictMode() {
         if (BuildConfig.DEBUG) {
-            StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
+            StrictMode.setThreadPolicy(
+                StrictMode.ThreadPolicy.Builder()
                     .detectAll()
                     .penaltyLog()
-                    .build())
+                    .build()
+            )
 
-            StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
+            StrictMode.setVmPolicy(
+                StrictMode.VmPolicy.Builder()
                     .detectAll()
                     .penaltyLog()
-                    .build())
+                    .build()
+            )
         }
     }
 

@@ -16,17 +16,18 @@
 package com.doctoror.particleswallpaper.userprefs.framedelay
 
 import android.support.annotation.VisibleForTesting
+import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.preference.SeekBarMapper
-import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 @PerPreference
 class FrameDelayPreferencePresenter @Inject constructor(
-        private val schedulers: SchedulersProvider,
-        private val settings: SceneSettings) : SeekBarMapper<Int> {
+    private val schedulers: SchedulersProvider,
+    private val settings: SceneSettings
+) : SeekBarMapper<Int> {
 
     private lateinit var view: FrameDelayPreferenceView
 
@@ -50,13 +51,13 @@ class FrameDelayPreferencePresenter @Inject constructor(
 
     fun onStart() {
         disposable = settings
-                .observeFrameDelay()
-                .observeOn(schedulers.mainThread())
-                .subscribe {
-                    val progress = transformToProgress(it)
-                    view.setProgressInt(progress)
-                    view.setFrameRate(transformToFrameRate(transformToRealValue(progress)))
-                }
+            .observeFrameDelay()
+            .observeOn(schedulers.mainThread())
+            .subscribe {
+                val progress = transformToProgress(it)
+                view.setProgressInt(progress)
+                view.setFrameRate(transformToFrameRate(transformToRealValue(progress)))
+            }
     }
 
     fun onStop() {
@@ -98,7 +99,8 @@ class FrameDelayPreferencePresenter @Inject constructor(
         if (value == 0) {
             return seekbarMax
         }
-        val percent = (value.toFloat() - frameDelaySeekbarMin.toFloat()) / view.getMaxInt().toFloat()
+        val percent =
+            (value.toFloat() - frameDelaySeekbarMin.toFloat()) / view.getMaxInt().toFloat()
         return ((1f - percent) * view.getMaxInt().toFloat()).toInt()
     }
 }

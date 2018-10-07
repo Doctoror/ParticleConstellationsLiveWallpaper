@@ -23,14 +23,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.support.annotation.VisibleForTesting
-import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.engine.WallpaperServiceImpl
+import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import javax.inject.Inject
 
 class OpenChangeWallpaperIntentProvider @Inject constructor(
-        private val apiLevelProvider: ApiLevelProvider,
-        private val packageManager: PackageManager,
-        private val packageName: String
+    private val apiLevelProvider: ApiLevelProvider,
+    private val packageManager: PackageManager,
+    private val packageName: String
 ) {
 
     /**
@@ -44,14 +44,15 @@ class OpenChangeWallpaperIntentProvider @Inject constructor(
      * - if both intents are unsupported, returns null.
      */
     @SuppressLint("InlinedApi")
-    fun provideActionIntent(): Intent? = if (apiLevelProvider.provideSdkInt() >= Build.VERSION_CODES.JELLY_BEAN) {
-        provideActionIntentJellyBean()
-    } else {
-        provideActionIntentWallpaperChooserIfSupported()
-    }
+    fun provideActionIntent(): Intent? =
+        if (apiLevelProvider.provideSdkInt() >= Build.VERSION_CODES.JELLY_BEAN) {
+            provideActionIntentJellyBean()
+        } else {
+            provideActionIntentWallpaperChooserIfSupported()
+        }
 
     fun isWallaperChooserAction(intent: Intent?) =
-            intent?.action == WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER
+        intent?.action == WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private fun provideActionIntentJellyBean(): Intent? {
@@ -66,28 +67,31 @@ class OpenChangeWallpaperIntentProvider @Inject constructor(
     private fun provideActionIntentChangeLiveWallpaperIfSupported(): Intent? {
         val intent = provideIntentChangeLiveWallpaper()
         val intentActivities = packageManager.queryIntentActivities(
-                intent, PackageManager.MATCH_DEFAULT_ONLY)
+            intent, PackageManager.MATCH_DEFAULT_ONLY
+        )
         return if (intentActivities.isNotEmpty()) intent else null
     }
 
     private fun provideActionIntentWallpaperChooserIfSupported(): Intent? {
         val intent = provideIntentWallpaperChooser()
         val intentActivities = packageManager.queryIntentActivities(
-                intent, PackageManager.MATCH_DEFAULT_ONLY)
+            intent, PackageManager.MATCH_DEFAULT_ONLY
+        )
         return if (intentActivities.isNotEmpty()) intent else null
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @VisibleForTesting
     fun provideIntentChangeLiveWallpaper() =
-            Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).apply {
-                putExtra("SET_LOCKSCREEN_WALLPAPER", true)
-                putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                        ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName!!)
-                )
-            }
+        Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).apply {
+            putExtra("SET_LOCKSCREEN_WALLPAPER", true)
+            putExtra(
+                WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName!!)
+            )
+        }
 
     @VisibleForTesting
     fun provideIntentWallpaperChooser() =
-            Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER)
+        Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER)
 }

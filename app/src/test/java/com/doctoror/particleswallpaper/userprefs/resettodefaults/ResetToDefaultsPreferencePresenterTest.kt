@@ -28,7 +28,7 @@ class ResetToDefaultsPreferencePresenterTest {
     private val view: ResetToDefaultsPreferenceView = mock()
 
     private val underTest = ResetToDefaultsPreferencePresenter(TrampolineSchedulers(), useCase)
-            .apply { onTakeView(view) }
+        .apply { onTakeView(view) }
 
     @Test
     fun showsWarningDialogOnClick() {

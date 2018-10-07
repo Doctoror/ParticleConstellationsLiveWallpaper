@@ -23,9 +23,9 @@ import com.doctoror.particleswallpaper.R
 class HowToApplyManuallyDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog
-            .Builder(activity)
-            .setTitle(R.string.How_to_apply)
-            .setMessage(R.string.how_to_apply_no_preview)
-            .setPositiveButton(R.string.Close, null)
-            .create()!!
+        .Builder(activity)
+        .setTitle(R.string.How_to_apply)
+        .setMessage(R.string.how_to_apply_no_preview)
+        .setPositiveButton(R.string.Close, null)
+        .create()!!
 }

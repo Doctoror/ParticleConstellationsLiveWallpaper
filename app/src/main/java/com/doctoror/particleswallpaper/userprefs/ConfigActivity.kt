@@ -37,9 +37,9 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ApplicationlessInjection
-                .getInstance(applicationContext)
-                .activityInjector
-                .inject(this)
+            .getInstance(applicationContext)
+            .activityInjector
+            .inject(this)
         super.onCreate(savedInstanceState)
         fragmentTransactionsAllowed = true
 

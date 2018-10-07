@@ -157,7 +157,13 @@ class CanvasEngineSceneRendererTest {
 
         // Verify background color drawn
         val paintCaptor = argumentCaptor<Paint>()
-        verify(canvas).drawRect(eq(0f), eq(0f), eq(width.toFloat()), eq(height.toFloat()), paintCaptor.capture())
+        verify(canvas).drawRect(
+            eq(0f),
+            eq(0f),
+            eq(width.toFloat()),
+            eq(height.toFloat()),
+            paintCaptor.capture()
+        )
         assertEquals(backgroundColor, paintCaptor.firstValue.color)
 
         // Verify content drawn

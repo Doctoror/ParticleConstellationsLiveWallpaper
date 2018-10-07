@@ -19,13 +19,15 @@ import android.app.Fragment
 import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
+import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import javax.inject.Inject
 
 class HowToApplyPreference @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyle: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
 ) : Preference(context, attrs), HowToApplyPreferenceView, FragmentHolder {
 
     @Inject
@@ -37,9 +39,9 @@ class HowToApplyPreference @JvmOverloads constructor(
         isPersistent = false
 
         DaggerPreferenceComponent.builder()
-                .appComponent(AppComponentProvider.provideAppComponent(context))
-                .build()
-                .inject(this)
+            .appComponent(AppComponentProvider.provideAppComponent(context))
+            .build()
+            .inject(this)
 
         presenter.onTakeView(this)
     }

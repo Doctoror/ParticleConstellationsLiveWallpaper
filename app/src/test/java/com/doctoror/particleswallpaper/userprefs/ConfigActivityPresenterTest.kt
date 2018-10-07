@@ -52,13 +52,13 @@ class ConfigActivityPresenterTest {
     private val view: ConfigActivityView = mock()
 
     private val underTest = ConfigActivityPresenter(
-            activity,
-            TrampolineSchedulers(),
-            configurator,
-            requestManager,
-            settings,
-            view,
-            themeAttrColorResolver
+        activity,
+        TrampolineSchedulers(),
+        configurator,
+        requestManager,
+        settings,
+        view,
+        themeAttrColorResolver
     )
 
     @Before
@@ -132,7 +132,7 @@ class ConfigActivityPresenterTest {
 
         val windowBackground = Color.WHITE
         whenever(themeAttrColorResolver.getColor(any(), eq(android.R.attr.windowBackground)))
-                .thenReturn(windowBackground)
+            .thenReturn(windowBackground)
         whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(windowBackground))
 
         whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))

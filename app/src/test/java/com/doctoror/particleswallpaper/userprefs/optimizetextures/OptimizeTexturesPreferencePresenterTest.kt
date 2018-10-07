@@ -31,9 +31,9 @@ class OptimizeTexturesPreferencePresenterTest {
     private val view: OptimizeTexturesView = mock()
 
     private val underTest = OptimizeTexturesPreferencePresenter(
-            glide,
-            settings,
-            TrampolineSchedulers()
+        glide,
+        settings,
+        TrampolineSchedulers()
     ).apply {
         onTakeView(view)
     }

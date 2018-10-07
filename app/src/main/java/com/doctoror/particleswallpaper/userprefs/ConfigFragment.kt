@@ -24,31 +24,27 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.doctoror.particleswallpaper.BuildConfig
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
+import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.lifecycle.LifecyclePreferenceFragment
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHostImpl
-import com.doctoror.particleswallpaper.framework.app.FragmentHolder
+import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 28.05.17.
- *
- * The config preference screen fragment.
- */
 @SuppressLint("ValidFragment") // Kotlin constructor with default value generates valid empty java constructor
-open class ConfigFragment @JvmOverloads
-constructor(private val ch: OnActivityResultCallbackHostImpl = OnActivityResultCallbackHostImpl())
-    : LifecyclePreferenceFragment(), OnActivityResultCallbackHost by ch {
+open class ConfigFragment @JvmOverloads constructor(
+    private val ch: OnActivityResultCallbackHostImpl = OnActivityResultCallbackHostImpl()
+) :
+    LifecyclePreferenceFragment(), OnActivityResultCallbackHost by ch {
 
     @Inject
     lateinit var intentProvider: OpenChangeWallpaperIntentProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ApplicationlessInjection.getInstance(activity!!.applicationContext)
-                .fragmentInjector
-                .inject(this)
+            .fragmentInjector
+            .inject(this)
 
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.prefs)
@@ -83,8 +79,9 @@ constructor(private val ch: OnActivityResultCallbackHostImpl = OnActivityResultC
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-            inflater.inflate(R.layout.fragment_preference, container, false)!!
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ) =
+        inflater.inflate(R.layout.fragment_preference, container, false)!!
 
     override fun onDestroy() {
         super.onDestroy()

@@ -24,9 +24,10 @@ import javax.inject.Inject
 
 @PerPreference
 class ParticlesColorPreferencePresenter @Inject constructor(
-        private val schedulers: SchedulersProvider,
-        private val settings: SceneSettings,
-        private val defaults: DefaultSceneSettings) {
+    private val schedulers: SchedulersProvider,
+    private val settings: SceneSettings,
+    private val defaults: DefaultSceneSettings
+) {
 
     private lateinit var view: ParticlesColorPreferenceView
 
@@ -47,9 +48,9 @@ class ParticlesColorPreferencePresenter @Inject constructor(
 
     fun onStart() {
         disposable = settings
-                .observeParticleColor()
-                .observeOn(schedulers.mainThread())
-                .subscribe { view.setColor(it) }
+            .observeParticleColor()
+            .observeOn(schedulers.mainThread())
+            .subscribe { view.setColor(it) }
     }
 
     fun onStop() {

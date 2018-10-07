@@ -55,9 +55,9 @@ class WallpaperServiceImpl : WallpaperService() {
 
     override fun onCreate() {
         ApplicationlessInjection
-                .getInstance(applicationContext)
-                .serviceInjector
-                .inject(this)
+            .getInstance(applicationContext)
+            .serviceInjector
+            .inject(this)
         super.onCreate()
     }
 
@@ -69,24 +69,25 @@ class WallpaperServiceImpl : WallpaperService() {
         val scenePresenter = ScenePresenter(scene, engine, renderer)
 
         engine.presenter = EnginePresenter(
-                apiLevelProvider,
-                configuratorFactory.newSceneConfigurator(),
-                engine,
-                AndroidSchedulers.mainThread(),
-                Glide.with(this),
-                renderer,
-                schedulers,
-                settings,
-                settingsGl,
-                scene,
-                scenePresenter,
-                textureDimensionsCalculator)
+            apiLevelProvider,
+            configuratorFactory.newSceneConfigurator(),
+            engine,
+            AndroidSchedulers.mainThread(),
+            Glide.with(this),
+            renderer,
+            schedulers,
+            settings,
+            settingsGl,
+            scene,
+            scenePresenter,
+            textureDimensionsCalculator
+        )
 
         return engine
     }
 
     inner class EngineImpl(private val renderer: CanvasEngineSceneRenderer) :
-            Engine(), EngineController, SceneScheduler, SurfaceHolderProvider {
+        Engine(), EngineController, SceneScheduler, SurfaceHolderProvider {
 
         private val handler = Handler()
 
@@ -107,7 +108,12 @@ class WallpaperServiceImpl : WallpaperService() {
             presenter.onSurfaceCreated()
         }
 
-        override fun onSurfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+        override fun onSurfaceChanged(
+            holder: SurfaceHolder?,
+            format: Int,
+            width: Int,
+            height: Int
+        ) {
             super.onSurfaceChanged(holder, format, width, height)
             presenter.setDimensions(width, height)
             renderer.setDimensions(width, height)

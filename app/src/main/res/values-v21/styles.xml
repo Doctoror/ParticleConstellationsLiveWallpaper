@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright 2017 Yaroslav Mytkalyk
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +16,6 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="BaseAppTheme" parent="android:Theme.Material.NoActionBar">
-    </style>
+    <style name="BaseAppTheme" parent="android:Theme.Material.NoActionBar"></style>
 
 </resources>

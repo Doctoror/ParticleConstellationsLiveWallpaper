@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @PerPreference
 class HowToApplyPreferencePresenter @Inject constructor(
-        private val intentProvider: OpenChangeWallpaperIntentProvider
+    private val intentProvider: OpenChangeWallpaperIntentProvider
 ) {
 
     private lateinit var view: HowToApplyPreferenceView

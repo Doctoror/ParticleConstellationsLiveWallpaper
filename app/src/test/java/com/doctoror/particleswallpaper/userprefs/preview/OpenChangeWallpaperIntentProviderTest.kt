@@ -22,7 +22,10 @@ import android.content.pm.PackageManager
 import android.os.Build
 import com.doctoror.particleswallpaper.engine.WallpaperServiceImpl
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.argWhere
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -39,7 +42,7 @@ class OpenChangeWallpaperIntentProviderTest {
     private val packageManager: PackageManager = mock()
 
     private val underTest = OpenChangeWallpaperIntentProvider(
-            apiLevelProvider, packageManager, packageName
+        apiLevelProvider, packageManager, packageName
     )
 
     private fun givenSdkIsJellyBean() {
@@ -51,8 +54,13 @@ class OpenChangeWallpaperIntentProviderTest {
     }
 
     private fun givenIntentSupported(intent: Intent) {
-        whenever(packageManager.queryIntentActivities(argWhere { it.action == intent.action }, any()))
-                .thenReturn(listOf(mock()))
+        whenever(
+            packageManager.queryIntentActivities(
+                argWhere { it.action == intent.action },
+                any()
+            )
+        )
+            .thenReturn(listOf(mock()))
     }
 
     @Before
@@ -72,8 +80,9 @@ class OpenChangeWallpaperIntentProviderTest {
         assertEquals(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER, result.action)
         assertTrue(result.getBooleanExtra("SET_LOCKSCREEN_WALLPAPER", false))
         assertEquals(
-                ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName),
-                result.getParcelableExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT))
+            ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName),
+            result.getParcelableExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT)
+        )
     }
 
     @Test
@@ -129,7 +138,8 @@ class OpenChangeWallpaperIntentProviderTest {
     fun isWallpaperChooserActionTrueForWallpaperChooser() {
         // When
         val result = underTest.isWallaperChooserAction(
-                Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
+            Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER)
+        )
 
         // Then
         assertTrue(result)
@@ -139,7 +149,8 @@ class OpenChangeWallpaperIntentProviderTest {
     fun isWallpaperChooserActionFalseForNotWallpaperChooser() {
         // When
         val result = underTest.isWallaperChooserAction(
-                Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER))
+            Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
+        )
 
         // Then
         assertFalse(result)

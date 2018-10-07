@@ -23,12 +23,13 @@ import io.reactivex.Completable
  * Opens live wallpaper preview, or wallpaper chooser for pre-Jellybean devices.
  */
 class OpenChangeWallpaperIntentUseCase(
-        private val intentProvider: OpenChangeWallpaperIntentProvider,
-        private val startActivityForResultAction: StartActivityForResultAction) {
+    private val intentProvider: OpenChangeWallpaperIntentProvider,
+    private val startActivityForResultAction: StartActivityForResultAction
+) {
 
     fun action() = Completable.fromAction {
         val intent = intentProvider.provideActionIntent()
-                ?: throw RuntimeException("No supported Intent for preview")
+            ?: throw RuntimeException("No supported Intent for preview")
         startActivityForResultAction.startActivityForResult(intent, REQUEST_CODE_CHANGE_WALLPAPER)
     }!!
 }

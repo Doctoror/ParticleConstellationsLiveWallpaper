@@ -26,9 +26,10 @@ import java.util.regex.Pattern
  * The background image manager
  */
 class BackgroundImageManagerImpl(
-        private val context: Context,
-        private val fileSaver: FileSaver,
-        private val fileUriResolver: FileUriResolver) : BackgroundImageManager {
+    private val context: Context,
+    private val fileSaver: FileSaver,
+    private val fileUriResolver: FileUriResolver
+) : BackgroundImageManager {
 
     private val backgroundsDirectory = "backgrounds"
     private val fileNamePrefix = "bg"
@@ -54,7 +55,7 @@ class BackgroundImageManagerImpl(
         }
 
         return fileUriResolver.getUriForFile(file)
-                ?: throw IOException("FileProvider returned null Uri for saved file")
+            ?: throw IOException("FileProvider returned null Uri for saved file")
     }
 
     private fun deletePreviousFilesAndGetLargestFileIndex(filesDir: File): Int {

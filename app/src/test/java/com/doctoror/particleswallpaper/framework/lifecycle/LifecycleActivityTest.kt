@@ -88,8 +88,8 @@ class LifecycleActivityTest {
     fun notifiesOnStopLifecycleEvent() {
         // When
         underTestController
-                .start()
-                .stop()
+            .start()
+            .stop()
 
         // Then
         assertEquals(1, testObserver.onStopCount)

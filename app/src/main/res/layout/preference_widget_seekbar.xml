@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -47,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:minWidth="48dp"
-            tools:ignore="ContentDescription"/>
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 
@@ -74,7 +73,7 @@
             android:textIsSelectable="false"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@android:id/summary"
@@ -86,7 +85,7 @@
             android:maxLines="4"
             android:textIsSelectable="false"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="?android:attr/textColorSecondary"/>
+            android:textColor="?android:attr/textColorSecondary" />
 
         <!-- Preference should place its actual preference widget here. -->
 
@@ -99,7 +98,7 @@
             android:layout_below="@android:id/summary"
             android:gravity="center"
             android:minWidth="48dp"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
         <SeekBar
             android:id="@+id/seekbar"
@@ -109,7 +108,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@android:id/summary"
             android:layout_toEndOf="@android:id/widget_frame"
-            android:layout_toRightOf="@android:id/widget_frame"/>
+            android:layout_toRightOf="@android:id/widget_frame" />
     </RelativeLayout>
 
 </LinearLayout>

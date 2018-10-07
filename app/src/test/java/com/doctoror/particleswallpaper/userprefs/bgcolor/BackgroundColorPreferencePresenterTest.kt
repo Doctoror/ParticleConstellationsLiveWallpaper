@@ -31,7 +31,8 @@ class BackgroundColorPreferencePresenterTest {
     private val view: BackgroundColorPreferenceView = mock()
 
     private val underTest = BackgroundColorPreferencePresenter(
-            TrampolineSchedulers(), settings, defaults)
+        TrampolineSchedulers(), settings, defaults
+    )
 
     @Test
     fun setsColorOnStart() {

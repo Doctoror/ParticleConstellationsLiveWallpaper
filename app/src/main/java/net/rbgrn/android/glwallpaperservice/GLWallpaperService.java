@@ -66,10 +66,10 @@ public abstract class GLWallpaperService extends WallpaperService {
         /**
          * If we don't have a GLSurfaceView yet, then we queue up any operations that are requested, until the
          * GLSurfaceView is created.
-         *
+         * <p>
          * Initially, we created the glSurfaceView in the GLEngine constructor, and things seemed to work. However,
          * it turns out a few devices aren't set up to handle the surface related events at this point, and crash.
-         *
+         * <p>
          * This is a work around so that we can delay the creation of the GLSurfaceView until the surface is actually
          * created, so that the underlying code should be in a state to be able to handle the surface related events
          * that get fired when GLSurfaceView is created.
@@ -316,7 +316,7 @@ public abstract class GLWallpaperService extends WallpaperService {
                             return GLEngine.this.getSurfaceHolder();
                         }
                     };
-                    for (Runnable pendingOperation: pendingOperations) {
+                    for (Runnable pendingOperation : pendingOperations) {
                         pendingOperation.run();
                     }
                     pendingOperations.clear();

@@ -26,14 +26,11 @@ import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.userprefs.particlecolor.ColorPreferenceNoPreview
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 31.05.17.
- *
- * Preference for setting background color
- */
-class BackgroundColorPreference @JvmOverloads constructor
-(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : ColorPreferenceNoPreview(context, attrs), BackgroundColorPreferenceView, LifecycleObserver {
+class BackgroundColorPreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : ColorPreferenceNoPreview(context, attrs), BackgroundColorPreferenceView, LifecycleObserver {
 
     @Inject
     @PerPreference
@@ -45,9 +42,9 @@ class BackgroundColorPreference @JvmOverloads constructor
         isPersistent = false
 
         DaggerPreferenceComponent.builder()
-                .appComponent(AppComponentProvider.provideAppComponent(context))
-                .build()
-                .inject(this)
+            .appComponent(AppComponentProvider.provideAppComponent(context))
+            .build()
+            .inject(this)
 
         presenter.onTakeView(this)
 

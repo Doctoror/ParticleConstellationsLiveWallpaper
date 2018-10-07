@@ -27,19 +27,20 @@ import javax.inject.Inject
 /**
  * Preference for showing open source licenses.
  */
-class LicensePreference @JvmOverloads constructor
-(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : Preference(context, attrs),
-        LicensePreferenceView {
+class LicensePreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : Preference(context, attrs), LicensePreferenceView {
 
     @Inject
     lateinit var presenter: LicensePreferencePresenter
 
     init {
         DaggerPreferenceComponent.builder()
-                .appComponent(AppComponentProvider.provideAppComponent(context))
-                .build()
-                .inject(this)
+            .appComponent(AppComponentProvider.provideAppComponent(context))
+            .build()
+            .inject(this)
 
         presenter.onTakeView(this)
         isPersistent = false
@@ -51,9 +52,9 @@ class LicensePreference @JvmOverloads constructor
 
     override fun showLicenseDialog() {
         LicensesDialog.Builder(context)
-                .setNotices(R.raw.notices)
-                .setIncludeOwnLicense(true)
-                .build()
-                .show()
+            .setNotices(R.raw.notices)
+            .setIncludeOwnLicense(true)
+            .build()
+            .show()
     }
 }

@@ -32,7 +32,8 @@ class PickImageGetContentUseCase @Inject constructor() {
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         try {
             startActivityForResultAction.startActivityForResult(
-                    Intent.createChooser(intent, null), REQUEST_CODE_GET_CONTENT)
+                Intent.createChooser(intent, null), REQUEST_CODE_GET_CONTENT
+            )
         } catch (e: ActivityNotFoundException) {
             startActivityForResultAction.startActivityForResult(intent, REQUEST_CODE_GET_CONTENT)
         }

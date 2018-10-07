@@ -32,8 +32,8 @@ import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.execution.GlScheduler
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
-import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import net.rbgrn.android.glwallpaperservice.GLWallpaperService
 import javax.inject.Inject
 import javax.microedition.khronos.egl.EGLConfig
@@ -63,9 +63,9 @@ class WallpaperServiceImpl : GLWallpaperService() {
 
     override fun onCreate() {
         ApplicationlessInjection
-                .getInstance(applicationContext)
-                .serviceInjector
-                .inject(this)
+            .getInstance(applicationContext)
+            .serviceInjector
+            .inject(this)
         super.onCreate()
     }
 
@@ -76,26 +76,27 @@ class WallpaperServiceImpl : GLWallpaperService() {
         val scenePresenter = ScenePresenter(scene, engine, renderer)
 
         engine.presenter = EnginePresenter(
-                apiLevelProvider,
-                configuratorFactory.newSceneConfigurator(),
-                engine,
-                GlScheduler(engine),
-                Glide.with(this),
-                renderer,
-                schedulers,
-                settings,
-                settingsOpenGL,
-                scene,
-                scenePresenter,
-                textureDimensionsCalculator)
+            apiLevelProvider,
+            configuratorFactory.newSceneConfigurator(),
+            engine,
+            GlScheduler(engine),
+            Glide.with(this),
+            renderer,
+            schedulers,
+            settings,
+            settingsOpenGL,
+            scene,
+            scenePresenter,
+            textureDimensionsCalculator
+        )
 
         return engine
     }
 
     inner class EngineImpl(
-            private val renderer: GlSceneRenderer,
-            samples: Int)
-        : GLEngine(), EngineController, GLSurfaceView.Renderer, SceneScheduler {
+        private val renderer: GlSceneRenderer,
+        samples: Int
+    ) : GLEngine(), EngineController, GLSurfaceView.Renderer, SceneScheduler {
 
         private val handler = Handler()
 
@@ -103,7 +104,8 @@ class WallpaperServiceImpl : GLWallpaperService() {
 
         init {
             if (samples != 0 && settingsDevice.observeMultisamplingSupported().blockingFirst()) {
-                setEGLConfigChooser(MultisampleConfigChooser(
+                setEGLConfigChooser(
+                    MultisampleConfigChooser(
                         samples,
                         MultisampleConfigChooser.Callback {
                             // When multisampling requested as 4, it means both 4 and 2 are not supported.

@@ -32,7 +32,8 @@ class PreviewPreferencePresenterTest {
     private val underTest = PreviewPreferencePresenter(activity)
 
     private fun setHostAndExtractOnActivityResultCallback(
-            host: ConfigFragment = mock()): OnActivityResultCallback {
+        host: ConfigFragment = mock()
+    ): OnActivityResultCallback {
         underTest.host = host
         val callbackCapturer = argumentCaptor<OnActivityResultCallback>()
         verify(host).registerCallback(callbackCapturer.capture())

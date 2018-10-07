@@ -17,8 +17,8 @@
             android:launchMode="singleTop">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
         </activity>
@@ -29,12 +29,12 @@
             android:permission="android.permission.BIND_WALLPAPER">
 
             <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService"/>
+                <action android:name="android.service.wallpaper.WallpaperService" />
             </intent-filter>
 
             <meta-data
                 android:name="android.service.wallpaper"
-                android:resource="@xml/wallpaper"/>
+                android:resource="@xml/wallpaper" />
         </service>
 
         <provider

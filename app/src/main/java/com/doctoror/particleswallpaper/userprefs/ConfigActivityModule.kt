@@ -19,12 +19,12 @@ import android.os.Build
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
-import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
-import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
-import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.framework.app.actions.ActivityStartActivityForResultAction
 import com.doctoror.particleswallpaper.framework.di.scopes.PerActivity
+import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
+import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
+import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -38,38 +38,42 @@ class ConfigActivityModule {
     @PerActivity
     @Provides
     fun provideConfigPresenter(
-            activity: ConfigActivity,
-            schedulers: SchedulersProvider,
-            configurator: SceneConfigurator,
-            openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider,
-            openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
-            requestManager: RequestManager,
-            settings: SceneSettings,
-            view: ConfigActivityView
+        activity: ConfigActivity,
+        schedulers: SchedulersProvider,
+        configurator: SceneConfigurator,
+        openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider,
+        openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
+        requestManager: RequestManager,
+        settings: SceneSettings,
+        view: ConfigActivityView
     ): ConfigActivityPresenter =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ConfigActivityPresenterLollipop(
-                        activity,
-                        schedulers,
-                        configurator,
-                        openChangeWallpaperIntentProvider,
-                        openChangeWallpaperIntentUseCase,
-                        requestManager,
-                        settings,
-                        view)
-            } else {
-                ConfigActivityPresenter(
-                        activity, schedulers, configurator, requestManager, settings, view)
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ConfigActivityPresenterLollipop(
+                activity,
+                schedulers,
+                configurator,
+                openChangeWallpaperIntentProvider,
+                openChangeWallpaperIntentUseCase,
+                requestManager,
+                settings,
+                view
+            )
+        } else {
+            ConfigActivityPresenter(
+                activity, schedulers, configurator, requestManager, settings, view
+            )
+        }
 
     @PerActivity
     @Provides
     fun provideOpenChangeWallpaperIntentUseCase(
-            activity: ConfigActivity,
-            intentProvider: OpenChangeWallpaperIntentProvider) =
-            OpenChangeWallpaperIntentUseCase(
-                    intentProvider,
-                    ActivityStartActivityForResultAction(activity))
+        activity: ConfigActivity,
+        intentProvider: OpenChangeWallpaperIntentProvider
+    ) =
+        OpenChangeWallpaperIntentUseCase(
+            intentProvider,
+            ActivityStartActivityForResultAction(activity)
+        )
 
     @PerActivity
     @Provides

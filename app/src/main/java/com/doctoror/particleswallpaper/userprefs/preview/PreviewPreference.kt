@@ -26,12 +26,11 @@ import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvi
 import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
 import javax.inject.Inject
 
-/**
- * Preference for showing the wallpaper preview.
- */
-class PreviewPreference @JvmOverloads constructor
-(contextParam: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : Preference(contextParam, attrs), FragmentHolder {
+class PreviewPreference @JvmOverloads constructor(
+    contextParam: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : Preference(contextParam, attrs), FragmentHolder {
 
     @Inject
     lateinit var intentProvider: OpenChangeWallpaperIntentProvider
@@ -48,9 +47,9 @@ class PreviewPreference @JvmOverloads constructor
     init {
         isPersistent = false
         DaggerPreferenceComponent.builder()
-                .appComponent(AppComponentProvider.provideAppComponent(context))
-                .build()
-                .inject(this)
+            .appComponent(AppComponentProvider.provideAppComponent(context))
+            .build()
+            .inject(this)
 
         presenter = PreviewPreferencePresenter(contextParam as Activity)
     }
@@ -60,7 +59,8 @@ class PreviewPreference @JvmOverloads constructor
     }
 
     private fun newOpenChangeWallpaperIntentUseCase(host: Fragment) =
-            OpenChangeWallpaperIntentUseCase(
-                    intentProvider,
-                    FragmentStartActivityForResultAction(host))
+        OpenChangeWallpaperIntentUseCase(
+            intentProvider,
+            FragmentStartActivityForResultAction(host)
+        )
 }

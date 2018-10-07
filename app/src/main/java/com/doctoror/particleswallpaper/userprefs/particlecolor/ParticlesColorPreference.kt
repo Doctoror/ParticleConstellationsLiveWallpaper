@@ -24,16 +24,14 @@ import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvi
 import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
 import javax.inject.Inject
 
-/**
- * Created by Yaroslav Mytkalyk on 30.05.17.
- *
- * Preference for changing particles color.
- */
-class ParticlesColorPreference @JvmOverloads constructor
-(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : ColorPreferenceNoPreview(context, attrs),
-        ParticlesColorPreferenceView,
-        LifecycleObserver {
+class ParticlesColorPreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) :
+    ColorPreferenceNoPreview(context, attrs),
+    ParticlesColorPreferenceView,
+    LifecycleObserver {
 
     @Inject
     lateinit var presenter: ParticlesColorPreferencePresenter
@@ -42,9 +40,9 @@ class ParticlesColorPreference @JvmOverloads constructor
 
     init {
         DaggerPreferenceComponent.builder()
-                .appComponent(AppComponentProvider.provideAppComponent(context))
-                .build()
-                .inject(this)
+            .appComponent(AppComponentProvider.provideAppComponent(context))
+            .build()
+            .inject(this)
 
         isPersistent = false
 

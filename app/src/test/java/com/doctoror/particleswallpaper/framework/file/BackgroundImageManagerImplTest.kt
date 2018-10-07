@@ -60,9 +60,10 @@ class BackgroundImageManagerImplTest {
     fun setup() {
         sourceFile.writeBytes(fileContents)
         underTest = BackgroundImageManagerImpl(
-                appContext,
-                FileSaver(mockContextForSourceFile()),
-                fileUriResolver)
+            appContext,
+            FileSaver(mockContextForSourceFile()),
+            fileUriResolver
+        )
     }
 
     @After

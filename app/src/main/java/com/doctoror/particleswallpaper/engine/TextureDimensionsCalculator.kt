@@ -21,9 +21,10 @@ import com.doctoror.particlesdrawable.opengl.util.PotCalculator
 class TextureDimensionsCalculator {
 
     fun calculateTextureDimensions(
-            width: Int,
-            height: Int,
-            optimizeTextures: Boolean) = if (optimizeTextures) {
+        width: Int,
+        height: Int,
+        optimizeTextures: Boolean
+    ) = if (optimizeTextures) {
         PotCalculator.toLargerPotDimensions(width, height)
     } else {
         Pair(width, height)

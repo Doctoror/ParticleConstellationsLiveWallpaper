@@ -22,10 +22,11 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class MultisamplingPreferencePresenter @Inject constructor(
-        private val schedulers: SchedulersProvider,
-        private val settings: OpenGlSettings,
-        private val settingsDevice: DeviceSettings,
-        private val wallpaperChecker: WallpaperCheckerUseCase) {
+    private val schedulers: SchedulersProvider,
+    private val settings: OpenGlSettings,
+    private val settingsDevice: DeviceSettings,
+    private val wallpaperChecker: WallpaperCheckerUseCase
+) {
 
     private lateinit var view: MultisamplingPreferenceView
 
@@ -39,26 +40,30 @@ class MultisamplingPreferencePresenter @Inject constructor(
         settings.numSamples = v
 
         wallpaperChecker
-                .wallpaperInstalledSource()
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.mainThread())
-                .subscribe { isInstalled ->
-                    if (isInstalled) {
-                        view.showRestartDialog()
-                    }
+            .wallpaperInstalledSource()
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.mainThread())
+            .subscribe { isInstalled ->
+                if (isInstalled) {
+                    view.showRestartDialog()
                 }
+            }
     }
 
     fun onStart() {
-        disposables.add(settings
+        disposables.add(
+            settings
                 .observeNumSamples()
                 .observeOn(schedulers.mainThread())
-                .subscribe(view::setValue))
+                .subscribe(view::setValue)
+        )
 
-        disposables.add(settingsDevice
+        disposables.add(
+            settingsDevice
                 .observeMultisamplingSupported()
                 .observeOn(schedulers.mainThread())
-                .subscribe(view::setPreferenceSupported))
+                .subscribe(view::setPreferenceSupported)
+        )
     }
 
     fun onStop() {

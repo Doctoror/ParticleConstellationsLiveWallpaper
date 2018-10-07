@@ -19,8 +19,8 @@ import android.graphics.Color
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
-import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -45,7 +45,8 @@ class ResetToDefaultsUseCaseTest {
     private val backgroundImageManager: BackgroundImageManager = mock()
 
     private val underTest = ResetToDefaultsUseCase(
-            defaults, settings, settingsOpenGL, backgroundImageManager)
+        defaults, settings, settingsOpenGL, backgroundImageManager
+    )
 
     @Test
     fun setsDefaultBackgroundColor() {

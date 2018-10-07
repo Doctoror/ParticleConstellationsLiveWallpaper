@@ -28,10 +28,11 @@ open class InMemorySharedPreferences : SharedPreferences {
     override fun getBoolean(key: String?, defValue: Boolean) = map[key] as Boolean? ?: defValue
 
     override fun unregisterOnSharedPreferenceChangeListener(
-            listener: SharedPreferences.OnSharedPreferenceChangeListener?) {
+        listener: SharedPreferences.OnSharedPreferenceChangeListener?
+    ) {
         listeners
-                .filter { it === listener }
-                .forEach { listeners = listeners.minus(it) }
+            .filter { it === listener }
+            .forEach { listeners = listeners.minus(it) }
     }
 
     override fun getInt(key: String?, defValue: Int) = map[key] as Int? ?: defValue
@@ -45,7 +46,8 @@ open class InMemorySharedPreferences : SharedPreferences {
     override fun getFloat(key: String?, defValue: Float) = map[key] as Float? ?: defValue
 
     @Suppress("UNCHECKED_CAST")
-    override fun getStringSet(key: String?, defValues: MutableSet<String>?) = map[key] as MutableSet<String>?
+    override fun getStringSet(key: String?, defValues: MutableSet<String>?) =
+        map[key] as MutableSet<String>?
             ?: defValues
 
     override fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener?) {
@@ -56,7 +58,8 @@ open class InMemorySharedPreferences : SharedPreferences {
 
     override fun getString(key: String?, defValue: String?) = map[key] as String? ?: defValue
 
-    private fun containsListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) = listeners.any { it === listener }
+    private fun containsListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) =
+        listeners.any { it === listener }
 
     private fun putValueAndNotify(key: String?, value: Any?) {
         map[key] = value
@@ -90,14 +93,17 @@ open class InMemorySharedPreferences : SharedPreferences {
         }
 
         override fun remove(key: String?): SharedPreferences.Editor =
-                TODO("not implemented")
+            TODO("not implemented")
 
         override fun putBoolean(key: String?, value: Boolean): SharedPreferences.Editor {
             map[key] = value
             return this
         }
 
-        override fun putStringSet(key: String?, values: MutableSet<String>?): SharedPreferences.Editor {
+        override fun putStringSet(
+            key: String?,
+            values: MutableSet<String>?
+        ): SharedPreferences.Editor {
             map[key] = values as Any
             return this
         }

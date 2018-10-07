@@ -25,9 +25,9 @@ class HowToApplyUsingChooserDialogFragment : HowToApplyWithActionDialogFragment(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ApplicationlessInjection
-                .getInstance(activity.applicationContext)
-                .fragmentInjector
-                .inject(this)
+            .getInstance(activity.applicationContext)
+            .fragmentInjector
+            .inject(this)
         super.onCreate(savedInstanceState)
     }
 }

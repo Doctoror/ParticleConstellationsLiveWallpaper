@@ -18,8 +18,8 @@ package com.doctoror.particleswallpaper.framework.app.actions
 import android.app.Fragment
 import android.content.Intent
 
-class FragmentStartActivityForResultAction(private val fragment: Fragment)
-    : StartActivityForResultAction {
+class FragmentStartActivityForResultAction(private val fragment: Fragment) :
+    StartActivityForResultAction {
 
     override fun startActivityForResult(intent: Intent, requestCode: Int) {
         fragment.startActivityForResult(intent, requestCode)

@@ -21,9 +21,10 @@ import android.util.TypedValue
 import com.doctoror.particleswallpaper.R
 
 class DefaultSceneSettings(
-        res: Resources,
-        theme: Resources.Theme,
-        typedValueFactory: TypedValueFactory = DefaultTypedValueFactory()) {
+    res: Resources,
+    theme: Resources.Theme,
+    typedValueFactory: TypedValueFactory = DefaultTypedValueFactory()
+) {
 
     val backgroundColor = ResourcesCompat.getColor(res, R.color.defaultBackground, theme)
 
@@ -44,8 +45,9 @@ class DefaultSceneSettings(
     val speedFactor = resolveSpeedFactor(res, typedValueFactory)
 
     private fun resolveSpeedFactor(
-            res: Resources,
-            typedValueFactory: TypedValueFactory): Float {
+        res: Resources,
+        typedValueFactory: TypedValueFactory
+    ): Float {
         val outValue = typedValueFactory.newTypedValue()
         res.getValue(R.dimen.defaultSpeedFactor, outValue, true)
         return outValue.float

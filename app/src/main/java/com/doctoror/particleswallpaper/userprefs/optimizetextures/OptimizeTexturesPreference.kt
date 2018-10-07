@@ -26,8 +26,10 @@ import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceC
 import javax.inject.Inject
 
 class OptimizeTexturesPreference @JvmOverloads constructor(
-        contextParam: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : CheckBoxPreference(contextParam, attrs), OptimizeTexturesView, LifecycleObserver {
+    contextParam: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : CheckBoxPreference(contextParam, attrs), OptimizeTexturesView, LifecycleObserver {
 
     @Inject
     lateinit var presenter: OptimizeTexturesPreferencePresenter
@@ -36,9 +38,9 @@ class OptimizeTexturesPreference @JvmOverloads constructor(
         isPersistent = false
 
         DaggerPreferenceComponent.builder()
-                .appComponent(AppComponentProvider.provideAppComponent(context))
-                .build()
-                .inject(this)
+            .appComponent(AppComponentProvider.provideAppComponent(context))
+            .build()
+            .inject(this)
 
         presenter.onTakeView(this)
 

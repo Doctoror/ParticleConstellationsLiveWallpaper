@@ -38,14 +38,16 @@ class WallpaperCheckerUseCaseTest {
     @Test
     fun returnsFalseWhenWallpaperInfoPackageDiffers() {
         mockWallpaperManagerWithWallpaperInfo(
-                mockWallpaperInfoWithPackageName("com.doctoror.particlesdrawable"))
+            mockWallpaperInfoWithPackageName("com.doctoror.particlesdrawable")
+        )
         underTest.wallpaperInstalledSource().test().assertResult(false)
     }
 
     @Test
     fun returnsTrueWhenWallpaperInfoPackageMatches() {
         mockWallpaperManagerWithWallpaperInfo(
-                mockWallpaperInfoWithPackageName(packageName))
+            mockWallpaperInfoWithPackageName(packageName)
+        )
         underTest.wallpaperInstalledSource().test().assertResult(true)
     }
 
@@ -59,6 +61,6 @@ class WallpaperCheckerUseCaseTest {
         }
 
         whenever(context.getSystemService(Context.WALLPAPER_SERVICE))
-                .thenReturn(wallpaperManager)
+            .thenReturn(wallpaperManager)
     }
 }

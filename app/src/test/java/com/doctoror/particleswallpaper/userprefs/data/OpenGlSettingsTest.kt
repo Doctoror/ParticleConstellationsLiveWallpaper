@@ -17,7 +17,7 @@ class OpenGlSettingsTest {
     @Test
     fun returnsNumSamplesValueFromPrefs() {
         whenever(prefs.getInt(KEY_NUM_SAMPLES, 4))
-                .thenReturn(4)
+            .thenReturn(4)
 
         assertEquals(4, underTest.numSamples)
     }
@@ -50,7 +50,7 @@ class OpenGlSettingsTest {
     @Test
     fun returnsOptimizeTexturesValueFromPrefs() {
         whenever(prefs.getBoolean(KEY_OPTIMIZE_TEXTURES, true))
-                .thenReturn(true)
+            .thenReturn(true)
 
         assertEquals(true, underTest.optimizeTextures)
     }

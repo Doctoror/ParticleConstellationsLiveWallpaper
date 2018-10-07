@@ -44,40 +44,40 @@ object TransformationUtils {
 
     // See #738.
     private val MODELS_REQUIRING_BITMAP_LOCK = HashSet(
-            Arrays.asList(
-                    // Moto X gen 2
-                    "XT1085",
-                    "XT1092",
-                    "XT1093",
-                    "XT1094",
-                    "XT1095",
-                    "XT1096",
-                    "XT1097",
-                    "XT1098",
-                    // Moto G gen 1
-                    "XT1031",
-                    "XT1028",
-                    "XT937C",
-                    "XT1032",
-                    "XT1008",
-                    "XT1033",
-                    "XT1035",
-                    "XT1034",
-                    "XT939G",
-                    "XT1039",
-                    "XT1040",
-                    "XT1042",
-                    "XT1045",
-                    // Moto G gen 2
-                    "XT1063",
-                    "XT1064",
-                    "XT1068",
-                    "XT1069",
-                    "XT1072",
-                    "XT1077",
-                    "XT1078",
-                    "XT1079"
-            )
+        Arrays.asList(
+            // Moto X gen 2
+            "XT1085",
+            "XT1092",
+            "XT1093",
+            "XT1094",
+            "XT1095",
+            "XT1096",
+            "XT1097",
+            "XT1098",
+            // Moto G gen 1
+            "XT1031",
+            "XT1028",
+            "XT937C",
+            "XT1032",
+            "XT1008",
+            "XT1033",
+            "XT1035",
+            "XT1034",
+            "XT939G",
+            "XT1039",
+            "XT1040",
+            "XT1042",
+            "XT1045",
+            // Moto G gen 2
+            "XT1063",
+            "XT1064",
+            "XT1068",
+            "XT1069",
+            "XT1072",
+            "XT1077",
+            "XT1078",
+            "XT1079"
+        )
     )
 
     /**

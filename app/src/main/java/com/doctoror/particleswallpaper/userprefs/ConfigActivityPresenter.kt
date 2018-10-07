@@ -40,9 +40,9 @@ import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
-import com.doctoror.particleswallpaper.framework.glide.SimpleTarget2
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.framework.glide.SimpleTarget2
 import com.doctoror.particleswallpaper.framework.view.removeOnGlobalLayoutListenerCompat
 import com.doctoror.particleswallpaper.framework.view.setBackgroundCompat
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
@@ -52,13 +52,13 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 
 open class ConfigActivityPresenter(
-        private val activity: Activity,
-        private val schedulers: SchedulersProvider,
-        private val configurator: SceneConfigurator,
-        private val requestManager: RequestManager,
-        private val settings: SceneSettings,
-        private val view: ConfigActivityView,
-        private val themeAttrColorResolver: ThemeAttrColorResolver = ThemeAttrColorResolver()
+    private val activity: Activity,
+    private val schedulers: SchedulersProvider,
+    private val configurator: SceneConfigurator,
+    private val requestManager: RequestManager,
+    private val settings: SceneSettings,
+    private val view: ConfigActivityView,
+    private val themeAttrColorResolver: ThemeAttrColorResolver = ThemeAttrColorResolver()
 ) : LifecycleObserver {
 
     private var bgDisposable: Disposable? = null
@@ -73,11 +73,11 @@ open class ConfigActivityPresenter(
         val controller = controller ?: throw IllegalStateException("controller not set")
 
         bgDisposable = Observable.combineLatest(
-                settings.observeBackgroundUri(),
-                settings.observeBackgroundColor(),
-                BiFunction<String, Int, Pair<String, Int>> { t1, t2 -> Pair(t1, t2) })
-                .observeOn(schedulers.mainThread())
-                .subscribe { applyBackground(it) }
+            settings.observeBackgroundUri(),
+            settings.observeBackgroundColor(),
+            BiFunction<String, Int, Pair<String, Int>> { t1, t2 -> Pair(t1, t2) })
+            .observeOn(schedulers.mainThread())
+            .subscribe { applyBackground(it) }
 
         configurator.subscribe(configuration, controller, settings, schedulers.mainThread())
     }
@@ -110,31 +110,34 @@ open class ConfigActivityPresenter(
         } else if (bg.width != 0 && bg.height != 0) {
             val target = ImageLoadTarget(bg, color)
             requestManager.load(uri)
-                    .apply(RequestOptions.noAnimation())
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE))
-                    .apply(RequestOptions.skipMemoryCacheOf(true))
-                    .apply(RequestOptions.centerCropTransform())
-                    .listener(object : RequestListener<Drawable> {
+                .apply(RequestOptions.noAnimation())
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE))
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.centerCropTransform())
+                .listener(object : RequestListener<Drawable> {
 
-                        override fun onLoadFailed(
-                                e: GlideException?,
-                                model: Any?,
-                                target: Target<Drawable>?,
-                                isFirstResource: Boolean): Boolean {
-                            applyNoImageBackground(bg, color)
-                            return true
-                        }
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        applyNoImageBackground(bg, color)
+                        return true
+                    }
 
-                        override fun onResourceReady(
-                                resource: Drawable?,
-                                model: Any?,
-                                target: Target<Drawable>?,
-                                dataSource: DataSource?,
-                                isFirstResource: Boolean) = false
-                    })
-                    .into(target)
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ) = false
+                })
+                .into(target)
         } else {
-            bg.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            bg.viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
 
                 override fun onGlobalLayout() {
                     bg.viewTreeObserver.removeOnGlobalLayoutListenerCompat(this)
@@ -145,9 +148,10 @@ open class ConfigActivityPresenter(
     }
 
     private fun applyBackgroundColor(bg: ImageView, @ColorInt color: Int) =
-            bg.setBackgroundCompat(
-                    if (colorIsWindowBackground(bg.context, color)) null
-                    else ColorDrawable(color))
+        bg.setBackgroundCompat(
+            if (colorIsWindowBackground(bg.context, color)) null
+            else ColorDrawable(color)
+        )
 
     private fun colorIsWindowBackground(context: Context, @ColorInt color: Int) = try {
         color == themeAttrColorResolver.getColor(context.theme, android.R.attr.windowBackground)
@@ -179,9 +183,10 @@ open class ConfigActivityPresenter(
         target.setImageDrawable(drawable)
     }
 
-    private inner class ImageLoadTarget(private val target: ImageView,
-                                        @ColorInt private val bgColor: Int)
-        : SimpleTarget2<Drawable>(target.width, target.height) {
+    private inner class ImageLoadTarget(
+        private val target: ImageView,
+        @ColorInt private val bgColor: Int
+    ) : SimpleTarget2<Drawable>(target.width, target.height) {
 
         override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
             applyBackground(target, resource, bgColor)

@@ -26,20 +26,20 @@ import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceC
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreference
 import javax.inject.Inject
 
-class FrameDelayPreference @JvmOverloads constructor
-(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : SeekBarPreference(context, attrs, defStyle),
-        FrameDelayPreferenceView,
-        LifecycleObserver {
+class FrameDelayPreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : SeekBarPreference(context, attrs, defStyle), FrameDelayPreferenceView, LifecycleObserver {
 
     @Inject
     lateinit var presenter: FrameDelayPreferencePresenter
 
     init {
         DaggerPreferenceComponent.builder()
-                .appComponent(AppComponentProvider.provideAppComponent(context))
-                .build()
-                .inject(this)
+            .appComponent(AppComponentProvider.provideAppComponent(context))
+            .build()
+            .inject(this)
 
         isPersistent = false
         presenter.onTakeView(this)

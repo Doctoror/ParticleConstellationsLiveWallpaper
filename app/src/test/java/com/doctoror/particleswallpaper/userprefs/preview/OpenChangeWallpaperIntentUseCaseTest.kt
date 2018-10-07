@@ -28,7 +28,8 @@ class OpenChangeWallpaperIntentUseCaseTest {
     private val action: StartActivityForResultAction = mock()
 
     private val underTest = OpenChangeWallpaperIntentUseCase(
-            intentProvider, action)
+        intentProvider, action
+    )
 
     @Test
     fun opensWallpaperIntentWhenNotNull() {

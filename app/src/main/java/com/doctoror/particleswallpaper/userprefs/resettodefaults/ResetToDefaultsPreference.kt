@@ -27,19 +27,20 @@ import javax.inject.Inject
 /**
  * Preference for resetting configuration to default values.
  */
-class ResetToDefaultsPreference @JvmOverloads constructor
-(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : Preference(context, attrs),
-        ResetToDefaultsPreferenceView {
+class ResetToDefaultsPreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : Preference(context, attrs), ResetToDefaultsPreferenceView {
 
     @Inject
     lateinit var presenter: ResetToDefaultsPreferencePresenter
 
     init {
         DaggerPreferenceComponent.builder()
-                .appComponent(AppComponentProvider.provideAppComponent(context))
-                .build()
-                .inject(this)
+            .appComponent(AppComponentProvider.provideAppComponent(context))
+            .build()
+            .inject(this)
 
         isPersistent = false
         presenter.onTakeView(this)
@@ -51,10 +52,10 @@ class ResetToDefaultsPreference @JvmOverloads constructor
 
     override fun showWarningDialog() {
         AlertDialog.Builder(context)
-                .setTitle(title)
-                .setMessage(R.string.Are_you_sure_you_want_to_reset_all_settings_to_default_values)
-                .setPositiveButton(R.string.Reset) { _, _ -> presenter.onResetClick() }
-                .setNegativeButton(R.string.Cancel, null)
-                .show()
+            .setTitle(title)
+            .setMessage(R.string.Are_you_sure_you_want_to_reset_all_settings_to_default_values)
+            .setPositiveButton(R.string.Reset) { _, _ -> presenter.onResetClick() }
+            .setNegativeButton(R.string.Cancel, null)
+            .show()
     }
 }

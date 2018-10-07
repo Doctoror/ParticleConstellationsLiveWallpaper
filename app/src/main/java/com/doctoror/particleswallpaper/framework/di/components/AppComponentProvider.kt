@@ -27,10 +27,10 @@ object AppComponentProvider {
         var appComponentLocal = appComponent
         if (appComponentLocal == null) {
             appComponentLocal = DaggerAppComponent
-                    .builder()
-                    .appModule(AppModule(context.applicationContext))
-                    .configModule(ConfigModule())
-                    .build()!!
+                .builder()
+                .appModule(AppModule(context.applicationContext))
+                .configModule(ConfigModule())
+                .build()!!
             appComponent = appComponentLocal
         }
         return appComponentLocal

@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers
  *
  * The default [SchedulersProvider] implementation.
  */
-class SchedulersProviderImpl: SchedulersProvider {
+class SchedulersProviderImpl : SchedulersProvider {
 
     override fun mainThread() = AndroidSchedulers.mainThread()!!
     override fun io() = Schedulers.io()

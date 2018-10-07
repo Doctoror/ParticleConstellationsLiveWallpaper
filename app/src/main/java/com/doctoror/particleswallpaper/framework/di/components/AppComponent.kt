@@ -34,13 +34,16 @@ import dagger.android.AndroidInjector
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [
-    ActivitiesContributes::class,
-    AppModule::class,
-    AndroidInjectionModule::class,
-    ConfigModule::class,
-    FragmentsContributes::class,
-    ServicesContributes::class])
+@Component(
+    modules = [
+        ActivitiesContributes::class,
+        AppModule::class,
+        AndroidInjectionModule::class,
+        ConfigModule::class,
+        FragmentsContributes::class,
+        ServicesContributes::class
+    ]
+)
 interface AppComponent : AndroidInjector<ApplicationlessInjection> {
 
     fun exposeApiLevelProvider(): ApiLevelProvider

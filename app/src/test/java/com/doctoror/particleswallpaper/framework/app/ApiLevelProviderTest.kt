@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.framework.app
 
 import android.os.Build
-import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

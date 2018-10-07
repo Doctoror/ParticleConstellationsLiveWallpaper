@@ -24,9 +24,10 @@ import javax.inject.Inject
 
 @PerPreference
 class BackgroundColorPreferencePresenter @Inject constructor(
-        private val schedulers: SchedulersProvider,
-        private val settings: SceneSettings,
-        private val defaults: DefaultSceneSettings) {
+    private val schedulers: SchedulersProvider,
+    private val settings: SceneSettings,
+    private val defaults: DefaultSceneSettings
+) {
 
     private lateinit var view: BackgroundColorPreferenceView
 
@@ -43,8 +44,8 @@ class BackgroundColorPreferencePresenter @Inject constructor(
 
     fun onStart() {
         disposable = settings.observeBackgroundColor()
-                .observeOn(schedulers.mainThread())
-                .subscribe { view.setColor(it) }
+            .observeOn(schedulers.mainThread())
+            .subscribe { view.setColor(it) }
     }
 
     fun onStop() {

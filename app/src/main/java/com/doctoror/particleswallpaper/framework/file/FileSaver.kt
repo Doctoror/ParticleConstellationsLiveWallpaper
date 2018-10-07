@@ -46,7 +46,7 @@ class FileSaver(private val context: Context) {
             ensureAvailableSpace(fileDescriptor.statSize)
 
             val wrappedFileDescriptor = fileDescriptor.fileDescriptor
-                    ?: throw IOException("Failed to read input: the wrapped FileDescriptor is null")
+                ?: throw IOException("Failed to read input: the wrapped FileDescriptor is null")
 
             inputStream = FileInputStream(wrappedFileDescriptor)
             outputStream = FileOutputStream(target)

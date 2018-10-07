@@ -26,8 +26,9 @@ import javax.inject.Inject
 
 @PerPreference
 class SpeedFactorPreferencePresenter @Inject constructor(
-        private val schedulers: SchedulersProvider,
-        private val settings: SceneSettings) : SeekBarMapper<Float> {
+    private val schedulers: SchedulersProvider,
+    private val settings: SceneSettings
+) : SeekBarMapper<Float> {
 
     private lateinit var view: SeekBarPreferenceView
 
@@ -48,9 +49,9 @@ class SpeedFactorPreferencePresenter @Inject constructor(
 
     fun onStart() {
         disposable = settings
-                .observeSpeedFactor()
-                .observeOn(schedulers.mainThread())
-                .subscribe { view.setProgressInt(transformToProgress(it)) }
+            .observeSpeedFactor()
+            .observeOn(schedulers.mainThread())
+            .subscribe { view.setProgressInt(transformToProgress(it)) }
     }
 
     fun onStop() {

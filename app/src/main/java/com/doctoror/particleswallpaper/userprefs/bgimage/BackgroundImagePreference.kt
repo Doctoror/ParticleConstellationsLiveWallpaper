@@ -24,9 +24,9 @@ import android.preference.Preference
 import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import javax.inject.Inject
 
 /**
@@ -34,9 +34,11 @@ import javax.inject.Inject
  */
 @TargetApi(Build.VERSION_CODES.KITKAT)
 @RequiresApi(Build.VERSION_CODES.KITKAT)
-class BackgroundImagePreference @JvmOverloads constructor
-(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : Preference(context, attrs), BackgroundImagePreferenceView, FragmentHolder {
+class BackgroundImagePreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : Preference(context, attrs), BackgroundImagePreferenceView, FragmentHolder {
 
     @Inject
     lateinit var presenter: BackgroundImagePreferencePresenter
@@ -49,9 +51,9 @@ class BackgroundImagePreference @JvmOverloads constructor
 
     init {
         DaggerPreferenceComponent.builder()
-                .appComponent(AppComponentProvider.provideAppComponent(context))
-                .build()
-                .inject(this)
+            .appComponent(AppComponentProvider.provideAppComponent(context))
+            .build()
+            .inject(this)
 
         isPersistent = false
         presenter.onTakeView(this)
@@ -64,10 +66,10 @@ class BackgroundImagePreference @JvmOverloads constructor
 
     override fun showActionDialog() {
         AlertDialog.Builder(context)
-                .setTitle(title)
-                .setPositiveButton(R.string.Pick) { _, _ -> presenter.pickBackground() }
-                .setNeutralButton(R.string.Clear) { _, _ -> presenter.clearBackground() }
-                .setNegativeButton(R.string.Cancel, null)
-                .show()
+            .setTitle(title)
+            .setPositiveButton(R.string.Pick) { _, _ -> presenter.pickBackground() }
+            .setNeutralButton(R.string.Clear) { _, _ -> presenter.clearBackground() }
+            .setNegativeButton(R.string.Cancel, null)
+            .show()
     }
 }

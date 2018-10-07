@@ -33,8 +33,8 @@ import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer
 import com.doctoror.particleswallpaper.framework.app.HardwareCanvasBlacklist
 
 class CanvasEngineSceneRenderer(
-        private val canvasSceneRenderer: CanvasSceneRenderer,
-        private val resources: Resources
+    private val canvasSceneRenderer: CanvasSceneRenderer,
+    private val resources: Resources
 ) : DefaultSceneRenderer(canvasSceneRenderer), EngineSceneRenderer {
 
     private val tag = "EngineView"
@@ -164,9 +164,9 @@ class CanvasEngineSceneRenderer(
     // Inline for avoiding extra method call in draw
     @Suppress("NOTHING_TO_INLINE")
     private inline fun lockCanvas(holder: SurfaceHolder): Canvas? =
-            if (canLockHardwareCanvas()) {
-                holder.lockHardwareCanvas()
-            } else {
-                holder.lockCanvas()
-            }
+        if (canLockHardwareCanvas()) {
+            holder.lockHardwareCanvas()
+        } else {
+            holder.lockCanvas()
+        }
 }

@@ -67,7 +67,8 @@ class FileSaverTest {
 
     private fun mockContextForSourceFile(): Context {
         val fileDescriptor = ParcelFileDescriptor.open(
-                sourceFile, ParcelFileDescriptor.MODE_READ_ONLY)
+            sourceFile, ParcelFileDescriptor.MODE_READ_ONLY
+        )
 
         val contentResolver: ContentResolver = mock {
             on(it.openFileDescriptor(uri, "r")).doReturn(fileDescriptor)

@@ -23,6 +23,6 @@ package com.doctoror.particleswallpaper.framework.lifecycle
  */
 interface OnActivityResultCallbackHost {
 
-    fun registerCallback(callback : OnActivityResultCallback)
+    fun registerCallback(callback: OnActivityResultCallback)
     fun unregsiterCallback(callback: OnActivityResultCallback)
 }

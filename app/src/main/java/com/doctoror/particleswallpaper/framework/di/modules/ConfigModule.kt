@@ -37,22 +37,22 @@ class ConfigModule {
 
     @Provides
     fun provideDefaultSceneSettings(context: Context) =
-            DefaultSceneSettings(context.resources!!, context.theme!!)
+        DefaultSceneSettings(context.resources!!, context.theme!!)
 
     @Provides
     @Singleton
     fun provideDeviceSettings(context: Context) = DeviceSettings(
-            context.getSharedPreferences(PREFERENCES_NAME_DEVICE, Context.MODE_PRIVATE)
+        context.getSharedPreferences(PREFERENCES_NAME_DEVICE, Context.MODE_PRIVATE)
     )
 
     @Singleton
     @Provides
     fun provideSceneSettings(
-            context: Context,
-            defaults: DefaultSceneSettings
+        context: Context,
+        defaults: DefaultSceneSettings
     ) = SceneSettings(
-            defaults,
-            context.getSharedPreferences(SCENE_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        defaults,
+        context.getSharedPreferences(SCENE_PREFERENCES_NAME, Context.MODE_PRIVATE)
     )
 
     @Provides
@@ -64,12 +64,12 @@ class ConfigModule {
 
     @Provides
     fun provideBackgroundImageManager(context: Context): BackgroundImageManager =
-            BackgroundImageManagerImpl(context, FileSaver(context), FileUriResolver(context))
+        BackgroundImageManagerImpl(context, FileSaver(context), FileUriResolver(context))
 
     @Singleton
     @Provides
     fun provideOpenGlSettings(context: Context) = OpenGlSettings(
-            context.getSharedPreferences(PREFERENCES_NAME_OPENGL, Context.MODE_PRIVATE)
+        context.getSharedPreferences(PREFERENCES_NAME_OPENGL, Context.MODE_PRIVATE)
     )
 
 }

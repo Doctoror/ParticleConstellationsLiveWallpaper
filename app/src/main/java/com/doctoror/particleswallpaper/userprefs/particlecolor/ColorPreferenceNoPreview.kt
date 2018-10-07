@@ -27,8 +27,8 @@ import com.rarepebble.colorpicker.ColorPreference
  * [ColorPreference] that does not show preview view
  */
 open class ColorPreferenceNoPreview @JvmOverloads constructor
-(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : ColorPreference(context, attrs) {
+    (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
+    ColorPreference(context, attrs) {
 
     override fun onBindView(view: View?) {
         super.onBindView(view)

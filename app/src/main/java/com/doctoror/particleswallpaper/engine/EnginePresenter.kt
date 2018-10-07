@@ -30,30 +30,31 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
-import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
-import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
+import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.glide.CenterCropAndThenResizeTransform
-import com.doctoror.particleswallpaper.userprefs.data.NO_URI
-import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.framework.glide.SimpleTarget2
+import com.doctoror.particleswallpaper.userprefs.data.NO_URI
+import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 
 class EnginePresenter(
-        private val apiLevelProvider: ApiLevelProvider,
-        private val configurator: SceneConfigurator,
-        private val controller: EngineController,
-        private val glScheduler: Scheduler,
-        private val glide: RequestManager,
-        private val renderer: EngineSceneRenderer,
-        private val schedulers: SchedulersProvider,
-        private val settings: SceneSettings,
-        private val settingsOpenGL: OpenGlSettings,
-        private val scene: ParticlesScene,
-        private val scenePresenter: ScenePresenter,
-        private val textureDimensionsCalculator: TextureDimensionsCalculator) {
+    private val apiLevelProvider: ApiLevelProvider,
+    private val configurator: SceneConfigurator,
+    private val controller: EngineController,
+    private val glScheduler: Scheduler,
+    private val glide: RequestManager,
+    private val renderer: EngineSceneRenderer,
+    private val schedulers: SchedulersProvider,
+    private val settings: SceneSettings,
+    private val settingsOpenGL: OpenGlSettings,
+    private val scene: ParticlesScene,
+    private val scenePresenter: ScenePresenter,
+    private val textureDimensionsCalculator: TextureDimensionsCalculator
+) {
 
     private val disposables = CompositeDisposable()
 
@@ -105,29 +106,29 @@ class EnginePresenter(
         configurator.subscribe(scene, scenePresenter, settings, glScheduler)
 
         disposables.add(settings.observeParticleScale()
-                .subscribe {
-                    renderer.markParticleTextureDirty()
-                })
+            .subscribe {
+                renderer.markParticleTextureDirty()
+            })
 
         disposables.add(settings.observeFrameDelay()
-                .observeOn(glScheduler)
-                .subscribe { scene.frameDelay = it })
+            .observeOn(glScheduler)
+            .subscribe { scene.frameDelay = it })
 
         disposables.add(settings
-                .observeBackgroundColor()
-                .doOnNext {
-                    backgroundColor = it
-                    backgroundColorDirty = true
-                    if (backgroundUri != null) {
-                        // If background was already loaded, but color is changed afterwards.
-                        notifyBackgroundColors()
-                    }
+            .observeBackgroundColor()
+            .doOnNext {
+                backgroundColor = it
+                backgroundColorDirty = true
+                if (backgroundUri != null) {
+                    // If background was already loaded, but color is changed afterwards.
+                    notifyBackgroundColors()
                 }
-                .flatMap { settingsOpenGL.observeOptimizeTextures() }
-                .doOnNext { optimizeTextures = it }
-                .flatMap { settings.observeBackgroundUri() }
-                .observeOn(schedulers.mainThread())
-                .subscribe { handleBackground(it) })
+            }
+            .flatMap { settingsOpenGL.observeOptimizeTextures() }
+            .doOnNext { optimizeTextures = it }
+            .flatMap { settings.observeBackgroundUri() }
+            .observeOn(schedulers.mainThread())
+            .subscribe { handleBackground(it) })
     }
 
     fun onDestroy() {
@@ -163,31 +164,31 @@ class EnginePresenter(
 
         val target = ImageLoadTarget(settings.width, settings.height)
         val targetDimensions = textureDimensionsCalculator
-                .calculateTextureDimensions(settings.width, settings.height, settings.optimize)
+            .calculateTextureDimensions(settings.width, settings.height, settings.optimize)
 
         glide
-                .asBitmap()
-                .load(settings.uri)
-                .apply(RequestOptions.noAnimation())
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE))
-                .apply(RequestOptions.skipMemoryCacheOf(true))
-                .apply(makeTransformOptions(targetDimensions))
-                .into(target)
+            .asBitmap()
+            .load(settings.uri)
+            .apply(RequestOptions.noAnimation())
+            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE))
+            .apply(RequestOptions.skipMemoryCacheOf(true))
+            .apply(makeTransformOptions(targetDimensions))
+            .into(target)
 
         lastUsedImageLoadTarget = target
     }
 
     private fun makeTransformOptions(targetDimensions: android.util.Pair<Int, Int>) =
-            if (targetDimensions.first != width || targetDimensions.second != height) {
-                RequestOptions.bitmapTransform(
-                        CenterCropAndThenResizeTransform(
-                                targetDimensions.first,
-                                targetDimensions.second
-                        )
+        if (targetDimensions.first != width || targetDimensions.second != height) {
+            RequestOptions.bitmapTransform(
+                CenterCropAndThenResizeTransform(
+                    targetDimensions.first,
+                    targetDimensions.second
                 )
-            } else {
-                RequestOptions.centerCropTransform()
-            }
+            )
+        } else {
+            RequestOptions.centerCropTransform()
+        }
 
     fun setDimensions(width: Int, height: Int) {
         scenePresenter.setBounds(0, 0, width, height)
@@ -247,18 +248,20 @@ class EnginePresenter(
     }
 
     private data class ImageLoadSettings(
-            val width: Int,
-            val height: Int,
-            val optimize: Boolean,
-            val uri: String)
+        val width: Int,
+        val height: Int,
+        val optimize: Boolean,
+        val uri: String
+    )
 
-    private inner class ImageLoadTarget(width: Int, height: Int)
-        : SimpleTarget2<Bitmap>(width, height) {
+    private inner class ImageLoadTarget(width: Int, height: Int) :
+        SimpleTarget2<Bitmap>(width, height) {
 
         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 if (resource.config == Bitmap.Config.ARGB_8888
-                        && resource.hasAlpha() && !resource.isPremultiplied) {
+                    && resource.hasAlpha() && !resource.isPremultiplied
+                ) {
                     resource.isPremultiplied = true
                 }
             }

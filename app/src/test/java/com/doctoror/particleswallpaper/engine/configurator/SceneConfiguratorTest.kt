@@ -44,10 +44,11 @@ class SceneConfiguratorTest {
         assertNull(c.disposables)
 
         c.subscribe(
-                mock(),
-                mock(),
-                sceneSettings,
-                Schedulers.trampoline())
+            mock(),
+            mock(),
+            sceneSettings,
+            Schedulers.trampoline()
+        )
 
         assertNotNull(c.disposables)
         assertFalse(c.disposables!!.isDisposed)

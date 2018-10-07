@@ -6,10 +6,10 @@ import android.app.DialogFragment
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
+import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
-import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
-import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
 import javax.inject.Inject
 
 class MultisamplingRestartDialog : DialogFragment() {
@@ -24,20 +24,21 @@ class MultisamplingRestartDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ApplicationlessInjection
-                .getInstance(activity!!.applicationContext!!)
-                .fragmentInjector
-                .inject(this)
+            .getInstance(activity!!.applicationContext!!)
+            .fragmentInjector
+            .inject(this)
         super.onCreate(savedInstanceState)
 
         useCase = OpenChangeWallpaperIntentUseCase(
-                intentProvider,
-                FragmentStartActivityForResultAction(this))
+            intentProvider,
+            FragmentStartActivityForResultAction(this)
+        )
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog
-                .Builder(activity)
-                .setMessage(R.string.multisampling_restart_message)
+            .Builder(activity)
+            .setMessage(R.string.multisampling_restart_message)
 
         if (canStartPreview()) {
             builder.setPositiveButton(R.string.Set) { _, _ ->

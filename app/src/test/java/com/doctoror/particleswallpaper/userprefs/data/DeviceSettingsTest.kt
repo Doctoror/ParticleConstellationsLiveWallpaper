@@ -45,7 +45,7 @@ class DeviceSettingsTest {
     @Test
     fun returnsMultisamplingSupportedValueFromPrefs() {
         whenever(prefs.getBoolean(KEY_MULTISAMPLING_SUPPORTED, true))
-                .thenReturn(true)
+            .thenReturn(true)
 
         assertEquals(true, underTest.multisamplingSupported)
     }

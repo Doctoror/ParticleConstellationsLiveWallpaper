@@ -9,7 +9,7 @@ import com.doctoror.particleswallpaper.R
  * Lollipop implementation for config preference fragment.
  * Removes "Preview" preference since we have a Toolbar ActionBar with the desired action in Lollipop.
  */
-class ConfigFragmentLollipop: ConfigFragment() {
+class ConfigFragmentLollipop : ConfigFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -34,55 +34,62 @@ class SceneConfigurator {
     var disposables: CompositeDisposable? = null
 
     fun subscribe(
-            configuration: SceneConfiguration,
-            controller: SceneController,
-            settings: SceneSettings,
-            scheduler: Scheduler) {
+        configuration: SceneConfiguration,
+        controller: SceneController,
+        settings: SceneSettings,
+        scheduler: Scheduler
+    ) {
         val d = CompositeDisposable()
 
         disposables?.dispose()
         disposables = d
 
         d.add(settings.observeParticleColor()
-                .observeOn(scheduler)
-                .subscribe { c ->
-                    configuration.dotColor = c
-                    configuration.lineColor = c
-                })
+            .observeOn(scheduler)
+            .subscribe { c ->
+                configuration.dotColor = c
+                configuration.lineColor = c
+            })
 
         d.add(settings.observeDensity()
-                .observeOn(scheduler)
-                .subscribe { v ->
-                    configuration.numDots = v
-                    controller.makeBrandNewFrame()
-                })
+            .observeOn(scheduler)
+            .subscribe { v ->
+                configuration.numDots = v
+                controller.makeBrandNewFrame()
+            })
 
         d.add(settings.observeParticleScale()
-                .observeOn(scheduler)
-                .subscribe { v ->
-                    val radiusRange = DotRadiusMapper.transform(v)
-                    configuration.setDotRadiusRange(radiusRange.first, radiusRange.second)
-                    controller.makeBrandNewFrame()
-                })
+            .observeOn(scheduler)
+            .subscribe { v ->
+                val radiusRange = DotRadiusMapper.transform(v)
+                configuration.setDotRadiusRange(radiusRange.first, radiusRange.second)
+                controller.makeBrandNewFrame()
+            })
 
         d.add(settings.observeLineScale()
-                .observeOn(scheduler)
-                .subscribe { v ->
-                    configuration.lineThickness = v
-                    controller.makeBrandNewFrame()
-                })
+            .observeOn(scheduler)
+            .subscribe { v ->
+                configuration.lineThickness = v
+                controller.makeBrandNewFrame()
+            })
 
-        d.add(settings.observeLineLength()
+        d.add(
+            settings.observeLineLength()
                 .observeOn(scheduler)
-                .subscribe(configuration::setLineDistance))
+                .subscribe(configuration::setLineDistance)
+        )
 
-        d.add(settings.observeSpeedFactor()
+        d.add(
+            settings.observeSpeedFactor()
                 .observeOn(scheduler)
-                .subscribe(configuration::setStepMultiplier))
+                .subscribe(configuration::setStepMultiplier)
+        )
 
-        d.add(settings.observeFrameDelay()
+        d.add(
+            settings.observeFrameDelay()
                 .observeOn(scheduler)
-                .subscribe(configuration::setFrameDelay))
+                .subscribe(configuration::setFrameDelay)
+        )
     }
 
     fun dispose() {

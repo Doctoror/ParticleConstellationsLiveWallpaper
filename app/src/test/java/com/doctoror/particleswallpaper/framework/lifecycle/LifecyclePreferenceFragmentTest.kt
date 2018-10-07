@@ -64,8 +64,8 @@ class LifecyclePreferenceFragmentTest {
     fun notifiesOnStartLifecycleEvent() {
         // When
         underTestController
-                .create()
-                .start()
+            .create()
+            .start()
 
         // Then
         assertEquals(1, testObserver.onStartCount)
@@ -75,9 +75,9 @@ class LifecyclePreferenceFragmentTest {
     fun notifiesOnStopLifecycleEvent() {
         // When
         underTestController
-                .create()
-                .start()
-                .stop()
+            .create()
+            .start()
+            .stop()
 
         // Then
         assertEquals(1, testObserver.onStopCount)

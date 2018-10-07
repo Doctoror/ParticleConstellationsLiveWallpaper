@@ -119,7 +119,8 @@ class FrameDelayPreferencePresenterTest {
     }
 
     private fun transformToProgress(value: Int): Int {
-        val percent = (value.toFloat() - frameDelaySeekbarMin.toFloat()) / view.getMaxInt().toFloat()
+        val percent =
+            (value.toFloat() - frameDelaySeekbarMin.toFloat()) / view.getMaxInt().toFloat()
         return ((1f - percent) * view.getMaxInt().toFloat()).toInt()
     }
 

@@ -23,13 +23,15 @@ import android.content.Context
 import android.preference.ListPreference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import javax.inject.Inject
 
-class MultisamplingPreference @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
-    : ListPreference(context, attrs), MultisamplingPreferenceView, LifecycleObserver, FragmentHolder {
+class MultisamplingPreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null
+) : ListPreference(context, attrs), MultisamplingPreferenceView, LifecycleObserver, FragmentHolder {
 
     override var fragment: Fragment? = null
 
@@ -40,18 +42,20 @@ class MultisamplingPreference @JvmOverloads constructor(context: Context, attrs:
 
     init {
         DaggerPreferenceComponent.builder()
-                .appComponent(AppComponentProvider.provideAppComponent(context))
-                .build()
-                .inject(this)
+            .appComponent(AppComponentProvider.provideAppComponent(context))
+            .build()
+            .inject(this)
 
         isPersistent = false
         presenter.onTakeView(this)
         setOnPreferenceChangeListener { _, v ->
-            presenter.onPreferenceChange(if (v == null) {
-                0
-            } else {
-                (v as CharSequence).toString().toInt()
-            })
+            presenter.onPreferenceChange(
+                if (v == null) {
+                    0
+                } else {
+                    (v as CharSequence).toString().toInt()
+                }
+            )
             true
         }
     }

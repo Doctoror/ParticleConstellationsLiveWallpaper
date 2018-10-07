@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright 2017 Yaroslav Mytkalyk
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,56 +18,54 @@
 
     <com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference
         android:key="@string/pref_key_how_to_apply"
-        android:title="@string/How_to_apply"/>
+        android:title="@string/How_to_apply" />
 
     <com.doctoror.particleswallpaper.userprefs.preview.PreviewPreference
         android:key="@string/pref_key_apply"
-        android:title="@string/Apply"/>
+        android:title="@string/Apply" />
 
     <com.doctoror.particleswallpaper.userprefs.performancetips.PerformanceTipsPreference
         android:key="@string/pref_key_performance_tips"
-        android:title="@string/Performance_tips"/>
+        android:title="@string/Performance_tips" />
 
     <com.doctoror.particleswallpaper.userprefs.resettodefaults.ResetToDefaultsPreference
         android:key="@string/pref_key_reset_to_defaults"
-        android:title="@string/Reset_to_defaults"/>
+        android:title="@string/Reset_to_defaults" />
 
-    <PreferenceCategory
-        android:title="@string/Appearance">
+    <PreferenceCategory android:title="@string/Appearance">
 
         <com.doctoror.particleswallpaper.userprefs.particlecolor.ParticlesColorPreference
             android:key="@string/pref_key_color"
-            android:title="@string/Particles_color"/>
+            android:title="@string/Particles_color" />
 
         <com.doctoror.particleswallpaper.userprefs.bgcolor.BackgroundColorPreference
             android:key="@string/pref_key_background_color"
             android:title="@string/Background_color"
-            app:colorpicker_showAlpha="false"/>
+            app:colorpicker_showAlpha="false" />
 
         <com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreference
             android:key="@string/pref_key_background_image"
-            android:title="@string/Background_image"/>
+            android:title="@string/Background_image" />
 
         <com.doctoror.particleswallpaper.userprefs.density.DensityPreference
             android:key="@string/pref_key_density"
-            android:title="@string/Density"/>
+            android:title="@string/Density" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/Scale">
+    <PreferenceCategory android:title="@string/Scale">
 
         <com.doctoror.particleswallpaper.userprefs.particlescale.ParticleScalePreference
             android:key="@string/pref_key_particle_scale"
-            android:title="@string/Dot_scale"/>
+            android:title="@string/Dot_scale" />
 
         <com.doctoror.particleswallpaper.userprefs.linescale.LineScalePreference
             android:key="@string/pref_key_line_scale"
-            android:title="@string/Line_thickness"/>
+            android:title="@string/Line_thickness" />
 
         <com.doctoror.particleswallpaper.userprefs.linelength.LineLengthPreference
             android:key="@string/pref_key_line_length"
-            android:title="@string/Line_length"/>
+            android:title="@string/Line_length" />
 
     </PreferenceCategory>
 
@@ -78,31 +75,30 @@
 
         <com.doctoror.particleswallpaper.userprefs.speedfactor.SpeedFactorPreference
             android:key="@string/pref_key_step_multiplier"
-            android:title="@string/Speed_factor"/>
+            android:title="@string/Speed_factor" />
 
         <com.doctoror.particleswallpaper.userprefs.framedelay.FrameDelayPreference
             android:key="@string/pref_key_frame_delay"
-            android:title="@string/Frame_rate"/>
+            android:title="@string/Frame_rate" />
 
         <com.doctoror.particleswallpaper.userprefs.multisampling.MultisamplingPreference
             android:key="@string/pref_key_multisampling"
             android:title="@string/Multisampling_smoothing"
             android:entries="@array/num_samples_keys"
-            android:entryValues="@array/num_samples_values"/>
+            android:entryValues="@array/num_samples_values" />
 
         <com.doctoror.particleswallpaper.userprefs.optimizetextures.OptimizeTexturesPreference
             android:key="@string/pref_key_optimize_textures"
             android:title="@string/Optimize_textures"
-            android:summary="@string/optimize_textures_hint"/>
+            android:summary="@string/optimize_textures_hint" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/Legal">
+    <PreferenceCategory android:title="@string/Legal">
 
         <com.doctoror.particleswallpaper.userprefs.license.LicensePreference
             android:key="@string/pref_key_licenses"
-            android:title="@string/Open_source_licenses"/>
+            android:title="@string/Open_source_licenses" />
 
     </PreferenceCategory>
 

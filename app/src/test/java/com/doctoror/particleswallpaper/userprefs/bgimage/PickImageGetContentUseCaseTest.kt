@@ -56,14 +56,14 @@ class PickImageGetContentUseCaseTest {
         val action: StartActivityForResultAction = mock {
             var thrown = false
             on(it.startActivityForResult(any(), eq(REQUEST_CODE_GET_CONTENT)))
-                    .doAnswer {
-                        if (!thrown) {
-                            thrown = true
-                            throw ActivityNotFoundException()
-                        } else {
-                            Unit
-                        }
+                .doAnswer {
+                    if (!thrown) {
+                        thrown = true
+                        throw ActivityNotFoundException()
+                    } else {
+                        Unit
                     }
+                }
         }
 
         // When
@@ -72,7 +72,7 @@ class PickImageGetContentUseCaseTest {
         // Then
         val captor = argumentCaptor<Intent>()
         verify(action, times(2))
-                .startActivityForResult(captor.capture(), eq(REQUEST_CODE_GET_CONTENT))
+            .startActivityForResult(captor.capture(), eq(REQUEST_CODE_GET_CONTENT))
 
         assertValidGetContentIntent(captor.secondValue)
     }

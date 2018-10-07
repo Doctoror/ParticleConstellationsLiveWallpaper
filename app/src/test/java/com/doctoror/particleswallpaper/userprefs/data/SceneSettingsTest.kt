@@ -53,8 +53,8 @@ class SceneSettingsTest {
         whenever(typedValueFactory.newTypedValue()).thenReturn(typedValue)
 
         settings = SceneSettings(
-                DefaultSceneSettings(resources, theme, typedValueFactory),
-                fakePrefs
+            DefaultSceneSettings(resources, theme, typedValueFactory),
+            fakePrefs
         )
     }
 
@@ -65,7 +65,10 @@ class SceneSettingsTest {
         o.assertValueCount(count)
     }
 
-    private fun <T> assertObservableHasValueCount(o: Observable<T>, valueCount: Int): TestObserver<T> {
+    private fun <T> assertObservableHasValueCount(
+        o: Observable<T>,
+        valueCount: Int
+    ): TestObserver<T> {
         val observer = TestObserver.create<T>()
         o.subscribe(observer)
         assertObserverHasValueCount(observer, valueCount)
@@ -83,18 +86,19 @@ class SceneSettingsTest {
     }
 
     private fun <T> testPreferenceMutator(
-            observableAccessor: KFunction<Observable<T>>,
-            property: KMutableProperty0<T>,
-            testValue: T
+        observableAccessor: KFunction<Observable<T>>,
+        property: KMutableProperty0<T>,
+        testValue: T
     ) {
         property.set(testValue)
         assertObservableHasValue(observableAccessor.call(), testValue)
     }
 
     private fun <T> testPreferenceNotifiesChanges(
-            accessor: KFunction<Observable<T>>,
-            property: KMutableProperty0<T>,
-            testValue: T) {
+        accessor: KFunction<Observable<T>>,
+        property: KMutableProperty0<T>,
+        testValue: T
+    ) {
         val observer = TestObserver.create<T>()
         accessor.call().subscribe(observer)
 
@@ -114,17 +118,18 @@ class SceneSettingsTest {
     @Test
     fun testBackgroundColorMutator() {
         testPreferenceMutator(
-                settings::observeBackgroundColor,
-                settings::backgroundColor,
-                0xff000002.toInt())
+            settings::observeBackgroundColor,
+            settings::backgroundColor,
+            0xff000002.toInt()
+        )
     }
 
     @Test
     fun testBackgroundColorMutatorNotifiesChanges() {
         testPreferenceNotifiesChanges(
-                settings::observeBackgroundColor,
-                settings::backgroundColor,
-                0xff000003.toInt()
+            settings::observeBackgroundColor,
+            settings::backgroundColor,
+            0xff000003.toInt()
         )
     }
 
@@ -136,17 +141,19 @@ class SceneSettingsTest {
     @Test
     fun testBackgroundUriMutator() {
         testPreferenceMutator(
-                settings::observeBackgroundUri,
-                settings::backgroundUri,
-                "uri://a")
+            settings::observeBackgroundUri,
+            settings::backgroundUri,
+            "uri://a"
+        )
     }
 
     @Test
     fun testBackgroundUriMutatorNotifiesChanges() {
         testPreferenceNotifiesChanges(
-                settings::observeBackgroundUri,
-                settings::backgroundUri,
-                "uri://b")
+            settings::observeBackgroundUri,
+            settings::backgroundUri,
+            "uri://b"
+        )
     }
 
     @Test
@@ -157,17 +164,19 @@ class SceneSettingsTest {
     @Test
     fun testDensityMutator() {
         testPreferenceMutator(
-                settings::observeDensity,
-                settings::density,
-                1)
+            settings::observeDensity,
+            settings::density,
+            1
+        )
     }
 
     @Test
     fun testDensityMutatorNotifiesChanges() {
         testPreferenceNotifiesChanges(
-                settings::observeDensity,
-                settings::density,
-                2)
+            settings::observeDensity,
+            settings::density,
+            2
+        )
     }
 
     @Test
@@ -178,17 +187,19 @@ class SceneSettingsTest {
     @Test
     fun testFrameDelayMutator() {
         testPreferenceMutator(
-                settings::observeFrameDelay,
-                settings::frameDelay,
-                3)
+            settings::observeFrameDelay,
+            settings::frameDelay,
+            3
+        )
     }
 
     @Test
     fun testFrameDelayMutatorNotifiesChanges() {
         testPreferenceNotifiesChanges(
-                settings::observeFrameDelay,
-                settings::frameDelay,
-                4)
+            settings::observeFrameDelay,
+            settings::frameDelay,
+            4
+        )
     }
 
     @Test
@@ -199,17 +210,19 @@ class SceneSettingsTest {
     @Test
     fun testLineLengthMutator() {
         testPreferenceMutator(
-                settings::observeLineLength,
-                settings::lineLength,
-                0.7f)
+            settings::observeLineLength,
+            settings::lineLength,
+            0.7f
+        )
     }
 
     @Test
     fun testLineLengthMutatorNotifiesChanges() {
         testPreferenceNotifiesChanges(
-                settings::observeLineLength,
-                settings::lineLength,
-                0.8f)
+            settings::observeLineLength,
+            settings::lineLength,
+            0.8f
+        )
     }
 
     @Test
@@ -220,17 +233,19 @@ class SceneSettingsTest {
     @Test
     fun testLineScaleMutator() {
         testPreferenceMutator(
-                settings::observeLineScale,
-                settings::lineScale,
-                0.5f)
+            settings::observeLineScale,
+            settings::lineScale,
+            0.5f
+        )
     }
 
     @Test
     fun testLineScaleMutatorNotifiesChanges() {
         testPreferenceNotifiesChanges(
-                settings::observeLineScale,
-                settings::lineScale,
-                0.6f)
+            settings::observeLineScale,
+            settings::lineScale,
+            0.6f
+        )
     }
 
     @Test
@@ -241,17 +256,18 @@ class SceneSettingsTest {
     @Test
     fun testParticleColorMutator() {
         testPreferenceMutator(
-                settings::observeParticleColor,
-                settings::particleColor,
-                0xff000000.toInt())
+            settings::observeParticleColor,
+            settings::particleColor,
+            0xff000000.toInt()
+        )
     }
 
     @Test
     fun testParticleColorMutatorNotifiesChanges() {
         testPreferenceNotifiesChanges(
-                settings::observeParticleColor,
-                settings::particleColor,
-                0xff000001.toInt()
+            settings::observeParticleColor,
+            settings::particleColor,
+            0xff000001.toInt()
         )
     }
 
@@ -263,17 +279,19 @@ class SceneSettingsTest {
     @Test
     fun testParticleScaleMutator() {
         testPreferenceMutator(
-                settings::observeParticleScale,
-                settings::particleScale,
-                0.3f)
+            settings::observeParticleScale,
+            settings::particleScale,
+            0.3f
+        )
     }
 
     @Test
     fun testParticleScaleMutatorNotifiesChanges() {
         testPreferenceNotifiesChanges(
-                settings::observeParticleScale,
-                settings::particleScale,
-                0.4f)
+            settings::observeParticleScale,
+            settings::particleScale,
+            0.4f
+        )
     }
 
     @Test
@@ -284,16 +302,18 @@ class SceneSettingsTest {
     @Test
     fun testSpeedFactorMutator() {
         testPreferenceMutator(
-                settings::observeSpeedFactor,
-                settings::speedFactor,
-                0.1f)
+            settings::observeSpeedFactor,
+            settings::speedFactor,
+            0.1f
+        )
     }
 
     @Test
     fun testSpeedFactorMutatorNotifiesChanges() {
         testPreferenceNotifiesChanges(
-                settings::observeSpeedFactor,
-                settings::speedFactor,
-                0.2f)
+            settings::observeSpeedFactor,
+            settings::speedFactor,
+            0.2f
+        )
     }
 }

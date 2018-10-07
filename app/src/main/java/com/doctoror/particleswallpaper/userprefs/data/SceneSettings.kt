@@ -42,8 +42,8 @@ private const val KEY_PARTICLE_SCALE = "dotScale"
 private const val KEY_SPEED_FACTOR = "stepMultiplier"
 
 class SceneSettings(
-        private val defaults: DefaultSceneSettings,
-        private val prefs: SharedPreferences
+    private val defaults: DefaultSceneSettings,
+    private val prefs: SharedPreferences
 ) {
     private val backgroundColorSubject = BehaviorSubject.create<Int>().toSerialized()
     private val backgroundUriSubject = BehaviorSubject.create<String>().toSerialized()

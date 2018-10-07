@@ -12,7 +12,7 @@ private const val DEFAULT_NUM_SAMPLES = 4
 private const val DEFAULT_OPTIMIZE_TEXTURES = true
 
 class OpenGlSettings(
-        private val prefs: SharedPreferences
+    private val prefs: SharedPreferences
 ) {
 
     private val numSamplesSubject = BehaviorSubject.create<Int>().toSerialized()

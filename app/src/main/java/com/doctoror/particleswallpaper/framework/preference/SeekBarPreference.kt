@@ -26,9 +26,11 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import com.doctoror.particleswallpaper.R
 
-open class SeekBarPreference @JvmOverloads constructor
-(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-    : Preference(context, attrs, defStyle), OnSeekBarChangeListener {
+open class SeekBarPreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : Preference(context, attrs, defStyle), OnSeekBarChangeListener {
 
     private var mProgress = 0
     private var mMax = 0

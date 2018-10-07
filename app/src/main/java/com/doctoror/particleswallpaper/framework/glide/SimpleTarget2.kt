@@ -40,8 +40,8 @@ import com.bumptech.glide.util.Util
  * Like [com.bumptech.glide.request.target.SimpleTarget], but forces to implement [onLoadCleared].
  */
 abstract class SimpleTarget2<R : Any>(
-        private val width: Int,
-        private val height: Int
+    private val width: Int,
+    private val height: Int
 ) : Target<R> {
 
     private var request: Request? = null
@@ -57,11 +57,12 @@ abstract class SimpleTarget2<R : Any>(
     override fun getSize(cb: SizeReadyCallback) {
         if (!Util.isValidDimensions(width, height)) {
             throw IllegalArgumentException(
-                    """
-                        "Width and height must both be > 0 or Target#SIZE_ORIGINAL, but given width:
-                        $width and height: $height, either provide dimensions in the constructor or
-                        call override()
-                    """.trimIndent())
+                """
+                    "Width and height must both be > 0 or Target#SIZE_ORIGINAL, but given width:
+                    $width and height: $height, either provide dimensions in the constructor or
+                    call override()
+                    """.trimIndent()
+            )
         }
         cb.onSizeReady(width, height)
     }

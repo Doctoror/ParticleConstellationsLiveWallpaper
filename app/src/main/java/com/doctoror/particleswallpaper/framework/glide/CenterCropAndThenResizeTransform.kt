@@ -29,14 +29,16 @@ import com.bumptech.glide.load.resource.bitmap.TransformationUtils
  * Useful for making OpenGL-efficient POT images.
  */
 class CenterCropAndThenResizeTransform(
-        private val targetWidth: Int,
-        private val targetHeight: Int) : CenterCrop() {
+    private val targetWidth: Int,
+    private val targetHeight: Int
+) : CenterCrop() {
 
     override fun transform(
-            pool: BitmapPool,
-            toTransform: Bitmap,
-            outWidth: Int,
-            outHeight: Int): Bitmap {
+        pool: BitmapPool,
+        toTransform: Bitmap,
+        outWidth: Int,
+        outHeight: Int
+    ): Bitmap {
         if (toTransform.width == targetWidth && toTransform.height == targetHeight) {
             return toTransform
         }
@@ -52,16 +54,21 @@ class CenterCropAndThenResizeTransform(
         // We don't add or remove alpha, so keep the alpha setting of the Bitmap we were given.
         TransformationUtils.setAlpha(toTransform, result)
 
-        com.doctoror.particleswallpaper.framework.glide.TransformationUtils.applyMatrix(toTransform, result, matrix)
+        com.doctoror.particleswallpaper.framework.glide.TransformationUtils.applyMatrix(
+            toTransform,
+            result,
+            matrix
+        )
 
         return result
     }
 
     private fun applyCenterCrop(
-            toTransform: Bitmap,
-            outWidth: Int,
-            outHeight: Int,
-            matrix: Matrix) {
+        toTransform: Bitmap,
+        outWidth: Int,
+        outHeight: Int,
+        matrix: Matrix
+    ) {
         if (toTransform.width != outWidth || toTransform.height == outHeight) {
             // From ImageView/Bitmap.createScaledBitmap.
             val scale: Float
@@ -83,9 +90,9 @@ class CenterCropAndThenResizeTransform(
     }
 
     private fun applyPostScale(
-            outWidth: Int,
-            outHeight: Int,
-            matrix: Matrix
+        outWidth: Int,
+        outHeight: Int,
+        matrix: Matrix
     ) {
         val scaleX = targetWidth.toFloat() / outWidth.toFloat()
         val scaleY = targetHeight.toFloat() / outHeight.toFloat()

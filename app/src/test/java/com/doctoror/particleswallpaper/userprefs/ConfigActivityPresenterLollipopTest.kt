@@ -47,14 +47,15 @@ class ConfigActivityPresenterLollipopTest {
     private val view: ConfigActivityView = mock()
 
     private val underTest = ConfigActivityPresenterLollipop(
-            activity,
-            TrampolineSchedulers(),
-            configurator,
-            openChangeWallpaperIntentProvider,
-            openChangeWallpaperIntentUseCase,
-            requestManager,
-            settings,
-            view)
+        activity,
+        TrampolineSchedulers(),
+        configurator,
+        openChangeWallpaperIntentProvider,
+        openChangeWallpaperIntentUseCase,
+        requestManager,
+        settings,
+        view
+    )
 
     @Test
     fun initsToolbarOnCreate() {
@@ -64,12 +65,12 @@ class ConfigActivityPresenterLollipopTest {
 
         val toolbarContainer: ViewGroup = mock()
         whenever(activity.findViewById<ViewGroup>(R.id.toolbarContainer))
-                .thenReturn(toolbarContainer)
+            .thenReturn(toolbarContainer)
 
         val toolbar: Toolbar = mock()
         val layoutInflater: LayoutInflater = mock {
             on(it.inflate(R.layout.activity_config_toolbar, toolbarContainer, false))
-                    .doReturn(toolbar)
+                .doReturn(toolbar)
         }
 
         whenever(activity.layoutInflater).thenReturn(layoutInflater)
@@ -80,7 +81,8 @@ class ConfigActivityPresenterLollipopTest {
         // Then
         verify(toolbarContainer).addView(toolbar, 0)
         verify(activity).setActionBar(toolbar)
-        verify(actionBar).displayOptions = ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_HOME
+        verify(actionBar).displayOptions = ActionBar.DISPLAY_HOME_AS_UP or
+                ActionBar.DISPLAY_SHOW_HOME
     }
 
     @Test
@@ -127,7 +129,7 @@ class ConfigActivityPresenterLollipopTest {
         // Given
         val useCaseCompletable = spy(Completable.complete())
         whenever(openChangeWallpaperIntentUseCase.action())
-                .thenReturn(useCaseCompletable)
+            .thenReturn(useCaseCompletable)
 
         // When
         underTest.onOptionsItemSelected(mockMenuItemWithId(R.id.actionApply))

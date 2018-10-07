@@ -75,8 +75,9 @@ class OnActrivityResultCallbackHostImplTest {
     }
 
     private fun registerCallbackAndAssert(
-            target: OnActivityResultCallbackHostImpl,
-            callback: OnActivityResultCallback) {
+        target: OnActivityResultCallbackHostImpl,
+        callback: OnActivityResultCallback
+    ) {
         target.registerCallback(callback)
         assertTrue(target.callbacks.contains(callback))
     }

@@ -19,9 +19,9 @@ import android.app.AlertDialog
 import android.app.DialogFragment
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
-import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
 import javax.inject.Inject
 
 abstract class HowToApplyWithActionDialogFragment : DialogFragment() {
@@ -32,21 +32,22 @@ abstract class HowToApplyWithActionDialogFragment : DialogFragment() {
     protected abstract val message: Int
 
     override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog
-            .Builder(activity!!)
-            .setTitle(R.string.How_to_apply)
-            .setMessage(message)
-            .setPositiveButton(R.string.Apply) { _, _ -> openPreview() }
-            .setNegativeButton(R.string.Close, null)
-            .create()!!
+        .Builder(activity!!)
+        .setTitle(R.string.How_to_apply)
+        .setMessage(message)
+        .setPositiveButton(R.string.Apply) { _, _ -> openPreview() }
+        .setNegativeButton(R.string.Close, null)
+        .create()!!
 
     private fun openPreview() {
         newOpenChangeWallpaperIntentUseCase()
-                .action()
-                .subscribe()
+            .action()
+            .subscribe()
     }
 
     private fun newOpenChangeWallpaperIntentUseCase() =
-            OpenChangeWallpaperIntentUseCase(
-                    intentProvider,
-                    FragmentStartActivityForResultAction(this))
+        OpenChangeWallpaperIntentUseCase(
+            intentProvider,
+            FragmentStartActivityForResultAction(this)
+        )
 }
