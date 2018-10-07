@@ -240,7 +240,7 @@ class BackgroundImagePreferencePresenterTest {
 
         whenever(contentResolver.persistedUriPermissions).doReturn(listOf(uriPermission))
         whenever(context.contentResolver).thenReturn(contentResolver)
-        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(uri.toString()))
+        whenever(settings.backgroundUri).thenReturn(uri.toString())
     }
 
     @Test
