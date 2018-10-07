@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.doctoror.particleswallpaper.R
 import org.junit.Assert.assertNull
 import org.junit.Test

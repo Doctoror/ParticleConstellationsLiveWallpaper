@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.engine.configurator
 
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController

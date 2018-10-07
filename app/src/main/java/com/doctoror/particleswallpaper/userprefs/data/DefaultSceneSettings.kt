@@ -16,8 +16,8 @@
 package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.res.Resources
-import android.support.v4.content.res.ResourcesCompat
 import android.util.TypedValue
+import androidx.core.content.res.ResourcesCompat
 import com.doctoror.particleswallpaper.R
 
 class DefaultSceneSettings(

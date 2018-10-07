@@ -21,8 +21,8 @@ import android.app.Fragment
 import android.content.Context
 import android.os.Build
 import android.preference.Preference
-import android.support.annotation.RequiresApi
 import android.util.AttributeSet
+import androidx.annotation.RequiresApi
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider

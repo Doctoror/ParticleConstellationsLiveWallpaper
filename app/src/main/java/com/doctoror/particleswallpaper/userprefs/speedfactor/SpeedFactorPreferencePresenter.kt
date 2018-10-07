@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.speedfactor
 
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.preference.SeekBarMapper

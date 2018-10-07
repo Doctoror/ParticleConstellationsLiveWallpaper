@@ -18,13 +18,13 @@ package com.doctoror.particleswallpaper.userprefs
 import android.annotation.TargetApi
 import android.app.ActionBar
 import android.app.Activity
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.OnLifecycleEvent
 import android.os.Build
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.Toolbar
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
 import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator

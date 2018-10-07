@@ -15,9 +15,9 @@
  */
 package com.doctoror.particleswallpaper.framework.lifecycle
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before

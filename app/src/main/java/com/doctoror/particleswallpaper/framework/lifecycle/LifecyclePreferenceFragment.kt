@@ -15,10 +15,10 @@
  */
 package com.doctoror.particleswallpaper.framework.lifecycle
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LifecycleRegistry
 import android.preference.PreferenceFragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 
 /**
  * Created by Yaroslav Mytkalyk on 01.06.17.

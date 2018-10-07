@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.framework.preference
 
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 
 /**
  * Maps between SeekBar progress values and raw values.

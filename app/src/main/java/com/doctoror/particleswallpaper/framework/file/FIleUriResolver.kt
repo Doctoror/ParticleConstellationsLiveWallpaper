@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.framework.file
 
 import android.content.Context
 import android.net.Uri
-import android.support.v4.content.FileProvider
+import androidx.core.content.FileProvider
 import com.doctoror.particleswallpaper.R
 import java.io.File
 

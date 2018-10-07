@@ -111,8 +111,8 @@ dependencies {
     implementation(name: 'opengl-exposed-release', ext: 'aar')
     implementation d.colorPicker
 
-    implementation d.supportV4
-    implementation d.supportAnnotations
+    implementation d.androidxAnnotations
+    implementation d.androidxSupportV4
 
     implementation(d.licencesDialog) {
         exclude(group: 'com.android.support', module: 'appcompat-v7')

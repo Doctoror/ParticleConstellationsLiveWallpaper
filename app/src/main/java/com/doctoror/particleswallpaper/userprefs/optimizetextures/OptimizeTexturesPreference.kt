@@ -15,12 +15,12 @@
  */
 package com.doctoror.particleswallpaper.userprefs.optimizetextures
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.preference.CheckBoxPreference
 import android.util.AttributeSet
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
 import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
 import javax.inject.Inject

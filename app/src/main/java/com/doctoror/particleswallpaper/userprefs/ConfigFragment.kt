@@ -16,12 +16,12 @@
 package com.doctoror.particleswallpaper.userprefs
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.LifecycleObserver
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceGroup
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleObserver
 import com.doctoror.particleswallpaper.BuildConfig
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder

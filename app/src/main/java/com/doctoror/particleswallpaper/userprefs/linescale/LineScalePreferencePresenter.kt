@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.linescale
 
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.preference.SeekBarMapper

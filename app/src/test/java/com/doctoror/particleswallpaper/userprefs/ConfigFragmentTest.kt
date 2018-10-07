@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreference
 import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference

@@ -22,8 +22,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.annotation.ColorInt
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.ColorInt
+import androidx.annotation.VisibleForTesting
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions

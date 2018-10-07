@@ -23,10 +23,10 @@ import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.annotation.ColorInt
-import android.support.annotation.VisibleForTesting
 import android.util.Log
 import android.view.SurfaceHolder
+import androidx.annotation.ColorInt
+import androidx.annotation.VisibleForTesting
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer

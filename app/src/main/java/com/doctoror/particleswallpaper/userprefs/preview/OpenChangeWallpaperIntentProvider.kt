@@ -22,7 +22,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.engine.WallpaperServiceImpl
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import javax.inject.Inject

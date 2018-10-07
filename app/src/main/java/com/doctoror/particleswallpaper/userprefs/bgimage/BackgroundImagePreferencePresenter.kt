@@ -24,9 +24,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.support.annotation.RequiresApi
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT

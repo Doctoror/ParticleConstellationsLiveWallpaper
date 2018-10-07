@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.engine
 
 import android.graphics.Bitmap
-import android.support.annotation.ColorInt
+import androidx.annotation.ColorInt
 
 interface EngineSceneRenderer {
 

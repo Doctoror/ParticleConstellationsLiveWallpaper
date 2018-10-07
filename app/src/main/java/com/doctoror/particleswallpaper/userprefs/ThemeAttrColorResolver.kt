@@ -17,8 +17,8 @@ package com.doctoror.particleswallpaper.userprefs
 
 import android.content.res.Resources.Theme
 import android.graphics.Color
-import android.support.annotation.AttrRes
-import android.support.annotation.ColorInt
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 
 class ThemeAttrColorResolver {
 
