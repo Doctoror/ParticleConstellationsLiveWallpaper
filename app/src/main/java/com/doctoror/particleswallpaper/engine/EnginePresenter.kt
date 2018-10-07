@@ -143,6 +143,7 @@ class EnginePresenter(
     }
 
     private fun handleBackground(uri: String) {
+        backgroundUri = uri
         if (uri == NO_URI) {
             background = null
             glide.clear(lastUsedImageLoadTarget)
