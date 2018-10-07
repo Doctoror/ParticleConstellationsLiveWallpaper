@@ -191,7 +191,7 @@ class EnginePresenterTest {
     fun loadsUriWhenWidthOrHeightIsNot0AfterOnCreate() {
         // Given
         val uri = "content://"
-        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(uri))
+        whenever(settings.backgroundUri).thenReturn(uri)
 
         // When
         underTest.onCreate()
