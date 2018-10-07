@@ -33,7 +33,7 @@ import com.doctoror.particleswallpaper.framework.execution.GlScheduler
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
+import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import net.rbgrn.android.glwallpaperservice.GLWallpaperService
 import javax.inject.Inject
 import javax.microedition.khronos.egl.EGLConfig
@@ -54,7 +54,7 @@ class WallpaperServiceImpl : GLWallpaperService() {
     lateinit var settings: SceneSettings
 
     @Inject
-    lateinit var settingsOpenGL: SettingsRepositoryOpenGL
+    lateinit var settingsOpenGL: OpenGlSettings
 
     @Inject
     lateinit var settingsDevice: DeviceSettings

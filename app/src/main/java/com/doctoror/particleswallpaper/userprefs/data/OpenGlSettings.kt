@@ -11,7 +11,7 @@ const val KEY_OPTIMIZE_TEXTURES = "optimize_textures"
 private const val DEFAULT_NUM_SAMPLES = 4
 private const val DEFAULT_OPTIMIZE_TEXTURES = true
 
-class SettingsRepositoryOpenGL(
+class OpenGlSettings(
         private val prefs: SharedPreferences
 ) {
 

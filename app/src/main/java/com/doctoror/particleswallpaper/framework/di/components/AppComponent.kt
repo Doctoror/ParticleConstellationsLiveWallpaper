@@ -26,8 +26,8 @@ import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
+import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
@@ -50,17 +50,17 @@ interface AppComponent : AndroidInjector<ApplicationlessInjection> {
 
     fun exposeGlide(): Glide
 
-    fun exposeDefaultSceneSettings(): DefaultSceneSettings
 
     fun exposeDrawableConfigurator(): SceneConfigurator
-
-    fun exposeSceneSettings(): SceneSettings
 
     fun exposePackageManager(): PackageManager
     fun exposePackageName(): String
 
     fun exposeSchedulers(): SchedulersProvider
+
+    fun exposeSettingsScene(): SceneSettings
+    fun exposeSettingsSceneDefaults(): DefaultSceneSettings
     fun exposeSettingsDevice(): DeviceSettings
-    fun exposeSettingsOpenGL(): SettingsRepositoryOpenGL
+    fun exposeSettingsOpenGL(): OpenGlSettings
 
 }

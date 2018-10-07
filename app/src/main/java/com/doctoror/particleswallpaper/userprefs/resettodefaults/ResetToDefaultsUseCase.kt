@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.userprefs.resettodefaults
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
+import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -28,7 +28,7 @@ import javax.inject.Inject
 class ResetToDefaultsUseCase @Inject constructor(
         private val defaults: DefaultSceneSettings,
         private val settings: SceneSettings,
-        private val settingsOpenGL: SettingsRepositoryOpenGL,
+        private val settingsOpenGL: OpenGlSettings,
         private val backgroundImageManager: BackgroundImageManager) {
 
     fun action() = Completable.fromAction {

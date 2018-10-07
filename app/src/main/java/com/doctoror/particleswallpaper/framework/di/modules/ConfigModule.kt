@@ -68,7 +68,7 @@ class ConfigModule {
 
     @Singleton
     @Provides
-    fun provideSettingsOpenGL(context: Context) = SettingsRepositoryOpenGL(
+    fun provideOpenGlSettings(context: Context) = OpenGlSettings(
             context.getSharedPreferences(PREFERENCES_NAME_OPENGL, Context.MODE_PRIVATE)
     )
 

@@ -2,7 +2,7 @@ package com.doctoror.particleswallpaper.userprefs.multisampling
 
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
+import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -10,7 +10,7 @@ import org.junit.Test
 
 class MultisamplingPreferencePresenterTest {
 
-    private val settings: SettingsRepositoryOpenGL = mock {
+    private val settings: OpenGlSettings = mock {
         on { it.observeNumSamples() }.doReturn(Observable.just(0))
     }
 
