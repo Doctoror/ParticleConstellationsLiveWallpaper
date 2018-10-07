@@ -46,7 +46,7 @@ import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.view.removeOnGlobalLayoutListenerCompat
 import com.doctoror.particleswallpaper.framework.view.setBackgroundCompat
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
@@ -56,7 +56,7 @@ open class ConfigActivityPresenter(
         private val schedulers: SchedulersProvider,
         private val configurator: SceneConfigurator,
         private val requestManager: RequestManager,
-        private val settings: SettingsRepository,
+        private val settings: SceneSettings,
         private val view: ConfigActivityView,
         private val themeAttrColorResolver: ThemeAttrColorResolver = ThemeAttrColorResolver()
 ) : LifecycleObserver {

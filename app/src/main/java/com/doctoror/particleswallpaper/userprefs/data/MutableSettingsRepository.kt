@@ -18,9 +18,9 @@ package com.doctoror.particleswallpaper.userprefs.data
 import android.support.annotation.ColorInt
 
 /**
- * [SettingsRepository] with mutators for settings
+ * [SceneSettings] with mutators for settings
  */
-interface MutableSettingsRepository : SettingsRepository {
+interface MutableSettingsRepository : SceneSettings {
 
     fun setBackgroundColor(@ColorInt color: Int)
     fun setBackgroundUri(uri: String)

@@ -31,7 +31,7 @@ import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 
 /**
  * Created by Yaroslav Mytkalyk on 17.06.17.
@@ -46,7 +46,7 @@ class ConfigActivityPresenterLollipop(
         private val openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider,
         private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
         requestManager: RequestManager,
-        settings: SettingsRepository,
+        settings: SceneSettings,
         view: ConfigActivityView)
     : ConfigActivityPresenter(
         activity,

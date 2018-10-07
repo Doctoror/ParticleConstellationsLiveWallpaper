@@ -36,7 +36,7 @@ import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.glide.CenterCropAndThenResizeTransform
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.framework.glide.SimpleTarget2
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
@@ -49,7 +49,7 @@ class EnginePresenter(
         private val glide: RequestManager,
         private val renderer: EngineSceneRenderer,
         private val schedulers: SchedulersProvider,
-        private val settings: SettingsRepository,
+        private val settings: SceneSettings,
         private val settingsOpenGL: SettingsRepositoryOpenGL,
         private val scene: ParticlesScene,
         private val scenePresenter: ScenePresenter,

@@ -19,14 +19,14 @@ import android.support.annotation.VisibleForTesting
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by Yaroslav Mytkalyk on 29.05.17.
  *
- * Monitors for [SettingsRepository] changes and configures [ParticlesScene] based on the settings.
+ * Monitors for [SceneSettings] changes and configures [ParticlesScene] based on the settings.
  *
  * Not thread safe!
  */
@@ -38,7 +38,7 @@ class SceneConfigurator {
     fun subscribe(
             configuration: SceneConfiguration,
             controller: SceneController,
-            settings: SettingsRepository,
+            settings: SceneSettings,
             scheduler: Scheduler) {
         val d = CompositeDisposable()
 

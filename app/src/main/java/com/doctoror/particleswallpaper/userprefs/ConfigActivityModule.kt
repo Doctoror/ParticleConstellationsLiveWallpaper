@@ -22,7 +22,7 @@ import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.framework.app.actions.ActivityStartActivityForResultAction
 import com.doctoror.particleswallpaper.framework.di.scopes.PerActivity
 import dagger.Module
@@ -44,7 +44,7 @@ class ConfigActivityModule {
             openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider,
             openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
             requestManager: RequestManager,
-            settings: SettingsRepository,
+            settings: SceneSettings,
             view: ConfigActivityView
     ): ConfigActivityPresenter =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

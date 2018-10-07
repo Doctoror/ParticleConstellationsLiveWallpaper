@@ -29,7 +29,7 @@ import com.doctoror.particleswallpaper.engine.configurator.SceneConfiguratorFact
 import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
@@ -46,7 +46,7 @@ class WallpaperServiceImpl : WallpaperService() {
     lateinit var configuratorFactory: SceneConfiguratorFactory
 
     @Inject
-    lateinit var settings: SettingsRepository
+    lateinit var settings: SceneSettings
 
     @Inject
     lateinit var settingsGl: SettingsRepositoryOpenGL

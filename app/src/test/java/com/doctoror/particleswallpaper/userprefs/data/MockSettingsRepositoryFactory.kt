@@ -20,13 +20,13 @@ import io.reactivex.Observable
 import org.mockito.Mockito.mock
 
 /**
- * Used for creating mock [SettingsRepository] implementations that return stub data.
+ * Used for creating mock [SceneSettings] implementations that return stub data.
  */
 object MockSettingsRepositoryFactory {
 
-    fun create(): SettingsRepository = create(SettingsRepository::class.java)
+    fun create(): SceneSettings = create(SceneSettings::class.java)
 
-    private fun <T : SettingsRepository> create(c: Class<T>): T {
+    private fun <T : SceneSettings> create(c: Class<T>): T {
         val result = mock(c)
         whenever(result.getNumDots()).thenReturn(Observable.just(1))
         whenever(result.getFrameDelay()).thenReturn(Observable.just(1))

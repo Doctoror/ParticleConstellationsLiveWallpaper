@@ -27,7 +27,7 @@ import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -46,7 +46,7 @@ class ConfigActivityPresenterTest {
 
     private val activity: Activity = mock()
     private val configurator: SceneConfigurator = mock()
-    private val settings: SettingsRepository = mock()
+    private val settings: SceneSettings = mock()
     private val requestManager = spy(Glide.with(RuntimeEnvironment.application))
     private val themeAttrColorResolver: ThemeAttrColorResolver = mock()
     private val view: ConfigActivityView = mock()

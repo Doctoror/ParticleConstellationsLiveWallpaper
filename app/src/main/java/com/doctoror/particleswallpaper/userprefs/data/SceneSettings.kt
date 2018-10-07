@@ -22,7 +22,7 @@ const val NO_URI = ""
 /**
  * The configuration repository
  */
-interface SettingsRepository {
+interface SceneSettings {
 
     fun getBackgroundColor(): Observable<Int>
     fun getBackgroundUri(): Observable<String>

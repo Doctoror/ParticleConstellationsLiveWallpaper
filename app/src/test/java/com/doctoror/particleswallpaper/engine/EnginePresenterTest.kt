@@ -29,7 +29,7 @@ import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -53,7 +53,7 @@ class EnginePresenterTest {
     private val controller: EngineController = mock()
     private val glide: RequestManager = spy(Glide.with(RuntimeEnvironment.application))
     private val renderer: EngineSceneRenderer = mock()
-    private val settings: SettingsRepository = mock()
+    private val settings: SceneSettings = mock()
     private val settingsOpenGL: SettingsRepositoryOpenGL = mock()
     private val scene: ParticlesScene = mock()
     private val scenePresenter: ScenePresenter = mock()

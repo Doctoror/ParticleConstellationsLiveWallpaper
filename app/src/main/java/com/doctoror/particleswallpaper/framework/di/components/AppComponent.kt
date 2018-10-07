@@ -50,13 +50,14 @@ interface AppComponent : AndroidInjector<ApplicationlessInjection> {
     fun exposeDefaultSceneSettings(): DefaultSceneSettings
 
     fun exposeDrawableConfigurator(): SceneConfigurator
-    fun exposeMutableSettings(): MutableSettingsRepository
+
+    fun exposeSceneSettings(): SceneSettings
+    fun exposeMutableSceneSettings(): MutableSettingsRepository
 
     fun exposePackageManager(): PackageManager
     fun exposePackageName(): String
 
     fun exposeSchedulers(): SchedulersProvider
-    fun exposeSettings(): SettingsRepository
     fun exposeSettingsDevice(): SettingsRepositoryDevice
     fun exposeSettingsOpenGL(): SettingsRepositoryOpenGL
 

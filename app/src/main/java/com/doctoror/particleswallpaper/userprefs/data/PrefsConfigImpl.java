@@ -19,7 +19,7 @@ import android.graphics.Color;
 
 import ds.gendalf.PrefsConfig;
 
-import static com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryKt.NO_URI;
+import static com.doctoror.particleswallpaper.userprefs.data.SceneSettingsKt.NO_URI;
 
 /**
  * Created by Yaroslav Mytkalyk on 28.05.17.

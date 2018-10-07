@@ -23,7 +23,7 @@ import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import com.nhaarman.mockito_kotlin.*
@@ -42,7 +42,7 @@ class ConfigActivityPresenterLollipopTest {
     private val configurator: SceneConfigurator = mock()
     private val openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider = mock()
     private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase = mock()
-    private val settings: SettingsRepository = mock()
+    private val settings: SceneSettings = mock()
     private val requestManager: RequestManager = mock()
     private val view: ConfigActivityView = mock()
 
