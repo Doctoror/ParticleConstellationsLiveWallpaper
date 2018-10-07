@@ -30,7 +30,11 @@ class DefaultSceneSettingsTest {
 
     private val res: Resources = mock()
     private val theme: Resources.Theme = mock()
-    private val typedValueFactory: DefaultSceneSettings.TypedValueFactory = mock()
+
+    private val typedValue: TypedValue = mock()
+    private val typedValueFactory: DefaultSceneSettings.TypedValueFactory = mock {
+        on { it.newTypedValue() }.thenReturn(typedValue)
+    }
 
     @Test
     fun obtainsBackgroundColorFromResources() {
