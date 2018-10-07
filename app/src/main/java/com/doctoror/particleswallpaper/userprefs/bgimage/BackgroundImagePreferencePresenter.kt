@@ -31,17 +31,16 @@ import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
-import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
-import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
-import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
+import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
-import com.doctoror.particleswallpaper.framework.di.qualifiers.Default
-import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
+import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
+import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
+import com.doctoror.particleswallpaper.userprefs.data.DefaultAppearanceSettings
 import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -54,7 +53,7 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         private val pickImageDocumentUseCase: PickImageDocumentUseCase,
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
-        @Default private val defaults: SettingsRepository,
+        private val defaults: DefaultAppearanceSettings,
         private val backgroundImageManager: BackgroundImageManager) {
 
     private val tag = "BgImagePrefPresenter"
@@ -143,10 +142,8 @@ class BackgroundImagePreferencePresenter @Inject constructor(
         }
 
         override fun clearBackground() {
-            defaults.getBackgroundUri().take(1).subscribe { u ->
-                settings.setBackgroundUri(u)
-                clearBackgroundFile()
-            }
+            settings.setBackgroundUri(defaults.backgroundUri)
+            clearBackgroundFile()
         }
 
         private fun clearBackgroundFile() {

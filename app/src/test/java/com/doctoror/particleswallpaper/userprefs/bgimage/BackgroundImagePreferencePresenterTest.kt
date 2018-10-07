@@ -21,16 +21,16 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import com.bumptech.glide.Glide
-import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
-import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
-import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
-import com.doctoror.particleswallpaper.userprefs.data.NO_URI
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
+import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.userprefs.ConfigFragment
+import com.doctoror.particleswallpaper.userprefs.data.DefaultAppearanceSettings
+import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
+import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import org.junit.Before
@@ -52,7 +52,7 @@ class BackgroundImagePreferencePresenterTest {
     private val pickImageGetContentUseCase: PickImageGetContentUseCase = mock()
     private val pickImageDocumentUseCase: PickImageDocumentUseCase = mock()
     private val settings: MutableSettingsRepository = mock()
-    private val defaults: SettingsRepository = mock()
+    private val defaults: DefaultAppearanceSettings = mock()
     private val backgroundImageManager: BackgroundImageManager = mock()
     private val view: BackgroundImagePreferenceView = mock()
 
@@ -73,7 +73,7 @@ class BackgroundImagePreferencePresenterTest {
 
     @Before
     fun setup() {
-        whenever(defaults.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
+        whenever(defaults.backgroundUri).thenReturn(NO_URI)
         whenever(settings.getBackgroundUri()).thenReturn(Observable.just(NO_URI))
     }
 

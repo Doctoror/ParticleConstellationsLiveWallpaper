@@ -23,15 +23,14 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class SettingsRepositoryDefaultTest {
+class DefaultAppearanceSettingsTest {
 
     private val res: Resources = mock()
     private val theme: Resources.Theme = mock()
-    private val typedValueFactory: SettingsRepositoryDefault.TypedValueFactory = mock()
-
-    private val underTest = SettingsRepositoryDefault(res, theme, typedValueFactory)
+    private val typedValueFactory: DefaultAppearanceSettings.TypedValueFactory = mock()
 
     @Test
     fun obtainsBackgroundColorFromResources() {
@@ -42,45 +41,42 @@ class SettingsRepositoryDefaultTest {
         whenever(res.getColor(R.color.defaultBackground, theme)).thenReturn(value)
 
         // When
-        val o = underTest.getBackgroundColor().test()
+        val underTest = newUnderTestInstance()
 
         // Then
-        o.assertResult(value)
+        assertEquals(value, underTest.backgroundColor)
     }
 
     @Test
     fun backgroundUriIsNoUri() {
-        // When
-        val o = underTest.getBackgroundUri().test()
-
-        // Then
-        o.assertResult(NO_URI)
+        val underTest = DefaultAppearanceSettings(res, theme, typedValueFactory)
+        assertEquals(NO_URI, underTest.backgroundUri)
     }
 
     @Test
-    fun obtainsDotScaleFromResources() {
+    fun obtainsParticleScaleFromResources() {
         // Given
         val value = 0.6f
         whenever(res.getDimension(R.dimen.default_dot_scale)).thenReturn(value)
 
         // When
-        val o = underTest.getDotScale().test()
+        val underTest = newUnderTestInstance()
 
         // Then
-        o.assertResult(value)
+        assertEquals(value, underTest.particleScale)
     }
 
     @Test
-    fun doesNotReturnDotScaleLessThanHalf() {
+    fun doesNotReturnParticleScaleLessThanHalf() {
         // Given
         val value = 0.49f
         whenever(res.getDimension(R.dimen.default_dot_scale)).thenReturn(value)
 
         // When
-        val o = underTest.getDotScale().test()
+        val underTest = newUnderTestInstance()
 
         // Then
-        o.assertResult(0.5f)
+        assertEquals(0.5f, underTest.particleScale)
     }
 
     @Test
@@ -90,23 +86,23 @@ class SettingsRepositoryDefaultTest {
         whenever(res.getInteger(R.integer.defaultFrameDelay)).thenReturn(value)
 
         // When
-        val o = underTest.getFrameDelay().test()
+        val underTest = newUnderTestInstance()
 
         // Then
-        o.assertResult(value)
+        assertEquals(value, underTest.frameDelay)
     }
 
     @Test
-    fun obtainsLineDistanceFromResources() {
+    fun obtainsLineLengthFromResources() {
         // Given
         val value = 1.1f
         whenever(res.getDimension(R.dimen.default_line_distance)).thenReturn(value)
 
         // When
-        val o = underTest.getLineDistance().test()
+        val underTest = newUnderTestInstance()
 
         // Then
-        o.assertResult(value)
+        assertEquals(value, underTest.lineLength)
     }
 
     @Test
@@ -116,10 +112,10 @@ class SettingsRepositoryDefaultTest {
         whenever(res.getDimension(R.dimen.default_line_scale)).thenReturn(value)
 
         // When
-        val o = underTest.getLineScale().test()
+        val underTest = newUnderTestInstance()
 
         // Then
-        o.assertResult(value)
+        assertEquals(value, underTest.lineScale)
     }
 
     @Test
@@ -129,27 +125,27 @@ class SettingsRepositoryDefaultTest {
         whenever(res.getDimension(R.dimen.default_line_scale)).thenReturn(value)
 
         // When
-        val o = underTest.getLineScale().test()
+        val underTest = newUnderTestInstance()
 
         // Then
-        o.assertResult(1f)
+        assertEquals(1f, underTest.lineScale)
     }
 
     @Test
-    fun obtainsNumDotsFromResources() {
+    fun obtainsDensityFromResources() {
         // Given
         val value = 2
         whenever(res.getInteger(R.integer.default_density)).thenReturn(value)
 
         // When
-        val o = underTest.getNumDots().test()
+        val underTest = newUnderTestInstance()
 
         // Then
-        o.assertResult(value)
+        assertEquals(value, underTest.density)
     }
 
     @Test
-    fun obtainsParticlesColorFromResources() {
+    fun obtainsParticleColorFromResources() {
         // Given
         val value = Color.CYAN
         @Suppress("DEPRECATION")
@@ -157,14 +153,14 @@ class SettingsRepositoryDefaultTest {
         whenever(res.getColor(R.color.defaultParticlesColor, theme)).thenReturn(value)
 
         // When
-        val o = underTest.getParticlesColor().test()
+        val underTest = newUnderTestInstance()
 
         // Then
-        o.assertResult(value)
+        assertEquals(value, underTest.particleColor)
     }
 
     @Test
-    fun obtainsStepMultiplierFromResources() {
+    fun obtainsSpeedFactorFromResources() {
         // Given
         val value = 1.1f
         val typedValue: TypedValue = mock {
@@ -173,10 +169,12 @@ class SettingsRepositoryDefaultTest {
         whenever(typedValueFactory.newTypedValue()).thenReturn(typedValue)
 
         // When
-        val o = underTest.getStepMultiplier().test()
+        val underTest = newUnderTestInstance()
 
         // Then
         verify(res).getValue(R.dimen.defaultStepMultiplier, typedValue, true)
-        o.assertResult(value)
+        assertEquals(value, underTest.speedFactor)
     }
+
+    private fun newUnderTestInstance() = DefaultAppearanceSettings(res, theme, typedValueFactory)
 }

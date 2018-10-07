@@ -16,9 +16,8 @@
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
-import com.doctoror.particleswallpaper.framework.di.qualifiers.Default
+import com.doctoror.particleswallpaper.userprefs.data.DefaultAppearanceSettings
 import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import io.reactivex.Completable
 import javax.inject.Inject
@@ -29,23 +28,23 @@ import javax.inject.Inject
 class ResetToDefaultsUseCase @Inject constructor(
         private val settings: MutableSettingsRepository,
         private val settingsOpenGL: SettingsRepositoryOpenGL,
-        @Default private val defaults: SettingsRepository,
+        private val defaults: DefaultAppearanceSettings,
         private val backgroundImageManager: BackgroundImageManager) {
 
     fun action() = Completable.fromAction {
-        settings.setBackgroundUri(defaults.getBackgroundUri().blockingFirst())
-        settings.setBackgroundColor(defaults.getBackgroundColor().blockingFirst())
+        settings.setBackgroundColor(defaults.backgroundColor)
+        settings.setBackgroundUri(defaults.backgroundUri)
 
-        settings.setDotScale(defaults.getDotScale().blockingFirst())
-        settings.setFrameDelay(defaults.getFrameDelay().blockingFirst())
+        settings.setDotScale(defaults.particleScale)
+        settings.setFrameDelay(defaults.frameDelay)
 
-        settings.setLineDistance(defaults.getLineDistance().blockingFirst())
-        settings.setLineScale(defaults.getLineScale().blockingFirst())
+        settings.setLineDistance(defaults.lineLength)
+        settings.setLineScale(defaults.lineScale)
 
-        settings.setNumDots(defaults.getNumDots().blockingFirst())
-        settings.setParticlesColor(defaults.getParticlesColor().blockingFirst())
+        settings.setNumDots(defaults.density)
+        settings.setParticlesColor(defaults.particleColor)
 
-        settings.setStepMultiplier(defaults.getStepMultiplier().blockingFirst())
+        settings.setStepMultiplier(defaults.speedFactor)
         settingsOpenGL.resetToDefaults()
 
         backgroundImageManager.clearBackgroundImage()

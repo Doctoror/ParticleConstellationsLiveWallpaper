@@ -17,8 +17,8 @@ package com.doctoror.particleswallpaper.userprefs.bgcolor
 
 import android.graphics.Color
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.userprefs.data.DefaultAppearanceSettings
 import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test
 class BackgroundColorPreferencePresenterTest {
 
     private val settings: MutableSettingsRepository = mock()
-    private val defaults: SettingsRepository = mock()
+    private val defaults: DefaultAppearanceSettings = mock()
     private val view: BackgroundColorPreferenceView = mock()
 
     private val underTest = BackgroundColorPreferencePresenter(
@@ -79,7 +79,7 @@ class BackgroundColorPreferencePresenterTest {
     fun storesDefaultColorOnNull() {
         // Given
         val defaultColor = Color.DKGRAY
-        whenever(defaults.getBackgroundColor()).thenReturn(Observable.just(defaultColor))
+        whenever(defaults.backgroundColor).thenReturn(defaultColor)
 
         // When
         underTest.onPreferenceChange(null)

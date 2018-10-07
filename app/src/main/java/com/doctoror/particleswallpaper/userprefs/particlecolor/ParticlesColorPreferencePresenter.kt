@@ -15,11 +15,10 @@
  */
 package com.doctoror.particleswallpaper.userprefs.particlecolor
 
-import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.framework.di.qualifiers.Default
 import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
+import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.userprefs.data.DefaultAppearanceSettings
 import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
@@ -27,7 +26,7 @@ import javax.inject.Inject
 class ParticlesColorPreferencePresenter @Inject constructor(
         private val schedulers: SchedulersProvider,
         private val settings: MutableSettingsRepository,
-        @Default private val defaults: SettingsRepository) {
+        private val defaults: DefaultAppearanceSettings) {
 
     private lateinit var view: ParticlesColorPreferenceView
 
@@ -38,7 +37,7 @@ class ParticlesColorPreferencePresenter @Inject constructor(
     }
 
     fun onPreferenceChange(v: Int?) {
-        val color = v ?: defaults.getParticlesColor().blockingFirst()
+        val color = v ?: defaults.particleColor
         settings.setParticlesColor(color)
     }
 

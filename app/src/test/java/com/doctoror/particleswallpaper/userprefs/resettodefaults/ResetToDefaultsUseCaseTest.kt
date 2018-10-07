@@ -17,28 +17,27 @@ package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import android.graphics.Color
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
+import com.doctoror.particleswallpaper.userprefs.data.DefaultAppearanceSettings
 import com.doctoror.particleswallpaper.userprefs.data.MutableSettingsRepository
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
-import com.doctoror.particleswallpaper.userprefs.data.SettingsRepository
 import com.doctoror.particleswallpaper.userprefs.data.SettingsRepositoryOpenGL
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import io.reactivex.Observable
 import org.junit.jupiter.api.Test
 
 class ResetToDefaultsUseCaseTest {
 
-    private val defaults: SettingsRepository = mock {
-        on(it.getBackgroundColor()).doReturn(Observable.just(0xff212121.toInt()))
-        on(it.getBackgroundUri()).doReturn(Observable.just(NO_URI))
-        on(it.getDotScale()).doReturn(Observable.just(1.1f))
-        on(it.getFrameDelay()).doReturn(Observable.just(1))
-        on(it.getLineDistance()).doReturn(Observable.just(86f))
-        on(it.getLineScale()).doReturn(Observable.just(1.1f))
-        on(it.getNumDots()).doReturn(Observable.just(1))
-        on(it.getParticlesColor()).doReturn(Observable.just(Color.WHITE))
-        on(it.getStepMultiplier()).doReturn(Observable.just(1.1f))
+    private val defaults: DefaultAppearanceSettings = mock {
+        on(it.backgroundColor).doReturn(0xff212121.toInt())
+        on(it.backgroundUri).doReturn(NO_URI)
+        on(it.density).doReturn(1)
+        on(it.frameDelay).doReturn(1)
+        on(it.lineLength).doReturn(86f)
+        on(it.lineScale).doReturn(1.1f)
+        on(it.particleColor).doReturn(Color.WHITE)
+        on(it.particleScale).doReturn(1.1f)
+        on(it.speedFactor).doReturn(1.1f)
     }
 
     private val settings: MutableSettingsRepository = mock()
@@ -54,7 +53,7 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setBackgroundColor(defaults.getBackgroundColor().blockingFirst())
+        verify(settings).setBackgroundColor(defaults.backgroundColor)
     }
 
     @Test
@@ -63,16 +62,16 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setBackgroundUri(defaults.getBackgroundUri().blockingFirst())
+        verify(settings).setBackgroundUri(defaults.backgroundUri)
     }
 
     @Test
-    fun setsDefaultDotScale() {
+    fun setsDefaultDensity() {
         // When
         underTest.action().test()
 
         // Then
-        verify(settings).setDotScale(defaults.getDotScale().blockingFirst())
+        verify(settings).setNumDots(defaults.density)
     }
 
     @Test
@@ -81,16 +80,16 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setFrameDelay(defaults.getFrameDelay().blockingFirst())
+        verify(settings).setFrameDelay(defaults.frameDelay)
     }
 
     @Test
-    fun setsDefaultLineDistance() {
+    fun setsDefaultLineLength() {
         // When
         underTest.action().test()
 
         // Then
-        verify(settings).setLineDistance(defaults.getLineDistance().blockingFirst())
+        verify(settings).setLineDistance(defaults.lineLength)
     }
 
     @Test
@@ -99,34 +98,34 @@ class ResetToDefaultsUseCaseTest {
         underTest.action().test()
 
         // Then
-        verify(settings).setLineScale(defaults.getLineScale().blockingFirst())
+        verify(settings).setLineScale(defaults.lineScale)
     }
 
     @Test
-    fun setsDefaultNumDots() {
+    fun setsDefaultParticleColor() {
         // When
         underTest.action().test()
 
         // Then
-        verify(settings).setNumDots(defaults.getNumDots().blockingFirst())
+        verify(settings).setParticlesColor(defaults.particleColor)
     }
 
     @Test
-    fun setsDefaultParticlesColor() {
+    fun setsDefaultParticleScale() {
         // When
         underTest.action().test()
 
         // Then
-        verify(settings).setParticlesColor(defaults.getParticlesColor().blockingFirst())
+        verify(settings).setDotScale(defaults.particleScale)
     }
 
     @Test
-    fun setsDefaultStepMultiplier() {
+    fun setsDefaultSpeedFactor() {
         // When
         underTest.action().test()
 
         // Then
-        verify(settings).setStepMultiplier(defaults.getStepMultiplier().blockingFirst())
+        verify(settings).setStepMultiplier(defaults.speedFactor)
     }
 
     @Test

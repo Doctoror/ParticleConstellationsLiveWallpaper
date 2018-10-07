@@ -24,8 +24,9 @@ import io.reactivex.subjects.BehaviorSubject
  *
  * The Gendalf SharedPreferences [MutableSettingsRepository] implementation.
  */
-class SettingsRepositoryImpl(context: Context,
-                             defaults: SettingsRepository) : MutableSettingsRepository {
+class SettingsRepositoryImpl(
+        context: Context,
+        defaults: DefaultAppearanceSettings) : MutableSettingsRepository {
 
     private val colorSubject = BehaviorSubject.create<Int>().toSerialized()
     private val backgroundColorSubject = BehaviorSubject.create<Int>().toSerialized()
@@ -47,37 +48,37 @@ class SettingsRepositoryImpl(context: Context,
         val numDots = prefs.numDots
         numDotsSubject.onNext(
                 if (numDots != -1) numDots
-                else defaults.getNumDots().blockingFirst()
+                else defaults.density
         )
 
         val frameDelay = prefs.frameDelay
         frameDelaySubject.onNext(
                 if (frameDelay != -1) frameDelay
-                else defaults.getFrameDelay().blockingFirst()
+                else defaults.frameDelay
         )
 
         val stepMultiplier = prefs.stepMultiplier
         stepMultiplierSubject.onNext(
                 if (stepMultiplier != -1f) stepMultiplier
-                else defaults.getStepMultiplier().blockingFirst()
+                else defaults.speedFactor
         )
 
         val scale = prefs.dotScale
         dotScaleSubject.onNext(
                 if (scale != -1f) scale
-                else defaults.getDotScale().blockingFirst()
+                else defaults.particleScale
         )
 
         val lineScale = prefs.lineScale
         lineScaleSubject.onNext(
                 if (lineScale != -1f) lineScale
-                else defaults.getLineScale().blockingFirst()
+                else defaults.lineScale
         )
 
         val lineDistance = prefs.lineDistance
         lineDistanceSubject.onNext(
                 if (lineDistance != -1f) lineDistance
-                else defaults.getLineDistance().blockingFirst()
+                else defaults.lineLength
         )
     }
 

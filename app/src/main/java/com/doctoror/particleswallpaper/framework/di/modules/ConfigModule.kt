@@ -18,7 +18,6 @@ package com.doctoror.particleswallpaper.framework.di.modules
 import android.content.Context
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfiguratorFactory
-import com.doctoror.particleswallpaper.framework.di.qualifiers.Default
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManagerImpl
 import com.doctoror.particleswallpaper.framework.file.FileSaver
@@ -36,11 +35,9 @@ import javax.inject.Singleton
 @Module
 class ConfigModule {
 
-    @Singleton
     @Provides
-    @Default
-    fun provideDefaultSettings(context: Context):
-            SettingsRepository = SettingsRepositoryDefault(context.resources!!, context.theme!!)
+    fun provideDefaultAppearanceSettings(context: Context) =
+            DefaultAppearanceSettings(context.resources!!, context.theme!!)
 
     @Provides
     @Singleton
@@ -52,7 +49,7 @@ class ConfigModule {
     @Provides
     fun provideMutableSettings(
             context: Context,
-            @Default defaults: SettingsRepository):
+            defaults: DefaultAppearanceSettings):
             MutableSettingsRepository = SettingsRepositoryImpl(context, defaults)
 
     @Singleton
