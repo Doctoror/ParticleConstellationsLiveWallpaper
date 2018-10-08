@@ -5,20 +5,15 @@ import android.app.Dialog
 import android.app.DialogFragment
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
+import com.doctoror.particleswallpaper.framework.di.inject
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
-import javax.inject.Inject
 
 class MultisamplingRestartDialog : DialogFragment() {
 
-    @Inject
-    lateinit var apiLevelProvider: ApiLevelProvider
-
-    @Inject
-    lateinit var intentProvider: OpenChangeWallpaperIntentProvider
+    private val intentProvider: OpenChangeWallpaperIntentProvider by inject()
 
     private lateinit var useCase: OpenChangeWallpaperIntentUseCase
 
