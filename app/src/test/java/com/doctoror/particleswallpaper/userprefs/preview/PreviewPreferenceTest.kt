@@ -19,14 +19,20 @@ import android.app.Activity
 import android.app.Fragment
 import android.content.res.TypedArray
 import com.nhaarman.mockito_kotlin.*
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
+import org.koin.standalone.inject
+import org.koin.test.KoinTest
+import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class PreviewPreferenceTest {
+class PreviewPreferenceTest : KoinTest {
 
     private val mockTypedArray: TypedArray = mock()
 
@@ -35,13 +41,18 @@ class PreviewPreferenceTest {
         on(it.packageName).doReturn("com.doctoror.particleswallpaper")
     }
 
-    private val presenter: PreviewPreferencePresenter = mock()
+    private val presenter: PreviewPreferencePresenter by inject()
 
-    private val underTest = PreviewPreference(activity).apply {
-        val presenterField = PreviewPreference::class.java.getDeclaredField("presenter").apply {
-            isAccessible = true
-        }
-        presenterField.set(this, presenter)
+    private val underTest = PreviewPreference(activity)
+
+    @Before
+    fun setup() {
+        declareMock<PreviewPreferencePresenter>()
+    }
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
     }
 
     @Test

@@ -22,9 +22,8 @@ import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
-import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
-import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import javax.inject.Inject
+import com.doctoror.particleswallpaper.framework.di.inject
+import org.koin.core.parameter.parametersOf
 
 class PreviewPreference @JvmOverloads constructor(
     contextParam: Context,
@@ -32,10 +31,11 @@ class PreviewPreference @JvmOverloads constructor(
     defStyle: Int = 0
 ) : Preference(contextParam, attrs), FragmentHolder {
 
-    @Inject
-    lateinit var intentProvider: OpenChangeWallpaperIntentProvider
+    private val intentProvider: OpenChangeWallpaperIntentProvider by inject()
 
-    private val presenter: PreviewPreferencePresenter
+    private val presenter: PreviewPreferencePresenter by inject(
+        parameters = { parametersOf(contextParam as Activity) }
+    )
 
     override var fragment: Fragment? = null
         set(f) {
@@ -46,12 +46,6 @@ class PreviewPreference @JvmOverloads constructor(
 
     init {
         isPersistent = false
-        DaggerPreferenceComponent.builder()
-            .appComponent(AppComponentProvider.provideAppComponent(context))
-            .build()
-            .inject(this)
-
-        presenter = PreviewPreferencePresenter(contextParam as Activity)
     }
 
     override fun onClick() {

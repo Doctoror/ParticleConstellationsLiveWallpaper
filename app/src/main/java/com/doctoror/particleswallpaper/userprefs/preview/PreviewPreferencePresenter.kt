@@ -19,11 +19,9 @@ import android.app.Activity
 import android.app.Fragment
 import android.content.Intent
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
-import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 
-@PerPreference
 class PreviewPreferencePresenter(private val activity: Activity) {
 
     var useCase: OpenChangeWallpaperIntentUseCase? = null
