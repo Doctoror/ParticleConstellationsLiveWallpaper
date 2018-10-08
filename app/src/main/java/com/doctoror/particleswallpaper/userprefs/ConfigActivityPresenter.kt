@@ -26,23 +26,18 @@ import android.view.MenuItem
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import androidx.annotation.ColorInt
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.framework.glide.SimpleTarget2
 import com.doctoror.particleswallpaper.framework.view.removeOnGlobalLayoutListenerCompat
 import com.doctoror.particleswallpaper.framework.view.setBackgroundCompat
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
@@ -72,14 +67,66 @@ open class ConfigActivityPresenter(
         val configuration = configuration ?: throw IllegalStateException("configuration not set")
         val controller = controller ?: throw IllegalStateException("controller not set")
 
-        bgDisposable = Observable.combineLatest(
-            settings.observeBackgroundUri(),
-            settings.observeBackgroundColor(),
-            BiFunction<String, Int, Pair<String, Int>> { t1, t2 -> Pair(t1, t2) })
-            .observeOn(schedulers.mainThread())
-            .subscribe { applyBackground(it) }
+        val bg = view.getBackgroundView()
+        if (bg.width == 0 || bg.height == 0) {
+            bg.viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
+
+                override fun onGlobalLayout() {
+                    bg.viewTreeObserver.removeOnGlobalLayoutListenerCompat(this)
+                    subscribeToBackgroundLoad()
+                }
+            })
+        } else {
+            subscribeToBackgroundLoad()
+        }
 
         configurator.subscribe(configuration, controller, settings, schedulers.mainThread())
+    }
+
+    private fun subscribeToBackgroundLoad() {
+        bgDisposable = Observable
+            .combineLatest(
+                settings.observeBackgroundColor(),
+                newBackgroundImageLoader(),
+                BiFunction<Int, Optional<Drawable>, BackgroundData> { color, image ->
+                    BackgroundData(color, image)
+                }
+            )
+            .observeOn(schedulers.mainThread())
+            .subscribe { applyBackground(it) }
+    }
+
+    private fun newBackgroundImageLoader() = settings
+        .observeBackgroundUri()
+        .observeOn(schedulers.mainThread())
+        .flatMap { uri ->
+            if (uri == NO_URI) {
+                Observable.just(Optional<Drawable>(null))
+            } else {
+                val bg = view.getBackgroundView()
+                Observable
+                    .fromCallable { loadBackgroundImage(uri, bg.width, bg.height) }
+                    .subscribeOn(schedulers.io())
+            }
+        }
+
+    @WorkerThread
+    private fun loadBackgroundImage(uri: String, width: Int, height: Int): Optional<Drawable> {
+        val target = requestManager.load(uri)
+            .apply(RequestOptions.noAnimation())
+            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE))
+            .apply(RequestOptions.skipMemoryCacheOf(true))
+            .apply(RequestOptions.centerCropTransform())
+            .submit(width, height)
+
+        return Optional(
+            try {
+                target.get()
+            } catch (e: RuntimeException) {
+                null
+            }
+        )
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
@@ -98,53 +145,8 @@ open class ConfigActivityPresenter(
         }
     }
 
-    private fun applyBackground(result: Pair<String, Int>) {
-        applyBackground(result.first, result.second)
-    }
-
-    private fun applyBackground(uri: String, @ColorInt color: Int) {
-        val bg = view.getBackgroundView()
-        if (uri == NO_URI) {
-            requestManager.clear(bg)
-            applyNoImageBackground(bg, color)
-        } else if (bg.width != 0 && bg.height != 0) {
-            val target = ImageLoadTarget(bg, color)
-            requestManager.load(uri)
-                .apply(RequestOptions.noAnimation())
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE))
-                .apply(RequestOptions.skipMemoryCacheOf(true))
-                .apply(RequestOptions.centerCropTransform())
-                .listener(object : RequestListener<Drawable> {
-
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        applyNoImageBackground(bg, color)
-                        return true
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ) = false
-                })
-                .into(target)
-        } else {
-            bg.viewTreeObserver.addOnGlobalLayoutListener(object :
-                ViewTreeObserver.OnGlobalLayoutListener {
-
-                override fun onGlobalLayout() {
-                    bg.viewTreeObserver.removeOnGlobalLayoutListenerCompat(this)
-                    applyBackground(uri, color)
-                }
-            })
-        }
+    private fun applyBackground(bgData: BackgroundData) {
+        applyBackground(view.getBackgroundView(), bgData.image.value, bgData.color)
     }
 
     private fun applyBackgroundColor(bg: ImageView, @ColorInt color: Int) =
@@ -183,18 +185,11 @@ open class ConfigActivityPresenter(
         target.setImageDrawable(drawable)
     }
 
-    private inner class ImageLoadTarget(
-        private val target: ImageView,
-        @ColorInt private val bgColor: Int
-    ) : SimpleTarget2<Drawable>(target.width, target.height) {
+    private data class BackgroundData(
+        @ColorInt
+        val color: Int,
+        val image: Optional<Drawable>
+    )
 
-        override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-            applyBackground(target, resource, bgColor)
-        }
-
-        override fun onLoadCleared(placeholder: Drawable?) {
-            // Should not clear background here, as we cannot now if the clear has happened before
-            // or after new request is finished.
-        }
-    }
+    private data class Optional<T>(val value: T?)
 }
