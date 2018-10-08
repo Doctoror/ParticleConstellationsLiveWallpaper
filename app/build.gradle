@@ -98,13 +98,13 @@ dependencies {
 
     testImplementation td.junitJupiter
     testImplementation td.junitVintage
+    testImplementation td.koinTest
     testImplementation td.kotlinReflect
     testImplementation td.robolectric
     testImplementation td.mockitoCore
     testImplementation td.mockitoKotlin
 
     implementation d.koin
-    implementation d.koinTest
     implementation d.kotlin
     implementation d.rxJava
     implementation d.rxAndroid

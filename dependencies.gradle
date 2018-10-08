@@ -54,12 +54,13 @@ ext {
             glideCompiler         : "com.github.bumptech.glide:compiler:$glideVersion",
 
             koin                  : "org.koin:koin-android:$koinVersion",
-            koinTest              : "org.koin:koin-test:$koinVersion",
 
             licencesDialog        : "de.psdev.licensesdialog:licensesdialog:$licencesDialogVersion"
     ]
 
     wallpaperappTestDependencies = [
+            koinTest     : "org.koin:koin-test:$koinVersion",
+
             kotlin       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
             kotlinTest   : "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion",
             kotlinReflect: "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
