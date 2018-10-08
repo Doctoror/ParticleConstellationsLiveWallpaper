@@ -16,16 +16,13 @@
 package com.doctoror.particleswallpaper.userprefs.particlescale
 
 import androidx.annotation.VisibleForTesting
-import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.preference.SeekBarMapper
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.disposables.Disposable
-import javax.inject.Inject
 
-@PerPreference
-class ParticleScalePreferencePresenter @Inject constructor(
+class ParticleScalePreferencePresenter(
     private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
     private val view: SeekBarPreferenceView
