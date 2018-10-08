@@ -45,7 +45,7 @@ class ResetToDefaultsUseCaseTest {
     private val backgroundImageManager: BackgroundImageManager = mock()
 
     private val underTest = ResetToDefaultsUseCase(
-        defaults, settings, settingsOpenGL, backgroundImageManager
+        backgroundImageManager, defaults, settings, settingsOpenGL
     )
 
     @Test

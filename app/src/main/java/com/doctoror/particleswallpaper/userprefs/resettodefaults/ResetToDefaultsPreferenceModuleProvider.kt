@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Yaroslav Mytkalyk
+ * Copyright (C) 2018 Yaroslav Mytkalyk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,32 @@
  */
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
-import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
+import org.koin.dsl.module.module
 
-class ResetToDefaultsPreferencePresenter(
-    private val schedulers: SchedulersProvider,
-    private val useCase: ResetToDefaultsUseCase,
-    private val view: ResetToDefaultsPreferenceView
-) {
+private const val PARAM_VIEW = 0
 
-    fun onClick() {
-        view.showWarningDialog()
-    }
+class ResetToDefaultsPreferenceModuleProvider {
 
-    fun onResetClick() {
-        useCase.action()
-            .subscribeOn(schedulers.io())
-            .subscribe()
+    /**
+     * Parameter at index 0 must be a [ResetToDefaultsPreferenceView].
+     */
+    fun provide() = module {
+
+        factory {
+            ResetToDefaultsUseCase(
+                get(),
+                get(),
+                get(),
+                get()
+            )
+        }
+
+        factory {
+            ResetToDefaultsPreferencePresenter(
+                get(),
+                get(),
+                it[PARAM_VIEW]
+            )
+        }
     }
 }

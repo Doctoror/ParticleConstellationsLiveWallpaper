@@ -33,6 +33,7 @@ import com.doctoror.particleswallpaper.userprefs.particlecolor.ParticleColorPref
 import com.doctoror.particleswallpaper.userprefs.particlescale.ParticleScalePreferenceModuleProvider
 import com.doctoror.particleswallpaper.userprefs.performancetips.PerformanceTipsPreferenceModuleProvider
 import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreferenceModuleProvider
+import com.doctoror.particleswallpaper.userprefs.resettodefaults.ResetToDefaultsPreferenceModuleProvider
 import org.koin.standalone.StandAloneContext
 
 class KoinStarter {
@@ -57,6 +58,7 @@ class KoinStarter {
                 ParticleScalePreferenceModuleProvider().provide(),
                 PerformanceTipsPreferenceModuleProvider().provide(),
                 PreviewPreferenceModuleProvider().provide(),
+                ResetToDefaultsPreferenceModuleProvider().provide(),
                 SettingsModuleProvider().provide()
             )
         )
