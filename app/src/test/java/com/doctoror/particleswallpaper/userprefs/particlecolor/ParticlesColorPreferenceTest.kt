@@ -15,22 +15,35 @@
  */
 package com.doctoror.particleswallpaper.userprefs.particlecolor
 
-import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
+import org.koin.standalone.inject
+import org.koin.test.KoinTest
+import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class ParticlesColorPreferenceTest {
+class ParticlesColorPreferenceTest : KoinTest {
 
-    private val presenter: ParticlesColorPreferencePresenter = mock()
+    private val presenter: ParticlesColorPreferencePresenter by inject()
 
-    private val underTest = ParticlesColorPreference(RuntimeEnvironment.application).apply {
-        this.presenter = this@ParticlesColorPreferenceTest.presenter
+    private val underTest = ParticlesColorPreference(RuntimeEnvironment.application)
+
+    @Before
+    fun setup() {
+        declareMock<ParticlesColorPreferencePresenter>()
+    }
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
     }
 
     @Test

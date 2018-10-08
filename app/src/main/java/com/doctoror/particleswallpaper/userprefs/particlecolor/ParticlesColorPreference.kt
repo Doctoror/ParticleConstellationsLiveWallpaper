@@ -20,9 +20,8 @@ import android.util.AttributeSet
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
-import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import javax.inject.Inject
+import com.doctoror.particleswallpaper.framework.di.inject
+import org.koin.core.parameter.parametersOf
 
 class ParticlesColorPreference @JvmOverloads constructor(
     context: Context,
@@ -33,20 +32,14 @@ class ParticlesColorPreference @JvmOverloads constructor(
     ParticlesColorPreferenceView,
     LifecycleObserver {
 
-    @Inject
-    lateinit var presenter: ParticlesColorPreferencePresenter
+    private val presenter: ParticlesColorPreferencePresenter by inject(
+        parameters = { parametersOf(this as ParticlesColorPreferenceView) }
+    )
 
     private var value: Int? = null
 
     init {
-        DaggerPreferenceComponent.builder()
-            .appComponent(AppComponentProvider.provideAppComponent(context))
-            .build()
-            .inject(this)
-
         isPersistent = false
-
-        presenter.onTakeView(this)
 
         setOnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(v as Int?)

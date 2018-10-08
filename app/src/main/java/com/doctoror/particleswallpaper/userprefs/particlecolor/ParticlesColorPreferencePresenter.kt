@@ -24,18 +24,13 @@ import javax.inject.Inject
 
 @PerPreference
 class ParticlesColorPreferencePresenter @Inject constructor(
+    private val defaults: DefaultSceneSettings,
     private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
-    private val defaults: DefaultSceneSettings
+    private val view: ParticlesColorPreferenceView
 ) {
 
-    private lateinit var view: ParticlesColorPreferenceView
-
     private var disposable: Disposable? = null
-
-    fun onTakeView(view: ParticlesColorPreferenceView) {
-        this.view = view
-    }
 
     fun onPreferenceChange(v: Int?) {
         val color = v ?: defaults.particleColor
