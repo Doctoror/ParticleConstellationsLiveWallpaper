@@ -15,20 +15,21 @@
  */
 package com.doctoror.particleswallpaper.userprefs.performancetips
 
-import com.nhaarman.mockito_kotlin.mock
-import org.junit.jupiter.api.Test
+import org.koin.dsl.module.module
 
-class PerformanceTipsPreferencePresenterTest {
+private const val PARAM_VIEW = 0
 
-    private val view: PerformanceTipsPreferenceView = mock()
-    private val underTest = PerformanceTipsPreferencePresenter(view)
+class PerformanceTipsPreferenceModuleProvider {
 
-    @Test
-    fun showsDialogOnClick() {
-        // When
-        underTest.onClick()
+    /**
+     * Parameter at index 0 must be a [PerformanceTipsPreferenceView].
+     */
+    fun provide() = module {
 
-        // Then
-        view.showDialog()
+        factory {
+            PerformanceTipsPreferencePresenter(
+                it[PARAM_VIEW]
+            )
+        }
     }
 }

@@ -15,17 +15,9 @@
  */
 package com.doctoror.particleswallpaper.userprefs.performancetips
 
-import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
-import javax.inject.Inject
-
-@PerPreference
-class PerformanceTipsPreferencePresenter @Inject constructor() {
-
-    private lateinit var view: PerformanceTipsPreferenceView
-
-    fun onTakeView(view: PerformanceTipsPreferenceView) {
-        this.view = view
-    }
+class PerformanceTipsPreferencePresenter(
+    private val view: PerformanceTipsPreferenceView
+) {
 
     fun onClick() {
         view.showDialog()

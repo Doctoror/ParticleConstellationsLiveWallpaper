@@ -20,9 +20,8 @@ import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
-import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import javax.inject.Inject
+import com.doctoror.particleswallpaper.framework.di.inject
+import org.koin.core.parameter.parametersOf
 
 class PerformanceTipsPreference @JvmOverloads constructor(
     context: Context,
@@ -30,16 +29,11 @@ class PerformanceTipsPreference @JvmOverloads constructor(
     defStyle: Int = 0
 ) : Preference(context, attrs), PerformanceTipsPreferenceView {
 
-    @Inject
-    lateinit var presenter: PerformanceTipsPreferencePresenter
+    private val presenter: PerformanceTipsPreferencePresenter by inject(
+        parameters = { parametersOf(this as PerformanceTipsPreferenceView) }
+    )
 
     init {
-        DaggerPreferenceComponent.builder()
-            .appComponent(AppComponentProvider.provideAppComponent(context))
-            .build()
-            .inject(this)
-
-        presenter.onTakeView(this)
         isPersistent = false
     }
 
