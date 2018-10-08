@@ -15,21 +15,21 @@
  */
 package com.doctoror.particleswallpaper.userprefs.license
 
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
-import org.junit.jupiter.api.Test
+import org.koin.dsl.module.module
 
-class LicensePreferencePresenterTest {
+private const val PARAM_VIEW = 0
 
-    private val view: LicensePreferenceView = mock()
-    private val underTest = LicensePreferencePresenter(view)
+class LicensePreferenceModuleProvider {
 
-    @Test
-    fun showsLicenseDialogOnClick() {
-        // When
-        underTest.onClick()
+    /**
+     * Parameter at index 0 must be a [LicensePreferenceView].
+     */
+    fun provide() = module {
 
-        // Then
-        verify(view).showLicenseDialog()
+        factory {
+            LicensePreferencePresenter(
+                view = it[PARAM_VIEW]
+            )
+        }
     }
 }

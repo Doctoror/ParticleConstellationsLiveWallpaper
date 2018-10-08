@@ -15,17 +15,9 @@
  */
 package com.doctoror.particleswallpaper.userprefs.license
 
-import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
-import javax.inject.Inject
-
-@PerPreference
-class LicensePreferencePresenter @Inject constructor() {
-
-    private lateinit var view: LicensePreferenceView
-
-    fun onTakeView(view: LicensePreferenceView) {
-        this.view = view
-    }
+class LicensePreferencePresenter(
+    private val view: LicensePreferenceView
+) {
 
     fun onClick() {
         view.showLicenseDialog()

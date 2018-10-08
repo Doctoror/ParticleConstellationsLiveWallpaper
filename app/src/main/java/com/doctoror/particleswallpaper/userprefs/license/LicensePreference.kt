@@ -19,10 +19,9 @@ import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
-import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
+import com.doctoror.particleswallpaper.framework.di.inject
 import de.psdev.licensesdialog.LicensesDialog
-import javax.inject.Inject
+import org.koin.core.parameter.parametersOf
 
 /**
  * Preference for showing open source licenses.
@@ -33,16 +32,11 @@ class LicensePreference @JvmOverloads constructor(
     defStyle: Int = 0
 ) : Preference(context, attrs), LicensePreferenceView {
 
-    @Inject
-    lateinit var presenter: LicensePreferencePresenter
+    private val presenter: LicensePreferencePresenter by inject(
+        parameters = { parametersOf(this as LicensePreferenceView) }
+    )
 
     init {
-        DaggerPreferenceComponent.builder()
-            .appComponent(AppComponentProvider.provideAppComponent(context))
-            .build()
-            .inject(this)
-
-        presenter.onTakeView(this)
         isPersistent = false
     }
 
