@@ -16,29 +16,24 @@
 package com.doctoror.particleswallpaper.userprefs.framedelay
 
 import androidx.annotation.VisibleForTesting
-import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.preference.SeekBarMapper
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.disposables.Disposable
-import javax.inject.Inject
 
-@PerPreference
-class FrameDelayPreferencePresenter @Inject constructor(
+class FrameDelayPreferencePresenter(
     private val schedulers: SchedulersProvider,
-    private val settings: SceneSettings
+    private val settings: SceneSettings,
+    private val view: FrameDelayPreferenceView
 ) : SeekBarMapper<Int> {
-
-    private lateinit var view: FrameDelayPreferenceView
 
     private val frameDelaySeekbarMin = 16
     private val seekbarMax = 25
 
     private var disposable: Disposable? = null
 
-    fun onTakeView(view: FrameDelayPreferenceView) {
+    init {
         view.setMaxInt(seekbarMax)
-        this.view = view
     }
 
     fun onPreferenceChange(v: Int?) {

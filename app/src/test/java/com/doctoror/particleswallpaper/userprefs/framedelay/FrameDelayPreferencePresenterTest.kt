@@ -33,9 +33,7 @@ class FrameDelayPreferencePresenterTest {
         on(it.getMaxInt()).doReturn(25)
     }
 
-    private val underTest = FrameDelayPreferencePresenter(TrampolineSchedulers(), settings).apply {
-        onTakeView(view)
-    }
+    private val underTest = FrameDelayPreferencePresenter(TrampolineSchedulers(), settings, view)
 
     @Test
     fun testMapper() {
