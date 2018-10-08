@@ -15,22 +15,37 @@
  */
 package com.doctoror.particleswallpaper.userprefs.particlescale
 
-import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
+import org.koin.standalone.inject
+import org.koin.test.KoinTest
+import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class ParticleScalePreferenceTest {
+class ParticleScalePreferenceTest : KoinTest {
 
-    private val presenter: ParticleScalePreferencePresenter = mock()
+    private val presenter: ParticleScalePreferencePresenter by inject()
     private val underTest = ParticleScalePreference(RuntimeEnvironment.application).apply {
-        this.presenter = this@ParticleScalePreferenceTest.presenter
+        setMaxInt(70)
+    }
+
+    @Before
+    fun setup() {
+        declareMock<ParticleScalePreferencePresenter>()
+    }
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
     }
 
     @Test

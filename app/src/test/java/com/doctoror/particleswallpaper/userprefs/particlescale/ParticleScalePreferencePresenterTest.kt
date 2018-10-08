@@ -28,7 +28,7 @@ class ParticleScalePreferencePresenterTest {
     private val settings: SceneSettings = mock()
     private val view: SeekBarPreferenceView = mock()
 
-    private val underTest = ParticleScalePreferencePresenter(TrampolineSchedulers(), settings)
+    private val underTest = ParticleScalePreferencePresenter(TrampolineSchedulers(), settings, view)
 
     @Test
     fun testMapper() {
@@ -36,11 +36,7 @@ class ParticleScalePreferencePresenterTest {
     }
 
     @Test
-    fun setsMaxValueOnTakeView() {
-        // When
-        underTest.onTakeView(view)
-
-        // Then
+    fun setsMaxValueOnInit() {
         verify(view).setMaxInt(70)
     }
 
@@ -49,7 +45,6 @@ class ParticleScalePreferencePresenterTest {
         // Given
         val scale = 1.1f
         whenever(settings.observeParticleScale()).thenReturn(Observable.just(scale))
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()
@@ -63,7 +58,6 @@ class ParticleScalePreferencePresenterTest {
         // Given
         val dotScaleSource = PublishSubject.create<Float>()
         whenever(settings.observeParticleScale()).thenReturn(dotScaleSource)
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()
