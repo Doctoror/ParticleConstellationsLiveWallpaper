@@ -30,7 +30,7 @@ import com.doctoror.particleswallpaper.framework.lifecycle.LifecyclePreferenceFr
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHostImpl
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 @SuppressLint("ValidFragment") // Kotlin constructor with default value generates valid empty java constructor
 open class ConfigFragment @JvmOverloads constructor(
@@ -38,8 +38,7 @@ open class ConfigFragment @JvmOverloads constructor(
 ) :
     LifecyclePreferenceFragment(), OnActivityResultCallbackHost by ch {
 
-    @Inject
-    lateinit var intentProvider: OpenChangeWallpaperIntentProvider
+    private val intentProvider: OpenChangeWallpaperIntentProvider by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ApplicationlessInjection.getInstance(activity!!.applicationContext)

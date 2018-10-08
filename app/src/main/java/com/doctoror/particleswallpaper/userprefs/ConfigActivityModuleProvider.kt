@@ -15,11 +15,9 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.content.Context
 import android.os.Build
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.app.actions.ActivityStartActivityForResultAction
-import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import org.koin.dsl.module.module
 
@@ -32,14 +30,6 @@ class ConfigActivityModuleProvider {
      * Parameter list should contain an Activity at index 0.
      */
     fun provide() = module {
-
-        factory {
-            OpenChangeWallpaperIntentProvider(
-                apiLevelProvider = get(),
-                packageManager = get<Context>().packageManager,
-                packageName = get<Context>().packageName
-            )
-        }
 
         factory {
             OpenChangeWallpaperIntentUseCase(

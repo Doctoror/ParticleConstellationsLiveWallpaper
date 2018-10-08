@@ -17,6 +17,7 @@ package com.doctoror.particleswallpaper.framework.di
 
 import android.content.Context
 import com.doctoror.particleswallpaper.userprefs.ConfigActivityModuleProvider
+import com.doctoror.particleswallpaper.userprefs.ConfigModuleProvider
 import com.doctoror.particleswallpaper.userprefs.data.SettingsModuleProvider
 import org.koin.standalone.StandAloneContext
 
@@ -27,6 +28,7 @@ class KoinStarter {
             listOf(
                 AppModuleProvider().provide(context),
                 ConfigActivityModuleProvider().provide(),
+                ConfigModuleProvider().provide(),
                 SettingsModuleProvider().provide()
             )
         )
