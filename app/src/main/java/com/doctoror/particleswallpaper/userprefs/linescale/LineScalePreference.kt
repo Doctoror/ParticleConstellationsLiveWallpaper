@@ -20,11 +20,10 @@ import android.util.AttributeSet
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
-import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
+import com.doctoror.particleswallpaper.framework.di.inject
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreference
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
-import javax.inject.Inject
+import org.koin.core.parameter.parametersOf
 
 class LineScalePreference @JvmOverloads constructor(
     context: Context,
@@ -32,17 +31,12 @@ class LineScalePreference @JvmOverloads constructor(
     defStyle: Int = 0
 ) : SeekBarPreference(context, attrs, defStyle), SeekBarPreferenceView, LifecycleObserver {
 
-    @Inject
-    lateinit var presenter: LineScalePreferencePresenter
+    private val presenter: LineScalePreferencePresenter by inject(
+        parameters = { parametersOf(this as SeekBarPreferenceView) }
+    )
 
     init {
-        DaggerPreferenceComponent.builder()
-            .appComponent(AppComponentProvider.provideAppComponent(context))
-            .build()
-            .inject(this)
-
         isPersistent = false
-        presenter.onTakeView(this)
         setOnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(v as Int?)
             true

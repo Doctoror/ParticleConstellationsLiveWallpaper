@@ -28,7 +28,7 @@ class LineScalePreferencePresenterTest {
     private val settings: SceneSettings = mock()
     private val view: SeekBarPreferenceView = mock()
 
-    private val underTest = LineScalePreferencePresenter(TrampolineSchedulers(), settings)
+    private val underTest = LineScalePreferencePresenter(TrampolineSchedulers(), settings, view)
 
     @Test
     fun testMapper() {
@@ -36,11 +36,7 @@ class LineScalePreferencePresenterTest {
     }
 
     @Test
-    fun setsMaxValueOnTakeView() {
-        // When
-        underTest.onTakeView(view)
-
-        // Then
+    fun setsMaxValueOnInit() {
         verify(view).setMaxInt(70)
     }
 
@@ -49,7 +45,6 @@ class LineScalePreferencePresenterTest {
         // Given
         val scale = 1.1f
         whenever(settings.observeLineScale()).thenReturn(Observable.just(scale))
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()
@@ -63,7 +58,6 @@ class LineScalePreferencePresenterTest {
         // Given
         val lineScaleSource = PublishSubject.create<Float>()
         whenever(settings.observeLineScale()).thenReturn(lineScaleSource)
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()

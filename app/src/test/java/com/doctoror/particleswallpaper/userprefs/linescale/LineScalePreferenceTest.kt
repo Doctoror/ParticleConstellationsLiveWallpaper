@@ -15,22 +15,38 @@
  */
 package com.doctoror.particleswallpaper.userprefs.linescale
 
-import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
+import org.koin.standalone.inject
+import org.koin.test.KoinTest
+import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class LineScalePreferenceTest {
+class LineScalePreferenceTest : KoinTest {
 
-    private val presenter: LineScalePreferencePresenter = mock()
+    private val presenter: LineScalePreferencePresenter by inject()
+
     private val underTest = LineScalePreference(RuntimeEnvironment.application).apply {
-        this.presenter = this@LineScalePreferenceTest.presenter
+        setMaxInt(70)
+    }
+
+    @Before
+    fun setup() {
+        declareMock<LineScalePreferencePresenter>()
+    }
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
     }
 
     @Test
