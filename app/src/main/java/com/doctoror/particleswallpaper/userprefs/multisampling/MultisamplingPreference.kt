@@ -24,9 +24,8 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
-import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
-import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import javax.inject.Inject
+import com.doctoror.particleswallpaper.framework.di.inject
+import org.koin.core.parameter.parametersOf
 
 class MultisamplingPreference @JvmOverloads constructor(
     context: Context,
@@ -35,19 +34,14 @@ class MultisamplingPreference @JvmOverloads constructor(
 
     override var fragment: Fragment? = null
 
-    @Inject
-    lateinit var presenter: MultisamplingPreferencePresenter
+    private val presenter: MultisamplingPreferencePresenter by inject(
+        parameters = { parametersOf(this as MultisamplingPreferenceView) }
+    )
 
     private var supported = true;
 
     init {
-        DaggerPreferenceComponent.builder()
-            .appComponent(AppComponentProvider.provideAppComponent(context))
-            .build()
-            .inject(this)
-
         isPersistent = false
-        presenter.onTakeView(this)
         setOnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(
                 if (v == null) {

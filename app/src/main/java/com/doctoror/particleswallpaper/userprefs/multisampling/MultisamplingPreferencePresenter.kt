@@ -19,22 +19,16 @@ import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import io.reactivex.disposables.CompositeDisposable
-import javax.inject.Inject
 
-class MultisamplingPreferencePresenter @Inject constructor(
+class MultisamplingPreferencePresenter(
     private val schedulers: SchedulersProvider,
     private val settings: OpenGlSettings,
     private val settingsDevice: DeviceSettings,
+    private val view: MultisamplingPreferenceView,
     private val wallpaperChecker: WallpaperCheckerUseCase
 ) {
 
-    private lateinit var view: MultisamplingPreferenceView
-
     private val disposables = CompositeDisposable()
-
-    fun onTakeView(view: MultisamplingPreferenceView) {
-        this.view = view
-    }
 
     fun onPreferenceChange(v: Int) {
         settings.numSamples = v

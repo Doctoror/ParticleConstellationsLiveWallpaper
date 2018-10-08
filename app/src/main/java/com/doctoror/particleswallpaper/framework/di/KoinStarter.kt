@@ -27,6 +27,7 @@ import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference
 import com.doctoror.particleswallpaper.userprefs.license.LicensePreferenceModuleProvider
 import com.doctoror.particleswallpaper.userprefs.linelength.LineLengthPreferenceModuleProvider
 import com.doctoror.particleswallpaper.userprefs.linescale.LineScalePreferenceModuleProvider
+import com.doctoror.particleswallpaper.userprefs.multisampling.MultisamplingPreferenceModuleProvider
 import org.koin.standalone.StandAloneContext
 
 class KoinStarter {
@@ -45,6 +46,7 @@ class KoinStarter {
                 LicensePreferenceModuleProvider().provide(),
                 LineLengthPreferenceModuleProvider().provide(),
                 LineScalePreferenceModuleProvider().provide(),
+                MultisamplingPreferenceModuleProvider().provide(),
                 SettingsModuleProvider().provide()
             )
         )
