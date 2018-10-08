@@ -31,7 +31,7 @@ class BackgroundColorPreference @JvmOverloads constructor(
 ) : ColorPreferenceNoPreview(context, attrs), BackgroundColorPreferenceView, LifecycleObserver {
 
     private val presenter: BackgroundColorPreferencePresenter by inject(
-        parameters = { parametersOf(this) }
+        parameters = { parametersOf(this as BackgroundColorPreferenceView) }
     )
 
     private var value: Int? = null
