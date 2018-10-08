@@ -25,9 +25,8 @@ import android.util.AttributeSet
 import androidx.annotation.RequiresApi
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
-import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
-import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import javax.inject.Inject
+import com.doctoror.particleswallpaper.framework.di.inject
+import org.koin.core.parameter.parametersOf
 
 /**
  * Preferece for picking or clearing the background image
@@ -40,8 +39,9 @@ class BackgroundImagePreference @JvmOverloads constructor(
     defStyle: Int = 0
 ) : Preference(context, attrs), BackgroundImagePreferenceView, FragmentHolder {
 
-    @Inject
-    lateinit var presenter: BackgroundImagePreferencePresenter
+    private val presenter: BackgroundImagePreferencePresenter by inject(
+        parameters = { parametersOf(this as BackgroundImagePreferenceView) }
+    )
 
     override var fragment: Fragment? = null
         set(f) {
@@ -50,13 +50,7 @@ class BackgroundImagePreference @JvmOverloads constructor(
         }
 
     init {
-        DaggerPreferenceComponent.builder()
-            .appComponent(AppComponentProvider.provideAppComponent(context))
-            .build()
-            .inject(this)
-
         isPersistent = false
-        presenter.onTakeView(this)
     }
 
     override fun onClick() {

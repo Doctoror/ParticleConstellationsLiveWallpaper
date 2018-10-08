@@ -30,6 +30,8 @@ class AppModuleProvider {
 
         single<SchedulersProvider> { SchedulersProviderImpl() }
 
+        factory { Glide.get(context) }
+
         factory { Glide.with(context) }
 
         factory { ApiLevelProvider() }

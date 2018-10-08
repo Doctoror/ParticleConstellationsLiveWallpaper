@@ -19,6 +19,7 @@ import android.content.Context
 import com.doctoror.particleswallpaper.userprefs.ConfigActivityModuleProvider
 import com.doctoror.particleswallpaper.userprefs.ConfigModuleProvider
 import com.doctoror.particleswallpaper.userprefs.bgcolor.BackgroundColorPreferenceModuleProvider
+import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreferenceModuleProvider
 import com.doctoror.particleswallpaper.userprefs.data.SettingsModuleProvider
 import org.koin.standalone.StandAloneContext
 
@@ -29,6 +30,7 @@ class KoinStarter {
             listOf(
                 AppModuleProvider().provide(context),
                 BackgroundColorPreferenceModuleProvider().provide(),
+                BackgroundImagePreferenceModuleProvider().provide(),
                 ConfigActivityModuleProvider().provide(),
                 ConfigModuleProvider().provide(),
                 SettingsModuleProvider().provide()

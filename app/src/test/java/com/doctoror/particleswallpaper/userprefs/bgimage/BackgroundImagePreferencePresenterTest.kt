@@ -33,9 +33,11 @@ import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -60,23 +62,27 @@ class BackgroundImagePreferencePresenterTest {
 
     private fun newBackgrodundImagePreferencePresenter() = BackgroundImagePreferencePresenter(
         apiLevelProvider,
+        backgroundImageManager,
         context,
+        defaults,
         glide,
         pickImageGetContentUseCase,
         pickImageDocumentUseCase,
         TrampolineSchedulers(),
         settings,
-        defaults,
-        backgroundImageManager
-    ).apply {
-        onTakeView(view)
-    }
+        view
+    )
 
     @Before
     fun setup() {
         whenever(defaults.backgroundUri).thenReturn(NO_URI)
         whenever(settings.backgroundUri).thenReturn(NO_URI)
         whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
+    }
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
     }
 
     private fun setHostAndExtractOnActivityResultCallback(

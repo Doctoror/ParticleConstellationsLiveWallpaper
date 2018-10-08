@@ -47,19 +47,18 @@ import javax.inject.Inject
 @PerPreference
 class BackgroundImagePreferencePresenter @Inject constructor(
     apiLevelProvider: ApiLevelProvider,
+    private val backgroundImageManager: BackgroundImageManager,
     private val context: Context,
+    private val defaults: DefaultSceneSettings,
     private val glide: Glide,
     private val pickImageGetContentUseCase: PickImageGetContentUseCase,
     private val pickImageDocumentUseCase: PickImageDocumentUseCase,
     private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
-    private val defaults: DefaultSceneSettings,
-    private val backgroundImageManager: BackgroundImageManager
+    private val view: BackgroundImagePreferenceView
 ) {
 
     private val tag = "BgImagePrefPresenter"
-
-    private lateinit var view: BackgroundImagePreferenceView
 
     private val imageHandler: BackgroundImageHandler
 
@@ -85,10 +84,6 @@ class BackgroundImagePreferencePresenter @Inject constructor(
                 field = f
             }
         }
-
-    fun onTakeView(view: BackgroundImagePreferenceView) {
-        this.view = view
-    }
 
     fun onClick() {
         view.showActionDialog()
