@@ -20,9 +20,8 @@ import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
-import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
-import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import javax.inject.Inject
+import com.doctoror.particleswallpaper.framework.di.inject
+import org.koin.core.parameter.parametersOf
 
 class HowToApplyPreference @JvmOverloads constructor(
     context: Context,
@@ -30,20 +29,14 @@ class HowToApplyPreference @JvmOverloads constructor(
     defStyle: Int = 0
 ) : Preference(context, attrs), HowToApplyPreferenceView, FragmentHolder {
 
-    @Inject
-    lateinit var presenter: HowToApplyPreferencePresenter
+    private val presenter: HowToApplyPreferencePresenter by inject(
+        parameters = { parametersOf(this as HowToApplyPreferenceView) }
+    )
 
     override var fragment: Fragment? = null
 
     init {
         isPersistent = false
-
-        DaggerPreferenceComponent.builder()
-            .appComponent(AppComponentProvider.provideAppComponent(context))
-            .build()
-            .inject(this)
-
-        presenter.onTakeView(this)
     }
 
     override fun onClick() {

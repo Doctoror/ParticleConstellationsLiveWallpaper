@@ -15,24 +15,22 @@
  */
 package com.doctoror.particleswallpaper.userprefs.howtoapply
 
-import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
+import org.koin.dsl.module.module
 
-class HowToApplyPreferencePresenter(
-    private val intentProvider: OpenChangeWallpaperIntentProvider,
-    private val view: HowToApplyPreferenceView
-) {
+private const val PARAM_VIEW = 0
 
-    fun onClick() {
-        val intent = intentProvider.provideActionIntent()
-        when {
-            intentProvider.isWallaperChooserAction(intent) ->
-                view.showDialogHowToApplyUsingChooser()
+class HowToApplyPreferenceModuleProvider {
 
-            intent != null ->
-                view.showDialogHowToApplyUsingPreview()
+    /**
+     * Parameter at index 0 must be a HowToApplyPreferenceView.
+     */
+    fun provide() = module {
 
-            else ->
-                view.showDialogHowToApplyWithoutPreview()
+        factory {
+            HowToApplyPreferencePresenter(
+                intentProvider = get(),
+                view = it[PARAM_VIEW]
+            )
         }
     }
 }

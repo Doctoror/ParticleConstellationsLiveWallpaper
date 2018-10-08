@@ -28,9 +28,7 @@ class HowToApplyPreferencePresenterTest {
 
     private val view: HowToApplyPreferenceView = mock()
 
-    private val underTest = HowToApplyPreferencePresenter(intentProvider).apply {
-        onTakeView(view)
-    }
+    private val underTest = HowToApplyPreferencePresenter(intentProvider, view)
 
     @Test
     fun showsDialogHowToApplyUsingPreviewWhenPreviewSupported() {
