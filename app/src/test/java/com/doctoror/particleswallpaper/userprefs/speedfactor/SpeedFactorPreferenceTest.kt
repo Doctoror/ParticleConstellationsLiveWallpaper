@@ -15,22 +15,38 @@
  */
 package com.doctoror.particleswallpaper.userprefs.speedfactor
 
-import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
+import org.koin.standalone.inject
+import org.koin.test.KoinTest
+import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class SpeedFactorPreferenceTest {
+class SpeedFactorPreferenceTest : KoinTest {
 
-    private val presenter: SpeedFactorPreferencePresenter = mock()
+    private val presenter: SpeedFactorPreferencePresenter by inject()
+
     private val underTest = SpeedFactorPreference(RuntimeEnvironment.application).apply {
-        this.presenter = this@SpeedFactorPreferenceTest.presenter
+        setMaxInt(40)
+    }
+
+    @Before
+    fun setup() {
+        declareMock<SpeedFactorPreferencePresenter>()
+    }
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
     }
 
     @Test

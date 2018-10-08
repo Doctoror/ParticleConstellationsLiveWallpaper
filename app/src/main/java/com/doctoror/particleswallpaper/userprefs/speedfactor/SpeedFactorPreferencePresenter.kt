@@ -16,28 +16,23 @@
 package com.doctoror.particleswallpaper.userprefs.speedfactor
 
 import androidx.annotation.VisibleForTesting
-import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.preference.SeekBarMapper
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.disposables.Disposable
-import javax.inject.Inject
 
-@PerPreference
-class SpeedFactorPreferencePresenter @Inject constructor(
+class SpeedFactorPreferencePresenter(
     private val schedulers: SchedulersProvider,
-    private val settings: SceneSettings
+    private val settings: SceneSettings,
+    private val view: SeekBarPreferenceView
 ) : SeekBarMapper<Float> {
-
-    private lateinit var view: SeekBarPreferenceView
 
     private val seekBarMaxValue = 40
     private var disposable: Disposable? = null
 
-    fun onTakeView(view: SeekBarPreferenceView) {
+    init {
         view.setMaxInt(seekBarMaxValue)
-        this.view = view
     }
 
     fun onPreferenceChange(v: Int?) {

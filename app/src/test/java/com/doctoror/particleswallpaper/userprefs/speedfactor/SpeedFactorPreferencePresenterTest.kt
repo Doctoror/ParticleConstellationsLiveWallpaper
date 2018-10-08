@@ -28,7 +28,7 @@ class SpeedFactorPreferencePresenterTest {
     private val settings: SceneSettings = mock()
     private val view: SeekBarPreferenceView = mock()
 
-    private val underTest = SpeedFactorPreferencePresenter(TrampolineSchedulers(), settings)
+    private val underTest = SpeedFactorPreferencePresenter(TrampolineSchedulers(), settings, view)
 
     @Test
     fun testMapper() {
@@ -36,11 +36,7 @@ class SpeedFactorPreferencePresenterTest {
     }
 
     @Test
-    fun setsMaxValueOnTakeView() {
-        // When
-        underTest.onTakeView(view)
-
-        // Then
+    fun setsMaxValueOnInit() {
         verify(view).setMaxInt(40)
     }
 
@@ -49,7 +45,6 @@ class SpeedFactorPreferencePresenterTest {
         // Given
         val speedFactor = 1.5f
         whenever(settings.observeSpeedFactor()).thenReturn(Observable.just(speedFactor))
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()
@@ -63,7 +58,6 @@ class SpeedFactorPreferencePresenterTest {
         // Given
         val speedFactorSource = PublishSubject.create<Float>()
         whenever(settings.observeSpeedFactor()).thenReturn(speedFactorSource)
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()
