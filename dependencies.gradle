@@ -23,8 +23,6 @@ ext {
     rxJavaVersion = '2.2.2'
     rxAndroidVersion = '2.1.0'
 
-    daggerVersion = '2.16'
-
     colorPickerVersion = '2.4.1'
     glideVersion = '4.8.0'
 
@@ -43,11 +41,6 @@ ext {
             kotlin                : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
             rxJava                : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
             rxAndroid             : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
-
-            daggerAndroid         : "com.google.dagger:dagger-android:$daggerVersion",
-            daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$daggerVersion",
-            daggerCompiler        : "com.google.dagger:dagger-compiler:$daggerVersion",
-            dagger                : "com.google.dagger:dagger:$daggerVersion",
 
             colorPicker           : "com.rarepebble:colorpicker:$colorPickerVersion",
             glide                 : "com.github.bumptech.glide:glide:$glideVersion",

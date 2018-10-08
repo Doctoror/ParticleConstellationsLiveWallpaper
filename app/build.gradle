@@ -122,11 +122,6 @@ dependencies {
 
     implementation d.glide
     kapt d.glideCompiler
-
-    implementation d.dagger
-    implementation d.daggerAndroid
-    kapt d.daggerAndroidProcessor
-    kapt d.daggerCompiler
 }
 
 repositories {

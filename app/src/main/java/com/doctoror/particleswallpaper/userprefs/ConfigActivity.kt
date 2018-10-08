@@ -22,7 +22,6 @@ import android.view.MenuItem
 import android.widget.ImageView
 import com.doctoror.particlesdrawable.ParticlesView
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.lifecycle.LifecycleActivity
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
@@ -38,10 +37,6 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
     private var view: ParticlesView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ApplicationlessInjection
-            .getInstance(applicationContext)
-            .activityInjector
-            .inject(this)
         super.onCreate(savedInstanceState)
         fragmentTransactionsAllowed = true
 

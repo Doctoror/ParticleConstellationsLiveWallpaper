@@ -6,7 +6,6 @@ import android.app.DialogFragment
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
-import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.di.inject
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
@@ -18,10 +17,6 @@ class MultisamplingRestartDialog : DialogFragment() {
     private lateinit var useCase: OpenChangeWallpaperIntentUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ApplicationlessInjection
-            .getInstance(activity!!.applicationContext!!)
-            .fragmentInjector
-            .inject(this)
         super.onCreate(savedInstanceState)
 
         useCase = OpenChangeWallpaperIntentUseCase(

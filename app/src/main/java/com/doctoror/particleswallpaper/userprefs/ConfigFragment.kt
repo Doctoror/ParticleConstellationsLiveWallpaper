@@ -25,7 +25,6 @@ import androidx.lifecycle.LifecycleObserver
 import com.doctoror.particleswallpaper.BuildConfig
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
-import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.lifecycle.LifecyclePreferenceFragment
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHostImpl
@@ -41,10 +40,6 @@ open class ConfigFragment @JvmOverloads constructor(
     private val intentProvider: OpenChangeWallpaperIntentProvider by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ApplicationlessInjection.getInstance(activity!!.applicationContext)
-            .fragmentInjector
-            .inject(this)
-
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.prefs)
         hideOpenGlPreferencesIfApplicable()
