@@ -15,19 +15,9 @@
  */
 package com.doctoror.particleswallpaper.userprefs.howtoapply
 
-import android.os.Bundle
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 
 class HowToApplyUsingPreviewDialogFragment : HowToApplyWithActionDialogFragment() {
 
     override val message = R.string.how_to_apply_with_preview
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        ApplicationlessInjection
-            .getInstance(activity.applicationContext)
-            .fragmentInjector
-            .inject(this)
-        super.onCreate(savedInstanceState)
-    }
 }

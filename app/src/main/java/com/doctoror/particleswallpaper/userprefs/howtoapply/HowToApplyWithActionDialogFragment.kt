@@ -22,12 +22,11 @@ import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 abstract class HowToApplyWithActionDialogFragment : DialogFragment() {
 
-    @Inject
-    lateinit var intentProvider: OpenChangeWallpaperIntentProvider
+    private val intentProvider: OpenChangeWallpaperIntentProvider by inject()
 
     protected abstract val message: Int
 
