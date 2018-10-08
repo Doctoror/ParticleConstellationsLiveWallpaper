@@ -26,7 +26,7 @@ private const val PARAM_VIEW = 0
 class BackgroundImagePreferenceModuleProvider {
 
     /**
-     * Parameter at 0 should be BackgroundColorPreferenceView.
+     * Parameter at 0 should be BackgroundImagePreferenceView.
      */
     fun provide() = module {
 

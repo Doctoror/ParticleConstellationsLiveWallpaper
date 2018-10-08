@@ -15,22 +15,38 @@
  */
 package com.doctoror.particleswallpaper.userprefs.density
 
-import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
+import org.koin.standalone.inject
+import org.koin.test.KoinTest
+import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class DensityPreferenceTest {
+class DensityPreferenceTest : KoinTest {
 
-    private val presenter: DensityPreferencePresenter = mock()
+    private val presenter: DensityPreferencePresenter by inject()
+
     private val underTest = DensityPreference(RuntimeEnvironment.application).apply {
-        this.presenter = this@DensityPreferenceTest.presenter
+        setMaxInt(149)
+    }
+
+    @Before
+    fun setup() {
+        declareMock<DensityPreferencePresenter>()
+    }
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
     }
 
     @Test

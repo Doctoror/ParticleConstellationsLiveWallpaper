@@ -28,7 +28,7 @@ class DensityPreferencePresenterTest {
     private val settings: SceneSettings = mock()
     private val view: SeekBarPreferenceView = mock()
 
-    private val underTest = DensityPreferencePresenter(TrampolineSchedulers(), settings)
+    private val underTest = DensityPreferencePresenter(TrampolineSchedulers(), settings, view)
 
     @Test
     fun testMapper() {
@@ -36,11 +36,7 @@ class DensityPreferencePresenterTest {
     }
 
     @Test
-    fun setsMaxValueOnTakeView() {
-        // When
-        underTest.onTakeView(view)
-
-        // Then
+    fun setsMaxValueOnInit() {
         verify(view).setMaxInt(149)
     }
 
@@ -49,7 +45,6 @@ class DensityPreferencePresenterTest {
         // Given
         val numDots = 128
         whenever(settings.observeDensity()).thenReturn(Observable.just(numDots))
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()
@@ -63,7 +58,6 @@ class DensityPreferencePresenterTest {
         // Given
         val numDotsSource = PublishSubject.create<Int>()
         whenever(settings.observeDensity()).thenReturn(numDotsSource)
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()

@@ -16,28 +16,23 @@
 package com.doctoror.particleswallpaper.userprefs.density
 
 import androidx.annotation.VisibleForTesting
-import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.preference.SeekBarMapper
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.disposables.Disposable
-import javax.inject.Inject
 
-@PerPreference
-class DensityPreferencePresenter @Inject constructor(
+class DensityPreferencePresenter(
     private val schedulers: SchedulersProvider,
-    private val settings: SceneSettings
+    private val settings: SceneSettings,
+    private val view: SeekBarPreferenceView
 ) : SeekBarMapper<Int> {
-
-    private lateinit var view: SeekBarPreferenceView
 
     private val seekBarMaxValue = 149
     private var disposable: Disposable? = null
 
-    fun onTakeView(view: SeekBarPreferenceView) {
+    init {
         view.setMaxInt(seekBarMaxValue)
-        this.view = view
     }
 
     fun onPreferenceChange(v: Int?) {
