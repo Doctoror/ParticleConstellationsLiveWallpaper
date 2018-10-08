@@ -54,6 +54,7 @@ ext {
             glideCompiler         : "com.github.bumptech.glide:compiler:$glideVersion",
 
             koin                  : "org.koin:koin-android:$koinVersion",
+            koinTest              : "org.koin:koin-test:$koinVersion",
 
             licencesDialog        : "de.psdev.licensesdialog:licensesdialog:$licencesDialogVersion"
     ]

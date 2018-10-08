@@ -19,27 +19,42 @@ import android.view.Menu
 import android.view.MenuItem
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
+import org.koin.standalone.inject
+import org.koin.test.KoinTest
+import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class ConfigActivityTest {
+class ConfigActivityTest : KoinTest {
 
-    private val presenter: ConfigActivityPresenter = mock()
+    private val presenter: ConfigActivityPresenter by inject()
 
     private val underTest = ConfigActivity()
 
     private val underTestController = ActivityController.of(underTest)
 
+    @Before
+    fun setup() {
+        declareMock<ConfigActivityPresenter>()
+    }
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
+    }
+
     @Test
     fun deliversOnCreateOptionsMenu() {
         // Given
         underTestController.create()
-        replacePresenter()
         val menu: Menu = mock()
 
         // When
@@ -53,7 +68,6 @@ class ConfigActivityTest {
     fun deliversOnOptionsItemSelected() {
         // Given
         underTestController.create()
-        replacePresenter()
         val menuItem: MenuItem = mock()
 
         // When
@@ -61,9 +75,5 @@ class ConfigActivityTest {
 
         // Then
         verify(presenter).onOptionsItemSelected(menuItem)
-    }
-
-    private fun replacePresenter() {
-        underTest.presenter = this@ConfigActivityTest.presenter
     }
 }

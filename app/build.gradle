@@ -104,6 +104,7 @@ dependencies {
     testImplementation td.mockitoKotlin
 
     implementation d.koin
+    implementation d.koinTest
     implementation d.kotlin
     implementation d.rxJava
     implementation d.rxAndroid
