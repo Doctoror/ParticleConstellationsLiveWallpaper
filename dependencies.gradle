@@ -18,6 +18,7 @@ ext {
     androidxVersion = '1.0.0'
 
     //Libraries
+    koinVersion = '1.0.1'
     kotlinVersion = rootProject.ext.kotlinVersion
     rxJavaVersion = '2.2.2'
     rxAndroidVersion = '2.1.0'
@@ -51,6 +52,8 @@ ext {
             colorPicker           : "com.rarepebble:colorpicker:$colorPickerVersion",
             glide                 : "com.github.bumptech.glide:glide:$glideVersion",
             glideCompiler         : "com.github.bumptech.glide:compiler:$glideVersion",
+
+            koin                  : "org.koin:koin-android:$koinVersion",
 
             licencesDialog        : "de.psdev.licensesdialog:licensesdialog:$licencesDialogVersion"
     ]

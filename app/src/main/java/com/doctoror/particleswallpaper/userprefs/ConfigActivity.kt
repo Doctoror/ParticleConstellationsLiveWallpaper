@@ -24,14 +24,16 @@ import com.doctoror.particlesdrawable.ParticlesView
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.lifecycle.LifecycleActivity
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
-    @Inject
-    lateinit var presenter: ConfigActivityPresenter
-
     private var fragmentTransactionsAllowed = false
+
+    private val presenter: ConfigActivityPresenter by inject(
+        parameters = { parametersOf(this) }
+    )
 
     private var view: ParticlesView? = null
 
