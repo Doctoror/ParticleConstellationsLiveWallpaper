@@ -21,9 +21,8 @@ import android.content.Intent
 import android.os.Build
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.framework.app.actions.StartActivityForResultAction
-import javax.inject.Inject
 
-class PickImageDocumentUseCase @Inject constructor(
+class PickImageDocumentUseCase(
     private val getContentUseCase: PickImageGetContentUseCase
 ) {
 

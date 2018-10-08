@@ -19,9 +19,8 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.framework.app.actions.StartActivityForResultAction
-import javax.inject.Inject
 
-class PickImageGetContentUseCase @Inject constructor() {
+class PickImageGetContentUseCase {
 
     @Throws(ActivityNotFoundException::class)
     fun invoke(startActivityForResultAction: StartActivityForResultAction) {

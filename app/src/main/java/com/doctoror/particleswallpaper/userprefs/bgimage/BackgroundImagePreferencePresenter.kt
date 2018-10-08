@@ -33,7 +33,6 @@ import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
-import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
@@ -42,10 +41,8 @@ import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Observable
-import javax.inject.Inject
 
-@PerPreference
-class BackgroundImagePreferencePresenter @Inject constructor(
+class BackgroundImagePreferencePresenter(
     apiLevelProvider: ApiLevelProvider,
     private val backgroundImageManager: BackgroundImageManager,
     private val context: Context,
