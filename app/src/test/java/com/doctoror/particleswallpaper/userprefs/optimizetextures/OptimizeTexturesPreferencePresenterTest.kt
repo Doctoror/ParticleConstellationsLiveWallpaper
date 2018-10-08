@@ -33,10 +33,9 @@ class OptimizeTexturesPreferencePresenterTest {
     private val underTest = OptimizeTexturesPreferencePresenter(
         glide,
         settings,
-        TrampolineSchedulers()
-    ).apply {
-        onTakeView(view)
-    }
+        TrampolineSchedulers(),
+        view
+    )
 
     @Test
     fun setsCheckedStateBasedOnSettingsOnStart() {

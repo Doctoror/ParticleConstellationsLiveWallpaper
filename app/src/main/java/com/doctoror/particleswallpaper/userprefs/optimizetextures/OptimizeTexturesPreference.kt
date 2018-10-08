@@ -21,9 +21,8 @@ import android.util.AttributeSet
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
-import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import javax.inject.Inject
+import com.doctoror.particleswallpaper.framework.di.inject
+import org.koin.core.parameter.parametersOf
 
 class OptimizeTexturesPreference @JvmOverloads constructor(
     contextParam: Context,
@@ -31,19 +30,12 @@ class OptimizeTexturesPreference @JvmOverloads constructor(
     defStyle: Int = 0
 ) : CheckBoxPreference(contextParam, attrs), OptimizeTexturesView, LifecycleObserver {
 
-    @Inject
-    lateinit var presenter: OptimizeTexturesPreferencePresenter
+    private val presenter: OptimizeTexturesPreferencePresenter by inject(
+        parameters = { parametersOf(this as OptimizeTexturesView) }
+    )
 
     init {
         isPersistent = false
-
-        DaggerPreferenceComponent.builder()
-            .appComponent(AppComponentProvider.provideAppComponent(context))
-            .build()
-            .inject(this)
-
-        presenter.onTakeView(this)
-
         setOnPreferenceChangeListener { _, value ->
             presenter.onValueChanged(value as Boolean)
             true
