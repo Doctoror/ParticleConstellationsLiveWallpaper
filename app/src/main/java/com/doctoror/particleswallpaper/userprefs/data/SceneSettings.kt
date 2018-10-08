@@ -21,7 +21,7 @@ import io.reactivex.subjects.BehaviorSubject
 
 const val NO_URI = ""
 
-const val SCENE_PREFERENCES_NAME = "prefs"
+const val PREFERENCES_NAME_SCENE = "prefs"
 
 private const val KEY_BACKGROUND_COLOR = "backgroundColor"
 

@@ -27,39 +27,25 @@ import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
-import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.android.schedulers.AndroidSchedulers
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 class WallpaperServiceImpl : WallpaperService() {
 
-    @Inject
-    lateinit var apiLevelProvider: ApiLevelProvider
+    private val apiLevelProvider: ApiLevelProvider by inject()
 
-    @Inject
-    lateinit var schedulers: SchedulersProvider
+    private val schedulers: SchedulersProvider by inject()
 
-    @Inject
-    lateinit var configuratorFactory: SceneConfiguratorFactory
+    private val configuratorFactory: SceneConfiguratorFactory by inject()
 
-    @Inject
-    lateinit var settings: SceneSettings
+    private val settings: SceneSettings by inject()
 
-    @Inject
-    lateinit var settingsGl: OpenGlSettings
+    private val settingsGl: OpenGlSettings by inject()
 
     private val textureDimensionsCalculator = TextureDimensionsCalculator()
-
-    override fun onCreate() {
-        ApplicationlessInjection
-            .getInstance(applicationContext)
-            .serviceInjector
-            .inject(this)
-        super.onCreate()
-    }
 
     override fun onCreateEngine(): Engine {
         val scene = ParticlesScene()

@@ -52,7 +52,7 @@ class ConfigModule {
         defaults: DefaultSceneSettings
     ) = SceneSettings(
         defaults,
-        context.getSharedPreferences(SCENE_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        context.getSharedPreferences(PREFERENCES_NAME_SCENE, Context.MODE_PRIVATE)
     )
 
     @Provides

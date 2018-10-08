@@ -16,6 +16,8 @@
 package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.Context
+import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
+import com.doctoror.particleswallpaper.engine.configurator.SceneConfiguratorFactory
 import org.koin.dsl.module.module
 
 class SettingsModuleProvider {
@@ -30,10 +32,32 @@ class SettingsModuleProvider {
         }
 
         single {
+            DeviceSettings(
+                prefs = get<Context>().getSharedPreferences(
+                    PREFERENCES_NAME_DEVICE,
+                    Context.MODE_PRIVATE
+                )
+            )
+        }
+
+        single {
+            OpenGlSettings(
+                prefs = get<Context>().getSharedPreferences(
+                    PREFERENCES_NAME_OPENGL,
+                    Context.MODE_PRIVATE
+                )
+            )
+        }
+
+        factory { SceneConfigurator() }
+
+        factory { SceneConfiguratorFactory() }
+
+        single {
             SceneSettings(
                 defaults = get(),
                 prefs = get<Context>().getSharedPreferences(
-                    SCENE_PREFERENCES_NAME,
+                    PREFERENCES_NAME_SCENE,
                     Context.MODE_PRIVATE
                 )
             )

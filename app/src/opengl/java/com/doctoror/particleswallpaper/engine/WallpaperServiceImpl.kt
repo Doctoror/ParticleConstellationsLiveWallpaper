@@ -28,46 +28,31 @@ import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfiguratorFactory
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
-import com.doctoror.particleswallpaper.framework.di.ApplicationlessInjection
 import com.doctoror.particleswallpaper.framework.execution.GlScheduler
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import net.rbgrn.android.glwallpaperservice.GLWallpaperService
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 class WallpaperServiceImpl : GLWallpaperService() {
 
-    @Inject
-    lateinit var apiLevelProvider: ApiLevelProvider
+    private val apiLevelProvider: ApiLevelProvider by inject()
 
-    @Inject
-    lateinit var schedulers: SchedulersProvider
+    private val schedulers: SchedulersProvider by inject()
 
-    @Inject
-    lateinit var configuratorFactory: SceneConfiguratorFactory
+    private val configuratorFactory: SceneConfiguratorFactory by inject()
 
-    @Inject
-    lateinit var settings: SceneSettings
+    private val settings: SceneSettings by inject()
 
-    @Inject
-    lateinit var settingsOpenGL: OpenGlSettings
+    private val settingsOpenGL: OpenGlSettings by inject()
 
-    @Inject
-    lateinit var settingsDevice: DeviceSettings
+    private val settingsDevice: DeviceSettings by inject()
 
     private val textureDimensionsCalculator = TextureDimensionsCalculator()
-
-    override fun onCreate() {
-        ApplicationlessInjection
-            .getInstance(applicationContext)
-            .serviceInjector
-            .inject(this)
-        super.onCreate()
-    }
 
     override fun onCreateEngine(): Engine {
         val scene = ParticlesScene()
