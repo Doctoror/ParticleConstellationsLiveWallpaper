@@ -26,16 +26,11 @@ import javax.inject.Inject
 class BackgroundColorPreferencePresenter @Inject constructor(
     private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
-    private val defaults: DefaultSceneSettings
+    private val defaults: DefaultSceneSettings,
+    private val view: BackgroundColorPreferenceView
 ) {
 
-    private lateinit var view: BackgroundColorPreferenceView
-
     private var disposable: Disposable? = null
-
-    fun onTakeView(view: BackgroundColorPreferenceView) {
-        this.view = view
-    }
 
     fun onPreferenceChange(v: Int?) {
         val color = v ?: defaults.backgroundColor

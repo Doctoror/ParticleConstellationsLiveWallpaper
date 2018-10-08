@@ -15,22 +15,35 @@
  */
 package com.doctoror.particleswallpaper.userprefs.bgcolor
 
-import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
+import org.koin.standalone.inject
+import org.koin.test.KoinTest
+import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class BackgroundColorPreferenceTest {
+class BackgroundColorPreferenceTest : KoinTest {
 
-    private val presenter: BackgroundColorPreferencePresenter = mock()
+    private val presenter: BackgroundColorPreferencePresenter by inject()
 
-    private val underTest = BackgroundColorPreference(RuntimeEnvironment.application).apply {
-        this.presenter = this@BackgroundColorPreferenceTest.presenter
+    private val underTest = BackgroundColorPreference(RuntimeEnvironment.application)
+
+    @Before
+    fun setup() {
+        declareMock<BackgroundColorPreferencePresenter>()
+    }
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
     }
 
     @Test

@@ -31,7 +31,7 @@ class BackgroundColorPreferencePresenterTest {
     private val view: BackgroundColorPreferenceView = mock()
 
     private val underTest = BackgroundColorPreferencePresenter(
-        TrampolineSchedulers(), settings, defaults
+        TrampolineSchedulers(), settings, defaults, view
     )
 
     @Test
@@ -39,7 +39,6 @@ class BackgroundColorPreferencePresenterTest {
         // Given
         val color = Color.CYAN
         whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(color))
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()
@@ -53,7 +52,6 @@ class BackgroundColorPreferencePresenterTest {
         // Given
         val colorSource = PublishSubject.create<Int>()
         whenever(settings.observeBackgroundColor()).thenReturn(colorSource)
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()

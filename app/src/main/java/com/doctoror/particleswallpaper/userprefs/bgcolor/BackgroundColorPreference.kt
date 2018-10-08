@@ -20,11 +20,9 @@ import android.util.AttributeSet
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.doctoror.particleswallpaper.framework.di.components.AppComponentProvider
-import com.doctoror.particleswallpaper.framework.di.components.DaggerPreferenceComponent
-import com.doctoror.particleswallpaper.framework.di.scopes.PerPreference
+import com.doctoror.particleswallpaper.framework.di.inject
 import com.doctoror.particleswallpaper.userprefs.particlecolor.ColorPreferenceNoPreview
-import javax.inject.Inject
+import org.koin.core.parameter.parametersOf
 
 class BackgroundColorPreference @JvmOverloads constructor(
     context: Context,
@@ -32,21 +30,14 @@ class BackgroundColorPreference @JvmOverloads constructor(
     defStyle: Int = 0
 ) : ColorPreferenceNoPreview(context, attrs), BackgroundColorPreferenceView, LifecycleObserver {
 
-    @Inject
-    @PerPreference
-    lateinit var presenter: BackgroundColorPreferencePresenter
+    private val presenter: BackgroundColorPreferencePresenter by inject(
+        parameters = { parametersOf(this) }
+    )
 
     private var value: Int? = null
 
     init {
         isPersistent = false
-
-        DaggerPreferenceComponent.builder()
-            .appComponent(AppComponentProvider.provideAppComponent(context))
-            .build()
-            .inject(this)
-
-        presenter.onTakeView(this)
 
         setOnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(v as Int?)
