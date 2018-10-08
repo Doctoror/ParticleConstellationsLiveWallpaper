@@ -15,22 +15,38 @@
  */
 package com.doctoror.particleswallpaper.userprefs.linelength
 
-import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
+import org.koin.standalone.inject
+import org.koin.test.KoinTest
+import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
-class LineLengthPreferenceTest {
+class LineLengthPreferenceTest : KoinTest {
 
-    private val presenter: LineLengthPreferencePresenter = mock()
+    private val presenter: LineLengthPreferencePresenter by inject()
+
     private val underTest = LineLengthPreference(RuntimeEnvironment.application).apply {
-        this.presenter = this@LineLengthPreferenceTest.presenter
+        setMaxInt(100)
+    }
+
+    @Before
+    fun setup() {
+        declareMock<LineLengthPreferencePresenter>()
+    }
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
     }
 
     @Test

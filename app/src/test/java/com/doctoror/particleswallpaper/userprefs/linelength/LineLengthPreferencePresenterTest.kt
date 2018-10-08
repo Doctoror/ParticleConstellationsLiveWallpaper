@@ -28,7 +28,7 @@ class LineLengthPreferencePresenterTest {
     private val settings: SceneSettings = mock()
     private val view: SeekBarPreferenceView = mock()
 
-    private val underTest = LineLengthPreferencePresenter(TrampolineSchedulers(), settings)
+    private val underTest = LineLengthPreferencePresenter(TrampolineSchedulers(), settings, view)
 
     @Test
     fun testMapper() {
@@ -36,11 +36,7 @@ class LineLengthPreferencePresenterTest {
     }
 
     @Test
-    fun setsMaxValueOnTakeView() {
-        // When
-        underTest.onTakeView(view)
-
-        // Then
+    fun setsMaxValueOnInit() {
         verify(view).setMaxInt(100)
     }
 
@@ -49,7 +45,6 @@ class LineLengthPreferencePresenterTest {
         // Given
         val distance = 12f
         whenever(settings.observeLineLength()).thenReturn(Observable.just(distance))
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()
@@ -63,7 +58,6 @@ class LineLengthPreferencePresenterTest {
         // Given
         val lineDistanceSource = PublishSubject.create<Float>()
         whenever(settings.observeLineLength()).thenReturn(lineDistanceSource)
-        underTest.onTakeView(view)
 
         // When
         underTest.onStart()
