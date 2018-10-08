@@ -32,22 +32,35 @@ open class SeekBarPreference @JvmOverloads constructor(
     defStyle: Int = 0
 ) : Preference(context, attrs, defStyle), OnSeekBarChangeListener {
 
-    private var mProgress = 0
-    private var mMax = 0
-    private var mTrackingTouch = false
+    private var trackingTouch = false
 
-    var max: Int
-        get() = mMax
-        set(max) {
-            if (max != mMax) {
-                mMax = max
+    var max: Int = 0
+        set(value) {
+            if (field != value) {
+                field = value
+                notifyChanged()
+            }
+        }
+
+    var progress: Int = 0
+        set(value) {
+            var newValue = value
+            if (value > max) {
+                newValue = max
+            }
+            if (value < 0) {
+                newValue = 0
+            }
+            if (field != newValue) {
+                field = newValue
+                persistInt(newValue)
                 notifyChanged()
             }
         }
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyle, 0)
-        max = a.getInt(R.styleable.SeekBarPreference_max, mMax)
+        max = a.getInt(R.styleable.SeekBarPreference_max, max)
         a.recycle()
         layoutResource = R.layout.preference_widget_seekbar
     }
@@ -56,14 +69,14 @@ open class SeekBarPreference @JvmOverloads constructor(
         super.onBindView(view)
         val seekBar = view.findViewById<SeekBar>(R.id.seekbar)
         seekBar.setOnSeekBarChangeListener(this)
-        seekBar.max = mMax
-        seekBar.progress = mProgress
+        seekBar.max = max
+        seekBar.progress = progress
         seekBar.isEnabled = isEnabled
     }
 
     override fun onSetInitialValue(restoreValue: Boolean, defaultValue: Any?) {
         progress = when {
-            restoreValue -> getPersistedInt(mProgress)
+            restoreValue -> getPersistedInt(progress)
             defaultValue != null -> defaultValue as Int
             else -> 0
         }
@@ -71,55 +84,34 @@ open class SeekBarPreference @JvmOverloads constructor(
 
     override fun onGetDefaultValue(a: TypedArray, index: Int): Any = a.getInt(index, 0)
 
-    private fun setProgress(progress: Int, notifyChanged: Boolean) {
-        var progressMutable = progress
-        if (progress > mMax) {
-            progressMutable = mMax
-        }
-        if (progress < 0) {
-            progressMutable = 0
-        }
-        if (progressMutable != mProgress) {
-            mProgress = progressMutable
-            persistInt(progressMutable)
-            if (notifyChanged) {
-                notifyChanged()
-            }
-        }
-    }
-
-    var progress: Int
-        get() = mProgress
-        set(progress) = setProgress(progress, true)
-
     /**
      * Persist the seekBar's progress value if callChangeListener returns true,
      * otherwise set the seekBar's progress to the stored value
      */
     private fun syncProgress(seekBar: SeekBar) {
-        val progress = seekBar.progress
-        if (progress != mProgress) {
-            if (callChangeListener(progress)) {
-                setProgress(progress, false)
+        val syncValue = seekBar.progress
+        if (progress != syncValue) {
+            if (callChangeListener(syncValue)) {
+                progress = syncValue
             } else {
-                seekBar.progress = mProgress
+                seekBar.progress = progress
             }
         }
     }
 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-        if (fromUser && !mTrackingTouch) {
+        if (fromUser && !trackingTouch) {
             syncProgress(seekBar)
         }
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar) {
-        mTrackingTouch = true
+        trackingTouch = true
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-        mTrackingTouch = false
-        if (seekBar.progress != mProgress) {
+        trackingTouch = false
+        if (seekBar.progress != progress) {
             syncProgress(seekBar)
         }
     }
@@ -139,8 +131,8 @@ open class SeekBarPreference @JvmOverloads constructor(
 
         // Save the instance state
         val myState = SavedState(superState)
-        myState.mProgress = mProgress
-        myState.mMax = mMax
+        myState.progress = progress
+        myState.max = max
         return myState
     }
 
@@ -154,38 +146,33 @@ open class SeekBarPreference @JvmOverloads constructor(
         // Restore the instance state
         val myState = state as SavedState
         super.onRestoreInstanceState(myState.superState)
-        mProgress = myState.mProgress
-        mMax = myState.mMax
+        progress = myState.progress
+        max = myState.max
         notifyChanged()
     }
 
     private class SavedState : BaseSavedState {
 
-        var mProgress = 0
-        var mMax = 0
+        var progress = 0
+        var max = 0
 
         constructor(superState: Parcelable) : super(superState)
 
         constructor(source: Parcel) : super(source) {
-            mProgress = source.readInt()
-            mMax = source.readInt()
+            progress = source.readInt()
+            max = source.readInt()
         }
 
         override fun writeToParcel(dest: Parcel, flags: Int) {
             super.writeToParcel(dest, flags)
-            dest.writeInt(mProgress)
-            dest.writeInt(mMax)
+            dest.writeInt(progress)
+            dest.writeInt(max)
         }
 
-        companion object {
-            @Suppress("unused")
-            @JvmField
-            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
+        companion object CREATOR : Parcelable.Creator<SavedState> {
 
-                override fun createFromParcel(p: Parcel) = SavedState(p)
-
-                override fun newArray(size: Int): Array<SavedState?> = arrayOfNulls(size)
-            }
+            override fun createFromParcel(p: Parcel) = SavedState(p)
+            override fun newArray(size: Int) = arrayOfNulls<SavedState?>(size)
         }
     }
 }
