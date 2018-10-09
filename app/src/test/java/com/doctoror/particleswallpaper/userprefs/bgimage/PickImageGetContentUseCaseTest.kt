@@ -20,10 +20,12 @@ import android.content.Intent
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.framework.app.actions.StartActivityForResultAction
 import com.nhaarman.mockito_kotlin.*
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -32,6 +34,11 @@ import org.robolectric.annotation.Config
 class PickImageGetContentUseCaseTest {
 
     private val underTest = PickImageGetContentUseCase()
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
+    }
 
     @Test
     fun picksByGetContentChooser() {
@@ -56,7 +63,7 @@ class PickImageGetContentUseCaseTest {
         val action: StartActivityForResultAction = mock {
             var thrown = false
             on(it.startActivityForResult(any(), eq(REQUEST_CODE_GET_CONTENT)))
-                .doAnswer {
+                .doAnswer { _ ->
                     if (!thrown) {
                         thrown = true
                         throw ActivityNotFoundException()

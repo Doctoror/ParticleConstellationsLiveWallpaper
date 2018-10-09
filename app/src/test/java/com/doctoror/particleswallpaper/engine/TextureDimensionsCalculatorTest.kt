@@ -16,9 +16,11 @@
 package com.doctoror.particleswallpaper.engine
 
 import android.util.Pair
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -27,6 +29,11 @@ import org.robolectric.annotation.Config
 class TextureDimensionsCalculatorTest {
 
     private val underTest = TextureDimensionsCalculator()
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
+    }
 
     @Test
     fun returnsSameNpotDimensionsWhenOptimizationDisabled() {

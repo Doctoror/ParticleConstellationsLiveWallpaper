@@ -20,9 +20,11 @@ import android.content.Intent
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.framework.app.actions.StartActivityForResultAction
 import com.nhaarman.mockito_kotlin.*
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -32,6 +34,11 @@ class PickImageDocumentUseCaseTest {
 
     private val openImageGetContentUseCase: PickImageGetContentUseCase = mock()
     private val underTest = PickImageDocumentUseCase(openImageGetContentUseCase)
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
+    }
 
     @Test
     fun opensImageDocumentPicker() {

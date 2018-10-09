@@ -20,11 +20,13 @@ import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreference
 import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference
 import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreference
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.android.controller.FragmentController
@@ -35,6 +37,11 @@ import org.robolectric.annotation.Config
 class ConfigFragmentTest {
 
     private val underTestController = FragmentController.of(ConfigFragment())
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
+    }
 
     @Test
     fun backgroundImagePreferenceHostSetOnCreate() {

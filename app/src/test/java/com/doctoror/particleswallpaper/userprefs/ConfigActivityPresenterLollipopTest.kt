@@ -28,9 +28,11 @@ import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperInte
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Completable
+import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -56,6 +58,11 @@ class ConfigActivityPresenterLollipopTest {
         settings,
         view
     )
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
+    }
 
     @Test
     fun initsToolbarOnCreate() {

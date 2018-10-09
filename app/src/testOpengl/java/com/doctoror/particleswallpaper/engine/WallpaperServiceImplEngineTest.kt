@@ -20,10 +20,12 @@ import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -37,6 +39,11 @@ class WallpaperServiceImplEngineTest {
 
     private val underTest = service.EngineImpl(renderer, 0).apply {
         presenter = this@WallpaperServiceImplEngineTest.presenter
+    }
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
     }
 
     @Test

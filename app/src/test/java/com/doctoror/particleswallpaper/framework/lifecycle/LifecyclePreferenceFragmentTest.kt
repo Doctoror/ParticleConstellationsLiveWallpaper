@@ -23,6 +23,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.FragmentController
 import org.robolectric.annotation.Config
@@ -58,6 +59,7 @@ class LifecyclePreferenceFragmentTest {
     @After
     fun tearDown() {
         underTest.lifecycle.removeObserver(testObserver)
+        StandAloneContext.stopKoin()
     }
 
     @Test

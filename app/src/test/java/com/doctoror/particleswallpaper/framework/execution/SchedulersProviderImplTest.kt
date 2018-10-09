@@ -17,9 +17,11 @@ package com.doctoror.particleswallpaper.framework.execution
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -28,6 +30,11 @@ import org.robolectric.annotation.Config
 class SchedulersProviderImplTest {
 
     private val underTest = SchedulersProviderImpl()
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
+    }
 
     @Test
     fun returnsCorrectMainThreadScheduler() {

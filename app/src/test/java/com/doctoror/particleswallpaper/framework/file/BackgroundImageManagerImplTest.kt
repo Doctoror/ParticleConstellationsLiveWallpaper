@@ -28,6 +28,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
@@ -71,6 +72,7 @@ class BackgroundImageManagerImplTest {
         sourceFile.delete()
         expectedFile1.delete()
         expectedFile2.delete()
+        StandAloneContext.stopKoin()
     }
 
     @Test

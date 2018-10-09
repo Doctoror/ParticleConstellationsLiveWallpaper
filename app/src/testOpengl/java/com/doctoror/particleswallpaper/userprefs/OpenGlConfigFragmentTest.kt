@@ -17,10 +17,12 @@ package com.doctoror.particleswallpaper.userprefs
 
 import androidx.annotation.StringRes
 import com.doctoror.particleswallpaper.R
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.android.controller.FragmentController
@@ -31,6 +33,11 @@ import org.robolectric.annotation.Config
 class OpenGlConfigFragmentTest {
 
     private val underTestController = FragmentController.of(ConfigFragment())
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
+    }
 
     @Test
     fun lifecycleObserversRegisteredOnCreate() {
