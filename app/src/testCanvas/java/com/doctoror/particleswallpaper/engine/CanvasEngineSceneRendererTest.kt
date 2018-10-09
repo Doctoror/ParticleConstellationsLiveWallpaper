@@ -29,9 +29,11 @@ import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import org.junit.After
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -43,6 +45,11 @@ class CanvasEngineSceneRendererTest {
     private val resources = mockResourcesWithDisplayMetrics()
 
     private val underTest = CanvasEngineSceneRenderer(canvasSceneRenderer, resources)
+
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
+    }
 
     @Test
     fun backgroundSet() {

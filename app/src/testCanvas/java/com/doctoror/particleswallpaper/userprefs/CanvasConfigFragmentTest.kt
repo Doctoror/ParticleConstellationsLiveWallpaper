@@ -17,10 +17,12 @@ package com.doctoror.particleswallpaper.userprefs
 
 import androidx.annotation.StringRes
 import com.doctoror.particleswallpaper.R
-import org.junit.Assert
+import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.android.controller.FragmentController
@@ -32,13 +34,18 @@ class CanvasConfigFragmentTest {
 
     private val underTestController = FragmentController.of(ConfigFragment())
 
+    @After
+    fun tearDown() {
+        StandAloneContext.stopKoin()
+    }
+
     @Test
     fun lifecycleObserversRegisteredOnCreate() {
         val underTest = underTestController
             .create()
             .get()
 
-        Assert.assertEquals(8, underTest.lifecycle.observerCount)
+        assertEquals(8, underTest.lifecycle.observerCount)
     }
 
     @Test
