@@ -27,9 +27,7 @@ import org.koin.standalone.inject
 import org.koin.test.KoinTest
 import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 
-@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
 class BackgroundColorPreferenceTest : KoinTest {
 

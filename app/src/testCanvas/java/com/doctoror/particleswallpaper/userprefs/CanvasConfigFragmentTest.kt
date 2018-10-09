@@ -27,9 +27,7 @@ import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.FragmentController
-import org.robolectric.annotation.Config
 
-@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
 class CanvasConfigFragmentTest {
 

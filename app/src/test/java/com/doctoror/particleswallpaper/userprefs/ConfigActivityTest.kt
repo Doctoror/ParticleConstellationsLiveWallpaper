@@ -29,9 +29,7 @@ import org.koin.test.KoinTest
 import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
-import org.robolectric.annotation.Config
 
-@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner::class)
 class ConfigActivityTest : KoinTest {
 
