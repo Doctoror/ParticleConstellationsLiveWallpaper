@@ -21,6 +21,7 @@ import android.net.Uri
 import android.os.Build
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.request.FutureTarget
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
@@ -48,7 +49,7 @@ class EnginePresenterTest {
     private val apiLevelProvider: ApiLevelProvider = mock()
     private val configurator: SceneConfigurator = mock()
     private val controller: EngineController = mock()
-    private val glide: RequestManager = mock()
+    private val requestManager: RequestManager = mock()
     private val renderer: EngineSceneRenderer = mock()
     private val settings: SceneSettings = mock()
     private val settingsOpenGL: OpenGlSettings = mock()
@@ -60,7 +61,7 @@ class EnginePresenterTest {
         configurator,
         controller,
         Schedulers.trampoline(),
-        glide,
+        requestManager,
         renderer,
         TrampolineSchedulers(),
         settings,
@@ -80,7 +81,7 @@ class EnginePresenterTest {
         whenever(settings.observeParticleScale()).thenReturn(Observable.just(1f))
         whenever(settingsOpenGL.observeOptimizeTextures()).thenReturn(Observable.just(true))
 
-        whenever(glide.asBitmap()).thenReturn(requestBuilder)
+        whenever(requestManager.asBitmap()).thenReturn(requestBuilder)
         whenever(requestBuilder.load(any<String>())).thenReturn(requestBuilder)
         whenever(requestBuilder.apply(any())).thenReturn(requestBuilder)
     }
@@ -116,30 +117,33 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun loadsTextureOptimizationSettingBeforeBackgroundUri() {
-        // Given
-        whenever(settingsOpenGL.observeOptimizeTextures()).thenReturn(Observable.just(false))
-        whenever(settings.observeBackgroundUri()).thenReturn(Observable.never())
-
-        // When
-        underTest.onCreate()
-
-        // Then
-        assertEquals(false, underTest.optimizeTextures)
-        assertEquals(null, underTest.backgroundUri)
-    }
-
-    @Test
-    fun loadsBackgroundUri() {
+    fun loadsBackgroundImage() {
         // Given
         val uri = "uri://scheme"
         whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(uri))
+        whenever(settingsOpenGL.observeOptimizeTextures()).thenReturn(Observable.just(true))
+
+        val requestBuilder: RequestBuilder<Bitmap> = mock()
+        whenever(requestBuilder.apply(any())).thenReturn(requestBuilder)
+        whenever(requestBuilder.load(uri)).thenReturn(requestBuilder)
+
+        val bitmap: Bitmap = mock()
+
+        val futureTarget: FutureTarget<Bitmap> = mock {
+            on { it.get() }.thenReturn(bitmap)
+        }
+
+        whenever(requestBuilder.submit(any(), any())).thenReturn(futureTarget)
+
+        whenever(requestManager.asBitmap()).thenReturn(requestBuilder)
 
         // When
         underTest.onCreate()
+        underTest.setDimensions(1, 1)
+        underTest.onDrawFrame()
 
         // Then
-        assertEquals(uri, underTest.backgroundUri)
+        verify(renderer).setBackgroundTexture(bitmap)
     }
 
     @Test
@@ -167,15 +171,6 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun clearsLastUsedImageTargetWhenUriIsLoaded() {
-        // When
-        underTest.onCreate()
-
-        // Then
-        verify(glide).clear(null)
-    }
-
-    @Test
     fun doesNotLoadUriWhenWidthOrHeightIs0() {
         // Given
         whenever(settings.observeBackgroundUri()).thenReturn(Observable.just("content://"))
@@ -184,21 +179,7 @@ class EnginePresenterTest {
         underTest.onCreate()
 
         // Then
-        verify(glide, never()).load(any<Uri>())
-    }
-
-    @Test
-    fun loadsUriWhenWidthOrHeightIsNot0AfterOnCreate() {
-        // Given
-        val uri = "content://"
-        whenever(settings.backgroundUri).thenReturn(uri)
-
-        // When
-        underTest.onCreate()
-        underTest.setDimensions(1, 1)
-
-        // Then
-        verify(requestBuilder).load(uri)
+        verify(requestManager, never()).load(any<Uri>())
     }
 
     @Test
@@ -262,7 +243,7 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun widthAndHeightChangedOnSurfaceChange() {
+    fun widthAndHeightChangedOnDimensionsChange() {
         // Given
         val width = 1
         val height = 2

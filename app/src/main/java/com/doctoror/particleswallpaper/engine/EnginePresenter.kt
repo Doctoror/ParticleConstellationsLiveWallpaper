@@ -20,26 +20,29 @@ import android.app.WallpaperColors
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
+import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.annotation.VisibleForTesting
+import androidx.annotation.WorkerThread
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.transition.Transition
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.glide.CenterCropAndThenResizeTransform
-import com.doctoror.particleswallpaper.framework.glide.SimpleTarget2
+import com.doctoror.particleswallpaper.framework.util.Optional
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
+import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.BiFunction
 
 class EnginePresenter(
     private val apiLevelProvider: ApiLevelProvider,
@@ -58,16 +61,14 @@ class EnginePresenter(
 
     private val disposables = CompositeDisposable()
 
+    private var bgDisposable: Disposable? = null
+
     @VisibleForTesting
     var width = 0
         private set
 
     @VisibleForTesting
     var height = 0
-        private set
-
-    @VisibleForTesting
-    var backgroundUri: String? = null
         private set
 
     @VisibleForTesting
@@ -79,10 +80,6 @@ class EnginePresenter(
     @Volatile
     var backgroundColor = Color.DKGRAY
 
-    @VisibleForTesting
-    @Volatile
-    var optimizeTextures = true
-
     @Volatile
     private var backgroundDirty = false
 
@@ -90,7 +87,6 @@ class EnginePresenter(
     private var backgroundColorDirty = false
 
     private var lastUsedImageLoadSettings: ImageLoadSettings? = null
-    private var lastUsedImageLoadTarget: ImageLoadTarget? = null
 
     var visible = false
         set(value) {
@@ -116,67 +112,84 @@ class EnginePresenter(
 
         disposables.add(settings
             .observeBackgroundColor()
-            .doOnNext {
+            .subscribe {
                 backgroundColor = it
                 backgroundColorDirty = true
-                if (backgroundUri != null) {
-                    // If background was already loaded, but color is changed afterwards.
-                    notifyBackgroundColors()
-                }
+                notifyBackgroundColors()
             }
-            .flatMap { settingsOpenGL.observeOptimizeTextures() }
-            .doOnNext { optimizeTextures = it }
-            .flatMap { settings.observeBackgroundUri() }
-            .observeOn(schedulers.mainThread())
-            .subscribe { handleBackground(it) })
+        )
     }
 
     fun onDestroy() {
         visible = false
         configurator.dispose()
         disposables.clear()
-        backgroundUri = null
+        bgDisposable?.dispose()
+        bgDisposable = null
         background = null
-        glide.clear(lastUsedImageLoadTarget)
         lastUsedImageLoadSettings = null
         renderer.recycle()
     }
 
-    private fun handleBackground(uri: String) {
-        backgroundUri = uri
-        if (uri == NO_URI) {
-            background = null
-            glide.clear(lastUsedImageLoadTarget)
-            lastUsedImageLoadTarget = null
-            notifyBackgroundColors()
-        } else if (width != 0 && height != 0) {
-            val imageLoadSettings = ImageLoadSettings(width, height, optimizeTextures, uri)
-            if (lastUsedImageLoadSettings != imageLoadSettings) {
-                lastUsedImageLoadSettings = imageLoadSettings
-                loadImage(imageLoadSettings)
-            }
+    private fun subscribeToBackground(width: Int, height: Int) {
+        if (width != this.width || height != this.height) {
+            this.width = width
+            this.height = height
+            bgDisposable?.dispose()
+            lastUsedImageLoadSettings = null
+            bgDisposable = imageLoadSettingsSource()
+                .filter { lastUsedImageLoadSettings != it }
+                .map { settings ->
+                    lastUsedImageLoadSettings = settings
+                    Optional(
+                        if (settings.uri == NO_URI) {
+                            null
+                        } else {
+                            loadResource(width, height, settings)
+                        }
+                    )
+                }
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.mainThread())
+                .subscribe(
+                    {
+                        background = it.value
+                        backgroundDirty = true
+                        notifyBackgroundColors()
+                    },
+                    {
+                        Log.w("EnginePresenter", "Failed to load resource", it)
+                    }
+                )
         }
     }
 
-    private fun loadImage(settings: ImageLoadSettings) {
-        background = null
-        glide.clear(lastUsedImageLoadTarget)
-        lastUsedImageLoadTarget = null
+    private fun imageLoadSettingsSource() = Observable
+        .combineLatest(
+            settingsOpenGL.observeOptimizeTextures(),
+            settings.observeBackgroundUri(),
+            BiFunction<Boolean, String, ImageLoadSettings> { optimize, uri ->
+                ImageLoadSettings(
+                    optimize,
+                    uri
+                )
+            }
+        )
 
-        val target = ImageLoadTarget(settings.width, settings.height)
+    @WorkerThread
+    private fun loadResource(width: Int, height: Int, settings: ImageLoadSettings): Bitmap {
         val targetDimensions = textureDimensionsCalculator
-            .calculateTextureDimensions(settings.width, settings.height, settings.optimize)
+            .calculateTextureDimensions(width, height, settings.optimize)
 
-        glide
+        return glide
             .asBitmap()
             .load(settings.uri)
             .apply(RequestOptions.noAnimation())
             .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE))
             .apply(RequestOptions.skipMemoryCacheOf(true))
             .apply(makeTransformOptions(targetDimensions))
-            .into(target)
-
-        lastUsedImageLoadTarget = target
+            .submit(targetDimensions.first, targetDimensions.second)
+            .get()
     }
 
     private fun makeTransformOptions(targetDimensions: android.util.Pair<Int, Int>) =
@@ -193,12 +206,7 @@ class EnginePresenter(
 
     fun setDimensions(width: Int, height: Int) {
         scenePresenter.setBounds(0, 0, width, height)
-        schedulers.mainThread().scheduleDirect {
-            this.width = width
-            this.height = height
-
-            handleBackground(settings.backgroundUri)
-        }
+        subscribeToBackground(width, height)
     }
 
     fun onSurfaceCreated() {
@@ -249,31 +257,7 @@ class EnginePresenter(
     }
 
     private data class ImageLoadSettings(
-        val width: Int,
-        val height: Int,
         val optimize: Boolean,
         val uri: String
     )
-
-    private inner class ImageLoadTarget(width: Int, height: Int) :
-        SimpleTarget2<Bitmap>(width, height) {
-
-        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                if (resource.config == Bitmap.Config.ARGB_8888
-                    && resource.hasAlpha() && !resource.isPremultiplied
-                ) {
-                    resource.isPremultiplied = true
-                }
-            }
-            background = resource
-            backgroundDirty = true
-            notifyBackgroundColors()
-        }
-
-        override fun onLoadCleared(placeholder: Drawable?) {
-            // Should not clear background here, as we cannot now if the clear has happened before
-            // or after new request is finished.
-        }
-    }
 }
