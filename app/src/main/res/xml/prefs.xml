@@ -34,7 +34,7 @@
 
     <PreferenceCategory android:title="@string/Appearance">
 
-        <com.doctoror.particleswallpaper.userprefs.particlecolor.ParticlesColorPreference
+        <com.doctoror.particleswallpaper.userprefs.particlecolor.ParticleColorPreference
             android:key="@string/pref_key_color"
             android:title="@string/Particles_color" />
 

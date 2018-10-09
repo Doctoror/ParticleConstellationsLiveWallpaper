@@ -32,13 +32,13 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class ParticlesColorPreferenceTest : KoinTest {
 
-    private val presenter: ParticlesColorPreferencePresenter by inject()
+    private val presenter: ParticleColorPreferencePresenter by inject()
 
-    private val underTest = ParticlesColorPreference(RuntimeEnvironment.application)
+    private val underTest = ParticleColorPreference(RuntimeEnvironment.application)
 
     @Before
     fun setup() {
-        declareMock<ParticlesColorPreferencePresenter>()
+        declareMock<ParticleColorPreferencePresenter>()
     }
 
     @After

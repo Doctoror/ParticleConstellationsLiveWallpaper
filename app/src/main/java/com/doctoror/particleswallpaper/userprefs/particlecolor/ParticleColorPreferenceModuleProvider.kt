@@ -22,12 +22,12 @@ private const val PARAM_VIEW = 0
 class ParticleColorPreferenceModuleProvider {
 
     /**
-     * Parameter at index 0 must be a [ParticlesColorPreferenceView].
+     * Parameter at index 0 must be a [ParticleColorPreferenceView].
      */
     fun provide() = module {
 
         factory {
-            ParticlesColorPreferencePresenter(
+            ParticleColorPreferencePresenter(
                 get(),
                 get(),
                 get(),

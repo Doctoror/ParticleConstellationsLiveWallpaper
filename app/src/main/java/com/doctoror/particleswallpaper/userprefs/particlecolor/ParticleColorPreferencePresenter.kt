@@ -20,11 +20,11 @@ import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.disposables.Disposable
 
-class ParticlesColorPreferencePresenter(
+class ParticleColorPreferencePresenter(
     private val defaults: DefaultSceneSettings,
     private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
-    private val view: ParticlesColorPreferenceView
+    private val view: ParticleColorPreferenceView
 ) {
 
     private var disposable: Disposable? = null

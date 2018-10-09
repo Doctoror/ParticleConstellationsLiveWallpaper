@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.particlecolor
 
-interface ParticlesColorPreferenceView {
+interface ParticleColorPreferenceView {
 
     fun setColor(color: Int)
     fun showPreferenceDialog()

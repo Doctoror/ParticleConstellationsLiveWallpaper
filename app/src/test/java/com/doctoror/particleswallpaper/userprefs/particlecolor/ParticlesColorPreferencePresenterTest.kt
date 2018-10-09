@@ -28,9 +28,9 @@ class ParticlesColorPreferencePresenterTest {
 
     private val settings: SceneSettings = mock()
     private val defaults: DefaultSceneSettings = mock()
-    private val view: ParticlesColorPreferenceView = mock()
+    private val view: ParticleColorPreferenceView = mock()
 
-    private val underTest = ParticlesColorPreferencePresenter(
+    private val underTest = ParticleColorPreferencePresenter(
         defaults, TrampolineSchedulers(), settings, view
     )
 

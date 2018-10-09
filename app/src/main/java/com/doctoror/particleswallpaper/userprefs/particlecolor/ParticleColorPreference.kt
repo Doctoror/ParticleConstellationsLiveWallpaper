@@ -23,17 +23,17 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.doctoror.particleswallpaper.framework.di.inject
 import org.koin.core.parameter.parametersOf
 
-class ParticlesColorPreference @JvmOverloads constructor(
+class ParticleColorPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) :
     ColorPreferenceNoPreview(context, attrs),
-    ParticlesColorPreferenceView,
+    ParticleColorPreferenceView,
     LifecycleObserver {
 
-    private val presenter: ParticlesColorPreferencePresenter by inject(
-        parameters = { parametersOf(this as ParticlesColorPreferenceView) }
+    private val presenter: ParticleColorPreferencePresenter by inject(
+        parameters = { parametersOf(this as ParticleColorPreferenceView) }
     )
 
     private var value: Int? = null
