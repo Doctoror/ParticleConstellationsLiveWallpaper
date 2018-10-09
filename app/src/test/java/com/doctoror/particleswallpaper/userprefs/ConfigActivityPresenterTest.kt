@@ -22,7 +22,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.ViewTreeObserver
 import android.widget.ImageView
-import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
@@ -46,12 +46,20 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class ConfigActivityPresenterTest {
 
+    private val backgroundView: ImageView = mock {
+        on { it.context }.thenReturn(RuntimeEnvironment.application)
+        on { it.width }.thenReturn(1)
+        on { it.height }.thenReturn(1)
+    }
+
     private val activity: Activity = mock()
     private val configurator: SceneConfigurator = mock()
     private val settings: SceneSettings = mock()
-    private val requestManager = spy(Glide.with(RuntimeEnvironment.application))
+    private val requestManager: RequestManager = mock()
     private val themeAttrColorResolver: ThemeAttrColorResolver = mock()
-    private val view: ConfigActivityView = mock()
+    private val view: ConfigActivityView = mock {
+        on { it.getBackgroundView() }.thenReturn(backgroundView)
+    }
 
     private val underTest = ConfigActivityPresenter(
         activity,
@@ -107,11 +115,6 @@ class ConfigActivityPresenterTest {
     @Test
     fun appliesBackgroundColorWhenUriIsBlank() {
         // Given
-        val target: ImageView = mock {
-            on(it.context).doReturn(RuntimeEnvironment.application)
-        }
-        whenever(view.getBackgroundView()).thenReturn(target)
-
         val color = Color.CYAN
         whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(color))
         whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
@@ -120,10 +123,10 @@ class ConfigActivityPresenterTest {
         underTest.onStart()
 
         // Then
-        verify(target).setImageDrawable(null)
+        verify(backgroundView).setImageDrawable(null)
 
         val captor = argumentCaptor<Drawable>()
-        verify(target).background = captor.capture()
+        verify(backgroundView).background = captor.capture()
 
         assertTrue(captor.firstValue is ColorDrawable)
         assertEquals(color, (captor.firstValue as ColorDrawable).color)
@@ -132,11 +135,6 @@ class ConfigActivityPresenterTest {
     @Test
     fun clearsBackgroundWhenLoadedColorIsWindowBackground() {
         // Given
-        val target: ImageView = mock {
-            on(it.context).doReturn(RuntimeEnvironment.application)
-        }
-        whenever(view.getBackgroundView()).thenReturn(target)
-
         val windowBackground = Color.WHITE
         whenever(themeAttrColorResolver.getColor(any(), eq(android.R.attr.windowBackground)))
             .thenReturn(windowBackground)
@@ -148,20 +146,17 @@ class ConfigActivityPresenterTest {
         underTest.onStart()
 
         // Then
-        verify(target).setImageDrawable(null)
-        verify(target).background = null
+        verify(backgroundView).setImageDrawable(null)
+        verify(backgroundView).background = null
     }
 
     @Test
     fun doesNotLoadAndRegistersOnGlobalLayoutWhenUriNotBlankButDimensionsNotSet() {
         // Given
         val viewTreeObserver: ViewTreeObserver = mock()
-
-        val target: ImageView = mock {
-            on(it.context).doReturn(RuntimeEnvironment.application)
-            on(it.viewTreeObserver).doReturn(viewTreeObserver)
-        }
-        whenever(view.getBackgroundView()).thenReturn(target)
+        whenever(backgroundView.viewTreeObserver).thenReturn(viewTreeObserver)
+        whenever(backgroundView.width).thenReturn(0)
+        whenever(backgroundView.height).thenReturn(0)
 
         whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(Color.TRANSPARENT))
         whenever(settings.observeBackgroundUri()).thenReturn(Observable.just("uri"))
@@ -195,13 +190,7 @@ class ConfigActivityPresenterTest {
         verify(requestManager).load(uri)
     }
 
-    private fun mockBackgroundView(): ImageView = mock {
-        on(it.context).doReturn(RuntimeEnvironment.application)
-    }
-
     private fun givenBackgroundSourcesMocked() {
-        val backgroundView = mockBackgroundView()
-        whenever(view.getBackgroundView()).thenReturn(backgroundView)
         whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(Color.TRANSPARENT))
         whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
     }
