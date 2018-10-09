@@ -19,6 +19,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.os.ParcelFileDescriptor
+import androidx.test.core.app.ApplicationProvider
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
@@ -30,7 +31,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import java.io.File
 
@@ -38,7 +38,7 @@ import java.io.File
 @RunWith(RobolectricTestRunner::class)
 class BackgroundImageManagerImplTest {
 
-    private val appContext = RuntimeEnvironment.application
+    private val appContext = ApplicationProvider.getApplicationContext<Context>()
     private val filesDir = appContext.filesDir
 
     private val sourceFileUri = Uri.parse("content://source")

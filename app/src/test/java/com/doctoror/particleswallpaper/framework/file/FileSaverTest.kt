@@ -19,6 +19,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.os.ParcelFileDescriptor
+import androidx.test.core.app.ApplicationProvider
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import org.junit.After
@@ -28,7 +29,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import java.io.File
 
@@ -36,7 +36,7 @@ import java.io.File
 @RunWith(RobolectricTestRunner::class)
 class FileSaverTest {
 
-    private val filesDir = RuntimeEnvironment.application.filesDir
+    private val filesDir = ApplicationProvider.getApplicationContext<Context>().filesDir
     private val uri = Uri.parse("content://file")
     private val sourceFile = File(filesDir, "sourceFile")
     private val targetFile = File(filesDir, "targetFile")

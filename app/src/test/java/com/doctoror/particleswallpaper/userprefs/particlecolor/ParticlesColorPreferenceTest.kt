@@ -15,6 +15,8 @@
  */
 package com.doctoror.particleswallpaper.userprefs.particlecolor
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.After
 import org.junit.Before
@@ -25,7 +27,6 @@ import org.koin.standalone.inject
 import org.koin.test.KoinTest
 import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
@@ -34,7 +35,8 @@ class ParticlesColorPreferenceTest : KoinTest {
 
     private val presenter: ParticleColorPreferencePresenter by inject()
 
-    private val underTest = ParticleColorPreference(RuntimeEnvironment.application)
+    private val underTest =
+        ParticleColorPreference(ApplicationProvider.getApplicationContext<Context>())
 
     @Before
     fun setup() {

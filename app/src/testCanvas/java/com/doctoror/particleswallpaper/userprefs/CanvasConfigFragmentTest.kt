@@ -15,7 +15,9 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
+import android.content.Context
 import androidx.annotation.StringRes
+import androidx.test.core.app.ApplicationProvider
 import com.doctoror.particleswallpaper.R
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -24,7 +26,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.android.controller.FragmentController
 import org.robolectric.annotation.Config
 
@@ -66,5 +67,6 @@ class CanvasConfigFragmentTest {
         assertNull(preference)
     }
 
-    private fun getString(@StringRes key: Int) = RuntimeEnvironment.application.getString(key)
+    private fun getString(@StringRes key: Int) =
+        ApplicationProvider.getApplicationContext<Context>().getString(key)
 }

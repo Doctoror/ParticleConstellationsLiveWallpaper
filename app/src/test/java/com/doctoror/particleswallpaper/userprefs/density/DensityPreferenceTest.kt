@@ -15,6 +15,8 @@
  */
 package com.doctoror.particleswallpaper.userprefs.density
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -26,7 +28,6 @@ import org.koin.standalone.inject
 import org.koin.test.KoinTest
 import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
@@ -35,9 +36,10 @@ class DensityPreferenceTest : KoinTest {
 
     private val presenter: DensityPreferencePresenter by inject()
 
-    private val underTest = DensityPreference(RuntimeEnvironment.application).apply {
-        setMaxInt(149)
-    }
+    private val underTest =
+        DensityPreference(ApplicationProvider.getApplicationContext<Context>()).apply {
+            setMaxInt(149)
+        }
 
     @Before
     fun setup() {

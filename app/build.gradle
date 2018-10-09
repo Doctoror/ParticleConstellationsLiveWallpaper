@@ -96,6 +96,7 @@ dependencies {
     def d = rootProject.ext.wallpaperappDependencies
     def td = rootProject.ext.wallpaperappTestDependencies
 
+    testImplementation td.androidxTestCore
     testImplementation td.junitJupiter
     testImplementation td.junitVintage
     testImplementation td.koinTest

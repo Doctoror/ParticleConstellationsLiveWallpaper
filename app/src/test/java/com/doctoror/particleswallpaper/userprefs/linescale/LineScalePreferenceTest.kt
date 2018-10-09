@@ -15,6 +15,8 @@
  */
 package com.doctoror.particleswallpaper.userprefs.linescale
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -26,7 +28,6 @@ import org.koin.standalone.inject
 import org.koin.test.KoinTest
 import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
@@ -35,9 +36,10 @@ class LineScalePreferenceTest : KoinTest {
 
     private val presenter: LineScalePreferencePresenter by inject()
 
-    private val underTest = LineScalePreference(RuntimeEnvironment.application).apply {
-        setMaxInt(70)
-    }
+    private val underTest =
+        LineScalePreference(ApplicationProvider.getApplicationContext<Context>()).apply {
+            setMaxInt(70)
+        }
 
     @Before
     fun setup() {

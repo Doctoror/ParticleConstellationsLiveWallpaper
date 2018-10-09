@@ -16,12 +16,14 @@
 package com.doctoror.particleswallpaper.userprefs
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.ViewTreeObserver
 import android.widget.ImageView
+import androidx.test.core.app.ApplicationProvider
 import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
@@ -39,7 +41,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
@@ -47,7 +48,7 @@ import org.robolectric.annotation.Config
 class ConfigActivityPresenterTest {
 
     private val backgroundView: ImageView = mock {
-        on { it.context }.thenReturn(RuntimeEnvironment.application)
+        on { it.context }.thenReturn(ApplicationProvider.getApplicationContext<Context>())
         on { it.width }.thenReturn(1)
         on { it.height }.thenReturn(1)
     }
@@ -173,7 +174,7 @@ class ConfigActivityPresenterTest {
     fun loadsImageWhenUriNotBlankAndDimensionsSet() {
         // Given
         val target: ImageView = mock {
-            on(it.context).doReturn(RuntimeEnvironment.application)
+            on(it.context).doReturn(ApplicationProvider.getApplicationContext<Context>())
             on(it.width).doReturn(1)
             on(it.height).doReturn(1)
         }

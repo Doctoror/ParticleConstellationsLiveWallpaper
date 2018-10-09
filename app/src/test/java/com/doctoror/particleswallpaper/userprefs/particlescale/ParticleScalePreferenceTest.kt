@@ -15,6 +15,8 @@
  */
 package com.doctoror.particleswallpaper.userprefs.particlescale
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -26,7 +28,6 @@ import org.koin.standalone.inject
 import org.koin.test.KoinTest
 import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @Config(manifest = Config.NONE)
@@ -34,9 +35,10 @@ import org.robolectric.annotation.Config
 class ParticleScalePreferenceTest : KoinTest {
 
     private val presenter: ParticleScalePreferencePresenter by inject()
-    private val underTest = ParticleScalePreference(RuntimeEnvironment.application).apply {
-        setMaxInt(70)
-    }
+    private val underTest =
+        ParticleScalePreference(ApplicationProvider.getApplicationContext<Context>()).apply {
+            setMaxInt(70)
+        }
 
     @Before
     fun setup() {
