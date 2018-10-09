@@ -37,7 +37,7 @@ ext {
 
     wallpaperappDependencies = [
             androidxAnnotations: "androidx.annotation:annotation:$androidxVersion",
-            androidxSupportV4  : "androidx.legacy:legacy-support-v4:$androidxVersion",
+            androidxCore       : "androidx.core:core:$androidxVersion",
 
             kotlin             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
             rxJava             : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
