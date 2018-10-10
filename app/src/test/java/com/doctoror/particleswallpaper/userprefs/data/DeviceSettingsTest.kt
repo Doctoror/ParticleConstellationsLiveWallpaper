@@ -27,12 +27,12 @@ class DeviceSettingsTest {
 
     private val prefs: SharedPreferences = mock()
 
-    private val underTest = DeviceSettings(prefs)
+    private val underTest = DeviceSettings { prefs }
 
     @Test
     fun observesMultisamplingSupportedChanges() {
         val prefs = InMemorySharedPreferences()
-        val underTest = DeviceSettings(prefs)
+        val underTest = DeviceSettings { prefs }
 
         val o = underTest.observeMultisamplingSupported().test()
 

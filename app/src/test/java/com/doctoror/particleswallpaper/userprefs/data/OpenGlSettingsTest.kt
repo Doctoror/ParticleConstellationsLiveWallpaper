@@ -12,7 +12,7 @@ class OpenGlSettingsTest {
 
     private val prefs: SharedPreferences = mock()
 
-    private val underTest = OpenGlSettings(prefs)
+    private val underTest = OpenGlSettings { prefs }
 
     @Test
     fun returnsNumSamplesValueFromPrefs() {
@@ -37,7 +37,7 @@ class OpenGlSettingsTest {
     @Test
     fun observesNumSamplesChanges() {
         val prefs = InMemorySharedPreferences()
-        val underTest = OpenGlSettings(prefs)
+        val underTest = OpenGlSettings { prefs }
 
         val o = underTest.observeNumSamples().test()
 
@@ -70,7 +70,7 @@ class OpenGlSettingsTest {
     @Test
     fun observesOptimizeTexturesChanges() {
         val prefs = InMemorySharedPreferences()
-        val underTest = OpenGlSettings(prefs)
+        val underTest = OpenGlSettings { prefs }
 
         val o = underTest.observeOptimizeTextures().test()
 

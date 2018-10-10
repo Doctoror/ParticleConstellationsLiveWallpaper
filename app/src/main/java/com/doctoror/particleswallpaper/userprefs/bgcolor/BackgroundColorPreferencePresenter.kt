@@ -36,6 +36,7 @@ class BackgroundColorPreferencePresenter(
 
     fun onStart() {
         disposable = settings.observeBackgroundColor()
+            .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe { view.setColor(it) }
     }

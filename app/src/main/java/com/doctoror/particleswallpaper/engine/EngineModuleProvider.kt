@@ -62,6 +62,7 @@ object EngineModuleProvider {
                 it[PARAM_RENDER_THREAD_SCHEDULER],
                 it[PARAM_SCENE_RENDERER],
                 get(),
+                get(),
                 scene,
                 ScenePresenter(
                     scene,

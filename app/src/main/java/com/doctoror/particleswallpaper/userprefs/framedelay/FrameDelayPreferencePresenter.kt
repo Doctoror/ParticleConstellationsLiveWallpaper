@@ -47,6 +47,7 @@ class FrameDelayPreferencePresenter(
     fun onStart() {
         disposable = settings
             .observeFrameDelay()
+            .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe {
                 val progress = transformToProgress(it)

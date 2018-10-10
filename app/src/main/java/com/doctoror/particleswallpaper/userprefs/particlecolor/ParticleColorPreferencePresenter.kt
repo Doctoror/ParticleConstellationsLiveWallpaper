@@ -41,6 +41,7 @@ class ParticleColorPreferencePresenter(
     fun onStart() {
         disposable = settings
             .observeParticleColor()
+            .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe { view.setColor(it) }
     }

@@ -27,6 +27,7 @@ import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
@@ -38,6 +39,7 @@ class EnginePresenter(
     private val controller: EngineController,
     private val renderThreadScheduler: Scheduler,
     private val renderer: EngineSceneRenderer,
+    private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
     private val scene: ParticlesScene,
     private val scenePresenter: ScenePresenter
@@ -74,15 +76,18 @@ class EnginePresenter(
         configurator.subscribe(scene, scenePresenter, settings, renderThreadScheduler)
 
         disposables.add(settings.observeParticleScale()
+            .subscribeOn(schedulers.io())
             .observeOn(renderThreadScheduler)
             .subscribe { renderer.markParticleTextureDirty() })
 
         disposables.add(settings.observeFrameDelay()
+            .subscribeOn(schedulers.io())
             .observeOn(renderThreadScheduler)
             .subscribe { scene.frameDelay = it })
 
         disposables.add(settings
             .observeBackgroundColor()
+            .subscribeOn(schedulers.io())
             .observeOn(renderThreadScheduler)
             .subscribe {
                 backgroundColor = it

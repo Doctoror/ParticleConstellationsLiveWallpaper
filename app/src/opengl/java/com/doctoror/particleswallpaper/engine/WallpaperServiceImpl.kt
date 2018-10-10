@@ -64,7 +64,7 @@ class WallpaperServiceImpl : GLWallpaperService() {
         lateinit var presenter: EnginePresenter
 
         init {
-            if (samples != 0 && settingsDevice.observeMultisamplingSupported().blockingFirst()) {
+            if (samples != 0 && settingsDevice.multisamplingSupported) {
                 setEGLConfigChooser(
                     MultisampleConfigChooser(
                         samples,

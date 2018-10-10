@@ -45,6 +45,7 @@ class SpeedFactorPreferencePresenter(
     fun onStart() {
         disposable = settings
             .observeSpeedFactor()
+            .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe { view.setProgressInt(transformToProgress(it)) }
     }

@@ -33,7 +33,7 @@ class MultisamplingPreferencePresenter(
     fun onPreferenceChange(v: Int) {
         settings.numSamples = v
 
-        wallpaperChecker
+        disposables.add(wallpaperChecker
             .wallpaperInstalledSource()
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
@@ -41,13 +41,14 @@ class MultisamplingPreferencePresenter(
                 if (isInstalled) {
                     view.showRestartDialog()
                 }
-            }
+            })
     }
 
     fun onStart() {
         disposables.add(
             settings
                 .observeNumSamples()
+                .subscribeOn(schedulers.io())
                 .observeOn(schedulers.mainThread())
                 .subscribe(view::setValue)
         )
@@ -55,6 +56,7 @@ class MultisamplingPreferencePresenter(
         disposables.add(
             settingsDevice
                 .observeMultisamplingSupported()
+                .subscribeOn(schedulers.io())
                 .observeOn(schedulers.mainThread())
                 .subscribe(view::setPreferenceSupported)
         )

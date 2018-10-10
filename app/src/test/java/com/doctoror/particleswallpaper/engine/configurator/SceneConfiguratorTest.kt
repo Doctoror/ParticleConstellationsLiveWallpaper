@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.engine.configurator
 
+import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.mock
@@ -39,7 +40,7 @@ class SceneConfiguratorTest {
 
     @Test
     fun testSubscription() {
-        val c = SceneConfigurator()
+        val c = SceneConfigurator(TrampolineSchedulers())
 
         assertNull(c.disposables)
 

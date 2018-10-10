@@ -22,6 +22,7 @@ import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.util.Optional
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
@@ -57,6 +58,7 @@ class EnginePresenterTest {
         controller,
         Schedulers.trampoline(),
         renderer,
+        TrampolineSchedulers(),
         settings,
         scene,
         scenePresenter

@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.SharedPreferences
 import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.AsyncInitialValueBehaviorSubject
 
 const val NO_URI = ""
 
@@ -43,92 +43,97 @@ private const val KEY_SPEED_FACTOR = "stepMultiplier"
 
 class SceneSettings(
     private val defaults: DefaultSceneSettings,
-    private val prefs: SharedPreferences
+    private val prefsSource: () -> SharedPreferences
 ) {
-    private val backgroundColorSubject = BehaviorSubject.create<Int>().toSerialized()
-    private val backgroundUriSubject = BehaviorSubject.create<String>().toSerialized()
-    private val densitySubject = BehaviorSubject.create<Int>().toSerialized()
-    private val frameDelaySubject = BehaviorSubject.create<Int>().toSerialized()
-    private val lineLengthSubject = BehaviorSubject.create<Float>().toSerialized()
-    private val lineScaleSubject = BehaviorSubject.create<Float>().toSerialized()
-    private val particleColorSubject = BehaviorSubject.create<Int>().toSerialized()
-    private val particleScaleSubject = BehaviorSubject.create<Float>().toSerialized()
-    private val speedFactorSubject = BehaviorSubject.create<Float>().toSerialized()
+    private val backgroundColorSubject =
+        AsyncInitialValueBehaviorSubject { backgroundColor }.toSerialized()
+
+    private val backgroundUriSubject =
+        AsyncInitialValueBehaviorSubject { backgroundUri }.toSerialized()
+
+    private val densitySubject =
+        AsyncInitialValueBehaviorSubject { density }.toSerialized()
+
+    private val frameDelaySubject =
+        AsyncInitialValueBehaviorSubject { frameDelay }.toSerialized()
+
+    private val lineLengthSubject =
+        AsyncInitialValueBehaviorSubject { lineLength }.toSerialized()
+
+    private val lineScaleSubject =
+        AsyncInitialValueBehaviorSubject { lineScale }.toSerialized()
+
+    private val particleColorSubject =
+        AsyncInitialValueBehaviorSubject { particleColor }.toSerialized()
+
+    private val particleScaleSubject =
+        AsyncInitialValueBehaviorSubject { particleScale }.toSerialized()
+
+    private val speedFactorSubject =
+        AsyncInitialValueBehaviorSubject { speedFactor }.toSerialized()
 
     var backgroundColor
-        get() = prefs.getInt(KEY_BACKGROUND_COLOR, defaults.backgroundColor)
+        get() = prefsSource().getInt(KEY_BACKGROUND_COLOR, defaults.backgroundColor)
         set(value) {
-            prefs.edit().putInt(KEY_BACKGROUND_COLOR, value).apply()
+            prefsSource().edit().putInt(KEY_BACKGROUND_COLOR, value).apply()
             backgroundColorSubject.onNext(value)
         }
 
     var backgroundUri
-        get() = prefs.getString(KEY_BACKGROUND_URI, defaults.backgroundUri)
+        get() = prefsSource().getString(KEY_BACKGROUND_URI, defaults.backgroundUri)!!
         set(value) {
-            prefs.edit().putString(KEY_BACKGROUND_URI, value).apply()
+            prefsSource().edit().putString(KEY_BACKGROUND_URI, value).apply()
             backgroundUriSubject.onNext(value)
         }
 
     var density
-        get() = prefs.getInt(KEY_DENSITY, defaults.density)
+        get() = prefsSource().getInt(KEY_DENSITY, defaults.density)
         set(value) {
-            prefs.edit().putInt(KEY_DENSITY, value).apply()
+            prefsSource().edit().putInt(KEY_DENSITY, value).apply()
             densitySubject.onNext(value)
         }
 
     var frameDelay
-        get() = prefs.getInt(KEY_FRAME_DELAY, defaults.frameDelay)
+        get() = prefsSource().getInt(KEY_FRAME_DELAY, defaults.frameDelay)
         set(value) {
-            prefs.edit().putInt(KEY_FRAME_DELAY, value).apply()
+            prefsSource().edit().putInt(KEY_FRAME_DELAY, value).apply()
             frameDelaySubject.onNext(value)
         }
 
     var lineLength
-        get() = prefs.getFloat(KEY_LINE_LENGTH, defaults.lineLength)
+        get() = prefsSource().getFloat(KEY_LINE_LENGTH, defaults.lineLength)
         set(value) {
-            prefs.edit().putFloat(KEY_LINE_LENGTH, value).apply()
+            prefsSource().edit().putFloat(KEY_LINE_LENGTH, value).apply()
             lineLengthSubject.onNext(value)
         }
 
     var lineScale
-        get() = prefs.getFloat(KEY_LINE_SCALE, defaults.lineScale)
+        get() = prefsSource().getFloat(KEY_LINE_SCALE, defaults.lineScale)
         set(value) {
-            prefs.edit().putFloat(KEY_LINE_SCALE, value).apply()
+            prefsSource().edit().putFloat(KEY_LINE_SCALE, value).apply()
             lineScaleSubject.onNext(value)
         }
 
     var particleColor
-        get() = prefs.getInt(KEY_PARTICLE_COLOR, defaults.particleColor)
+        get() = prefsSource().getInt(KEY_PARTICLE_COLOR, defaults.particleColor)
         set(value) {
-            prefs.edit().putInt(KEY_PARTICLE_COLOR, value).apply()
+            prefsSource().edit().putInt(KEY_PARTICLE_COLOR, value).apply()
             particleColorSubject.onNext(value)
         }
 
     var particleScale
-        get() = prefs.getFloat(KEY_PARTICLE_SCALE, defaults.particleScale)
+        get() = prefsSource().getFloat(KEY_PARTICLE_SCALE, defaults.particleScale)
         set(value) {
-            prefs.edit().putFloat(KEY_PARTICLE_SCALE, value).apply()
+            prefsSource().edit().putFloat(KEY_PARTICLE_SCALE, value).apply()
             particleScaleSubject.onNext(value)
         }
 
     var speedFactor
-        get() = prefs.getFloat(KEY_SPEED_FACTOR, defaults.speedFactor)
+        get() = prefsSource().getFloat(KEY_SPEED_FACTOR, defaults.speedFactor)
         set(value) {
-            prefs.edit().putFloat(KEY_SPEED_FACTOR, value).apply()
+            prefsSource().edit().putFloat(KEY_SPEED_FACTOR, value).apply()
             speedFactorSubject.onNext(value)
         }
-
-    init {
-        backgroundColorSubject.onNext(backgroundColor)
-        backgroundUriSubject.onNext(backgroundUri)
-        densitySubject.onNext(density)
-        frameDelaySubject.onNext(frameDelay)
-        lineLengthSubject.onNext(lineLength)
-        lineScaleSubject.onNext(lineScale)
-        particleColorSubject.onNext(particleColor)
-        particleScaleSubject.onNext(particleScale)
-        speedFactorSubject.onNext(speedFactor)
-    }
 
     fun observeBackgroundColor(): Observable<Int> = backgroundColorSubject
 

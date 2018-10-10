@@ -32,31 +32,37 @@ class SettingsModuleProvider {
 
         single {
             DeviceSettings(
-                prefs = get<Context>().getSharedPreferences(
-                    PREFERENCES_NAME_DEVICE,
-                    Context.MODE_PRIVATE
-                )
+                prefsSource = {
+                    get<Context>().getSharedPreferences(
+                        PREFERENCES_NAME_DEVICE,
+                        Context.MODE_PRIVATE
+                    )
+                }
             )
         }
 
         single {
             OpenGlSettings(
-                prefs = get<Context>().getSharedPreferences(
-                    PREFERENCES_NAME_OPENGL,
-                    Context.MODE_PRIVATE
-                )
+                prefsSource = {
+                    get<Context>().getSharedPreferences(
+                        PREFERENCES_NAME_OPENGL,
+                        Context.MODE_PRIVATE
+                    )
+                }
             )
         }
 
-        factory { SceneConfigurator() }
+        factory { SceneConfigurator(get()) }
 
         single {
             SceneSettings(
                 defaults = get(),
-                prefs = get<Context>().getSharedPreferences(
-                    PREFERENCES_NAME_SCENE,
-                    Context.MODE_PRIVATE
-                )
+                prefsSource = {
+                    get<Context>().getSharedPreferences(
+                        PREFERENCES_NAME_SCENE,
+                        Context.MODE_PRIVATE
+                    )
+                }
             )
         }
     }

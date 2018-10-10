@@ -19,6 +19,7 @@ import androidx.annotation.VisibleForTesting
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
+import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
@@ -28,7 +29,9 @@ import io.reactivex.disposables.CompositeDisposable
  *
  * Not thread safe!
  */
-class SceneConfigurator {
+class SceneConfigurator(
+    private val schedulers: SchedulersProvider
+) {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var disposables: CompositeDisposable? = null
@@ -37,7 +40,7 @@ class SceneConfigurator {
         configuration: SceneConfiguration,
         controller: SceneController,
         settings: SceneSettings,
-        scheduler: Scheduler
+        observeScheduler: Scheduler
     ) {
         val d = CompositeDisposable()
 
@@ -45,21 +48,24 @@ class SceneConfigurator {
         disposables = d
 
         d.add(settings.observeParticleColor()
-            .observeOn(scheduler)
+            .subscribeOn(schedulers.io())
+            .observeOn(observeScheduler)
             .subscribe { c ->
                 configuration.dotColor = c
                 configuration.lineColor = c
             })
 
         d.add(settings.observeDensity()
-            .observeOn(scheduler)
+            .subscribeOn(schedulers.io())
+            .observeOn(observeScheduler)
             .subscribe { v ->
                 configuration.numDots = v
                 controller.makeBrandNewFrame()
             })
 
         d.add(settings.observeParticleScale()
-            .observeOn(scheduler)
+            .subscribeOn(schedulers.io())
+            .observeOn(observeScheduler)
             .subscribe { v ->
                 val radiusRange = DotRadiusMapper.transform(v)
                 configuration.setDotRadiusRange(radiusRange.first, radiusRange.second)
@@ -67,7 +73,8 @@ class SceneConfigurator {
             })
 
         d.add(settings.observeLineScale()
-            .observeOn(scheduler)
+            .subscribeOn(schedulers.io())
+            .observeOn(observeScheduler)
             .subscribe { v ->
                 configuration.lineThickness = v
                 controller.makeBrandNewFrame()
@@ -75,19 +82,22 @@ class SceneConfigurator {
 
         d.add(
             settings.observeLineLength()
-                .observeOn(scheduler)
+                .subscribeOn(schedulers.io())
+                .observeOn(observeScheduler)
                 .subscribe(configuration::setLineDistance)
         )
 
         d.add(
             settings.observeSpeedFactor()
-                .observeOn(scheduler)
+                .subscribeOn(schedulers.io())
+                .observeOn(observeScheduler)
                 .subscribe(configuration::setStepMultiplier)
         )
 
         d.add(
             settings.observeFrameDelay()
-                .observeOn(scheduler)
+                .subscribeOn(schedulers.io())
+                .observeOn(observeScheduler)
                 .subscribe(configuration::setFrameDelay)
         )
     }

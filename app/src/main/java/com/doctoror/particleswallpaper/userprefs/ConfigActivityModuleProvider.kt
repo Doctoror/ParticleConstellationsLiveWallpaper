@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.userprefs
 
 import android.os.Build
-import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.app.actions.ActivityStartActivityForResultAction
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import org.koin.dsl.module.module
@@ -45,7 +44,7 @@ class ConfigActivityModuleProvider {
                 ConfigActivityPresenterLollipop(
                     activity = parameterList[PARAM_ACTIVITY],
                     schedulers = get(),
-                    configurator = SceneConfigurator(),
+                    configurator = get(),
                     openChangeWallpaperIntentProvider = get(),
                     openChangeWallpaperIntentUseCase = get(parameters = { parameterList }),
                     requestManager = get(),
@@ -56,7 +55,7 @@ class ConfigActivityModuleProvider {
                 ConfigActivityPresenter(
                     activity = parameterList[PARAM_ACTIVITY],
                     schedulers = get(),
-                    configurator = SceneConfigurator(),
+                    configurator = get(),
                     requestManager = get(),
                     settings = get(),
                     view = parameterList[PARAM_ACTIVITY]

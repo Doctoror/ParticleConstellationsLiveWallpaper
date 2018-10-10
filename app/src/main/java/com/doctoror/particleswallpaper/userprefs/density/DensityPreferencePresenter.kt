@@ -45,6 +45,7 @@ class DensityPreferencePresenter(
     fun onStart() {
         disposable = settings
             .observeDensity()
+            .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe { view.setProgressInt(transformToProgress(it)) }
     }

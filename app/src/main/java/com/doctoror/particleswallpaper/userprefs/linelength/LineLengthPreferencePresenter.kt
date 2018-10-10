@@ -38,6 +38,7 @@ class LineLengthPreferencePresenter(
     fun onStart() {
         disposable = settings
             .observeLineLength()
+            .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe { view.setProgressInt(transformToProgress(it)) }
     }

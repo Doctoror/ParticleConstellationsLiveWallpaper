@@ -53,9 +53,8 @@ class SceneSettingsTest {
         whenever(typedValueFactory.newTypedValue()).thenReturn(typedValue)
 
         settings = SceneSettings(
-            DefaultSceneSettings(resources, theme, typedValueFactory),
-            fakePrefs
-        )
+            DefaultSceneSettings(resources, theme, typedValueFactory)
+        ) { fakePrefs }
     }
 
     private fun <T> assertObserverHasValueCount(o: TestObserver<T>, count: Int) {

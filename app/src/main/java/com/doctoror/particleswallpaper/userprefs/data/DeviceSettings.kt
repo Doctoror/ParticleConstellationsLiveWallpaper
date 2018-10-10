@@ -17,25 +17,22 @@ package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.SharedPreferences
 import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.AsyncInitialValueBehaviorSubject
 
 const val PREFERENCES_NAME_DEVICE = "prefs_device"
 const val KEY_MULTISAMPLING_SUPPORTED = "multisampling_supported"
 
-class DeviceSettings(private val prefs: SharedPreferences) {
+class DeviceSettings(private val prefsSource: () -> SharedPreferences) {
 
-    private val multisamplingSupportedSubject = BehaviorSubject.create<Boolean>().toSerialized()
-
-    init {
-        multisamplingSupportedSubject.onNext(multisamplingSupported)
-    }
+    private val multisamplingSupportedSubject =
+        AsyncInitialValueBehaviorSubject { multisamplingSupported }.toSerialized()
 
     fun observeMultisamplingSupported(): Observable<Boolean> = multisamplingSupportedSubject
 
     var multisamplingSupported
-        get() = prefs.getBoolean(KEY_MULTISAMPLING_SUPPORTED, true)
+        get() = prefsSource().getBoolean(KEY_MULTISAMPLING_SUPPORTED, true)
         set(value) {
-            prefs.edit().putBoolean(KEY_MULTISAMPLING_SUPPORTED, value).apply()
+            prefsSource().edit().putBoolean(KEY_MULTISAMPLING_SUPPORTED, value).apply()
             multisamplingSupportedSubject.onNext(value)
         }
 }

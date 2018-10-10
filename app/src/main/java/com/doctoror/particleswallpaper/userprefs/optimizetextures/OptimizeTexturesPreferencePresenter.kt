@@ -31,6 +31,7 @@ class OptimizeTexturesPreferencePresenter(
 
     fun onStart() {
         disposable = settings.observeOptimizeTextures()
+            .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe(view::setChecked)
     }

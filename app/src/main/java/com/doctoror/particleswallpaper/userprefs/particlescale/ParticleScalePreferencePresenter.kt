@@ -45,6 +45,7 @@ class ParticleScalePreferencePresenter(
     fun onStart() {
         disposable = settings
             .observeParticleScale()
+            .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe { view.setProgressInt(transformToProgress(it)) }
     }

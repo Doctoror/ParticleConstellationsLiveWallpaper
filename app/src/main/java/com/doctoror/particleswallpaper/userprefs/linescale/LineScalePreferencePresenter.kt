@@ -46,6 +46,7 @@ class LineScalePreferencePresenter(
     fun onStart() {
         disposable = settings
             .observeLineScale()
+            .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe { view.setProgressInt(transformToProgress(it)) }
     }
