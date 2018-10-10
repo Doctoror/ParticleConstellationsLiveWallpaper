@@ -38,7 +38,7 @@ class MultisamplingPreference @JvmOverloads constructor(
         parameters = { parametersOf(this as MultisamplingPreferenceView) }
     )
 
-    private var supported = true;
+    private var supported = true
 
     init {
         isPersistent = false
