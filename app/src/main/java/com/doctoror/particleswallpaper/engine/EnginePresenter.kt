@@ -23,12 +23,10 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.util.Log
 import androidx.annotation.ColorInt
-import androidx.annotation.VisibleForTesting
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
-import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
@@ -62,13 +60,15 @@ class EnginePresenter(
 
     var visible = false
         set(value) {
-            field = value
-            handleRunConstraints()
+            if (field != value) {
+                field = value
+                if (value) {
+                    scenePresenter.start()
+                } else {
+                    scenePresenter.stop()
+                }
+            }
         }
-
-    @VisibleForTesting
-    @JvmField
-    var run = false
 
     fun onCreate() {
         configurator.subscribe(scene, scenePresenter, settings, renderThreadScheduler)
@@ -140,17 +140,6 @@ class EnginePresenter(
 
         scenePresenter.draw()
         scenePresenter.run()
-    }
-
-    private fun handleRunConstraints() {
-        if (run != visible) {
-            run = visible
-            if (run) {
-                scenePresenter.start()
-            } else {
-                scenePresenter.stop()
-            }
-        }
     }
 
     private fun notifyBackgroundColors() {

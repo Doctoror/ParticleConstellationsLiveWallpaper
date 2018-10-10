@@ -31,7 +31,6 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import org.junit.After
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -196,28 +195,7 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun runWhenVisible() {
-        // When
-        underTest.visible = true
-
-        // Then
-        assertTrue(underTest.run)
-    }
-
-    @Test
-    fun doNotRunWhenVisibilityChangedToFalse() {
-        // Given
-        underTest.visible = true
-
-        // When
-        underTest.visible = false
-
-        // Then
-        assertFalse(underTest.run)
-    }
-
-    @Test
-    fun doNotRunOnDestroy() {
+    fun notVisibleAfterDestroy() {
         // Given
         underTest.visible = true
 
@@ -225,7 +203,7 @@ class EnginePresenterTest {
         underTest.onDestroy()
 
         // Then
-        assertFalse(underTest.run)
+        assertFalse(underTest.visible)
     }
 
     @Test
