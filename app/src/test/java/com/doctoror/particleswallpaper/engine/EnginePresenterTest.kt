@@ -17,16 +17,12 @@ package com.doctoror.particleswallpaper.engine
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.net.Uri
 import android.os.Build
-import com.bumptech.glide.RequestBuilder
-import com.bumptech.glide.RequestManager
-import com.bumptech.glide.request.FutureTarget
 import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
-import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.framework.util.Optional
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
@@ -34,7 +30,8 @@ import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -44,12 +41,10 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class EnginePresenterTest {
 
-    private val requestBuilder: RequestBuilder<Bitmap> = mock()
-
     private val apiLevelProvider: ApiLevelProvider = mock()
+    private val backgroundLoader: EngineBackgroundLoader = mock()
     private val configurator: SceneConfigurator = mock()
     private val controller: EngineController = mock()
-    private val requestManager: RequestManager = mock()
     private val renderer: EngineSceneRenderer = mock()
     private val settings: SceneSettings = mock()
     private val settingsOpenGL: OpenGlSettings = mock()
@@ -58,32 +53,33 @@ class EnginePresenterTest {
 
     private val underTest = EnginePresenter(
         apiLevelProvider,
+        backgroundLoader,
         configurator,
         controller,
         Schedulers.trampoline(),
-        requestManager,
         renderer,
-        TrampolineSchedulers(),
         settings,
-        settingsOpenGL,
         scene,
-        scenePresenter,
-        TextureDimensionsCalculator()
+        scenePresenter
     )
 
     @Before
     fun setup() {
         whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION.SDK_INT)
+        whenever(backgroundLoader.observeBackground()).thenReturn(
+            Observable.just(
+                Optional<Bitmap>(
+                    null
+                )
+            )
+        )
+
         whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(0))
         whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
         whenever(settings.backgroundUri).thenReturn(NO_URI)
         whenever(settings.observeFrameDelay()).thenReturn(Observable.just(0))
         whenever(settings.observeParticleScale()).thenReturn(Observable.just(1f))
         whenever(settingsOpenGL.observeOptimizeTextures()).thenReturn(Observable.just(true))
-
-        whenever(requestManager.asBitmap()).thenReturn(requestBuilder)
-        whenever(requestBuilder.load(any<String>())).thenReturn(requestBuilder)
-        whenever(requestBuilder.apply(any())).thenReturn(requestBuilder)
     }
 
     @After
@@ -117,36 +113,6 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun loadsBackgroundImage() {
-        // Given
-        val uri = "uri://scheme"
-        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(uri))
-        whenever(settingsOpenGL.observeOptimizeTextures()).thenReturn(Observable.just(true))
-
-        val requestBuilder: RequestBuilder<Bitmap> = mock()
-        whenever(requestBuilder.apply(any())).thenReturn(requestBuilder)
-        whenever(requestBuilder.load(uri)).thenReturn(requestBuilder)
-
-        val bitmap: Bitmap = mock()
-
-        val futureTarget: FutureTarget<Bitmap> = mock {
-            on { it.get() }.thenReturn(bitmap)
-        }
-
-        whenever(requestBuilder.submit(any(), any())).thenReturn(futureTarget)
-
-        whenever(requestManager.asBitmap()).thenReturn(requestBuilder)
-
-        // When
-        underTest.onCreate()
-        underTest.setDimensions(1, 1)
-        underTest.onDrawFrame()
-
-        // Then
-        verify(renderer).setBackgroundTexture(bitmap)
-    }
-
-    @Test
     fun doesNotNotifyColorsChangedWhenSdkIsLessThanOMr1() {
         // Given
         whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.O)
@@ -159,9 +125,10 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun notifiesColorsChangedWhenUriIsBlankFor0Mr1() {
+    fun notifiesColorsChangedWhenBackgroundColorIsLoaded() {
         // Given
         whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.O_MR1)
+        whenever(backgroundLoader.observeBackground()).thenReturn(Observable.never())
 
         // When
         underTest.onCreate()
@@ -171,29 +138,48 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun doesNotLoadUriWhenWidthOrHeightIs0() {
+    fun notifiesColorsChangedEveryTimeBackgroundColorIsLoaded() {
         // Given
-        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just("content://"))
+        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.O_MR1)
+        whenever(backgroundLoader.observeBackground()).thenReturn(Observable.never())
+        whenever(settings.observeBackgroundColor())
+            .thenReturn(Observable.just(Color.BLACK, Color.CYAN))
 
         // When
         underTest.onCreate()
 
         // Then
-        verify(requestManager, never()).load(any<Uri>())
+        verify(controller, times(2)).notifyColorsChanged()
     }
 
     @Test
-    fun loadsUriWhenWidthOrHeightIsNot0BeforeOnCreate() {
+    fun notifiesColorsChangedWhenBackgroundImageIsLoaded() {
         // Given
-        val uri = "content://"
-        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(uri))
+        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.O_MR1)
+        whenever(settings.observeBackgroundColor()).thenReturn(Observable.never())
+        whenever(backgroundLoader.observeBackground())
+            .thenReturn(Observable.just(Optional<Bitmap>(null)))
 
         // When
-        underTest.setDimensions(1, 1)
         underTest.onCreate()
 
         // Then
-        verify(requestBuilder).load(uri)
+        verify(controller).notifyColorsChanged()
+    }
+
+    @Test
+    fun notifiesColorsChangedEveryTimeBackgroundImageIsLoaded() {
+        // Given
+        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.O_MR1)
+        whenever(settings.observeBackgroundColor()).thenReturn(Observable.never())
+        whenever(backgroundLoader.observeBackground())
+            .thenReturn(Observable.just(Optional<Bitmap>(null), Optional(mock())))
+
+        // When
+        underTest.onCreate()
+
+        // Then
+        verify(controller, times(2)).notifyColorsChanged()
     }
 
     @Test
@@ -243,17 +229,12 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun widthAndHeightChangedOnDimensionsChange() {
-        // Given
-        val width = 1
-        val height = 2
-
+    fun destroysBackgroundImageLoaderOnDestroy() {
         // When
-        underTest.setDimensions(width, height)
+        underTest.onDestroy()
 
         // Then
-        assertEquals(width, underTest.width)
-        assertEquals(height, underTest.height)
+        verify(backgroundLoader).onDestroy()
     }
 
     @Test
@@ -291,32 +272,26 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun onDrawFrameWhenBackgroundAndColorDirty() {
+    fun onDrawFrameSetsBackgroundAndColorOnceWhenDirty() {
         val background: Bitmap = mock()
-        underTest.background = background
+        whenever(backgroundLoader.observeBackground())
+            .thenReturn(Observable.just(Optional(background)))
 
         val color = Color.CYAN
-        underTest.backgroundColor = color
+        whenever(settings.observeBackgroundColor())
+            .thenReturn(Observable.just(color))
 
+        underTest.onCreate()
+        underTest.setDimensions(1, 1)
         underTest.onSurfaceCreated()
 
+        underTest.onDrawFrame()
         underTest.onDrawFrame()
 
         verify(renderer).setBackgroundTexture(background)
         verify(renderer).setClearColor(color)
 
-        verify(scenePresenter).draw()
-        verify(scenePresenter).run()
-    }
-
-    @Test
-    fun onDrawFrameWhenBackgroundAndColorNotDirty() {
-        underTest.onDrawFrame()
-
-        verify(renderer, never()).setBackgroundTexture(any())
-        verify(renderer, never()).setClearColor(any())
-
-        verify(scenePresenter).draw()
-        verify(scenePresenter).run()
+        verify(scenePresenter, times(2)).draw()
+        verify(scenePresenter, times(2)).run()
     }
 }

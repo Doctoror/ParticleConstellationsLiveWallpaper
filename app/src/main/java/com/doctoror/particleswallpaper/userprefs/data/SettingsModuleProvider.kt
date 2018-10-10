@@ -17,7 +17,6 @@ package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.Context
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
-import com.doctoror.particleswallpaper.engine.configurator.SceneConfiguratorFactory
 import org.koin.dsl.module.module
 
 class SettingsModuleProvider {
@@ -50,8 +49,6 @@ class SettingsModuleProvider {
         }
 
         factory { SceneConfigurator() }
-
-        factory { SceneConfiguratorFactory() }
 
         single {
             SceneSettings(

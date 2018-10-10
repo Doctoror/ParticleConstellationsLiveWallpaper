@@ -20,54 +20,26 @@ import android.os.Build
 import android.os.Handler
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
-import com.bumptech.glide.Glide
-import com.doctoror.particlesdrawable.ParticlesScene
-import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
-import com.doctoror.particleswallpaper.engine.configurator.SceneConfiguratorFactory
-import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
-import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
-import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.android.schedulers.AndroidSchedulers
-import org.koin.android.ext.android.inject
+import org.koin.android.ext.android.get
 
 class WallpaperServiceImpl : WallpaperService() {
 
-    private val apiLevelProvider: ApiLevelProvider by inject()
-
-    private val schedulers: SchedulersProvider by inject()
-
-    private val configuratorFactory: SceneConfiguratorFactory by inject()
-
-    private val settings: SceneSettings by inject()
-
-    private val settingsGl: OpenGlSettings by inject()
-
-    private val textureDimensionsCalculator = TextureDimensionsCalculator()
-
     override fun onCreateEngine(): Engine {
-        val scene = ParticlesScene()
         val renderer = CanvasEngineSceneRenderer(CanvasSceneRenderer(), resources)
         val engine = EngineImpl(renderer)
         renderer.surfaceHolderProvider = engine
-        val scenePresenter = ScenePresenter(scene, engine, renderer)
 
-        engine.presenter = EnginePresenter(
-            apiLevelProvider,
-            configuratorFactory.newSceneConfigurator(),
-            engine,
-            AndroidSchedulers.mainThread(),
-            Glide.with(this),
-            renderer,
-            schedulers,
-            settings,
-            settingsGl,
-            scene,
-            scenePresenter,
-            textureDimensionsCalculator
-        )
+        engine.presenter = get(parameters = {
+            EngineModuleProvider.makeParameters(
+                engine,
+                AndroidSchedulers.mainThread(),
+                renderer as EngineSceneRenderer,
+                engine as SceneScheduler
+            )
+        })
 
         return engine
     }
