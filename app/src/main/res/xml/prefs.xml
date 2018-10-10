@@ -71,7 +71,8 @@
 
     <PreferenceCategory
         android:title="@string/Performance"
-        android:key="@string/pref_key_performance">
+        android:key="@string/pref_key_performance"
+        android:persistent="false">
 
         <com.doctoror.particleswallpaper.userprefs.speedfactor.SpeedFactorPreference
             android:key="@string/pref_key_step_multiplier"
