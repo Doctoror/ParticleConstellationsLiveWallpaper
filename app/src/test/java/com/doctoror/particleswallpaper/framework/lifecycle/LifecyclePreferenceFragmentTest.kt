@@ -38,11 +38,13 @@ class LifecyclePreferenceFragmentTest {
         var onStartCount = 0
         var onStopCount = 0
 
+        @Suppress("unused")
         @OnLifecycleEvent(Lifecycle.Event.ON_START)
         fun onStart() {
             onStartCount++
         }
 
+        @Suppress("unused")
         @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
         fun onStop() {
             onStopCount++
