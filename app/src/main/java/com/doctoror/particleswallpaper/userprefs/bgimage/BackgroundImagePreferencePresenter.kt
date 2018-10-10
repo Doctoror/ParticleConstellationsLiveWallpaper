@@ -41,6 +41,7 @@ import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 
 class BackgroundImagePreferencePresenter(
     apiLevelProvider: ApiLevelProvider,
@@ -54,6 +55,8 @@ class BackgroundImagePreferencePresenter(
     private val settings: SceneSettings,
     private val view: BackgroundImagePreferenceView
 ) {
+
+    private val disposables = CompositeDisposable()
 
     private val tag = "BgImagePrefPresenter"
 
@@ -93,6 +96,10 @@ class BackgroundImagePreferencePresenter(
 
     fun pickBackground() {
         imageHandler.pickBackground()
+    }
+
+    fun onStop() {
+        disposables.clear()
     }
 
     private val onActivityResultCallback = object : OnActivityResultCallback() {
@@ -140,9 +147,10 @@ class BackgroundImagePreferencePresenter(
         }
 
         private fun clearBackgroundFile() {
-            Observable.fromCallable { backgroundImageManager.clearBackgroundImage() }
+            disposables.add(Observable
+                .fromCallable { backgroundImageManager.clearBackgroundImage() }
                 .subscribeOn(schedulers.io())
-                .subscribe()
+                .subscribe())
         }
 
         override fun onActivityResultAvailable(requestCode: Int, uri: Uri) {
@@ -154,7 +162,7 @@ class BackgroundImagePreferencePresenter(
         }
 
         private fun handleGetContentUriResult(uri: Uri) {
-            Observable
+            disposables.add(Observable
                 .fromCallable { backgroundImageManager.copyBackgroundToFile(uri) }
                 .subscribeOn(schedulers.io())
                 .subscribe(
@@ -163,6 +171,7 @@ class BackgroundImagePreferencePresenter(
                         Log.w(tag, "Failed copying to private file", it)
                         handleDefaultUriResult(uri)
                     })
+            )
         }
 
         private fun handleDefaultUriResult(uri: Uri) {
