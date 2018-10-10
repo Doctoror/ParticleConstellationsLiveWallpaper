@@ -16,11 +16,14 @@
 package com.doctoror.particleswallpaper.userprefs
 
 import android.content.Intent
+import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
-import com.doctoror.particlesdrawable.ParticlesView
+import com.doctoror.particlesdrawable.contract.SceneConfiguration
+import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.lifecycle.LifecycleActivity
 import org.koin.android.ext.android.inject
@@ -34,7 +37,7 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
         parameters = { parametersOf(this) }
     )
 
-    private var view: ParticlesView? = null
+    private var particlesView: Animatable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,14 +46,16 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
         setContentView(R.layout.activity_config)
         lifecycle.addObserver(presenter)
 
-        view = findViewById(R.id.particlesView)
-        presenter.configuration = view
-        presenter.controller = view
+        val particlesView = findViewById<View>(R.id.particlesView)
+        this.particlesView = particlesView as Animatable
+
+        presenter.configuration = particlesView as SceneConfiguration
+        presenter.controller = particlesView as SceneController
     }
 
     override fun onStart() {
         super.onStart()
-        view?.start()
+        particlesView?.start()
         fragmentTransactionsAllowed = true
     }
 
@@ -66,7 +71,7 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
     override fun onStop() {
         super.onStop()
-        view?.stop()
+        particlesView?.stop()
     }
 
     override fun getBackgroundView() = findViewById<ImageView>(R.id.bg)!!
