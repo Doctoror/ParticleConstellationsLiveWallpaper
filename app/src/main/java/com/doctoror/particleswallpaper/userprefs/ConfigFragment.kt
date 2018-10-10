@@ -49,6 +49,7 @@ open class ConfigFragment @JvmOverloads constructor(
     }
 
     private fun hideOpenGlPreferencesIfApplicable() {
+        @Suppress("ConstantConditionIf")
         if (!BuildConfig.OPEN_GL_VARIANT) {
             val group = findPreference(getString(R.string.pref_key_performance))
             if (group is PreferenceGroup) {
