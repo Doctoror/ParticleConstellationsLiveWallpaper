@@ -109,8 +109,8 @@ class BackgroundImageManagerImplTest {
     }
 
     private fun mockContextForSourceFile(): Context {
-        val contentResolver: ContentResolver = mock {
-            on(it.openFileDescriptor(sourceFileUri, "r")).doAnswer {
+        val contentResolver: ContentResolver = mock { stubbing ->
+            on(stubbing.openFileDescriptor(sourceFileUri, "r")).doAnswer {
                 ParcelFileDescriptor.open(sourceFile, ParcelFileDescriptor.MODE_READ_ONLY)
             }
         }
