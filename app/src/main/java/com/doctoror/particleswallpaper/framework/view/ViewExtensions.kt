@@ -15,6 +15,8 @@
  */
 package com.doctoror.particleswallpaper.framework.view
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
@@ -30,6 +32,19 @@ fun View.setBackgroundCompat(drawable: Drawable?) {
         @Suppress("DEPRECATION")
         this.setBackgroundDrawable(drawable)
     }
+}
+
+/**
+ * Sets background as [BitmapDrawable] when [Bitmap] is not null, or null otherwise.
+ */
+fun View.setBackgroundBitmap(background: Bitmap?) {
+    this.setBackgroundCompat(
+        if (background != null) {
+            BitmapDrawable(this.resources, background)
+        } else {
+            null
+        }
+    )
 }
 
 /**

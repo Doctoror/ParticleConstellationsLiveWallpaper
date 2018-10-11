@@ -16,16 +16,18 @@
 package com.doctoror.particleswallpaper.userprefs
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
+import android.view.ViewTreeObserver
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.lifecycle.LifecycleActivity
+import com.doctoror.particleswallpaper.framework.view.removeOnGlobalLayoutListenerCompat
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
@@ -33,24 +35,36 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
     private var fragmentTransactionsAllowed = false
 
+    private var particlesView: Animatable? = null
+
     private val presenter: ConfigActivityPresenter by inject(
         parameters = { parametersOf(this) }
     )
 
-    private var particlesView: Animatable? = null
+    private val view = ConfigActivityViewFactory().newView(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentTransactionsAllowed = true
 
         setContentView(R.layout.activity_config)
+
         lifecycle.addObserver(presenter)
 
         val particlesView = findViewById<View>(R.id.particlesView)
         this.particlesView = particlesView as Animatable
+        view.particlesView = particlesView
 
         presenter.configuration = particlesView as SceneConfiguration
         presenter.controller = particlesView as SceneController
+
+        particlesView.viewTreeObserver?.addOnGlobalLayoutListener(
+            object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    particlesView.viewTreeObserver?.removeOnGlobalLayoutListenerCompat(this)
+                    presenter.setDimensions(particlesView.width, particlesView.height)
+                }
+            })
     }
 
     override fun onStart() {
@@ -74,7 +88,18 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
         particlesView?.stop()
     }
 
-    override fun getBackgroundView() = findViewById<ImageView>(R.id.bg)!!
+    override fun onDestroy() {
+        super.onDestroy()
+        view.particlesView = null
+    }
+
+    override fun displayBackgroundColor(color: Int) {
+        view.displayBackgroundColor(color)
+    }
+
+    override fun displayBackground(background: Bitmap?) {
+        view.displayBackground(background)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu) = presenter.onCreateOptionsMenu(menu)
 

@@ -25,8 +25,8 @@ import android.view.ViewGroup
 import android.widget.Toolbar
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
-import com.bumptech.glide.RequestManager
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.engine.EngineBackgroundLoader
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
@@ -41,24 +41,24 @@ import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperInte
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class ConfigActivityPresenterLollipop(
     private val activity: Activity,
+    backgroundLoader: EngineBackgroundLoader,
     schedulers: SchedulersProvider,
     configurator: SceneConfigurator,
     private val openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider,
     private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
-    requestManager: RequestManager,
     settings: SceneSettings,
     view: ConfigActivityView
 ) : ConfigActivityPresenter(
     activity,
+    backgroundLoader,
     schedulers,
     configurator,
-    requestManager,
     settings,
     view
 ) {
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreate() {
+    override fun onCreate() {
+        super.onCreate()
         initToolbar()
     }
 
