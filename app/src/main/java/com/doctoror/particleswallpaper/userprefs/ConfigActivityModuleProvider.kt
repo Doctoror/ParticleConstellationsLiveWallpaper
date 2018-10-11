@@ -43,20 +43,20 @@ class ConfigActivityModuleProvider {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ConfigActivityPresenterLollipop(
                     activity = parameterList[PARAM_ACTIVITY],
+                    backgroundLoader = get(),
                     schedulers = get(),
                     configurator = get(),
                     openChangeWallpaperIntentProvider = get(),
                     openChangeWallpaperIntentUseCase = get(parameters = { parameterList }),
-                    requestManager = get(),
                     settings = get(),
                     view = parameterList[PARAM_ACTIVITY]
                 )
             } else {
                 ConfigActivityPresenter(
                     activity = parameterList[PARAM_ACTIVITY],
+                    backgroundLoader = get(),
                     schedulers = get(),
                     configurator = get(),
-                    requestManager = get(),
                     settings = get(),
                     view = parameterList[PARAM_ACTIVITY]
                 )

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Yaroslav Mytkalyk
+ * Copyright (C) 2018 Yaroslav Mytkalyk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,20 @@
 package com.doctoror.particleswallpaper.userprefs
 
 import android.graphics.Bitmap
-import androidx.annotation.ColorInt
+import android.graphics.drawable.ColorDrawable
+import android.view.View
+import android.view.Window
+import com.doctoror.particleswallpaper.framework.view.setBackgroundBitmap
 
-interface ConfigActivityView {
+class ConfigActivityViewImpl(private val windowProvider: () -> Window) : ConfigActivityView {
 
-    fun displayBackgroundColor(@ColorInt color: Int)
-    fun displayBackground(background: Bitmap?)
+    var particlesView: View? = null
+
+    override fun displayBackgroundColor(color: Int) {
+        windowProvider().setBackgroundDrawable(ColorDrawable(color))
+    }
+
+    override fun displayBackground(background: Bitmap?) {
+        particlesView?.setBackgroundBitmap(background)
+    }
 }

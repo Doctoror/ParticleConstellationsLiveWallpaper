@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Yaroslav Mytkalyk
+ * Copyright (C) 2018 Yaroslav Mytkalyk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,12 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.graphics.Bitmap
-import androidx.annotation.ColorInt
+import android.app.Activity
 
-interface ConfigActivityView {
+class ConfigActivityViewFactory {
 
-    fun displayBackgroundColor(@ColorInt color: Int)
-    fun displayBackground(background: Bitmap?)
+    /**
+     * @param activity used for compatibility with the factory for canvas variant.
+     */
+    fun newView(activity: Activity) = ConfigActivityViewImpl()
 }
