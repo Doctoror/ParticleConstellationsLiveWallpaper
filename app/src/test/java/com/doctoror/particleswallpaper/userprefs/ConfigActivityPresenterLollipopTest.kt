@@ -17,17 +17,22 @@ package com.doctoror.particleswallpaper.userprefs
 
 import android.app.ActionBar
 import android.app.Activity
+import android.graphics.Bitmap
 import android.view.*
 import android.widget.Toolbar
-import com.bumptech.glide.RequestManager
+import com.doctoror.particlesdrawable.contract.SceneConfiguration
+import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.engine.EngineBackgroundLoader
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.framework.util.Optional
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Completable
+import io.reactivex.Observable
 import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -39,20 +44,28 @@ import org.robolectric.RobolectricTestRunner
 class ConfigActivityPresenterLollipopTest {
 
     private val activity: Activity = mock()
+
+    private val backgroundLoader: EngineBackgroundLoader = mock {
+        on { it.observeBackground() }.thenReturn(Observable.just(Optional<Bitmap>(null)))
+    }
+
     private val configurator: SceneConfigurator = mock()
+    private val configuration: SceneConfiguration = mock()
+    private val controller: SceneController = mock()
     private val openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider = mock()
     private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase = mock()
     private val settings: SceneSettings = mock()
-    private val requestManager: RequestManager = mock()
     private val view: ConfigActivityView = mock()
 
     private val underTest = ConfigActivityPresenterLollipop(
         activity,
+        backgroundLoader,
         TrampolineSchedulers(),
         configurator,
         openChangeWallpaperIntentProvider,
         openChangeWallpaperIntentUseCase,
-        requestManager,
+        configuration,
+        controller,
         settings,
         view
     )

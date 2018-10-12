@@ -46,7 +46,7 @@ class KoinStarter {
                 AppModuleProvider().provide(context),
                 BackgroundColorPreferenceModuleProvider().provide(),
                 BackgroundImagePreferenceModuleProvider().provide(),
-                ConfigActivityModuleProvider().provide(),
+                ConfigActivityModuleProvider.provide(),
                 ConfigModuleProvider().provide(),
                 DensityPreferenceModuleProvider().provide(),
                 EngineModuleProvider.provide(),

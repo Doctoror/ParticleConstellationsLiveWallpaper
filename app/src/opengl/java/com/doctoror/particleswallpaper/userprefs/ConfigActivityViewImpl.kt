@@ -19,15 +19,15 @@ import android.graphics.Bitmap
 import android.view.View
 import com.doctoror.particleswallpaper.framework.view.setBackgroundBitmap
 
-class ConfigActivityViewImpl : ConfigActivityView {
+class ConfigActivityViewImpl {
 
     var particlesView: View? = null
 
-    override fun displayBackgroundColor(color: Int) {
+    fun displayBackgroundColor(color: Int) {
         this.particlesView?.setBackgroundColor(color)
     }
 
-    override fun displayBackground(background: Bitmap?) {
+    fun displayBackground(background: Bitmap?) {
         this.particlesView?.setBackgroundBitmap(background)
     }
 }

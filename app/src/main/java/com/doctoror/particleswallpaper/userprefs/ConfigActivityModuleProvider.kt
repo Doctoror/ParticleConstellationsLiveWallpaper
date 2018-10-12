@@ -15,14 +15,26 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
+import android.app.Activity
 import android.os.Build
+import com.doctoror.particlesdrawable.contract.SceneConfiguration
+import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.framework.app.actions.ActivityStartActivityForResultAction
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.module
 
 private const val PARAM_ACTIVITY = 0
+private const val PARAM_SCENE_CONFIGURATION = 1
+private const val PARAM_SCENE_CONTROLLER = 2
 
-class ConfigActivityModuleProvider {
+object ConfigActivityModuleProvider {
+
+    fun createArguments(
+        activity: Activity,
+        sceneConfiguration: SceneConfiguration,
+        sceneController: SceneController
+    ) = parametersOf(activity, sceneConfiguration, sceneController)
 
     /**
      * Provides the module for wallpaper preview.
@@ -44,19 +56,22 @@ class ConfigActivityModuleProvider {
                 ConfigActivityPresenterLollipop(
                     activity = parameterList[PARAM_ACTIVITY],
                     backgroundLoader = get(),
-                    schedulers = get(),
                     configurator = get(),
                     openChangeWallpaperIntentProvider = get(),
                     openChangeWallpaperIntentUseCase = get(parameters = { parameterList }),
+                    sceneConfiguration = parameterList[PARAM_SCENE_CONFIGURATION],
+                    sceneController = parameterList[PARAM_SCENE_CONTROLLER],
+                    schedulers = get(),
                     settings = get(),
                     view = parameterList[PARAM_ACTIVITY]
                 )
             } else {
                 ConfigActivityPresenter(
-                    activity = parameterList[PARAM_ACTIVITY],
                     backgroundLoader = get(),
-                    schedulers = get(),
                     configurator = get(),
+                    sceneConfiguration = parameterList[PARAM_SCENE_CONFIGURATION],
+                    sceneController = parameterList[PARAM_SCENE_CONTROLLER],
+                    schedulers = get(),
                     settings = get(),
                     view = parameterList[PARAM_ACTIVITY]
                 )

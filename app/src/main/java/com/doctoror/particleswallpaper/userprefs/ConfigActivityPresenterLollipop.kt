@@ -23,8 +23,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.Toolbar
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.OnLifecycleEvent
+import com.doctoror.particlesdrawable.contract.SceneConfiguration
+import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.engine.EngineBackgroundLoader
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
@@ -42,17 +42,20 @@ import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperInte
 class ConfigActivityPresenterLollipop(
     private val activity: Activity,
     backgroundLoader: EngineBackgroundLoader,
-    schedulers: SchedulersProvider,
     configurator: SceneConfigurator,
     private val openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider,
     private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
+    sceneConfiguration: SceneConfiguration,
+    sceneController: SceneController,
+    schedulers: SchedulersProvider,
     settings: SceneSettings,
     view: ConfigActivityView
 ) : ConfigActivityPresenter(
-    activity,
     backgroundLoader,
-    schedulers,
     configurator,
+    sceneConfiguration,
+    sceneController,
+    schedulers,
     settings,
     view
 ) {

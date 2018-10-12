@@ -22,4 +22,5 @@ interface ConfigActivityView {
 
     fun displayBackgroundColor(@ColorInt color: Int)
     fun displayBackground(background: Bitmap?)
+    fun finish()
 }

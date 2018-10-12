@@ -33,10 +33,11 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 open class ConfigActivityPresenter(
-    private val activity: Activity,
     private val backgroundLoader: EngineBackgroundLoader,
-    private val schedulers: SchedulersProvider,
     private val configurator: SceneConfigurator,
+    private val sceneConfiguration: SceneConfiguration,
+    private val sceneController: SceneController,
+    private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
     private val view: ConfigActivityView
 ) : LifecycleObserver {
@@ -44,10 +45,6 @@ open class ConfigActivityPresenter(
     private val disposables = CompositeDisposable()
 
     private var bgDisposable: Disposable? = null
-
-    var configuration: SceneConfiguration? = null
-
-    var controller: SceneController? = null
 
     fun setDimensions(width: Int, height: Int) {
         backgroundLoader.setDimensions(width, height)
@@ -68,9 +65,6 @@ open class ConfigActivityPresenter(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
-        val configuration = configuration ?: throw IllegalStateException("configuration not set")
-        val controller = controller ?: throw IllegalStateException("controller not set")
-
         disposables.add(settings
             .observeBackgroundColor()
             .subscribeOn(schedulers.io())
@@ -78,8 +72,8 @@ open class ConfigActivityPresenter(
             .subscribe { view.displayBackgroundColor(it) })
 
         configurator.subscribe(
-            configuration,
-            controller,
+            sceneConfiguration,
+            sceneController,
             settings,
             schedulers.mainThread()
         )
@@ -104,7 +98,7 @@ open class ConfigActivityPresenter(
 
     fun onActivityResult(requestCode: Int, resultCode: Int) {
         if (requestCode == REQUEST_CODE_CHANGE_WALLPAPER && resultCode == Activity.RESULT_OK) {
-            activity.finish()
+            view.finish()
         }
     }
 }

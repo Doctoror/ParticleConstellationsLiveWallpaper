@@ -28,8 +28,7 @@ import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.lifecycle.LifecycleActivity
 import com.doctoror.particleswallpaper.framework.view.removeOnGlobalLayoutListenerCompat
-import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
+import org.koin.android.ext.android.get
 
 class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
@@ -37,9 +36,7 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
     private var particlesView: Animatable? = null
 
-    private val presenter: ConfigActivityPresenter by inject(
-        parameters = { parametersOf(this) }
-    )
+    private lateinit var presenter: ConfigActivityPresenter
 
     private val view = ConfigActivityViewFactory().newView(this)
 
@@ -49,14 +46,17 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
 
         setContentView(R.layout.activity_config)
 
-        lifecycle.addObserver(presenter)
-
         val particlesView = findViewById<View>(R.id.particlesView)
         this.particlesView = particlesView as Animatable
         view.particlesView = particlesView
 
-        presenter.configuration = particlesView as SceneConfiguration
-        presenter.controller = particlesView as SceneController
+        presenter = get(parameters = {
+            ConfigActivityModuleProvider.createArguments(
+                this,
+                particlesView as SceneConfiguration,
+                particlesView as SceneController
+            )
+        })
 
         particlesView.viewTreeObserver?.addOnGlobalLayoutListener(
             object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -65,6 +65,8 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
                     presenter.setDimensions(particlesView.width, particlesView.height)
                 }
             })
+
+        lifecycle.addObserver(presenter)
     }
 
     override fun onStart() {
