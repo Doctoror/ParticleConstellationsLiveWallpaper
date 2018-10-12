@@ -15,11 +15,18 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
+import android.app.ActionBar
+import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toolbar
+import com.doctoror.particleswallpaper.R
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.After
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,6 +40,8 @@ import org.robolectric.android.controller.ActivityController
 @RunWith(RobolectricTestRunner::class)
 class ConfigActivityTest : KoinTest {
 
+    private val menuPresenter: ConfigActivityMenuPresenter by inject()
+
     private val presenter: ConfigActivityPresenter by inject()
 
     private val underTest = ConfigActivity()
@@ -41,6 +50,7 @@ class ConfigActivityTest : KoinTest {
 
     @Before
     fun setup() {
+        declareMock<ConfigActivityMenuPresenter>()
         declareMock<ConfigActivityPresenter>()
     }
 
@@ -59,7 +69,7 @@ class ConfigActivityTest : KoinTest {
         underTest.onCreateOptionsMenu(menu)
 
         // Then
-        verify(presenter).onCreateOptionsMenu(menu)
+        verify(menuPresenter).onCreateOptionsMenu(menu)
     }
 
     @Test
@@ -72,6 +82,68 @@ class ConfigActivityTest : KoinTest {
         underTest.onOptionsItemSelected(menuItem)
 
         // Then
-        verify(presenter).onOptionsItemSelected(menuItem)
+        verify(menuPresenter).onOptionsItemSelected(menuItem)
+    }
+
+    @Test
+    fun deliversOnActivityResult() {
+        // Given
+        underTestController.create()
+        val requestCode = 1
+        val resultCode = 2
+
+        val onActivityResultMethod = underTest.javaClass.getDeclaredMethod(
+            "onActivityResult",
+            Int::class.java,
+            Int::class.java,
+            Intent::class.java
+        ).apply {
+            isAccessible = true
+        }
+
+        // When
+        onActivityResultMethod.invoke(underTest, requestCode, resultCode, null)
+
+        // Then
+        verify(presenter).onActivityResult(requestCode, resultCode)
+    }
+
+    @Test
+    fun noToolbarUntilSetupCalled() {
+        // When
+        underTestController.create()
+
+        // Then
+        assertNull(findToolbar())
+    }
+
+    @Test
+    fun hasToolbarWhenSetupToolbarCalled() {
+        // When
+        underTestController.create()
+        underTest.setupToolbar()
+
+        // Then
+        assertNotNull(findToolbar())
+    }
+
+    @Test
+    fun hasActionBarOptionsWhenSetupToolbarCalled() {
+        // When
+        underTestController.create()
+        underTest.setupToolbar()
+
+        // Then
+        val expectedDisplayOptions = ActionBar.DISPLAY_HOME_AS_UP or
+                ActionBar.DISPLAY_SHOW_HOME
+
+        assertEquals(expectedDisplayOptions, underTest.actionBar!!.displayOptions)
+    }
+
+    private fun findToolbar(): View? {
+        val toolbarContainer = underTest.findViewById<ViewGroup>(R.id.toolbarContainer)!!
+        return (0..toolbarContainer.childCount)
+            .map { toolbarContainer.getChildAt(it) }
+            .find { it is Toolbar }
     }
 }

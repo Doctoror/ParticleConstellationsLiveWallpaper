@@ -30,7 +30,11 @@ private const val PARAM_SCENE_CONTROLLER = 2
 
 object ConfigActivityModuleProvider {
 
-    fun createArguments(
+    fun createArgumentsMenuPresenter(
+        activity: Activity
+    ) = parametersOf(activity)
+
+    fun createArgumentsPresenter(
         activity: Activity,
         sceneConfiguration: SceneConfiguration,
         sceneController: SceneController
@@ -42,6 +46,30 @@ object ConfigActivityModuleProvider {
      */
     fun provide() = module {
 
+        factory { parameterList ->
+            ConfigActivityPresenter(
+                backgroundLoader = get(),
+                configurator = get(),
+                sceneConfiguration = parameterList[PARAM_SCENE_CONFIGURATION],
+                sceneController = parameterList[PARAM_SCENE_CONTROLLER],
+                schedulers = get(),
+                settings = get(),
+                view = parameterList[PARAM_ACTIVITY]
+            )
+        }
+
+        factory { parameterList ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ConfigActivityMenuPresenterLollipop(
+                    openChangeWallpaperIntentProvider = get(),
+                    openChangeWallpaperIntentUseCase = get(parameters = { parameterList }),
+                    view = parameterList[PARAM_ACTIVITY]
+                )
+            } else {
+                ConfigActivityMenuPresenterLegacy()
+            }
+        }
+
         factory {
             OpenChangeWallpaperIntentUseCase(
                 intentProvider = get(),
@@ -49,33 +77,6 @@ object ConfigActivityModuleProvider {
                     it[PARAM_ACTIVITY]
                 )
             )
-        }
-
-        factory { parameterList ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ConfigActivityPresenterLollipop(
-                    activity = parameterList[PARAM_ACTIVITY],
-                    backgroundLoader = get(),
-                    configurator = get(),
-                    openChangeWallpaperIntentProvider = get(),
-                    openChangeWallpaperIntentUseCase = get(parameters = { parameterList }),
-                    sceneConfiguration = parameterList[PARAM_SCENE_CONFIGURATION],
-                    sceneController = parameterList[PARAM_SCENE_CONTROLLER],
-                    schedulers = get(),
-                    settings = get(),
-                    view = parameterList[PARAM_ACTIVITY]
-                )
-            } else {
-                ConfigActivityPresenter(
-                    backgroundLoader = get(),
-                    configurator = get(),
-                    sceneConfiguration = parameterList[PARAM_SCENE_CONFIGURATION],
-                    sceneController = parameterList[PARAM_SCENE_CONTROLLER],
-                    schedulers = get(),
-                    settings = get(),
-                    view = parameterList[PARAM_ACTIVITY]
-                )
-            }
         }
     }
 }

@@ -17,8 +17,6 @@ package com.doctoror.particleswallpaper.userprefs
 
 import android.app.Activity
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -32,7 +30,7 @@ import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-open class ConfigActivityPresenter(
+class ConfigActivityPresenter(
     private val backgroundLoader: EngineBackgroundLoader,
     private val configurator: SceneConfigurator,
     private val sceneConfiguration: SceneConfiguration,
@@ -46,12 +44,8 @@ open class ConfigActivityPresenter(
 
     private var bgDisposable: Disposable? = null
 
-    fun setDimensions(width: Int, height: Int) {
-        backgroundLoader.setDimensions(width, height)
-    }
-
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    open fun onCreate() {
+    fun onCreate() {
         backgroundLoader.onCreate()
         bgDisposable = backgroundLoader
             .observeBackground()
@@ -61,6 +55,10 @@ open class ConfigActivityPresenter(
                 { view.displayBackground(it.value) },
                 { Log.e("ConfigActiivtyPresenter", "Failed loading background image", it) }
             )
+    }
+
+    fun setDimensions(width: Int, height: Int) {
+        backgroundLoader.setDimensions(width, height)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -91,10 +89,6 @@ open class ConfigActivityPresenter(
         bgDisposable = null
         backgroundLoader.onDestroy()
     }
-
-    open fun onCreateOptionsMenu(menu: Menu) = false
-
-    open fun onOptionsItemSelected(item: MenuItem) = false
 
     fun onActivityResult(requestCode: Int, resultCode: Int) {
         if (requestCode == REQUEST_CODE_CHANGE_WALLPAPER && resultCode == Activity.RESULT_OK) {

@@ -15,24 +15,30 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
+import android.annotation.TargetApi
+import android.app.ActionBar
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Animatable
+import android.os.Build
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewTreeObserver
+import android.view.*
+import android.widget.Toolbar
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.lifecycle.LifecycleActivity
 import com.doctoror.particleswallpaper.framework.view.removeOnGlobalLayoutListenerCompat
 import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 
-class ConfigActivity : LifecycleActivity(), ConfigActivityView {
+class ConfigActivity : LifecycleActivity(), ConfigActivityView, ConfigActivityMenuView {
 
     private var fragmentTransactionsAllowed = false
+
+    private val menuPresenter: ConfigActivityMenuPresenter by inject(
+        parameters = { ConfigActivityModuleProvider.createArgumentsMenuPresenter(this) }
+    )
 
     private var particlesView: Animatable? = null
 
@@ -51,7 +57,7 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
         view.particlesView = particlesView
 
         presenter = get(parameters = {
-            ConfigActivityModuleProvider.createArguments(
+            ConfigActivityModuleProvider.createArgumentsPresenter(
                 this,
                 particlesView as SceneConfiguration,
                 particlesView as SceneController
@@ -66,7 +72,23 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
                 }
             })
 
+        lifecycle.addObserver(menuPresenter)
         lifecycle.addObserver(presenter)
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun setupToolbar() {
+        val root = findViewById<ViewGroup>(R.id.toolbarContainer)!!
+        val toolbar = layoutInflater
+            .inflate(R.layout.activity_config_toolbar, root, false) as Toolbar
+        root.addView(toolbar, 0)
+        setActionBar(toolbar)
+        actionBar?.displayOptions =
+                ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_HOME
+    }
+
+    override fun inflateMenu(menu: Menu) {
+        menuInflater.inflate(R.menu.activity_config, menu)
     }
 
     override fun onStart() {
@@ -103,9 +125,9 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView {
         view.displayBackground(background)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu) = presenter.onCreateOptionsMenu(menu)
+    override fun onCreateOptionsMenu(menu: Menu) = menuPresenter.onCreateOptionsMenu(menu)
 
-    override fun onOptionsItemSelected(item: MenuItem) = presenter.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem) = menuPresenter.onOptionsItemSelected(item)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
