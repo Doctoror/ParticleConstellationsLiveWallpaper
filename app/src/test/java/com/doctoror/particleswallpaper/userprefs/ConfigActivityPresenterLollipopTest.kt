@@ -60,12 +60,12 @@ class ConfigActivityPresenterLollipopTest {
     private val underTest = ConfigActivityPresenterLollipop(
         activity,
         backgroundLoader,
-        TrampolineSchedulers(),
         configurator,
         openChangeWallpaperIntentProvider,
         openChangeWallpaperIntentUseCase,
         configuration,
         controller,
+        TrampolineSchedulers(),
         settings,
         view
     )
