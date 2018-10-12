@@ -25,7 +25,6 @@ import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.util.Optional
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
-import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Observable
@@ -47,7 +46,6 @@ class EnginePresenterTest {
     private val controller: EngineController = mock()
     private val renderer: EngineSceneRenderer = mock()
     private val settings: SceneSettings = mock()
-    private val settingsOpenGL: OpenGlSettings = mock()
     private val scene: ParticlesScene = mock()
     private val scenePresenter: ScenePresenter = mock()
 
@@ -80,7 +78,6 @@ class EnginePresenterTest {
         whenever(settings.backgroundUri).thenReturn(NO_URI)
         whenever(settings.observeFrameDelay()).thenReturn(Observable.just(0))
         whenever(settings.observeParticleScale()).thenReturn(Observable.just(1f))
-        whenever(settingsOpenGL.observeOptimizeTextures()).thenReturn(Observable.just(true))
     }
 
     @After

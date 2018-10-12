@@ -16,17 +16,14 @@
 package com.doctoror.particleswallpaper.engine
 
 import android.graphics.Bitmap
-import android.util.Pair
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.FutureTarget
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.util.Optional
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
-import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.inOrder
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
@@ -40,28 +37,16 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class EngineBackgroundLoaderTest {
 
-    private val defaultTargetWidth = 64
-    private val defaultTargetHeight = 128
-
     private val requestManager: RequestManager = mock()
 
     private val settings: SceneSettings = mock {
         on { it.observeBackgroundUri() }.thenReturn(Observable.just(NO_URI))
     }
 
-    private val settingsOpenGL: OpenGlSettings = mock {
-        on { it.observeOptimizeTextures() }.thenReturn(Observable.just(false))
-    }
-
     private val schedulers = TrampolineSchedulers()
 
-    private val textureDimensionsCalculator: TextureDimensionsCalculator = mock {
-        on { it.calculateTextureDimensions(any(), any(), any()) }
-            .thenReturn(Pair(defaultTargetWidth, defaultTargetHeight))
-    }
-
     private val underTest = EngineBackgroundLoader(
-        requestManager, settings, settingsOpenGL, schedulers, textureDimensionsCalculator
+        requestManager, settings, schedulers
     )
 
     @After
@@ -84,35 +69,20 @@ class EngineBackgroundLoaderTest {
     fun loadsBackgroundImage() {
         // Given
         val uri = "uri://scheme"
-        val optimizeTexutres = true
 
         val width = 1
         val height = 2
-
-        val targetWidth = 3
-        val targetHeight = 4
 
         val bitmap: Bitmap = mock()
 
         whenever(settings.observeBackgroundUri())
             .thenReturn(Observable.just(uri))
 
-        whenever(settingsOpenGL.observeOptimizeTextures())
-            .thenReturn(Observable.just(optimizeTexutres))
-
-        whenever(
-            textureDimensionsCalculator.calculateTextureDimensions(
-                width,
-                height,
-                optimizeTexutres
-            )
-        ).thenReturn(Pair(targetWidth, targetHeight))
-
         givenMockRequestBuilderThatLoadsBitmapForParameters(
             uri,
             bitmap,
-            targetWidth,
-            targetHeight
+            width,
+            height
         )
 
         // When
@@ -131,71 +101,33 @@ class EngineBackgroundLoaderTest {
         // Given
         val uri = "uri"
         val bitmap: Bitmap = mock()
-
         whenever(settings.observeBackgroundUri())
             .thenReturn(Observable.just(uri))
-
-        givenMockRequestBuilderThatLoadsBitmapForParameters(
-            uri,
-            bitmap,
-            defaultTargetWidth,
-            defaultTargetHeight
-        )
 
         // When
         underTest.onCreate()
 
         val o = underTest.observeBackground().test()
 
+        givenMockRequestBuilderThatLoadsBitmapForParameters(
+            uri,
+            bitmap,
+            1,
+            1
+        )
+
         underTest.setDimensions(1, 1)
+
+        givenMockRequestBuilderThatLoadsBitmapForParameters(
+            uri,
+            bitmap,
+            2,
+            2
+        )
+
         underTest.setDimensions(2, 2)
 
         // Then
-        val inorder = inOrder(textureDimensionsCalculator)
-        inorder.verify(textureDimensionsCalculator).calculateTextureDimensions(1, 1, false)
-        inorder.verify(textureDimensionsCalculator).calculateTextureDimensions(2, 2, false)
-
-        o.assertValues(Optional(bitmap), Optional(bitmap))
-    }
-
-    @Test
-    fun reloadsBackgroundImageOnTextureOptimizationChange() {
-        // Given
-        val uri = "uri"
-        val bitmap: Bitmap = mock()
-
-        val width = 1
-        val height = 2
-
-        val textureOptimizationSubject = BehaviorSubject.create<Boolean>()
-        textureOptimizationSubject.onNext(true)
-
-        whenever(settings.observeBackgroundUri())
-            .thenReturn(Observable.just(uri))
-
-        whenever(settingsOpenGL.observeOptimizeTextures())
-            .thenReturn(textureOptimizationSubject)
-
-        givenMockRequestBuilderThatLoadsBitmapForParameters(
-            uri,
-            bitmap,
-            defaultTargetWidth,
-            defaultTargetHeight
-        )
-
-        // When
-        underTest.onCreate()
-
-        val o = underTest.observeBackground().test()
-
-        underTest.setDimensions(width, height)
-        textureOptimizationSubject.onNext(false)
-
-        // Then
-        val inorder = inOrder(textureDimensionsCalculator)
-        inorder.verify(textureDimensionsCalculator).calculateTextureDimensions(width, height, true)
-        inorder.verify(textureDimensionsCalculator).calculateTextureDimensions(width, height, false)
-
         o.assertValues(Optional(bitmap), Optional(bitmap))
     }
 
@@ -220,8 +152,8 @@ class EngineBackgroundLoaderTest {
         givenMockRequestBuilderThatLoadsBitmapForParameters(
             uri1,
             bitmap1,
-            defaultTargetWidth,
-            defaultTargetHeight
+            width,
+            height
         )
 
         // When
@@ -234,8 +166,8 @@ class EngineBackgroundLoaderTest {
         givenMockRequestBuilderThatLoadsBitmapForParameters(
             uri2,
             bitmap2,
-            defaultTargetWidth,
-            defaultTargetHeight
+            width,
+            height
         )
 
         uriSubject.onNext(uri2)

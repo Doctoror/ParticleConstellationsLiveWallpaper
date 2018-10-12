@@ -56,10 +56,6 @@ open class ConfigFragment @JvmOverloads constructor(
                 group.findPreference(getString(R.string.pref_key_multisampling))?.let {
                     group.removePreference(it)
                 }
-
-                findPreference(getString(R.string.pref_key_optimize_textures))?.let {
-                    group.removePreference(it)
-                }
             }
         }
     }

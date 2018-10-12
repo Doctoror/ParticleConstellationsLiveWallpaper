@@ -46,37 +46,4 @@ class OpenGlSettingsTest {
 
         o.assertValues(4, 1, 2)
     }
-
-    @Test
-    fun returnsOptimizeTexturesValueFromPrefs() {
-        whenever(prefs.getBoolean(KEY_OPTIMIZE_TEXTURES, true))
-            .thenReturn(true)
-
-        assertEquals(true, underTest.optimizeTextures)
-    }
-
-    @Test
-    fun storessOptimizeTexturesValueInPrefs() {
-        val editor: SharedPreferences.Editor = mock()
-        whenever(editor.putBoolean(any(), any())).thenReturn(editor)
-        whenever(prefs.edit()).thenReturn(editor)
-
-        underTest.optimizeTextures = true
-
-        verify(editor).putBoolean(KEY_OPTIMIZE_TEXTURES, true)
-        verify(editor).apply()
-    }
-
-    @Test
-    fun observesOptimizeTexturesChanges() {
-        val prefs = InMemorySharedPreferences()
-        val underTest = OpenGlSettings { prefs }
-
-        val o = underTest.observeOptimizeTextures().test()
-
-        underTest.optimizeTextures = false
-        underTest.optimizeTextures = true
-
-        o.assertValues(true, false, true)
-    }
 }

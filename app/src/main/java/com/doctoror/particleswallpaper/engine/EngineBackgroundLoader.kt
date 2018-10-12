@@ -21,22 +21,17 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.framework.glide.CenterCropAndThenResizeTransform
 import com.doctoror.particleswallpaper.framework.util.Optional
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
-import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.PublishSubject
 
 class EngineBackgroundLoader(
     private val requestManager: RequestManager,
     private val settings: SceneSettings,
-    private val settingsOpenGL: OpenGlSettings,
-    private val schedulers: SchedulersProvider,
-    private val textureDimensionsCalculator: TextureDimensionsCalculator
+    private val schedulers: SchedulersProvider
 ) {
 
     private val dimensionsSubject = PublishSubject.create<Size>()
@@ -73,56 +68,32 @@ class EngineBackgroundLoader(
         }
 
     @WorkerThread
-    private fun imageLoadSettingsSource(size: Size) = Observable
-        .combineLatest(
-            settingsOpenGL.observeOptimizeTextures(),
-            settings.observeBackgroundUri(),
-            BiFunction<Boolean, String, ImageLoadRequest> { optimize, uri ->
-                ImageLoadRequest(
-                    size.width,
-                    size.height,
-                    optimize,
-                    uri
-                )
-            }
-        )
+    private fun imageLoadSettingsSource(size: Size) = settings
+        .observeBackgroundUri()
+        .map {
+            ImageLoadRequest(
+                size.width,
+                size.height,
+                it
+            )
+        }
 
     @WorkerThread
     private fun loadResource(request: ImageLoadRequest): Bitmap {
-        val targetDimensions = textureDimensionsCalculator
-            .calculateTextureDimensions(request.width, request.height, request.optimize)
-
         return requestManager
             .asBitmap()
             .load(request.uri)
             .apply(RequestOptions.noAnimation())
             .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE))
             .apply(RequestOptions.skipMemoryCacheOf(true))
-            .apply(makeTransformOptions(request, targetDimensions))
-            .submit(targetDimensions.first, targetDimensions.second)
+            .apply(RequestOptions.centerCropTransform())
+            .submit(request.width, request.height)
             .get()
     }
-
-    @WorkerThread
-    private fun makeTransformOptions(
-        request: ImageLoadRequest,
-        targetDimensions: android.util.Pair<Int, Int>
-    ) =
-        if (targetDimensions.first != request.width || targetDimensions.second != request.height) {
-            RequestOptions.bitmapTransform(
-                CenterCropAndThenResizeTransform(
-                    targetDimensions.first,
-                    targetDimensions.second
-                )
-            )
-        } else {
-            RequestOptions.centerCropTransform()
-        }
 
     private data class ImageLoadRequest(
         val width: Int,
         val height: Int,
-        val optimize: Boolean,
         val uri: String
     )
 

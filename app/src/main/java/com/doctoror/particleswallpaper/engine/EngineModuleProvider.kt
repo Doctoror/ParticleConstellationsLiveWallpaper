@@ -46,9 +46,7 @@ object EngineModuleProvider {
             EngineBackgroundLoader(
                 get(),
                 get(),
-                get(),
-                get(),
-                TextureDimensionsCalculator()
+                get()
             )
         }
 

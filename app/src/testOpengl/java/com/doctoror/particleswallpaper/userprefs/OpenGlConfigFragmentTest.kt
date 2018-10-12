@@ -56,15 +56,6 @@ class OpenGlConfigFragmentTest {
         assertNotNull(preference)
     }
 
-    @Test
-    fun optimizeTexturesPreferenceDoesNotExist() {
-        val underTest = underTestController.create().get()
-
-        val preference = underTest.findPreference(getString(R.string.pref_key_optimize_textures))
-
-        assertNotNull(preference)
-    }
-
     private fun getString(@StringRes key: Int) =
         ApplicationProvider.getApplicationContext<Context>().getString(key)
 }

@@ -70,9 +70,9 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/Performance"
         android:key="@string/pref_key_performance"
-        android:persistent="false">
+        android:persistent="false"
+        android:title="@string/Performance">
 
         <com.doctoror.particleswallpaper.userprefs.speedfactor.SpeedFactorPreference
             android:key="@string/pref_key_step_multiplier"
@@ -83,15 +83,10 @@
             android:title="@string/Frame_rate" />
 
         <com.doctoror.particleswallpaper.userprefs.multisampling.MultisamplingPreference
-            android:key="@string/pref_key_multisampling"
-            android:title="@string/Multisampling_smoothing"
             android:entries="@array/num_samples_keys"
-            android:entryValues="@array/num_samples_values" />
-
-        <com.doctoror.particleswallpaper.userprefs.optimizetextures.OptimizeTexturesPreference
-            android:key="@string/pref_key_optimize_textures"
-            android:title="@string/Optimize_textures"
-            android:summary="@string/optimize_textures_hint" />
+            android:entryValues="@array/num_samples_values"
+            android:key="@string/pref_key_multisampling"
+            android:title="@string/Multisampling_smoothing" />
 
     </PreferenceCategory>
 
