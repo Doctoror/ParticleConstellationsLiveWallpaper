@@ -44,7 +44,7 @@ class CanvasConfigFragmentTest {
             .create()
             .get()
 
-        assertEquals(8, underTest.lifecycle.observerCount)
+        assertEquals(9, underTest.lifecycle.observerCount)
     }
 
     @Test
@@ -52,15 +52,6 @@ class CanvasConfigFragmentTest {
         val underTest = underTestController.create().get()
 
         val preference = underTest.findPreference(getString(R.string.pref_key_multisampling))
-
-        assertNull(preference)
-    }
-
-    @Test
-    fun optimizeTexturesPreferenceDoesNotExist() {
-        val underTest = underTestController.create().get()
-
-        val preference = underTest.findPreference(getString(R.string.pref_key_optimize_textures))
 
         assertNull(preference)
     }
