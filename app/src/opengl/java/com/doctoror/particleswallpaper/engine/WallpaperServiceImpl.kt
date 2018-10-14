@@ -36,7 +36,7 @@ class WallpaperServiceImpl : GLWallpaperService() {
 
     private val settingsOpenGL: OpenGlSettings by inject()
 
-    private val settingsDevice: DeviceSettings by inject()
+    val settingsDevice: DeviceSettings by inject()
 
     override fun onCreateEngine(): Engine {
         val renderer = GlEngineSceneRenderer()
