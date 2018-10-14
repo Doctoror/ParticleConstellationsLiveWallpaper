@@ -65,16 +65,7 @@ class WallpaperServiceImpl : GLWallpaperService() {
 
         init {
             if (samples != 0 && settingsDevice.multisamplingSupported) {
-                setEGLConfigChooser(
-                    MultisampleConfigChooser(
-                        samples,
-                        MultisampleConfigChooser.Callback {
-                            // When multisampling requested as 4, it means both 4 and 2 are not supported.
-                            // Only then we want to mark this as unsupported.
-                            if (samples == 4 && it == 0)
-                                settingsDevice.multisamplingSupported = false
-                        })
-                )
+                setEGLConfigChooser(MultisampleConfigChooser(samples))
             }
             setEGLContextClientVersion(2)
             setRenderer(this)

@@ -15,12 +15,19 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.app.Activity
+import android.graphics.Bitmap
+import android.view.View
+import com.doctoror.particleswallpaper.framework.view.setBackgroundBitmap
 
-class ConfigActivityViewFactory {
+class SceneBackgroundViewImpl : SceneBackgroundView {
 
-    /**
-     * @param activity used for compatibility with the factory for canvas variant.
-     */
-    fun newView(activity: Activity) = ConfigActivityViewImpl()
+    var particlesView: View? = null
+
+    override fun displayBackgroundColor(color: Int) {
+        this.particlesView?.setBackgroundColor(color)
+    }
+
+    override fun displayBackground(background: Bitmap?) {
+        this.particlesView?.setBackgroundBitmap(background)
+    }
 }

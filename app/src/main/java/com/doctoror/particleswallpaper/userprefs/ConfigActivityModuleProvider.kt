@@ -20,13 +20,18 @@ import android.os.Build
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.framework.app.actions.ActivityStartActivityForResultAction
+import com.doctoror.particleswallpaper.framework.util.MultisamplingSupportDetector
+import com.doctoror.particleswallpaper.framework.view.ViewDimensionsProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.module
 
-private const val PARAM_ACTIVITY = 0
-private const val PARAM_SCENE_CONFIGURATION = 1
-private const val PARAM_SCENE_CONTROLLER = 2
+private const val MENU_PRESENTER_PARAM_ACTIVITY = 0
+
+private const val PRESENTER_PARAM_SCENE_CONFIGURATION = 0
+private const val PRESENTER_PARAM_SCENE_CONTROLLER = 1
+private const val PRESENTER_PARAM_VIEW = 2
+private const val PRESENTER_PARAM_VIEW_DIMENSIONS_PROVIDER = 3
 
 object ConfigActivityModuleProvider {
 
@@ -35,10 +40,11 @@ object ConfigActivityModuleProvider {
     ) = parametersOf(activity)
 
     fun createArgumentsPresenter(
-        activity: Activity,
         sceneConfiguration: SceneConfiguration,
-        sceneController: SceneController
-    ) = parametersOf(activity, sceneConfiguration, sceneController)
+        sceneController: SceneController,
+        view: SceneBackgroundView,
+        viewDimensionsProvider: ViewDimensionsProvider
+    ) = parametersOf(sceneConfiguration, sceneController, view, viewDimensionsProvider)
 
     /**
      * Provides the module for wallpaper preview.
@@ -50,11 +56,12 @@ object ConfigActivityModuleProvider {
             ConfigActivityPresenter(
                 backgroundLoader = get(),
                 configurator = get(),
-                sceneConfiguration = parameterList[PARAM_SCENE_CONFIGURATION],
-                sceneController = parameterList[PARAM_SCENE_CONTROLLER],
+                sceneConfiguration = parameterList[PRESENTER_PARAM_SCENE_CONFIGURATION],
+                sceneController = parameterList[PRESENTER_PARAM_SCENE_CONTROLLER],
                 schedulers = get(),
                 settings = get(),
-                view = parameterList[PARAM_ACTIVITY]
+                view = parameterList[PRESENTER_PARAM_VIEW],
+                viewDimensionsProvider = parameterList[PRESENTER_PARAM_VIEW_DIMENSIONS_PROVIDER]
             )
         }
 
@@ -63,7 +70,7 @@ object ConfigActivityModuleProvider {
                 ConfigActivityMenuPresenterLollipop(
                     openChangeWallpaperIntentProvider = get(),
                     openChangeWallpaperIntentUseCase = get(parameters = { parameterList }),
-                    view = parameterList[PARAM_ACTIVITY]
+                    view = parameterList[MENU_PRESENTER_PARAM_ACTIVITY]
                 )
             } else {
                 ConfigActivityMenuPresenterLegacy()
@@ -71,10 +78,14 @@ object ConfigActivityModuleProvider {
         }
 
         factory {
+            MultisamplingSupportDetector(get())
+        }
+
+        factory {
             OpenChangeWallpaperIntentUseCase(
                 intentProvider = get(),
                 startActivityForResultAction = ActivityStartActivityForResultAction(
-                    it[PARAM_ACTIVITY]
+                    it[MENU_PRESENTER_PARAM_ACTIVITY]
                 )
             )
         }

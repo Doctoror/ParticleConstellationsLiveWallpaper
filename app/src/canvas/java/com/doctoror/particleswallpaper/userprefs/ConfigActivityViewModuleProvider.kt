@@ -15,19 +15,28 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.content.Context
-import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
+import android.app.Activity
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.module
 
-class ConfigModuleProvider {
+private const val PARAM_ACTIVITY = 0
+
+object ConfigActivityViewModuleProvider {
+
+    fun makeParams(
+        activity: Activity
+    ) = parametersOf(activity)
 
     fun provide() = module {
 
         factory {
-            OpenChangeWallpaperIntentProvider(
-                apiLevelProvider = get(),
-                packageManager = get<Context>().packageManager,
-                packageName = get<Context>().packageName
+            val activity: Activity = it[PARAM_ACTIVITY]
+            SceneBackgroundViewImpl { activity.window }
+        }
+
+        factory<ParticlesViewGenerator> {
+            ParticlesViewGeneratorImpl(
+                it[PARAM_ACTIVITY]
             )
         }
     }

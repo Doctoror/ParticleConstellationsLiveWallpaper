@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs
 
 import android.app.ActionBar
+import android.app.Activity
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
@@ -23,6 +24,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toolbar
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.After
@@ -42,8 +44,6 @@ class ConfigActivityTest : KoinTest {
 
     private val menuPresenter: ConfigActivityMenuPresenter by inject()
 
-    private val presenter: ConfigActivityPresenter by inject()
-
     private val underTest = ConfigActivity()
 
     private val underTestController = ActivityController.of(underTest)
@@ -51,7 +51,6 @@ class ConfigActivityTest : KoinTest {
     @Before
     fun setup() {
         declareMock<ConfigActivityMenuPresenter>()
-        declareMock<ConfigActivityPresenter>()
     }
 
     @After
@@ -86,26 +85,45 @@ class ConfigActivityTest : KoinTest {
     }
 
     @Test
-    fun deliversOnActivityResult() {
+    fun finishesWhenWallpaperSet() {
         // Given
         underTestController.create()
-        val requestCode = 1
-        val resultCode = 2
-
-        val onActivityResultMethod = underTest.javaClass.getDeclaredMethod(
-            "onActivityResult",
-            Int::class.java,
-            Int::class.java,
-            Intent::class.java
-        ).apply {
-            isAccessible = true
-        }
+        val requestCode = REQUEST_CODE_CHANGE_WALLPAPER
+        val resultCode = Activity.RESULT_OK
 
         // When
-        onActivityResultMethod.invoke(underTest, requestCode, resultCode, null)
+        invokeOnActivityResult(requestCode, resultCode)
 
         // Then
-        verify(presenter).onActivityResult(requestCode, resultCode)
+        assertTrue(underTest.isFinishing)
+    }
+
+    @Test
+    fun doesNotFinisheWhenWallpaperSetCanceled() {
+        // Given
+        underTestController.create()
+        val requestCode = REQUEST_CODE_CHANGE_WALLPAPER
+        val resultCode = Activity.RESULT_CANCELED
+
+        // When
+        invokeOnActivityResult(requestCode, resultCode)
+
+        // Then
+        assertFalse(underTest.isFinishing)
+    }
+
+    @Test
+    fun doesNotFinisheOnArbitraryResult() {
+        // Given
+        underTestController.create()
+        val requestCode = 0
+        val resultCode = Activity.RESULT_OK
+
+        // When
+        invokeOnActivityResult(requestCode, resultCode)
+
+        // Then
+        assertFalse(underTest.isFinishing)
     }
 
     @Test
@@ -145,5 +163,18 @@ class ConfigActivityTest : KoinTest {
         return (0..toolbarContainer.childCount)
             .map { toolbarContainer.getChildAt(it) }
             .find { it is Toolbar }
+    }
+
+    private fun invokeOnActivityResult(requestCode: Int, resultCode: Int) {
+        val onActivityResultMethod = underTest.javaClass.getDeclaredMethod(
+            "onActivityResult",
+            Int::class.java,
+            Int::class.java,
+            Intent::class.java
+        ).apply {
+            isAccessible = true
+        }
+
+        onActivityResultMethod.invoke(underTest, requestCode, resultCode, null)
     }
 }

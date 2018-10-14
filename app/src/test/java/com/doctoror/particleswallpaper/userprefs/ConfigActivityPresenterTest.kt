@@ -15,23 +15,23 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Color
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
-import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.engine.EngineBackgroundLoader
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.util.Optional
+import com.doctoror.particleswallpaper.framework.view.Dimensions
+import com.doctoror.particleswallpaper.framework.view.ViewDimensionsProvider
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
+import io.reactivex.Single
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -56,7 +56,11 @@ class ConfigActivityPresenterTest {
         whenever(it.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
     }
 
-    private val view: ConfigActivityView = mock()
+    private val view: SceneBackgroundView = mock()
+
+    private val viewDimensionsProvider: ViewDimensionsProvider = mock {
+        on { it.provideDimensions() }.thenReturn(Single.just(Dimensions(1, 1)))
+    }
 
     private val underTest = ConfigActivityPresenter(
         backgroundLoader,
@@ -65,7 +69,8 @@ class ConfigActivityPresenterTest {
         controller,
         schedulers,
         settings,
-        view
+        view,
+        viewDimensionsProvider
     )
 
     @After
@@ -77,8 +82,10 @@ class ConfigActivityPresenterTest {
     fun forwardsDimensionsToBackgroundLoader() {
         val w = 1
         val h = 2
+        whenever(viewDimensionsProvider.provideDimensions())
+            .thenReturn(Single.just(Dimensions(w, h)))
 
-        underTest.setDimensions(w, h)
+        underTest.onCreate()
 
         verify(backgroundLoader).setDimensions(w, h)
     }
@@ -98,7 +105,6 @@ class ConfigActivityPresenterTest {
     @Test
     fun loadsNullBackground() {
         underTest.onCreate()
-        underTest.setDimensions(1, 2)
 
         verify(view).displayBackground(null)
     }
@@ -110,7 +116,6 @@ class ConfigActivityPresenterTest {
             .thenReturn(Observable.just(Optional(bitmap)))
 
         underTest.onCreate()
-        underTest.setDimensions(1, 2)
 
         verify(view).displayBackground(bitmap)
     }
@@ -122,27 +127,8 @@ class ConfigActivityPresenterTest {
             .thenReturn(Observable.just(color))
 
         underTest.onStart()
-        underTest.setDimensions(1, 2)
 
         verify(view).displayBackgroundColor(color)
-    }
-
-    @Test
-    fun finishesWhenWallpaperSet() {
-        // When
-        underTest.onActivityResult(REQUEST_CODE_CHANGE_WALLPAPER, Activity.RESULT_OK)
-
-        // Then
-        verify(view).finish()
-    }
-
-    @Test
-    fun doesNotFinishWhenWallpaperNotSet() {
-        // When
-        underTest.onActivityResult(REQUEST_CODE_CHANGE_WALLPAPER, Activity.RESULT_CANCELED)
-
-        // Then
-        verify(view, never()).finish()
     }
 
     @Test

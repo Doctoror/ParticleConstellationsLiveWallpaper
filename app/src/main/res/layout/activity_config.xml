@@ -13,18 +13,18 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <include layout="@layout/activity_config_view" />
 
     <LinearLayout
         android:id="@+id/toolbarContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <include
             layout="@layout/activity_config_fragment"
@@ -34,4 +34,4 @@
 
     </LinearLayout>
 
-</merge>
+</FrameLayout>

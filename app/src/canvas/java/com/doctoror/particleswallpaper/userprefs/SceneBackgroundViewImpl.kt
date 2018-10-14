@@ -15,9 +15,21 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.app.Activity
+import android.graphics.Bitmap
+import android.graphics.drawable.ColorDrawable
+import android.view.View
+import android.view.Window
+import com.doctoror.particleswallpaper.framework.view.setBackgroundBitmap
 
-class ConfigActivityViewFactory {
+class SceneBackgroundViewImpl(private val windowProvider: () -> Window) : SceneBackgroundView {
 
-    fun newView(activity: Activity) = ConfigActivityViewImpl { activity.window }
+    var particlesView: View? = null
+
+    override fun displayBackgroundColor(color: Int) {
+        windowProvider().setBackgroundDrawable(ColorDrawable(color))
+    }
+
+    override fun displayBackground(background: Bitmap?) {
+        particlesView?.setBackgroundBitmap(background)
+    }
 }

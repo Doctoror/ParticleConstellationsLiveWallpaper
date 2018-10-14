@@ -15,20 +15,11 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.content.Context
-import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
-import org.koin.dsl.module.module
+import android.graphics.Bitmap
+import androidx.annotation.ColorInt
 
-class ConfigModuleProvider {
+interface SceneBackgroundView {
 
-    fun provide() = module {
-
-        factory {
-            OpenChangeWallpaperIntentProvider(
-                apiLevelProvider = get(),
-                packageManager = get<Context>().packageManager,
-                packageName = get<Context>().packageName
-            )
-        }
-    }
+    fun displayBackgroundColor(@ColorInt color: Int)
+    fun displayBackground(background: Bitmap?)
 }

@@ -15,20 +15,18 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
-import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.engine.EngineBackgroundLoader
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.framework.view.ViewDimensionsProvider
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 
 class ConfigActivityPresenter(
     private val backgroundLoader: EngineBackgroundLoader,
@@ -37,17 +35,17 @@ class ConfigActivityPresenter(
     private val sceneController: SceneController,
     private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
-    private val view: ConfigActivityView
+    private val view: SceneBackgroundView,
+    private val viewDimensionsProvider: ViewDimensionsProvider
 ) : LifecycleObserver {
 
-    private val disposables = CompositeDisposable()
-
-    private var bgDisposable: Disposable? = null
+    private val disposablesCreateDestroy = CompositeDisposable()
+    private val disposablesStartStop = CompositeDisposable()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onCreate() {
         backgroundLoader.onCreate()
-        bgDisposable = backgroundLoader
+        disposablesCreateDestroy.add(backgroundLoader
             .observeBackground()
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
@@ -55,15 +53,22 @@ class ConfigActivityPresenter(
                 { view.displayBackground(it.value) },
                 { Log.e("ConfigActiivtyPresenter", "Failed loading background image", it) }
             )
-    }
+        )
 
-    fun setDimensions(width: Int, height: Int) {
-        backgroundLoader.setDimensions(width, height)
+        disposablesCreateDestroy.add(viewDimensionsProvider
+            .provideDimensions()
+            .subscribe { dimensions ->
+                backgroundLoader.setDimensions(
+                    dimensions.width,
+                    dimensions.height
+                )
+            }
+        )
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
-        disposables.add(settings
+        disposablesStartStop.add(settings
             .observeBackgroundColor()
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
@@ -79,20 +84,13 @@ class ConfigActivityPresenter(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onStop() {
-        disposables.clear()
+        disposablesStartStop.clear()
         configurator.dispose()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy() {
-        bgDisposable?.dispose()
-        bgDisposable = null
+        disposablesCreateDestroy.clear()
         backgroundLoader.onDestroy()
-    }
-
-    fun onActivityResult(requestCode: Int, resultCode: Int) {
-        if (requestCode == REQUEST_CODE_CHANGE_WALLPAPER && resultCode == Activity.RESULT_OK) {
-            view.finish()
-        }
     }
 }

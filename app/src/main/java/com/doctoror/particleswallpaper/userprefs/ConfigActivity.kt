@@ -17,22 +17,31 @@ package com.doctoror.particleswallpaper.userprefs
 
 import android.annotation.TargetApi
 import android.app.ActionBar
+import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.drawable.Animatable
 import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toolbar
+import androidx.lifecycle.Lifecycle
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.framework.lifecycle.LifecycleActivity
-import com.doctoror.particleswallpaper.framework.view.removeOnGlobalLayoutListenerCompat
+import com.doctoror.particleswallpaper.framework.view.ViewDimensionsProvider
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 
-class ConfigActivity : LifecycleActivity(), ConfigActivityView, ConfigActivityMenuView {
+class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
+
+    private val disposables = CompositeDisposable()
 
     private var fragmentTransactionsAllowed = false
 
@@ -40,11 +49,16 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView, ConfigActivityMe
         parameters = { ConfigActivityModuleProvider.createArgumentsMenuPresenter(this) }
     )
 
-    private var particlesView: Animatable? = null
+    private var presenter: ConfigActivityPresenter? = null
 
-    private lateinit var presenter: ConfigActivityPresenter
+    private val view: SceneBackgroundViewImpl by inject(
+        parameters = {
+            ConfigActivityViewModuleProvider.makeParams(this)
+        }
+    )
 
-    private val view = ConfigActivityViewFactory().newView(this)
+    private lateinit var viewContainer: ViewGroup
+    private lateinit var viewDimensionsProvider: ViewDimensionsProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,28 +66,69 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView, ConfigActivityMe
 
         setContentView(R.layout.activity_config)
 
-        val particlesView = findViewById<View>(R.id.particlesView)
-        this.particlesView = particlesView as Animatable
+        viewContainer = findViewById(R.id.viewContainer)
+        viewDimensionsProvider = ViewDimensionsProvider(viewContainer)
+
+        val viewGenerator: ParticlesViewGenerator = get(
+            parameters = {
+                ConfigActivityViewModuleProvider.makeParams(this)
+            }
+        )
+
+        disposables.add(
+            viewGenerator
+                .observeParticlesViewInstance()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onParticlesViewReady)
+        )
+
+        lifecycle.addObserver(menuPresenter)
+        lifecycle.addObserver(viewGenerator)
+    }
+
+    private fun onParticlesViewReady(particlesView: View) {
+        removeCurrentParticlesView()
+        registerParticlesView(particlesView)
+        disposeCurrentPresenter()
+        injectAndRegisterNewPresenter(particlesView)
+    }
+
+    private fun removeCurrentParticlesView() {
+        this.view.particlesView?.let {
+            viewContainer.removeView(it)
+        }
+    }
+
+    private fun registerParticlesView(particlesView: View) {
+        viewContainer.addView(particlesView, 0)
         view.particlesView = particlesView
 
-        presenter = get(parameters = {
+        if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+            (particlesView as Animatable).start()
+        }
+    }
+
+    private fun disposeCurrentPresenter() {
+        presenter?.let {
+            it.onStop()
+            it.onDestroy()
+            lifecycle.removeObserver(it)
+        }
+    }
+
+    private fun injectAndRegisterNewPresenter(particlesView: View) {
+        val presenter: ConfigActivityPresenter = get(parameters = {
             ConfigActivityModuleProvider.createArgumentsPresenter(
-                this,
                 particlesView as SceneConfiguration,
-                particlesView as SceneController
+                particlesView as SceneController,
+                view,
+                viewDimensionsProvider
             )
         })
 
-        particlesView.viewTreeObserver?.addOnGlobalLayoutListener(
-            object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    particlesView.viewTreeObserver?.removeOnGlobalLayoutListenerCompat(this)
-                    presenter.setDimensions(particlesView.width, particlesView.height)
-                }
-            })
-
-        lifecycle.addObserver(menuPresenter)
         lifecycle.addObserver(presenter)
+
+        this.presenter = presenter
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -93,8 +148,8 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView, ConfigActivityMe
 
     override fun onStart() {
         super.onStart()
-        particlesView?.start()
         fragmentTransactionsAllowed = true
+        (view.particlesView as? Animatable)?.start()
     }
 
     override fun onResume() {
@@ -109,20 +164,12 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView, ConfigActivityMe
 
     override fun onStop() {
         super.onStop()
-        particlesView?.stop()
+        (view.particlesView as? Animatable)?.stop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        view.particlesView = null
-    }
-
-    override fun displayBackgroundColor(color: Int) {
-        view.displayBackgroundColor(color)
-    }
-
-    override fun displayBackground(background: Bitmap?) {
-        view.displayBackground(background)
+        disposables.clear()
     }
 
     override fun onCreateOptionsMenu(menu: Menu) = menuPresenter.onCreateOptionsMenu(menu)
@@ -131,6 +178,8 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityView, ConfigActivityMe
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        presenter.onActivityResult(requestCode, resultCode)
+        if (requestCode == REQUEST_CODE_CHANGE_WALLPAPER && resultCode == Activity.RESULT_OK) {
+            finish()
+        }
     }
 }

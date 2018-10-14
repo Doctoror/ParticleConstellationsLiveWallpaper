@@ -15,19 +15,11 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.graphics.Bitmap
 import android.view.View
-import com.doctoror.particleswallpaper.framework.view.setBackgroundBitmap
+import androidx.lifecycle.LifecycleObserver
+import io.reactivex.Observable
 
-class ConfigActivityViewImpl {
+interface ParticlesViewGenerator : LifecycleObserver {
 
-    var particlesView: View? = null
-
-    fun displayBackgroundColor(color: Int) {
-        this.particlesView?.setBackgroundColor(color)
-    }
-
-    fun displayBackground(background: Bitmap?) {
-        this.particlesView?.setBackgroundBitmap(background)
-    }
+    fun observeParticlesViewInstance(): Observable<View>
 }

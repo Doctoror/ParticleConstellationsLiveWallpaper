@@ -15,21 +15,16 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.graphics.Bitmap
-import android.graphics.drawable.ColorDrawable
+import android.content.Context
 import android.view.View
-import android.view.Window
-import com.doctoror.particleswallpaper.framework.view.setBackgroundBitmap
+import com.doctoror.particlesdrawable.ParticlesView
+import io.reactivex.Observable
 
-class ConfigActivityViewImpl(private val windowProvider: () -> Window) {
+/**
+ * In this app flavor, this just makes the View instance once.
+ */
+class ParticlesViewGeneratorImpl(private val context: Context) : ParticlesViewGenerator {
 
-    var particlesView: View? = null
-
-    fun displayBackgroundColor(color: Int) {
-        windowProvider().setBackgroundDrawable(ColorDrawable(color))
-    }
-
-    fun displayBackground(background: Bitmap?) {
-        particlesView?.setBackgroundBitmap(background)
-    }
+    override fun observeParticlesViewInstance(): Observable<View> =
+        Observable.just(ParticlesView(context))
 }
