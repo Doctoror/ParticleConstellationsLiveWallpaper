@@ -46,7 +46,6 @@ class ParticlesViewGeneratorImpl(
     fun onStart() {
         disposable = openGlSettings
             .observeNumSamples()
-            .distinctUntilChanged()
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.mainThread())
             .subscribe(this::onNumSamplesLoaded)
