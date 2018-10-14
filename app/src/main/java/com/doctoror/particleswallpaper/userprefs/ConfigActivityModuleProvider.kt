@@ -78,7 +78,10 @@ object ConfigActivityModuleProvider {
         }
 
         factory {
-            MultisamplingSupportDetector(get())
+            MultisamplingSupportDetector(
+                get(),
+                get()
+            )
         }
 
         factory {

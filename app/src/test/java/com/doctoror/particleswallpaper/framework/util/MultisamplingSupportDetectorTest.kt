@@ -16,6 +16,7 @@
 package com.doctoror.particleswallpaper.framework.util
 
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
+import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.verifyZeroInteractions
@@ -24,13 +25,15 @@ import org.junit.jupiter.api.Test
 class MultisamplingSupportDetectorTest {
 
     private val deviceSettings: DeviceSettings = mock()
+    private val openGlSettings: OpenGlSettings = mock()
 
-    private val underTest = MultisamplingSupportDetector(deviceSettings)
+    private val underTest = MultisamplingSupportDetector(deviceSettings, openGlSettings)
 
     @Test
     fun writesNoValuesWhenRequestedEqualsActual() {
         underTest.writeMultisamplingSupportStatus(4, 4)
         verifyZeroInteractions(deviceSettings)
+        verifyZeroInteractions(openGlSettings)
     }
 
     @Test
@@ -49,5 +52,11 @@ class MultisamplingSupportDetectorTest {
     fun writesEmptyValueWhenRequested2Actual0() {
         underTest.writeMultisamplingSupportStatus(2, 0)
         verify(deviceSettings).multisamplingSupportedValues = emptySet()
+    }
+
+    @Test
+    fun writesActualNumSampplesWhenDoesNotMatchRequested() {
+        underTest.writeMultisamplingSupportStatus(4, 0)
+        verify(openGlSettings).numSamples = 0
     }
 }

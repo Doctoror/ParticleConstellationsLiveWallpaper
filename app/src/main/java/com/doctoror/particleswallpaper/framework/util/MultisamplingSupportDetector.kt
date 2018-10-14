@@ -16,9 +16,11 @@
 package com.doctoror.particleswallpaper.framework.util
 
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
+import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 
 class MultisamplingSupportDetector(
-    private val deviceSettings: DeviceSettings
+    private val deviceSettings: DeviceSettings,
+    private val openGlSettings: OpenGlSettings
 ) {
 
     private val multisamplingAllowedValues = setOf(0, 2, 4)
@@ -63,6 +65,8 @@ class MultisamplingSupportDetector(
                  */
                 2 -> deviceSettings.multisamplingSupportedValues = emptySet()
             }
+
+            openGlSettings.numSamples = actualNumSamples
         }
     }
 }
