@@ -24,6 +24,7 @@ class MultisamplingPreferencePresenter(
     private val schedulers: SchedulersProvider,
     private val settings: OpenGlSettings,
     private val settingsDevice: DeviceSettings,
+    private val valueMapper: MultisamplingPreferenceValueMapper,
     private val view: MultisamplingPreferenceView,
     private val wallpaperChecker: WallpaperCheckerUseCase
 ) {
@@ -53,12 +54,32 @@ class MultisamplingPreferencePresenter(
                 .subscribe(view::setValue)
         )
 
+        val supportedValuesSource = settingsDevice
+            .observeMultisamplingSupportedValues()
+            .share()
+
         disposables.add(
-            settingsDevice
-                .observeMultisamplingSupported()
+            supportedValuesSource
+                .map { it.isNotEmpty() }
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.mainThread())
                 .subscribe(view::setPreferenceSupported)
+        )
+
+        disposables.add(
+            supportedValuesSource
+                .map(valueMapper::toEntries)
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.mainThread())
+                .subscribe(view::setEntries)
+        )
+
+        disposables.add(
+            supportedValuesSource
+                .map(valueMapper::toEntryValues)
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.mainThread())
+                .subscribe(view::setEntryValues)
         )
     }
 

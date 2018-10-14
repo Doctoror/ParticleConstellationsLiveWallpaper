@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2018 Yaroslav Mytkalyk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.doctoror.particleswallpaper.userprefs.multisampling
 
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
@@ -15,17 +30,22 @@ class MultisamplingPreferencePresenterTest {
     }
 
     private val settingsDevice: DeviceSettings = mock {
-        on { it.observeMultisamplingSupported() }.doReturn(Observable.just(false))
+        on { it.observeMultisamplingSupportedValues() }.doReturn(Observable.just(emptySet()))
     }
 
     private val wallpaperChecker: WallpaperCheckerUseCase = mock {
         on { it.wallpaperInstalledSource() }.doReturn(Single.just(false))
     }
 
+    private val valueMapper: MultisamplingPreferenceValueMapper = mock {
+        on { it.toEntries(any()) }.thenReturn(emptyArray())
+        on { it.toEntryValues(any()) }.thenReturn(emptyArray())
+    }
+
     private val view: MultisamplingPreferenceView = mock()
 
     private val underTest = MultisamplingPreferencePresenter(
-        TrampolineSchedulers(), settings, settingsDevice, view, wallpaperChecker
+        TrampolineSchedulers(), settings, settingsDevice, valueMapper, view, wallpaperChecker
     )
 
     @Test
@@ -42,16 +62,29 @@ class MultisamplingPreferencePresenterTest {
     }
 
     @Test
-    fun loadsSupportedStateAndSetsToView() {
+    fun loadsUnsupportedStateAndSetsToView() {
         // Given
-        val value = true
-        whenever(settingsDevice.observeMultisamplingSupported()).thenReturn(Observable.just(value))
+        whenever(settingsDevice.observeMultisamplingSupportedValues())
+            .thenReturn(Observable.just(emptySet()))
 
         // When
         underTest.onStart()
 
         // Then
-        verify(view).setPreferenceSupported(value)
+        verify(view).setPreferenceSupported(false)
+    }
+
+    @Test
+    fun loadsSupportedStateAndSetsToView() {
+        // Given
+        whenever(settingsDevice.observeMultisamplingSupportedValues())
+            .thenReturn(Observable.just(setOf("2")))
+
+        // When
+        underTest.onStart()
+
+        // Then
+        verify(view).setPreferenceSupported(true)
     }
 
     @Test
@@ -64,6 +97,44 @@ class MultisamplingPreferencePresenterTest {
 
         // Then
         verify(settings).numSamples = value
+    }
+
+    @Test
+    fun loadsSupportedEntries() {
+        // Given
+        val expectedEntries = arrayOf<CharSequence>("4", "2")
+        val supportedValues = setOf("4", "2")
+
+        whenever(settingsDevice.observeMultisamplingSupportedValues())
+            .thenReturn(Observable.just(supportedValues))
+
+        whenever(valueMapper.toEntries(supportedValues))
+            .thenReturn(expectedEntries)
+
+        // When
+        underTest.onStart()
+
+        // Then
+        verify(view).setEntries(expectedEntries)
+    }
+
+    @Test
+    fun loadsSupportedEntryValues() {
+        // Given
+        val expectedEntryValues = arrayOf<CharSequence>("2")
+        val supportedValues = setOf("2")
+
+        whenever(settingsDevice.observeMultisamplingSupportedValues())
+            .thenReturn(Observable.just(supportedValues))
+
+        whenever(valueMapper.toEntryValues(supportedValues))
+            .thenReturn(expectedEntryValues)
+
+        // When
+        underTest.onStart()
+
+        // Then
+        verify(view).setEntryValues(expectedEntryValues)
     }
 
     @Test

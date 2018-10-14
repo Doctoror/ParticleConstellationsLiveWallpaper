@@ -19,6 +19,10 @@ interface MultisamplingPreferenceView {
 
     fun setPreferenceSupported(supported: Boolean)
 
+    fun setEntries(keys: Array<CharSequence>)
+
+    fun setEntryValues(values: Array<CharSequence>)
+
     fun setValue(value: Int)
 
     fun showRestartDialog()

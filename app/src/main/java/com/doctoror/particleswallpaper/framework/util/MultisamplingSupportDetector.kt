@@ -21,17 +21,48 @@ class MultisamplingSupportDetector(
     private val deviceSettings: DeviceSettings
 ) {
 
+    private val multisamplingAllowedValues = setOf(0, 2, 4)
+
     /**
-     * Compares requested and chosen multisampling modes and writes to
-     * [DeviceSettings.multisamplingSupported] when detected as unsupported at all.
+     * Compares requested and chosen multisampling modes and writes unsupported values to
+     * [DeviceSettings.multisamplingSupportedValues].
+     *
+     * The [com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser] supports values 4
+     * and 2. When 4 is passed but failed it tries 2 then if failed fallbacks to 0.
      */
     fun writeMultisamplingSupportStatus(
         requestedNumSamples: Int,
         actualNumSamples: Int
     ) {
-        // When multisampling requested as 4, it means both 4 and 2 are not supported.
-        // Only then we want to mark this as unsupported.
-        if (requestedNumSamples == 4 && actualNumSamples == 0)
-            deviceSettings.multisamplingSupported = false
+        if (actualNumSamples != requestedNumSamples) {
+
+            if (actualNumSamples !in multisamplingAllowedValues) {
+                throw IllegalArgumentException("Invalid value passed as actualNumSamples")
+            }
+
+            if (requestedNumSamples !in multisamplingAllowedValues) {
+                throw IllegalArgumentException("Invalid value passed as actualNumSamples")
+            }
+
+            when (requestedNumSamples) {
+                4 -> deviceSettings.multisamplingSupportedValues = if (actualNumSamples == 2) {
+                    /*
+                     * When 4 requested and actual is 2 then 2 is the only supported value.
+                     */
+                    setOf("2")
+                } else {
+
+                    /*
+                     * When 4 requested and actual is 0 then there are no supported values.
+                     */
+                    emptySet()
+                }
+
+                /*
+                 * When 2 requested and actual is 0 then there are no supported values.
+                 */
+                2 -> deviceSettings.multisamplingSupportedValues = emptySet()
+            }
+        }
     }
 }

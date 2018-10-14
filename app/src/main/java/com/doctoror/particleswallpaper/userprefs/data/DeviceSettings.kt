@@ -20,19 +20,25 @@ import io.reactivex.Observable
 import io.reactivex.subjects.AsyncInitialValueBehaviorSubject
 
 const val PREFERENCES_NAME_DEVICE = "prefs_device"
-const val KEY_MULTISAMPLING_SUPPORTED = "multisampling_supported"
+const val KEY_MULTISAMPLING_SUPPORTED_VALUES = "multisampling_supported_values"
+
+private val DEFAULT_MULTISAMPLING_SUPPORTED_VALUES = setOf("2", "4")
 
 class DeviceSettings(private val prefsSource: () -> SharedPreferences) {
 
-    private val multisamplingSupportedSubject =
-        AsyncInitialValueBehaviorSubject { multisamplingSupported }.toSerialized()
+    private val multisamplingSupportedValuesSubject =
+        AsyncInitialValueBehaviorSubject { multisamplingSupportedValues }.toSerialized()
 
-    fun observeMultisamplingSupported(): Observable<Boolean> = multisamplingSupportedSubject
+    fun observeMultisamplingSupportedValues(): Observable<Set<String>> =
+        multisamplingSupportedValuesSubject
 
-    var multisamplingSupported
-        get() = prefsSource().getBoolean(KEY_MULTISAMPLING_SUPPORTED, true)
+    var multisamplingSupportedValues
+        get() = prefsSource().getStringSet(
+            KEY_MULTISAMPLING_SUPPORTED_VALUES,
+            DEFAULT_MULTISAMPLING_SUPPORTED_VALUES
+        )
         set(value) {
-            prefsSource().edit().putBoolean(KEY_MULTISAMPLING_SUPPORTED, value).apply()
-            multisamplingSupportedSubject.onNext(value)
+            prefsSource().edit().putStringSet(KEY_MULTISAMPLING_SUPPORTED_VALUES, value).apply()
+            multisamplingSupportedValuesSubject.onNext(value)
         }
 }

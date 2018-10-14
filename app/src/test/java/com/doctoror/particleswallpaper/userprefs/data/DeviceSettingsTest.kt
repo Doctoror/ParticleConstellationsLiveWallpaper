@@ -16,10 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.SharedPreferences
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -30,35 +27,43 @@ class DeviceSettingsTest {
     private val underTest = DeviceSettings { prefs }
 
     @Test
-    fun observesMultisamplingSupportedChanges() {
+    fun observesMultisamplingSupportedValuesChanges() {
         val prefs = InMemorySharedPreferences()
         val underTest = DeviceSettings { prefs }
 
-        val o = underTest.observeMultisamplingSupported().test()
+        val expectedValue1 = setOf("4", "2")
+        val expectedValue2 = setOf("2")
+        val expectedValue3 = emptySet<String>()
 
-        underTest.multisamplingSupported = false
-        underTest.multisamplingSupported = true
+        val o = underTest.observeMultisamplingSupportedValues().test()
 
-        o.assertValues(true, false, true)
+        underTest.multisamplingSupportedValues = expectedValue2
+        underTest.multisamplingSupportedValues = expectedValue3
+
+        o.assertValues(expectedValue1, expectedValue2, expectedValue3)
     }
 
     @Test
-    fun returnsMultisamplingSupportedValueFromPrefs() {
-        whenever(prefs.getBoolean(KEY_MULTISAMPLING_SUPPORTED, true))
-            .thenReturn(true)
+    fun returnsMultisamplingSupportedValuesFromPrefs() {
+        val expectedValue = setOf("4", "2")
 
-        assertEquals(true, underTest.multisamplingSupported)
+        whenever(prefs.getStringSet(eq(KEY_MULTISAMPLING_SUPPORTED_VALUES), any()))
+            .thenReturn(expectedValue)
+
+        assertEquals(expectedValue, underTest.multisamplingSupportedValues)
     }
 
     @Test
-    fun storessMultisamplingSupportedValueInPrefs() {
+    fun storesMultisamplingSupportedValuesInPrefs() {
         val editor: SharedPreferences.Editor = mock()
-        whenever(editor.putBoolean(any(), any())).thenReturn(editor)
+        whenever(editor.putStringSet(any(), any())).thenReturn(editor)
         whenever(prefs.edit()).thenReturn(editor)
 
-        underTest.multisamplingSupported = true
+        val values = setOf("4", "2")
 
-        verify(editor).putBoolean(KEY_MULTISAMPLING_SUPPORTED, true)
+        underTest.multisamplingSupportedValues = values
+
+        verify(editor).putStringSet(KEY_MULTISAMPLING_SUPPORTED_VALUES, values)
         verify(editor).apply()
     }
 }

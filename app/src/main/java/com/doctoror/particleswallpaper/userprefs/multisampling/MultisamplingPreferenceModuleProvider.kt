@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.multisampling
 
+import android.content.Context
 import org.koin.dsl.module.module
 
 private const val PARAM_VIEW = 0
@@ -31,9 +32,14 @@ class MultisamplingPreferenceModuleProvider {
                 get(),
                 get(),
                 get(),
+                get(),
                 it[PARAM_VIEW],
                 get()
             )
+        }
+
+        factory {
+            MultisamplingPreferenceValueMapper(get<Context>().resources)
         }
 
         factory {

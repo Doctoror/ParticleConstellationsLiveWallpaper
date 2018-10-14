@@ -42,6 +42,8 @@ class MultisamplingPreference @JvmOverloads constructor(
 
     init {
         isPersistent = false
+        entries = emptyArray()
+        entryValues = emptyArray()
         setOnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(
                 if (v == null) {
