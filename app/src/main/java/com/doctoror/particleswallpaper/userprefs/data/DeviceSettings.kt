@@ -32,11 +32,11 @@ class DeviceSettings(private val prefsSource: () -> SharedPreferences) {
     fun observeMultisamplingSupportedValues(): Observable<Set<String>> =
         multisamplingSupportedValuesSubject
 
-    var multisamplingSupportedValues
+    var multisamplingSupportedValues: Set<String>
         get() = prefsSource().getStringSet(
             KEY_MULTISAMPLING_SUPPORTED_VALUES,
             DEFAULT_MULTISAMPLING_SUPPORTED_VALUES
-        )
+        )!!
         set(value) {
             prefsSource().edit().putStringSet(KEY_MULTISAMPLING_SUPPORTED_VALUES, value).apply()
             multisamplingSupportedValuesSubject.onNext(value)
