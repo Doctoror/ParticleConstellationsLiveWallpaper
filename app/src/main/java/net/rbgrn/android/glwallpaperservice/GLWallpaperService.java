@@ -51,14 +51,18 @@ import android.view.SurfaceHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public abstract class GLWallpaperService extends WallpaperService {
 
+    @SuppressWarnings({"WeakerAccess", "unused"})
     public class GLEngine extends WallpaperService.Engine {
         public final static int RENDERMODE_WHEN_DIRTY = 0;
         public final static int RENDERMODE_CONTINUOUSLY = 1;
 
         private final Object lock = new Object();
-        private GLSurfaceView mGLSurfaceView = null;
+        GLSurfaceView mGLSurfaceView = null;
 
         private int debugFlags;
         private int renderMode;
@@ -74,12 +78,12 @@ public abstract class GLWallpaperService extends WallpaperService {
          * created, so that the underlying code should be in a state to be able to handle the surface related events
          * that get fired when GLSurfaceView is created.
          */
-        private List<Runnable> pendingOperations = new ArrayList<Runnable>();
+        private List<Runnable> pendingOperations = new ArrayList<>();
 
         public GLEngine() {
         }
 
-        public void setGLWrapper(final GLSurfaceView.GLWrapper glWrapper) {
+        public void setGLWrapper(@Nullable final GLSurfaceView.GLWrapper glWrapper) {
             synchronized (lock) {
                 if (mGLSurfaceView != null) {
                     mGLSurfaceView.setGLWrapper(glWrapper);
@@ -118,7 +122,7 @@ public abstract class GLWallpaperService extends WallpaperService {
             }
         }
 
-        public void setRenderer(final GLSurfaceView.Renderer renderer) {
+        public void setRenderer(@NonNull final GLSurfaceView.Renderer renderer) {
             synchronized (lock) {
                 if (mGLSurfaceView != null) {
                     mGLSurfaceView.setRenderer(renderer);
@@ -135,7 +139,7 @@ public abstract class GLWallpaperService extends WallpaperService {
             }
         }
 
-        public void queueEvent(final Runnable r) {
+        public void queueEvent(@NonNull final Runnable r) {
             synchronized (lock) {
                 if (mGLSurfaceView != null) {
                     mGLSurfaceView.queueEvent(r);
@@ -149,7 +153,7 @@ public abstract class GLWallpaperService extends WallpaperService {
             }
         }
 
-        public void setEGLContextFactory(final GLSurfaceView.EGLContextFactory factory) {
+        public void setEGLContextFactory(@NonNull final GLSurfaceView.EGLContextFactory factory) {
             synchronized (lock) {
                 if (mGLSurfaceView != null) {
                     mGLSurfaceView.setEGLContextFactory(factory);
@@ -163,7 +167,8 @@ public abstract class GLWallpaperService extends WallpaperService {
             }
         }
 
-        public void setEGLWindowSurfaceFactory(final GLSurfaceView.EGLWindowSurfaceFactory factory) {
+        public void setEGLWindowSurfaceFactory(
+                @NonNull final GLSurfaceView.EGLWindowSurfaceFactory factory) {
             synchronized (lock) {
                 if (mGLSurfaceView != null) {
                     mGLSurfaceView.setEGLWindowSurfaceFactory(factory);
@@ -177,7 +182,7 @@ public abstract class GLWallpaperService extends WallpaperService {
             }
         }
 
-        public void setEGLConfigChooser(final GLSurfaceView.EGLConfigChooser configChooser) {
+        public void setEGLConfigChooser(@NonNull final GLSurfaceView.EGLConfigChooser configChooser) {
             synchronized (lock) {
                 if (mGLSurfaceView != null) {
                     mGLSurfaceView.setEGLConfigChooser(configChooser);
@@ -292,7 +297,11 @@ public abstract class GLWallpaperService extends WallpaperService {
         }
 
         @Override
-        public void onSurfaceChanged(final SurfaceHolder holder, final int format, final int width, final int height) {
+        public void onSurfaceChanged(
+                @NonNull final SurfaceHolder holder,
+                final int format,
+                final int width,
+                final int height) {
             synchronized (lock) {
                 if (mGLSurfaceView != null) {
                     mGLSurfaceView.surfaceChanged(holder, format, width, height);
@@ -307,7 +316,7 @@ public abstract class GLWallpaperService extends WallpaperService {
         }
 
         @Override
-        public void onSurfaceCreated(SurfaceHolder holder) {
+        public void onSurfaceCreated(@NonNull final SurfaceHolder holder) {
             synchronized (lock) {
                 if (mGLSurfaceView == null) {
                     mGLSurfaceView = new GLSurfaceView(GLWallpaperService.this) {
@@ -326,7 +335,7 @@ public abstract class GLWallpaperService extends WallpaperService {
         }
 
         @Override
-        public void onSurfaceDestroyed(SurfaceHolder holder) {
+        public void onSurfaceDestroyed(@NonNull final SurfaceHolder holder) {
             synchronized (lock) {
                 if (mGLSurfaceView != null) {
                     mGLSurfaceView.surfaceDestroyed(holder);
