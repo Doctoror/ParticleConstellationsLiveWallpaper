@@ -22,7 +22,6 @@ import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.util.MultisamplingSupportDetector
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
 import org.junit.After
@@ -85,27 +84,5 @@ class ParticlesViewGeneratorImplTest {
         underTest.onStart()
 
         o.assertValueCount(3)
-    }
-
-    @Test
-    fun notifiesMultisamplingSupportDetectorForEveryValueChange() {
-        whenever(openGlSettings.observeNumSamples())
-            .thenReturn(Observable.just(4, 4, 2, 0))
-
-        val o = underTest.observeParticlesViewInstance().test()
-
-        underTest.onStart()
-
-        verify(multisamplingSupportDetector).writeMultisamplingSupportStatus(
-            4, (o.values()[0] as GlParticlesView).chosenNumSamples
-        )
-
-        verify(multisamplingSupportDetector).writeMultisamplingSupportStatus(
-            2, (o.values()[0] as GlParticlesView).chosenNumSamples
-        )
-
-        verify(multisamplingSupportDetector).writeMultisamplingSupportStatus(
-            0, (o.values()[0] as GlParticlesView).chosenNumSamples
-        )
     }
 }

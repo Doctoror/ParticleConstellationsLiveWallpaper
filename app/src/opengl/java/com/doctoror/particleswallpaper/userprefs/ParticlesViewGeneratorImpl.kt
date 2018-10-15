@@ -20,6 +20,7 @@ import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import com.doctoror.particlesdrawable.opengl.GlParticlesView
+import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.util.MultisamplingSupportDetector
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
@@ -67,19 +68,28 @@ class ParticlesViewGeneratorImpl(
     private fun onNumSamplesLoaded(numSamples: Int) {
         if (lastNumSamples != numSamples) {
             lastNumSamples = numSamples
-
-            val instance = makeInstance(context, numSamples)
-
-            multisamplingSupportDetector.writeMultisamplingSupportStatus(
-                numSamples, instance.chosenNumSamples
-            )
-
-            viewInstanceSubject.onNext(instance)
+            viewInstanceSubject.onNext(makeInstance(context, numSamples))
         }
     }
 
     private fun makeInstance(
         context: Context,
         numSamples: Int
-    ) = GlParticlesView(context, numSamples)
+    ) = GlParticlesView(
+        context,
+        numSamples,
+        MultisamplingCallback(multisamplingSupportDetector, numSamples)
+    )
+
+    private class MultisamplingCallback(
+        private val multisamplingSupportDetector: MultisamplingSupportDetector,
+        private val requestedNumSamples: Int
+    ) : MultisampleConfigChooser.Callback {
+
+        override fun onConfigChosen(chosenNumSamples: Int) {
+            multisamplingSupportDetector.writeMultisamplingSupportStatus(
+                requestedNumSamples, chosenNumSamples
+            )
+        }
+    }
 }
