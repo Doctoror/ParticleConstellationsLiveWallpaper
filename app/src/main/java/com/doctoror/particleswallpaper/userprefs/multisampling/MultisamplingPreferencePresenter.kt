@@ -54,32 +54,17 @@ class MultisamplingPreferencePresenter(
                 .subscribe(view::setValue)
         )
 
-        val supportedValuesSource = settingsDevice
-            .observeMultisamplingSupportedValues()
-            .share()
-
         disposables.add(
-            supportedValuesSource
-                .map { it.isNotEmpty() }
+            settingsDevice
+                .observeMultisamplingSupportedValues()
+                .map { valueMapper.toEntries(it) to valueMapper.toEntryValues(it) }
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.mainThread())
-                .subscribe(view::setPreferenceSupported)
-        )
-
-        disposables.add(
-            supportedValuesSource
-                .map(valueMapper::toEntries)
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.mainThread())
-                .subscribe(view::setEntries)
-        )
-
-        disposables.add(
-            supportedValuesSource
-                .map(valueMapper::toEntryValues)
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.mainThread())
-                .subscribe(view::setEntryValues)
+                .subscribe { (entries, entryValues) ->
+                    view.setEntries(entries)
+                    view.setEntryValues(entryValues)
+                    view.setPreferenceSupported(entryValues.isNotEmpty())
+                }
         )
     }
 
