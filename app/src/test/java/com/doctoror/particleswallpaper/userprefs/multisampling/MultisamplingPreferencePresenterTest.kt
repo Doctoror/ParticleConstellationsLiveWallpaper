@@ -30,7 +30,7 @@ class MultisamplingPreferencePresenterTest {
     }
 
     private val settingsDevice: DeviceSettings = mock {
-        on { it.observeMultisamplingSupportedValues() }.doReturn(Observable.just(emptySet()))
+        on { it.observeMultisamplingSupportedValues() }.doReturn(Observable.just(setOf("0")))
     }
 
     private val wallpaperChecker: WallpaperCheckerUseCase = mock {
@@ -38,8 +38,13 @@ class MultisamplingPreferencePresenterTest {
     }
 
     private val valueMapper: MultisamplingPreferenceValueMapper = mock {
-        on { it.toEntries(any()) }.thenReturn(emptyArray())
-        on { it.toEntryValues(any()) }.thenReturn(emptyArray())
+        on { it.toEntries(any()) }.thenAnswer { invocation ->
+            (invocation.getArgument(0) as Set<String>).toTypedArray()
+        }
+
+        on { it.toEntryValues(any()) }.thenAnswer { invocation ->
+            (invocation.getArgument(0) as Set<String>).toTypedArray()
+        }
     }
 
     private val view: MultisamplingPreferenceView = mock()
@@ -65,7 +70,7 @@ class MultisamplingPreferencePresenterTest {
     fun loadsUnsupportedStateAndSetsToView() {
         // Given
         whenever(settingsDevice.observeMultisamplingSupportedValues())
-            .thenReturn(Observable.just(emptySet()))
+            .thenReturn(Observable.just(setOf("0")))
 
         // When
         underTest.onStart()
@@ -78,7 +83,7 @@ class MultisamplingPreferencePresenterTest {
     fun loadsSupportedStateAndSetsToView() {
         // Given
         whenever(settingsDevice.observeMultisamplingSupportedValues())
-            .thenReturn(Observable.just(setOf("2")))
+            .thenReturn(Observable.just(setOf("2", "3")))
 
         // When
         underTest.onStart()
@@ -108,9 +113,6 @@ class MultisamplingPreferencePresenterTest {
         whenever(settingsDevice.observeMultisamplingSupportedValues())
             .thenReturn(Observable.just(supportedValues))
 
-        whenever(valueMapper.toEntries(supportedValues))
-            .thenReturn(expectedEntries)
-
         // When
         underTest.onStart()
 
@@ -126,9 +128,6 @@ class MultisamplingPreferencePresenterTest {
 
         whenever(settingsDevice.observeMultisamplingSupportedValues())
             .thenReturn(Observable.just(supportedValues))
-
-        whenever(valueMapper.toEntryValues(supportedValues))
-            .thenReturn(expectedEntryValues)
 
         // When
         underTest.onStart()

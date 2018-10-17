@@ -61,9 +61,13 @@ class MultisamplingPreferencePresenter(
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.mainThread())
                 .subscribe { (entries, entryValues) ->
+                    if (entryValues.isEmpty()) {
+                        throw IllegalArgumentException("Empty values are not expected")
+                    }
                     view.setEntries(entries)
                     view.setEntryValues(entryValues)
-                    view.setPreferenceSupported(entryValues.isNotEmpty())
+                    // 1 means only Disabled item is there
+                    view.setPreferenceSupported(entryValues.size > 1)
                 }
         )
     }
