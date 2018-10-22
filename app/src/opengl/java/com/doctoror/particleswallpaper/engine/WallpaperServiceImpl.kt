@@ -22,6 +22,7 @@ import android.os.Handler
 import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
+import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker
 import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser
 import com.doctoror.particleswallpaper.framework.execution.GlScheduler
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
@@ -63,6 +64,8 @@ class WallpaperServiceImpl : GLWallpaperService() {
 
         lateinit var presenter: EnginePresenter
 
+        private var glErrorCheckerDisabled = false
+
         init {
             if (samples != 0 && settingsDevice.multisamplingSupportedValues
                     .contains(samples.toString())
@@ -85,6 +88,8 @@ class WallpaperServiceImpl : GLWallpaperService() {
         }
 
         override fun onSurfaceCreated(gl: GL10, config: EGLConfig?) {
+            GLErrorChecker.setShouldCheckGlError(true)
+            GLErrorChecker.setShouldThrowOnGlError(true)
             renderer.setupGl()
             presenter.onSurfaceCreated()
         }
@@ -96,6 +101,14 @@ class WallpaperServiceImpl : GLWallpaperService() {
 
         override fun onDrawFrame(gl: GL10) {
             presenter.onDrawFrame()
+
+            // Check once and disable after single onDrawFrame to avoid potential crashes after
+            // onDestroy
+            if (!glErrorCheckerDisabled) {
+                glErrorCheckerDisabled = true
+                GLErrorChecker.setShouldCheckGlError(false)
+                GLErrorChecker.setShouldThrowOnGlError(false)
+            }
         }
 
         override fun onSurfaceDestroyed(holder: SurfaceHolder) {
