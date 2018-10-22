@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.framework.util
 
+import com.crashlytics.android.Crashlytics
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 
@@ -39,6 +40,9 @@ class MultisamplingSupportDetector(
 
             deviceSettings.multisamplingSupportedValues = supportedMultisamplingValues
             openGlSettings.numSamples = actualNumSamples
+
+            Crashlytics.getInstance()
+                .core.log("Multisampling supported values = $supportedMultisamplingValues")
         }
     }
 }

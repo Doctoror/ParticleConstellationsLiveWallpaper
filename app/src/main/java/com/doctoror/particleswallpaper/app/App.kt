@@ -19,6 +19,7 @@ import android.app.Application
 import android.os.Looper
 import android.os.StrictMode
 import com.doctoror.particleswallpaper.BuildConfig
+import com.doctoror.particleswallpaper.crashreports.CrashlyticsInitializer
 import com.doctoror.particleswallpaper.framework.di.get
 import com.doctoror.particleswallpaper.framework.opengl.GlUncaughtExceptionHandler
 import com.doctoror.particleswallpaper.framework.opengl.KnownOpenglIssuesHandler
@@ -29,6 +30,8 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        get<CrashlyticsInitializer>(context = this).initialize()
+
         initStrictMode()
         initAsyncScheduler()
         initUncaughtExceptionHandler()

@@ -7,6 +7,8 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -19,9 +21,13 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity
-            android:name=".userprefs.ConfigActivity"
-            android:launchMode="singleTask">
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="eeb12fa8b433f6ada7dbc84cfe67a9d9e8bbf18c" />
+
+        <activity android:name=".crashreports.CrashReportsOptInActivity" />
+
+        <activity android:name=".launcher.LauncherActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,6 +35,11 @@
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name=".userprefs.ConfigActivity"
+            android:exported="true"
+            android:launchMode="singleTask" />
 
         <service
             android:name="com.doctoror.particleswallpaper.engine.canvas.CanvasWallpaperServiceImpl"

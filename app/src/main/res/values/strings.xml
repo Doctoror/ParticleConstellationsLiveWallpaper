@@ -111,4 +111,21 @@
 
     <string name="_FPS">%1$d FPS</string>
 
+    <string name="crash_report_request"><![CDATA[
+        Hello there!
+
+        \n\nWith recent update to OpenGL API there are risks of new crashes because of variety of
+        Android-powered devices.
+
+        \n\nAnonymous crash reports will help me understand the issues that may be happening on your
+        device and fix them.
+    ]]></string>
+
+    <string name="Allow_sending_crash_reports">Allow sending crash reports</string>
+
+    <string name="No">No</string>
+
+    <string name="Enabled">Enabled</string>
+    <string name="Disabled">Disabled</string>
+
 </resources>

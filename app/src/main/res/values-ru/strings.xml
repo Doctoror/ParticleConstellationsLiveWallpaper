@@ -116,4 +116,20 @@
 
     <string name="_FPS">%1$d кадр/с</string>
 
+    <string name="crash_report_request"><![CDATA[
+        Из-за недавней миграции на OpenGL есть риски новых ошибок из-за большого количества
+        Android устройств.
+
+        \n\nАнонимные отчеты об ошибках позволят мне идентифицировать потенциальные проблемы и
+        устранять их.
+    ]]></string>
+
+    <string name="Allow_sending_crash_reports">Отправлять отчеты</string>
+
+    <string name="No">Нет</string>
+
+    <string name="Enabled">Включено</string>
+    <string name="Disabled">Выключено</string>
+
+
 </resources>

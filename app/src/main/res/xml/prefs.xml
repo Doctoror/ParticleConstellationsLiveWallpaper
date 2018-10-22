@@ -104,4 +104,7 @@
 
     </PreferenceCategory>
 
+    <com.doctoror.particleswallpaper.crashreports.CrashReportsPreference
+        android:title="@string/Allow_sending_crash_reports" />
+
 </PreferenceScreen>

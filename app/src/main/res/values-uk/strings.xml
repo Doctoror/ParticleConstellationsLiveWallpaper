@@ -114,4 +114,19 @@
 
     <string name="_FPS">%1$d кадр/с</string>
 
+    <string name="crash_report_request"><![CDATA[
+        У зв’язку з недавньою міграцією на OpenGL збільшились ризики помилок.
+
+        \n\nАнонімні звіти про помилки дозволять мені ідентифіковувати потенційні проблеми і усувати
+        їх.
+    ]]></string>
+
+    <string name="Allow_sending_crash_reports">Відправляти звіти</string>
+
+    <string name="No">Ні</string>
+
+    <string name="Enabled">Увімкнено</string>
+    <string name="Disabled">Вимкнено</string>
+
+
 </resources>
