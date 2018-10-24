@@ -67,12 +67,12 @@ class WallpaperServiceImpl : GLWallpaperService() {
         private var glErrorCheckerDisabled = false
 
         init {
+            setEGLContextClientVersion(2)
             if (samples != 0 && settingsDevice.multisamplingSupportedValues
                     .contains(samples.toString())
             ) {
                 setEGLConfigChooser(MultisampleConfigChooser(samples))
             }
-            setEGLContextClientVersion(2)
             setRenderer(this)
             renderMode = RENDERMODE_WHEN_DIRTY
         }
