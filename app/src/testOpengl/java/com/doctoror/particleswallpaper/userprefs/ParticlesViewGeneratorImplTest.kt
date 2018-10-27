@@ -19,6 +19,7 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.doctoror.particlesdrawable.opengl.GlParticlesView
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.framework.util.MultisamplingConfigSpecParser
 import com.doctoror.particleswallpaper.framework.util.MultisamplingSupportDetector
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.nhaarman.mockito_kotlin.mock
@@ -34,6 +35,7 @@ import org.robolectric.RobolectricTestRunner
 class ParticlesViewGeneratorImplTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext<Context>()
+    private val multisamplingConfigSpecParser: MultisamplingConfigSpecParser = mock()
     private val multisamplingSupportDetector: MultisamplingSupportDetector = mock()
     private val openGlSettings: OpenGlSettings = mock {
         on { it.observeNumSamples() }.thenReturn(Observable.just(0))
@@ -41,6 +43,7 @@ class ParticlesViewGeneratorImplTest {
 
     private val underTest = ParticlesViewGeneratorImpl(
         context,
+        multisamplingConfigSpecParser,
         multisamplingSupportDetector,
         openGlSettings,
         TrampolineSchedulers()

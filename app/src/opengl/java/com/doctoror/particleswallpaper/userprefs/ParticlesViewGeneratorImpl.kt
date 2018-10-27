@@ -20,8 +20,9 @@ import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import com.doctoror.particlesdrawable.opengl.GlParticlesView
-import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser
+import com.doctoror.particlesdrawable.opengl.chooser.EGLConfigChooserCallback
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
+import com.doctoror.particleswallpaper.framework.util.MultisamplingConfigSpecParser
 import com.doctoror.particleswallpaper.framework.util.MultisamplingSupportDetector
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import io.reactivex.disposables.Disposable
@@ -32,6 +33,7 @@ import io.reactivex.subjects.PublishSubject
  */
 class ParticlesViewGeneratorImpl(
     private val context: Context,
+    private val multisamplingConfigSpecParser: MultisamplingConfigSpecParser,
     private val multisamplingSupportDetector: MultisamplingSupportDetector,
     private val openGlSettings: OpenGlSettings,
     private val schedulersProvider: SchedulersProvider
@@ -78,17 +80,23 @@ class ParticlesViewGeneratorImpl(
     ) = GlParticlesView(
         context,
         numSamples,
-        MultisamplingCallback(multisamplingSupportDetector, numSamples)
+        EGLConfigChooserCallbackImpl(
+            multisamplingConfigSpecParser,
+            multisamplingSupportDetector,
+            numSamples
+        )
     )
 
-    private class MultisamplingCallback(
+    private class EGLConfigChooserCallbackImpl(
+        private val multisamplingConfigSpecParser: MultisamplingConfigSpecParser,
         private val multisamplingSupportDetector: MultisamplingSupportDetector,
         private val requestedNumSamples: Int
-    ) : MultisampleConfigChooser.Callback {
+    ) : EGLConfigChooserCallback {
 
-        override fun onConfigChosen(chosenNumSamples: Int) {
+        override fun onConfigChosen(config: IntArray?) {
             multisamplingSupportDetector.writeMultisamplingSupportStatus(
-                requestedNumSamples, chosenNumSamples
+                requestedNumSamples,
+                multisamplingConfigSpecParser.extractNumSamplesFromConfigSpec(config)
             )
         }
     }

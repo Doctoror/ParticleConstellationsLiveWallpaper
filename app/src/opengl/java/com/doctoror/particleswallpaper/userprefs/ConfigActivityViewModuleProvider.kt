@@ -38,6 +38,7 @@ object ConfigActivityViewModuleProvider {
                 it[PARAM_ACTIVITY],
                 get(),
                 get(),
+                get(),
                 get()
             )
         }

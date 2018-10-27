@@ -20,6 +20,7 @@ import android.os.Build
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.framework.app.actions.ActivityStartActivityForResultAction
+import com.doctoror.particleswallpaper.framework.util.MultisamplingConfigSpecParser
 import com.doctoror.particleswallpaper.framework.util.MultisamplingSupportDetector
 import com.doctoror.particleswallpaper.framework.view.ViewDimensionsProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
@@ -75,6 +76,10 @@ object ConfigActivityModuleProvider {
             } else {
                 ConfigActivityMenuPresenterLegacy()
             }
+        }
+
+        factory {
+            MultisamplingConfigSpecParser()
         }
 
         factory {

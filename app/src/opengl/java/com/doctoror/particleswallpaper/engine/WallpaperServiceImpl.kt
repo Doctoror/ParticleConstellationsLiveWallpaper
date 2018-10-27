@@ -21,11 +21,10 @@ import android.os.Build
 import android.os.Handler
 import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.contract.SceneScheduler
+import com.doctoror.particlesdrawable.opengl.chooser.FailsafeEGLConfigChooserFactory
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker
-import com.doctoror.particlesdrawable.opengl.util.MultisampleConfigChooser
 import com.doctoror.particleswallpaper.framework.execution.GlScheduler
-import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import net.rbgrn.android.glwallpaperservice.GLWallpaperService
 import org.koin.android.ext.android.get
@@ -36,8 +35,6 @@ import javax.microedition.khronos.opengles.GL10
 class WallpaperServiceImpl : GLWallpaperService() {
 
     private val settingsOpenGL: OpenGlSettings by inject()
-
-    val settingsDevice: DeviceSettings by inject()
 
     override fun onCreateEngine(): Engine {
         val renderer = GlEngineSceneRenderer()
@@ -68,11 +65,9 @@ class WallpaperServiceImpl : GLWallpaperService() {
 
         init {
             setEGLContextClientVersion(2)
-            if (samples != 0 && settingsDevice.multisamplingSupportedValues
-                    .contains(samples.toString())
-            ) {
-                setEGLConfigChooser(MultisampleConfigChooser(samples))
-            }
+            setEGLConfigChooser(
+                FailsafeEGLConfigChooserFactory.newFailsafeEGLConfigChooser(samples, null)
+            )
             setRenderer(this)
             renderMode = RENDERMODE_WHEN_DIRTY
         }
