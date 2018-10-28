@@ -24,7 +24,10 @@ import org.junit.jupiter.api.Test
 
 class MultisamplingSupportDetectorTest {
 
-    private val deviceSettings: DeviceSettings = mock()
+    private val deviceSettings: DeviceSettings = mock {
+        on { it.multisamplingSupportedValues }.thenReturn(setOf("2", "4"))
+    }
+
     private val openGlSettings: OpenGlSettings = mock()
 
     private val underTest = MultisamplingSupportDetector(deviceSettings, openGlSettings)
