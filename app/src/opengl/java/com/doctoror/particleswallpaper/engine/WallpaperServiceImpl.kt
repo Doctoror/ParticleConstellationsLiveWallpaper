@@ -90,8 +90,22 @@ class WallpaperServiceImpl : GLWallpaperService() {
         }
 
         override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
+            val desiredWidth = Math.max(width, desiredMinimumWidth)
+            val desiredHeight = Math.max(height, desiredMinimumHeight)
             renderer.setDimensions(width, height)
-            presenter.setDimensions(width, height)
+            renderer.overrideBackgroundDimensions(desiredWidth, desiredHeight)
+            presenter.setDimensions(desiredWidth, desiredHeight)
+        }
+
+        override fun onOffsetsChanged(
+            xOffset: Float,
+            yOffset: Float,
+            xOffsetStep: Float,
+            yOffsetStep: Float,
+            xPixelOffset: Int,
+            yPixelOffset: Int
+        ) {
+            queueEvent { renderer.setTranslationX(xPixelOffset.toFloat()) }
         }
 
         override fun onDrawFrame(gl: GL10) {

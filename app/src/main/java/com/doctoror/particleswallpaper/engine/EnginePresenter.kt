@@ -123,7 +123,7 @@ class EnginePresenter(
     }
 
     fun setDimensions(width: Int, height: Int) {
-        scenePresenter.setBounds(0, 0, width, height)
+        scenePresenter.setDimensions(width, height)
         backgroundLoader.setDimensions(width, height)
     }
 

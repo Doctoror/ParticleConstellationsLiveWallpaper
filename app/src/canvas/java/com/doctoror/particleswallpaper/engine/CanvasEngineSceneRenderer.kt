@@ -105,8 +105,8 @@ class CanvasEngineSceneRenderer(
         try {
             canvas = lockCanvas(holder)
             if (canvas != null) {
-                drawBackground(canvas)
                 canvasSceneRenderer.setCanvas(canvas)
+                drawBackground(canvas)
                 super.drawScene(scene)
                 canvasSceneRenderer.setCanvas(null)
             }

@@ -73,8 +73,21 @@ class WallpaperServiceImpl : WallpaperService() {
             height: Int
         ) {
             super.onSurfaceChanged(holder, format, width, height)
-            presenter.setDimensions(width, height)
-            renderer.setDimensions(width, height)
+            val desiredWidth = Math.max(width, desiredMinimumWidth)
+            val desiredHeight = Math.max(height, desiredMinimumHeight)
+            renderer.setDimensions(desiredWidth, desiredHeight)
+            presenter.setDimensions(desiredWidth, desiredHeight)
+        }
+
+        override fun onOffsetsChanged(
+            xOffset: Float,
+            yOffset: Float,
+            xOffsetStep: Float,
+            yOffsetStep: Float,
+            xPixelOffset: Int,
+            yPixelOffset: Int
+        ) {
+            renderer.setTranslationX(xPixelOffset.toFloat())
         }
 
         override fun onSurfaceDestroyed(holder: SurfaceHolder) {
