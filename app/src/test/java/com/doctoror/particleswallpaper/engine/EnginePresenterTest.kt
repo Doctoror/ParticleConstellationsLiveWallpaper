@@ -74,6 +74,7 @@ class EnginePresenterTest {
         )
 
         whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(0))
+        whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(true))
         whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
         whenever(settings.backgroundUri).thenReturn(NO_URI)
         whenever(settings.observeFrameDelay()).thenReturn(Observable.just(0))
@@ -219,12 +220,22 @@ class EnginePresenterTest {
         // Given
         val width = 1
         val height = 2
+        val desiredWidth = 3
+        val desiredHeight = 4
 
         // When
-        underTest.setDimensions(width, height)
+        underTest.onCreate()
+        underTest.setDimensions(
+            EnginePresenter.WallpaperDimensions(
+                width,
+                height,
+                desiredWidth,
+                desiredHeight
+            )
+        )
 
         // Then
-        verify(scenePresenter).setBounds(0, 0, width, height)
+        verify(scenePresenter).setDimensions(desiredWidth, desiredHeight)
     }
 
     @Test
@@ -259,7 +270,7 @@ class EnginePresenterTest {
             .thenReturn(Observable.just(color))
 
         underTest.onCreate()
-        underTest.setDimensions(1, 1)
+        underTest.setDimensions(EnginePresenter.WallpaperDimensions(1, 1, 2, 2))
         underTest.onSurfaceCreated()
 
         underTest.onDrawFrame()

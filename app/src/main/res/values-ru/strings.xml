@@ -27,6 +27,7 @@
 
     <string name="Particles_color">Цвет частичек</string>
     <string name="Background_image">Фоновое изображение</string>
+    <string name="Background_image_scroll">Промотка фонового изображения</string>
     <string name="Background_color">Фоновый цвет</string>
     <string name="Failed_to_open_image_picker">Не удалось открыть выбор изображений</string>
 

@@ -75,8 +75,14 @@ class WallpaperServiceImpl : WallpaperService() {
             super.onSurfaceChanged(holder, format, width, height)
             val desiredWidth = Math.max(width, desiredMinimumWidth)
             val desiredHeight = Math.max(height, desiredMinimumHeight)
-            renderer.setDimensions(desiredWidth, desiredHeight)
-            presenter.setDimensions(desiredWidth, desiredHeight)
+            presenter.setDimensions(
+                EnginePresenter.WallpaperDimensions(
+                    width = width,
+                    height = height,
+                    desiredWidth = desiredWidth,
+                    desiredHeight = desiredHeight
+                )
+            )
         }
 
         override fun onOffsetsChanged(

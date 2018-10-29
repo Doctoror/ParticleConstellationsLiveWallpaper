@@ -44,7 +44,7 @@ class OpenGlConfigFragmentTest {
             .create()
             .get()
 
-        assertEquals(10, underTest.lifecycle.observerCount)
+        assertEquals(11, underTest.lifecycle.observerCount)
     }
 
     @Test

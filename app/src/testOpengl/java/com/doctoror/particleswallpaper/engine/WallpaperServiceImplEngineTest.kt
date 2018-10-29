@@ -73,7 +73,14 @@ class WallpaperServiceImplEngineTest {
         underTest.onSurfaceChanged(mock(), width, height)
 
         // Then
-        verify(presenter).setDimensions(width, height)
+        verify(presenter).setDimensions(
+            EnginePresenter.WallpaperDimensions(
+                width,
+                height,
+                underTest.desiredMinimumWidth,
+                underTest.desiredMinimumHeight
+            )
+        )
     }
 
     @Test

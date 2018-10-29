@@ -133,6 +133,29 @@ class SceneSettingsTest {
     }
 
     @Test
+    fun testBackgroundScrollObservable() {
+        testPreferenceObservable(settings::observeBackgroundScroll)
+    }
+
+    @Test
+    fun testBackgroundScrollMutator() {
+        testPreferenceMutator(
+            settings::observeBackgroundScroll,
+            settings::backgroundScroll,
+            true
+        )
+    }
+
+    @Test
+    fun testBackgroundScrollMutatorNotifiesChanges() {
+        testPreferenceNotifiesChanges(
+            settings::observeBackgroundScroll,
+            settings::backgroundScroll,
+            true
+        )
+    }
+
+    @Test
     fun testBackgroundUriObservable() {
         testPreferenceObservable(settings::observeBackgroundUri)
     }

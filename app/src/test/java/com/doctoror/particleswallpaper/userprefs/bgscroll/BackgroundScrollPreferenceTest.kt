@@ -13,25 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs
+package com.doctoror.particleswallpaper.userprefs.bgscroll
 
 import android.content.Context
-import androidx.annotation.StringRes
 import androidx.test.core.app.ApplicationProvider
-import com.doctoror.particleswallpaper.R
+import com.nhaarman.mockito_kotlin.verify
 import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
+import org.koin.standalone.inject
+import org.koin.test.KoinTest
+import org.koin.test.declareMock
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.android.controller.FragmentController
 
 @RunWith(RobolectricTestRunner::class)
-class CanvasConfigFragmentTest {
+class BackgroundScrollPreferenceTest : KoinTest {
 
-    private val underTestController = FragmentController.of(ConfigFragment())
+    private val presenter: BackgroundScrollPreferencePresenter by inject()
+
+    private val underTest =
+        BackgroundScrollPreference(ApplicationProvider.getApplicationContext<Context>())
+
+    @Before
+    fun setup() {
+        declareMock<BackgroundScrollPreferencePresenter>()
+    }
 
     @After
     fun tearDown() {
@@ -39,23 +47,20 @@ class CanvasConfigFragmentTest {
     }
 
     @Test
-    fun lifecycleObserversRegisteredOnCreate() {
-        val underTest = underTestController
-            .create()
-            .get()
+    fun deliversOnStartToPresenter() {
+        // When
+        underTest.onStart()
 
-        assertEquals(10, underTest.lifecycle.observerCount)
+        // Then
+        verify(presenter).onStart()
     }
 
     @Test
-    fun multisamplingPreferenceDoesNotExist() {
-        val underTest = underTestController.create().get()
+    fun deliversOnStopToPresenter() {
+        // When
+        underTest.onStop()
 
-        val preference = underTest.findPreference(getString(R.string.pref_key_multisampling))
-
-        assertNull(preference)
+        // Then
+        verify(presenter).onStop()
     }
-
-    private fun getString(@StringRes key: Int) =
-        ApplicationProvider.getApplicationContext<Context>().getString(key)
 }

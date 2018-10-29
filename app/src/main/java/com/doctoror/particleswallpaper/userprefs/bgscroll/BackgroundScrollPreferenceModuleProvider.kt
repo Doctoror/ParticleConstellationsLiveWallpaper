@@ -13,24 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.engine
+package com.doctoror.particleswallpaper.userprefs.bgscroll
 
-import android.graphics.Bitmap
-import androidx.annotation.ColorInt
+import org.koin.dsl.module.module
 
-interface EngineSceneRenderer {
+private const val PARAM_VIEW = 0
 
-    fun markParticleTextureDirty()
+class BackgroundScrollPreferenceModuleProvider {
 
-    fun setBackgroundTexture(texture: Bitmap?)
+    /**
+     * Parameter at index 0 must be a [BackgroundScrollPreferenceView].
+     */
+    fun provide() = module {
 
-    fun setClearColor(@ColorInt color: Int)
-
-    fun setDimensions(width: Int, height: Int)
-
-    fun setShouldTranslateBackground(shouldTranslateBackground: Boolean)
-
-    fun overrideBackgroundDimensions(width: Int, height: Int)
-
-    fun recycle()
+        factory {
+            BackgroundScrollPreferencePresenter(
+                get(),
+                get(),
+                it[PARAM_VIEW]
+            )
+        }
+    }
 }

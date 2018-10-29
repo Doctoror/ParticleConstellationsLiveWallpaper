@@ -92,9 +92,14 @@ class WallpaperServiceImpl : GLWallpaperService() {
         override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
             val desiredWidth = Math.max(width, desiredMinimumWidth)
             val desiredHeight = Math.max(height, desiredMinimumHeight)
-            renderer.setDimensions(width, height)
-            renderer.overrideBackgroundDimensions(desiredWidth, desiredHeight)
-            presenter.setDimensions(desiredWidth, desiredHeight)
+            presenter.setDimensions(
+                EnginePresenter.WallpaperDimensions(
+                    width = width,
+                    height = height,
+                    desiredWidth = desiredWidth,
+                    desiredHeight = desiredHeight
+                )
+            )
         }
 
         override fun onOffsetsChanged(

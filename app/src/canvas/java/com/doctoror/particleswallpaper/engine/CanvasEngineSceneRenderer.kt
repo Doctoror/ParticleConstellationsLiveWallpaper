@@ -44,6 +44,11 @@ class CanvasEngineSceneRenderer(
     private var width = 0
     private var height = 0
 
+    private var bgImageWidth = 0
+    private var bgImageHeight = 0
+
+    private var shouldTranslateBackgroundInternal = true
+
     @JvmField // Optimize to avoid getter invocation in onDraw
     @VisibleForTesting
     var background: Drawable? = null
@@ -60,11 +65,26 @@ class CanvasEngineSceneRenderer(
         backgroundPaint.color = Color.BLACK
     }
 
-    fun setDimensions(width: Int, height: Int) {
+    override fun setDimensions(width: Int, height: Int) {
         this.width = width
         this.height = height
+
+        bgImageWidth = width
+        bgImageHeight = height
+
         background?.setBounds(0, 0, width, height)
         surfaceHolder = null
+    }
+
+    override fun overrideBackgroundDimensions(width: Int, height: Int) {
+        bgImageWidth = width
+        bgImageHeight = height
+
+        background?.setBounds(0, 0, width, height)
+    }
+
+    override fun setShouldTranslateBackground(shouldTranslateBackground: Boolean) {
+        shouldTranslateBackgroundInternal = shouldTranslateBackground
     }
 
     fun resetSurfaceCache() {
@@ -80,7 +100,7 @@ class CanvasEngineSceneRenderer(
             null
         } else {
             BitmapDrawable(resources, texture).apply {
-                setBounds(0, 0, width, height)
+                setBounds(0, 0, bgImageWidth, bgImageHeight)
             }
         }
     }
@@ -105,8 +125,18 @@ class CanvasEngineSceneRenderer(
         try {
             canvas = lockCanvas(holder)
             if (canvas != null) {
+                if (shouldDrawBackgroundColor()) {
+                    drawBackgroundColor(canvas)
+                }
+                if (!shouldTranslateBackgroundInternal) {
+                    // If should not translate, draw background before setCanvas, which translates.
+                    drawBackgroundImage(canvas)
+                }
                 canvasSceneRenderer.setCanvas(canvas)
-                drawBackground(canvas)
+                if (shouldTranslateBackgroundInternal) {
+                    // If should translate, draw background after setCanvas, which translates.
+                    drawBackgroundImage(canvas)
+                }
                 super.drawScene(scene)
                 canvasSceneRenderer.setCanvas(null)
             }
@@ -126,20 +156,19 @@ class CanvasEngineSceneRenderer(
     private inline fun canLockHardwareCanvas() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
             !HardwareCanvasBlacklist.isBlacklistedForLockHardwareCanvas(Build.DEVICE, Build.PRODUCT)
 
-    // Inline for avoiding extra method call in draw
-    @Suppress("NOTHING_TO_INLINE")
-    private inline fun drawBackground(c: Canvas) {
+    private fun shouldDrawBackgroundColor(): Boolean {
         val background = background
-        if (background == null || isBackgroundRecycled()) {
-            drawBackgroundColor(c)
-        } else {
-            if (background is BitmapDrawable) {
-                background.bitmap?.let {
-                    if (it.hasAlpha()) {
-                        drawBackgroundColor(c)
-                    }
-                }
-            }
+
+        return when {
+            background == null || isBackgroundRecycled() -> true
+            background is BitmapDrawable -> background.bitmap?.hasAlpha() ?: false
+            else -> false
+        }
+    }
+
+    private fun drawBackgroundImage(c: Canvas) {
+        val background = background
+        if (background != null && !isBackgroundRecycled()) {
             background.draw(c)
         }
     }

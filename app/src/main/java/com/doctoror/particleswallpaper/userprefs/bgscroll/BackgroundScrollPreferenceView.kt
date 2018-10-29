@@ -13,24 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.engine
+package com.doctoror.particleswallpaper.userprefs.bgscroll
 
-import android.graphics.Bitmap
-import androidx.annotation.ColorInt
+interface BackgroundScrollPreferenceView {
 
-interface EngineSceneRenderer {
-
-    fun markParticleTextureDirty()
-
-    fun setBackgroundTexture(texture: Bitmap?)
-
-    fun setClearColor(@ColorInt color: Int)
-
-    fun setDimensions(width: Int, height: Int)
-
-    fun setShouldTranslateBackground(shouldTranslateBackground: Boolean)
-
-    fun overrideBackgroundDimensions(width: Int, height: Int)
-
-    fun recycle()
+    fun setChecked(checked: Boolean)
 }

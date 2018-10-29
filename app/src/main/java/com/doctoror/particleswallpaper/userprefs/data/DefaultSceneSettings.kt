@@ -28,6 +28,8 @@ class DefaultSceneSettings(
 
     val backgroundColor = ResourcesCompat.getColor(res, R.color.defaultBackground, theme)
 
+    val backgroundScroll = true
+
     val backgroundUri = NO_URI
 
     val density = res.getInteger(R.integer.defaultDensity)

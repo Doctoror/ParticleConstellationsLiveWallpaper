@@ -25,6 +25,8 @@ const val PREFERENCES_NAME_SCENE = "prefs"
 
 private const val KEY_BACKGROUND_COLOR = "backgroundColor"
 
+private const val KEY_BACKGROUND_SCROLL = "backgroundScroll"
+
 private const val KEY_BACKGROUND_URI = "backgroundUri"
 
 private const val KEY_DENSITY = "numDots"
@@ -47,6 +49,9 @@ class SceneSettings(
 ) {
     private val backgroundColorSubject =
         AsyncInitialValueBehaviorSubject { backgroundColor }.toSerialized()
+
+    private val backgroundScrollSubject =
+        AsyncInitialValueBehaviorSubject { backgroundScroll }.toSerialized()
 
     private val backgroundUriSubject =
         AsyncInitialValueBehaviorSubject { backgroundUri }.toSerialized()
@@ -77,6 +82,13 @@ class SceneSettings(
         set(value) {
             prefsSource().edit().putInt(KEY_BACKGROUND_COLOR, value).apply()
             backgroundColorSubject.onNext(value)
+        }
+
+    var backgroundScroll
+        get() = prefsSource().getBoolean(KEY_BACKGROUND_SCROLL, defaults.backgroundScroll)
+        set(value) {
+            prefsSource().edit().putBoolean(KEY_BACKGROUND_SCROLL, value).apply()
+            backgroundScrollSubject.onNext(value)
         }
 
     var backgroundUri
@@ -136,6 +148,8 @@ class SceneSettings(
         }
 
     fun observeBackgroundColor(): Observable<Int> = backgroundColorSubject
+
+    fun observeBackgroundScroll(): Observable<Boolean> = backgroundScrollSubject
 
     fun observeBackgroundUri(): Observable<String> = backgroundUriSubject
 

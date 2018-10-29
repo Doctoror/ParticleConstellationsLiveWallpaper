@@ -29,8 +29,11 @@ import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
+import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.BiFunction
+import io.reactivex.subjects.PublishSubject
 
 class EnginePresenter(
     private val apiLevelProvider: ApiLevelProvider,
@@ -44,6 +47,8 @@ class EnginePresenter(
     private val scene: ParticlesScene,
     private val scenePresenter: ScenePresenter
 ) {
+
+    private val dimensionsSubject = PublishSubject.create<WallpaperDimensions>()
 
     private val disposables = CompositeDisposable()
 
@@ -73,7 +78,8 @@ class EnginePresenter(
         }
 
     fun onCreate() {
-        configurator.subscribe(scene, scenePresenter, settings, renderThreadScheduler)
+        configurator
+            .subscribe(scene, scenePresenter, settings, renderThreadScheduler)
 
         disposables.add(settings.observeParticleScale()
             .subscribeOn(schedulers.io())
@@ -94,6 +100,21 @@ class EnginePresenter(
                 backgroundColorDirty = true
                 notifyBackgroundColors()
             }
+        )
+
+        disposables.add(
+            Observable
+                .combineLatest(
+                    settings
+                        .observeBackgroundScroll()
+                        .subscribeOn(schedulers.io())
+                        .observeOn(renderThreadScheduler),
+                    dimensionsSubject,
+                    BiFunction<Boolean, WallpaperDimensions, Pair<Boolean, WallpaperDimensions>> { scroll, dimen ->
+                        scroll to dimen
+                    }
+                )
+                .subscribe { handleDimensions(it.first, it.second) }
         )
 
         backgroundLoader.onCreate()
@@ -122,9 +143,27 @@ class EnginePresenter(
         renderer.recycle()
     }
 
-    fun setDimensions(width: Int, height: Int) {
-        scenePresenter.setDimensions(width, height)
-        backgroundLoader.setDimensions(width, height)
+    fun setDimensions(dimensions: WallpaperDimensions) {
+        dimensionsSubject.onNext(dimensions)
+    }
+
+    private fun handleDimensions(
+        scrollBackground: Boolean,
+        dimensions: WallpaperDimensions
+    ) {
+        renderer.setDimensions(dimensions.width, dimensions.height)
+        renderer.setShouldTranslateBackground(scrollBackground)
+        if (scrollBackground) {
+            renderer.overrideBackgroundDimensions(dimensions.desiredWidth, dimensions.desiredHeight)
+        }
+
+        scenePresenter.setDimensions(dimensions.desiredWidth, dimensions.desiredHeight)
+
+        if (scrollBackground) {
+            backgroundLoader.setDimensions(dimensions.desiredWidth, dimensions.desiredHeight)
+        } else {
+            backgroundLoader.setDimensions(dimensions.width, dimensions.height)
+        }
     }
 
     fun onSurfaceCreated() {
@@ -162,4 +201,11 @@ class EnginePresenter(
             WallpaperColors.fromDrawable(ColorDrawable(backgroundColor))
         }
     }
+
+    data class WallpaperDimensions(
+        val width: Int,
+        val height: Int,
+        val desiredWidth: Int,
+        val desiredHeight: Int
+    )
 }
