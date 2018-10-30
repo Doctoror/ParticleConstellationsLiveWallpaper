@@ -63,6 +63,12 @@ class WallpaperServiceImpl : GLWallpaperService() {
 
         private var glErrorCheckerDisabled = false
 
+        @Volatile
+        private var surfaceWidth = 0
+
+        @Volatile
+        private var surfaceHeight = 0
+
         init {
             setEGLContextClientVersion(2)
             setEGLConfigChooser(
@@ -90,16 +96,43 @@ class WallpaperServiceImpl : GLWallpaperService() {
         }
 
         override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
-            val desiredWidth = Math.max(width, desiredMinimumWidth)
-            val desiredHeight = Math.max(height, desiredMinimumHeight)
-            presenter.setDimensions(
-                EnginePresenter.WallpaperDimensions(
-                    width = width,
-                    height = height,
-                    desiredWidth = desiredWidth,
-                    desiredHeight = desiredHeight
-                )
+            surfaceWidth = width
+            surfaceHeight = height
+
+            notifyDimensions(
+                width,
+                height,
+                desiredMinimumWidth,
+                desiredMinimumHeight
             )
+        }
+
+        override fun onDesiredSizeChanged(desiredWidth: Int, desiredHeight: Int) {
+            super.onDesiredSizeChanged(desiredWidth, desiredHeight)
+            notifyDimensions(
+                surfaceWidth,
+                surfaceHeight,
+                desiredWidth,
+                desiredHeight
+            )
+        }
+
+        private fun notifyDimensions(
+            surfaceWidth: Int,
+            surfaceHeight: Int,
+            desiredWidth: Int,
+            desiredHeight: Int
+        ) {
+            if (surfaceWidth != 0 && surfaceHeight != 0) {
+                presenter.setDimensions(
+                    EnginePresenter.WallpaperDimensions(
+                        width = surfaceWidth,
+                        height = surfaceHeight,
+                        desiredWidth = Math.max(surfaceWidth, desiredWidth),
+                        desiredHeight = Math.max(surfaceHeight, desiredHeight)
+                    )
+                )
+            }
         }
 
         override fun onOffsetsChanged(

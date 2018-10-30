@@ -17,11 +17,9 @@ package com.doctoror.particleswallpaper.framework.execution
 
 import io.reactivex.schedulers.Schedulers
 
-/**
- * The trampoline [SchedulersProvider] implementation.
- */
 class TrampolineSchedulers : SchedulersProvider {
 
+    override fun computation() = Schedulers.trampoline()
     override fun mainThread() = Schedulers.trampoline()
     override fun io() = Schedulers.trampoline()
 }

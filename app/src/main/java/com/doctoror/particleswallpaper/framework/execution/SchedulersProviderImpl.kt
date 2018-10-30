@@ -18,13 +18,9 @@ package com.doctoror.particleswallpaper.framework.execution
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-/**
- * Created by Yaroslav Mytkalyk on 15.06.17.
- *
- * The default [SchedulersProvider] implementation.
- */
 class SchedulersProviderImpl : SchedulersProvider {
 
+    override fun computation() = Schedulers.computation()
     override fun mainThread() = AndroidSchedulers.mainThread()!!
     override fun io() = Schedulers.io()
 }

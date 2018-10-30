@@ -17,13 +17,9 @@ package com.doctoror.particleswallpaper.framework.execution
 
 import io.reactivex.Scheduler
 
-/**
- * Created by Yaroslav Mytkalyk on 15.06.17.
- *
- * The [Scheduler] provider
- */
 interface SchedulersProvider {
 
+    fun computation(): Scheduler
     fun mainThread(): Scheduler
     fun io(): Scheduler
 

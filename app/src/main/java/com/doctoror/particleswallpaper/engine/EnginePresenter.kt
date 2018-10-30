@@ -48,7 +48,7 @@ class EnginePresenter(
     private val scenePresenter: ScenePresenter
 ) {
 
-    private val dimensionsSubject = PublishSubject.create<WallpaperDimensions>()
+    private val dimensionsSubject = PublishSubject.create<WallpaperDimensions>().toSerialized()
 
     private val disposables = CompositeDisposable()
 
@@ -107,13 +107,13 @@ class EnginePresenter(
                 .combineLatest(
                     settings
                         .observeBackgroundScroll()
-                        .subscribeOn(schedulers.io())
-                        .observeOn(renderThreadScheduler),
+                        .subscribeOn(schedulers.io()),
                     dimensionsSubject,
                     BiFunction<Boolean, WallpaperDimensions, Pair<Boolean, WallpaperDimensions>> { scroll, dimen ->
                         scroll to dimen
                     }
                 )
+                .observeOn(renderThreadScheduler)
                 .subscribe { handleDimensions(it.first, it.second) }
         )
 
@@ -144,7 +144,9 @@ class EnginePresenter(
     }
 
     fun setDimensions(dimensions: WallpaperDimensions) {
-        dimensionsSubject.onNext(dimensions)
+        schedulers.computation().scheduleDirect {
+            dimensionsSubject.onNext(dimensions)
+        }
     }
 
     private fun handleDimensions(

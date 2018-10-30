@@ -51,6 +51,9 @@ class WallpaperServiceImpl : WallpaperService() {
 
         lateinit var presenter: EnginePresenter
 
+        private var surfaceWidth = 0
+        private var surfaceHeight = 0
+
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
             presenter.onCreate()
@@ -73,16 +76,43 @@ class WallpaperServiceImpl : WallpaperService() {
             height: Int
         ) {
             super.onSurfaceChanged(holder, format, width, height)
-            val desiredWidth = Math.max(width, desiredMinimumWidth)
-            val desiredHeight = Math.max(height, desiredMinimumHeight)
-            presenter.setDimensions(
-                EnginePresenter.WallpaperDimensions(
-                    width = width,
-                    height = height,
-                    desiredWidth = desiredWidth,
-                    desiredHeight = desiredHeight
-                )
+            surfaceWidth = width
+            surfaceHeight = height
+
+            notifyDimensions(
+                width,
+                height,
+                desiredMinimumWidth,
+                desiredMinimumHeight
             )
+        }
+
+        override fun onDesiredSizeChanged(desiredWidth: Int, desiredHeight: Int) {
+            super.onDesiredSizeChanged(desiredWidth, desiredHeight)
+            notifyDimensions(
+                surfaceWidth,
+                surfaceHeight,
+                desiredWidth,
+                desiredHeight
+            )
+        }
+
+        private fun notifyDimensions(
+            surfaceWidth: Int,
+            surfaceHeight: Int,
+            desiredWidth: Int,
+            desiredHeight: Int
+        ) {
+            if (surfaceWidth != 0 && surfaceHeight != 0) {
+                presenter.setDimensions(
+                    EnginePresenter.WallpaperDimensions(
+                        width = surfaceWidth,
+                        height = surfaceHeight,
+                        desiredWidth = Math.max(surfaceWidth, desiredWidth),
+                        desiredHeight = Math.max(surfaceHeight, desiredHeight)
+                    )
+                )
+            }
         }
 
         override fun onOffsetsChanged(
