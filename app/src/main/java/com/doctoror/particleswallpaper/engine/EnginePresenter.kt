@@ -65,6 +65,9 @@ class EnginePresenter(
     @Volatile
     private var backgroundColorDirty = false
 
+    @Volatile
+    private var backgroundScroll = true
+
     var visible = false
         set(value) {
             if (field != value) {
@@ -143,6 +146,13 @@ class EnginePresenter(
         renderer.recycle()
     }
 
+    fun setTranslationX(xPixelOffset: Float) {
+        if (backgroundScroll) {
+            renderer.setBackgroundTranslationX(xPixelOffset)
+        }
+        renderer.setForegroundTranslationX(xPixelOffset)
+    }
+
     fun setDimensions(dimensions: WallpaperDimensions) {
         schedulers.computation().scheduleDirect {
             dimensionsSubject.onNext(dimensions)
@@ -153,8 +163,8 @@ class EnginePresenter(
         scrollBackground: Boolean,
         dimensions: WallpaperDimensions
     ) {
+        backgroundScroll = scrollBackground
         renderer.setDimensions(dimensions.width, dimensions.height)
-        renderer.setShouldTranslateBackground(scrollBackground)
         if (scrollBackground) {
             renderer.overrideBackgroundDimensions(dimensions.desiredWidth, dimensions.desiredHeight)
         }

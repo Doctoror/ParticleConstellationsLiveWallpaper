@@ -24,11 +24,13 @@ interface EngineSceneRenderer {
 
     fun setBackgroundTexture(texture: Bitmap?)
 
+    fun setBackgroundTranslationX(translation: Float)
+
+    fun setForegroundTranslationX(translation: Float)
+
     fun setClearColor(@ColorInt color: Int)
 
     fun setDimensions(width: Int, height: Int)
-
-    fun setShouldTranslateBackground(shouldTranslateBackground: Boolean)
 
     fun overrideBackgroundDimensions(width: Int, height: Int)
 

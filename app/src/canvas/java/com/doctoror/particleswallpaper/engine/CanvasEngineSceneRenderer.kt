@@ -47,7 +47,8 @@ class CanvasEngineSceneRenderer(
     private var bgImageWidth = 0
     private var bgImageHeight = 0
 
-    private var shouldTranslateBackgroundInternal = true
+    private var backgroundTranslationXInternal = 0f
+    private var foregroundTranslationXInternal = 0f
 
     @JvmField // Optimize to avoid getter invocation in onDraw
     @VisibleForTesting
@@ -83,8 +84,12 @@ class CanvasEngineSceneRenderer(
         background?.setBounds(0, 0, width, height)
     }
 
-    override fun setShouldTranslateBackground(shouldTranslateBackground: Boolean) {
-        shouldTranslateBackgroundInternal = shouldTranslateBackground
+    override fun setBackgroundTranslationX(translation: Float) {
+        backgroundTranslationXInternal = translation
+    }
+
+    override fun setForegroundTranslationX(translation: Float) {
+        foregroundTranslationXInternal = translation
     }
 
     fun resetSurfaceCache() {
@@ -128,15 +133,15 @@ class CanvasEngineSceneRenderer(
                 if (shouldDrawBackgroundColor()) {
                     drawBackgroundColor(canvas)
                 }
-                if (!shouldTranslateBackgroundInternal) {
-                    // If should not translate, draw background before setCanvas, which translates.
-                    drawBackgroundImage(canvas)
-                }
+
+                val count = canvas.saveCount
+                canvas.translate(backgroundTranslationXInternal, 0f)
+                drawBackgroundImage(canvas)
+                canvas.restoreToCount(count)
+
+                canvas.translate(foregroundTranslationXInternal, 0f)
+
                 canvasSceneRenderer.setCanvas(canvas)
-                if (shouldTranslateBackgroundInternal) {
-                    // If should translate, draw background after setCanvas, which translates.
-                    drawBackgroundImage(canvas)
-                }
                 super.drawScene(scene)
                 canvasSceneRenderer.setCanvas(null)
             }

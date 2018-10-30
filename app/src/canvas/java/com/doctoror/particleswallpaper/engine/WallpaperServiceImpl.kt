@@ -123,7 +123,7 @@ class WallpaperServiceImpl : WallpaperService() {
             xPixelOffset: Int,
             yPixelOffset: Int
         ) {
-            renderer.setTranslationX(xPixelOffset.toFloat())
+            presenter.setTranslationX(xPixelOffset.toFloat())
         }
 
         override fun onSurfaceDestroyed(holder: SurfaceHolder) {
