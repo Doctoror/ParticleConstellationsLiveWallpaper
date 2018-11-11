@@ -35,6 +35,7 @@ class SpeedFactorPreference @JvmOverloads constructor(
     LifecycleObserver {
 
     private val presenter: SpeedFactorPreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as SeekBarPreferenceView) }
     )
 

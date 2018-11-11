@@ -31,9 +31,10 @@ class PreviewPreference @JvmOverloads constructor(
     defStyle: Int = 0
 ) : Preference(contextParam, attrs), FragmentHolder {
 
-    private val intentProvider: OpenChangeWallpaperIntentProvider by inject()
+    private val intentProvider: OpenChangeWallpaperIntentProvider by inject(context = context)
 
     private val presenter: PreviewPreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(contextParam as Activity) }
     )
 

@@ -33,6 +33,7 @@ class LicensePreference @JvmOverloads constructor(
 ) : Preference(context, attrs), LicensePreferenceView {
 
     private val presenter: LicensePreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as LicensePreferenceView) }
     )
 

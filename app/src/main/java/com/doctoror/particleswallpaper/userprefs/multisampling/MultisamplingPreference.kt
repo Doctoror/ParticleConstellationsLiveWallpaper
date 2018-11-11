@@ -35,6 +35,7 @@ class MultisamplingPreference @JvmOverloads constructor(
     override var fragment: Fragment? = null
 
     private val presenter: MultisamplingPreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as MultisamplingPreferenceView) }
     )
 

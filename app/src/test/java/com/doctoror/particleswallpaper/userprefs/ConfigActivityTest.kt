@@ -25,8 +25,12 @@ import android.view.ViewGroup
 import android.widget.Toolbar
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
+import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import io.reactivex.Observable
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -42,6 +46,8 @@ import org.robolectric.android.controller.ActivityController
 @RunWith(RobolectricTestRunner::class)
 class ConfigActivityTest : KoinTest {
 
+    private val particlesViewGenerator: ParticlesViewGenerator by inject()
+
     private val menuPresenter: ConfigActivityMenuPresenter by inject()
 
     private val underTest = ConfigActivity()
@@ -50,7 +56,14 @@ class ConfigActivityTest : KoinTest {
 
     @Before
     fun setup() {
+        declareMock<BackgroundImagePreferencePresenter>()
         declareMock<ConfigActivityMenuPresenter>()
+        declareMock<OpenChangeWallpaperIntentProvider>()
+        declareMock<ParticlesViewGenerator>()
+        declareMock<SceneBackgroundViewImpl>()
+
+        whenever(particlesViewGenerator.observeParticlesViewInstance())
+            .thenReturn(Observable.empty())
     }
 
     @After

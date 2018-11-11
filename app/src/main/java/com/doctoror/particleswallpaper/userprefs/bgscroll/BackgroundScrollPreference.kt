@@ -33,6 +33,7 @@ class BackgroundScrollPreference @JvmOverloads constructor(
     LifecycleObserver {
 
     private val presenter: BackgroundScrollPreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as BackgroundScrollPreferenceView) }
     )
 

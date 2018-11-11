@@ -20,15 +20,20 @@ import android.app.DialogFragment
 import android.os.Bundle
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
+import com.doctoror.particleswallpaper.framework.di.get
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
-import org.koin.android.ext.android.inject
 
 abstract class HowToApplyWithActionDialogFragment : DialogFragment() {
 
-    private val intentProvider: OpenChangeWallpaperIntentProvider by inject()
+    private lateinit var intentProvider: OpenChangeWallpaperIntentProvider
 
     protected abstract val message: Int
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        intentProvider = get(context = activity)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog
         .Builder(activity!!)

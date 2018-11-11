@@ -35,6 +35,7 @@ class ParticleScalePreference @JvmOverloads constructor(
     LifecycleObserver {
 
     private val presenter: ParticleScalePreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as SeekBarPreferenceView) }
     )
 

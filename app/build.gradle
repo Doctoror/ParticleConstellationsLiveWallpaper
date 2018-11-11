@@ -102,6 +102,7 @@ dependencies {
     testImplementation td.robolectric
     testImplementation td.mockitoCore
     testImplementation td.mockitoKotlin
+    testImplementation 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
 
     implementation d.koin
     implementation d.kotlin

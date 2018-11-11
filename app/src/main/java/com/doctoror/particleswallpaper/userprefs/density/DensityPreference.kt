@@ -32,6 +32,7 @@ class DensityPreference @JvmOverloads constructor(
 ) : SeekBarPreference(context, attrs, defStyle), SeekBarPreferenceView, LifecycleObserver {
 
     private val presenter: DensityPreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as SeekBarPreferenceView) }
     )
 

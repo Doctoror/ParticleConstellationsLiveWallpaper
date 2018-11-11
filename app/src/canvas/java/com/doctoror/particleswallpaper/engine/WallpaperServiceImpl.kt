@@ -22,8 +22,8 @@ import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
+import com.doctoror.particleswallpaper.framework.di.get
 import io.reactivex.android.schedulers.AndroidSchedulers
-import org.koin.android.ext.android.get
 
 class WallpaperServiceImpl : WallpaperService() {
 
@@ -32,14 +32,17 @@ class WallpaperServiceImpl : WallpaperService() {
         val engine = EngineImpl(renderer)
         renderer.surfaceHolderProvider = engine
 
-        engine.presenter = get(parameters = {
-            EngineModuleProvider.makeParameters(
-                engine,
-                AndroidSchedulers.mainThread(),
-                renderer as EngineSceneRenderer,
-                engine as SceneScheduler
-            )
-        })
+        engine.presenter = get(
+            context = this,
+            parameters = {
+                EngineModuleProvider.makeParameters(
+                    engine,
+                    AndroidSchedulers.mainThread(),
+                    renderer as EngineSceneRenderer,
+                    engine as SceneScheduler
+                )
+            }
+        )
 
         return engine
     }

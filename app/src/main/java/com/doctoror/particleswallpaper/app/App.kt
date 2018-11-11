@@ -19,7 +19,6 @@ import android.app.Application
 import android.os.Looper
 import android.os.StrictMode
 import com.doctoror.particleswallpaper.BuildConfig
-import com.doctoror.particleswallpaper.framework.di.KoinStarter
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -29,7 +28,6 @@ class App : Application() {
         super.onCreate()
         initStrictMode()
         initAsyncScheduler()
-        KoinStarter().startKoin(this)
     }
 
     private fun initStrictMode() {

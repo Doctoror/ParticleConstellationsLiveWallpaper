@@ -30,6 +30,7 @@ class HowToApplyPreference @JvmOverloads constructor(
 ) : Preference(context, attrs), HowToApplyPreferenceView, FragmentHolder {
 
     private val presenter: HowToApplyPreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as HowToApplyPreferenceView) }
     )
 

@@ -32,6 +32,7 @@ class LineLengthPreference @JvmOverloads constructor(
 ) : SeekBarPreference(context, attrs, defStyle), SeekBarPreferenceView, LifecycleObserver {
 
     private val presenter: LineLengthPreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as SeekBarPreferenceView) }
     )
 

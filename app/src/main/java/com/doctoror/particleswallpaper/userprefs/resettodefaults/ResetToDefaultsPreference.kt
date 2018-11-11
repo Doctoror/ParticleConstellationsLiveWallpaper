@@ -33,6 +33,7 @@ class ResetToDefaultsPreference @JvmOverloads constructor(
 ) : Preference(context, attrs), ResetToDefaultsPreferenceView {
 
     private val presenter: ResetToDefaultsPreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as ResetToDefaultsPreferenceView) }
     )
 

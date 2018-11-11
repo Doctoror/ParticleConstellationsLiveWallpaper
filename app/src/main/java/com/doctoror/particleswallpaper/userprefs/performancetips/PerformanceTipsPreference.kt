@@ -30,6 +30,7 @@ class PerformanceTipsPreference @JvmOverloads constructor(
 ) : Preference(context, attrs), PerformanceTipsPreferenceView {
 
     private val presenter: PerformanceTipsPreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as PerformanceTipsPreferenceView) }
     )
 

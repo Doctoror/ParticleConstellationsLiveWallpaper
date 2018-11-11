@@ -32,6 +32,7 @@ class FrameDelayPreference @JvmOverloads constructor(
 ) : SeekBarPreference(context, attrs, defStyle), FrameDelayPreferenceView, LifecycleObserver {
 
     private val presenter: FrameDelayPreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as FrameDelayPreferenceView) }
     )
 

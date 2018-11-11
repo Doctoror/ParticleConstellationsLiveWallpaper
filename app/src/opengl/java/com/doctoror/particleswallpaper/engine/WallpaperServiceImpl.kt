@@ -24,30 +24,34 @@ import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.opengl.chooser.FailsafeEGLConfigChooserFactory
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker
+import com.doctoror.particleswallpaper.framework.di.get
 import com.doctoror.particleswallpaper.framework.execution.GlScheduler
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import net.rbgrn.android.glwallpaperservice.GLWallpaperService
-import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 class WallpaperServiceImpl : GLWallpaperService() {
 
-    private val settingsOpenGL: OpenGlSettings by inject()
+    private lateinit var settingsOpenGL: OpenGlSettings
 
     override fun onCreateEngine(): Engine {
         val renderer = GlEngineSceneRenderer()
+
+        settingsOpenGL = get(this)
         val engine = EngineImpl(renderer, settingsOpenGL.numSamples)
 
-        engine.presenter = get(parameters = {
-            EngineModuleProvider.makeParameters(
-                engine,
-                GlScheduler(engine),
-                renderer as EngineSceneRenderer,
-                engine as SceneScheduler
-            )
-        })
+        engine.presenter = get(
+            context = this,
+            parameters = {
+                EngineModuleProvider.makeParameters(
+                    engine,
+                    GlScheduler(engine),
+                    renderer as EngineSceneRenderer,
+                    engine as SceneScheduler
+                )
+            }
+        )
 
         return engine
     }

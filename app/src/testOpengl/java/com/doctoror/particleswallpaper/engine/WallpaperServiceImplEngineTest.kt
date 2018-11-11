@@ -17,12 +17,9 @@ package com.doctoror.particleswallpaper.engine
 
 import android.app.WallpaperColors
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.*
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
@@ -62,12 +59,19 @@ class WallpaperServiceImplEngineTest {
         verify(presenter).onDestroy()
     }
 
-    @Ignore("Cannot mock GL10 in Robolectric")
     @Test
     fun forwardsSurfaceChangeToPresenter() {
         // Given
         val width = 1
         val height = 2
+        val desiredWidth = 3
+        val desiredHeight = 4
+
+        // Must spy to mock desiredMinimumWidth / desiredMinimumHeight, otherwise it crashes.
+        val underTest = spy(underTest).apply {
+            doReturn(desiredWidth).`when`(this).desiredMinimumWidth
+            doReturn(desiredHeight).`when`(this).desiredMinimumHeight
+        }
 
         // When
         underTest.onSurfaceChanged(mock(), width, height)
@@ -77,8 +81,8 @@ class WallpaperServiceImplEngineTest {
             EnginePresenter.WallpaperDimensions(
                 width,
                 height,
-                underTest.desiredMinimumWidth,
-                underTest.desiredMinimumHeight
+                desiredWidth,
+                desiredHeight
             )
         )
     }

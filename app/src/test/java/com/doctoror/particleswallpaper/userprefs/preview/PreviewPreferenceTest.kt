@@ -45,6 +45,7 @@ class PreviewPreferenceTest : KoinTest {
 
     @Before
     fun setup() {
+        declareMock<OpenChangeWallpaperIntentProvider>()
         declareMock<PreviewPreferencePresenter>()
     }
 

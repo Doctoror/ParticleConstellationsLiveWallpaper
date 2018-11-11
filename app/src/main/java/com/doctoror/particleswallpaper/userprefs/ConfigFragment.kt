@@ -25,11 +25,11 @@ import androidx.lifecycle.LifecycleObserver
 import com.doctoror.particleswallpaper.BuildConfig
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
+import com.doctoror.particleswallpaper.framework.di.get
 import com.doctoror.particleswallpaper.framework.lifecycle.LifecyclePreferenceFragment
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHostImpl
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
-import org.koin.android.ext.android.inject
 
 @SuppressLint("ValidFragment") // Kotlin constructor with default value generates valid empty java constructor
 open class ConfigFragment @JvmOverloads constructor(
@@ -37,10 +37,12 @@ open class ConfigFragment @JvmOverloads constructor(
 ) :
     LifecyclePreferenceFragment(), OnActivityResultCallbackHost by ch {
 
-    private val intentProvider: OpenChangeWallpaperIntentProvider by inject()
+    private lateinit var intentProvider: OpenChangeWallpaperIntentProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        intentProvider = get(context = activity)
+
         addPreferencesFromResource(R.xml.prefs)
         hideOpenGlPreferencesIfApplicable()
         hidePreviewPreferenceIfCannotStartPreview()

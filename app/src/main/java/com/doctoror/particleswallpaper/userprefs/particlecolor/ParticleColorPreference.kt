@@ -33,6 +33,7 @@ class ParticleColorPreference @JvmOverloads constructor(
     LifecycleObserver {
 
     private val presenter: ParticleColorPreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as ParticleColorPreferenceView) }
     )
 

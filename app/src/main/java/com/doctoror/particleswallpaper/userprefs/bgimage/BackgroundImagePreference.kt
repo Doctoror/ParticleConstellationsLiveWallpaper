@@ -43,6 +43,7 @@ class BackgroundImagePreference @JvmOverloads constructor(
 ) : Preference(context, attrs), BackgroundImagePreferenceView, FragmentHolder, LifecycleObserver {
 
     private val presenter: BackgroundImagePreferencePresenter by inject(
+        context = context,
         parameters = { parametersOf(this as BackgroundImagePreferenceView) }
     )
 

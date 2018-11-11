@@ -16,20 +16,21 @@
  */
 package com.doctoror.particleswallpaper.framework.di
 
-import org.koin.core.KoinContext
+import android.content.Context
 import org.koin.core.parameter.ParameterDefinition
 import org.koin.core.parameter.emptyParameterDefinition
 import org.koin.core.scope.Scope
-import org.koin.standalone.StandAloneContext
 
 inline fun <reified T : Any> inject(
+    context: Context,
     name: String = "",
     scope: Scope? = null,
     noinline parameters: ParameterDefinition = emptyParameterDefinition()
-) = lazy { get<T>(name, scope, parameters) }
+) = lazy { get<T>(context, name, scope, parameters) }
 
 inline fun <reified T : Any> get(
+    context: Context,
     name: String = "",
     scope: Scope? = null,
     noinline parameters: ParameterDefinition = emptyParameterDefinition()
-): T = (StandAloneContext.koinContext as KoinContext).get(name, scope, parameters)
+): T = KoinContextProvider.getKoinContext(context).get(name, scope, parameters)

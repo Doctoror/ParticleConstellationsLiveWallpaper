@@ -32,12 +32,11 @@ import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
+import com.doctoror.particleswallpaper.framework.di.get
 import com.doctoror.particleswallpaper.framework.lifecycle.LifecycleActivity
 import com.doctoror.particleswallpaper.framework.view.ViewDimensionsProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
 
 class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
 
@@ -45,17 +44,10 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
 
     private var fragmentTransactionsAllowed = false
 
-    private val menuPresenter: ConfigActivityMenuPresenter by inject(
-        parameters = { ConfigActivityModuleProvider.createArgumentsMenuPresenter(this) }
-    )
-
     private var presenter: ConfigActivityPresenter? = null
 
-    private val view: SceneBackgroundViewImpl by inject(
-        parameters = {
-            ConfigActivityViewModuleProvider.makeParams(this)
-        }
-    )
+    private lateinit var menuPresenter: ConfigActivityMenuPresenter
+    private lateinit var view: SceneBackgroundViewImpl
 
     private lateinit var viewContainer: ViewGroup
     private lateinit var viewDimensionsProvider: ViewDimensionsProvider
@@ -64,12 +56,23 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
         super.onCreate(savedInstanceState)
         fragmentTransactionsAllowed = true
 
+        menuPresenter = get(
+            context = this,
+            parameters = { ConfigActivityModuleProvider.createArgumentsMenuPresenter(this) }
+        )
+
+        view = get(
+            context = this,
+            parameters = { ConfigActivityViewModuleProvider.makeParams(this) }
+        )
+
         setContentView(R.layout.activity_config)
 
         viewContainer = findViewById(R.id.viewContainer)
         viewDimensionsProvider = ViewDimensionsProvider(viewContainer)
 
         val viewGenerator: ParticlesViewGenerator = get(
+            context = this,
             parameters = {
                 ConfigActivityViewModuleProvider.makeParams(this)
             }
@@ -117,14 +120,17 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
     }
 
     private fun injectAndRegisterNewPresenter(particlesView: View) {
-        val presenter: ConfigActivityPresenter = get(parameters = {
-            ConfigActivityModuleProvider.createArgumentsPresenter(
-                particlesView as SceneConfiguration,
-                particlesView as SceneController,
-                view,
-                viewDimensionsProvider
-            )
-        })
+        val presenter: ConfigActivityPresenter = get(
+            context = this,
+            parameters = {
+                ConfigActivityModuleProvider.createArgumentsPresenter(
+                    particlesView as SceneConfiguration,
+                    particlesView as SceneController,
+                    view,
+                    viewDimensionsProvider
+                )
+            }
+        )
 
         lifecycle.addObserver(presenter)
 
