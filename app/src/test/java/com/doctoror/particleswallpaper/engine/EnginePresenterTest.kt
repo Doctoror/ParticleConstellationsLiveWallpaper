@@ -216,7 +216,7 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun setsScenePresenterDimensions() {
+    fun forwardsDimensionsToEngine() {
         // Given
         val width = 1
         val height = 2
@@ -236,6 +236,106 @@ class EnginePresenterTest {
 
         // Then
         verify(engine).setDimensions(desiredWidth, desiredHeight)
+    }
+
+    @Test
+    fun forwardsDensityMutiplierToConfiguratorIfBackgroundScrollEnabled() {
+        // Given
+        val width = 320
+        val height = 320
+        val desiredWidth = 480
+        val desiredHeight = 320
+
+        whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(true))
+
+        // When
+        underTest.onCreate()
+        underTest.setDimensions(
+            EnginePresenter.WallpaperDimensions(
+                width,
+                height,
+                desiredWidth,
+                desiredHeight
+            )
+        )
+
+        // Then
+        verify(configurator).setDensityMultiplier(1.5f)
+    }
+
+    @Test
+    fun doesNotForwardDensityMutiplierToConfiguratorIfBackgroundScrollDisabled() {
+        // Given
+        val width = 320
+        val height = 320
+        val desiredWidth = 480
+        val desiredHeight = 320
+
+        whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(false))
+
+        // When
+        underTest.onCreate()
+        underTest.setDimensions(
+            EnginePresenter.WallpaperDimensions(
+                width,
+                height,
+                desiredWidth,
+                desiredHeight
+            )
+        )
+
+        // Then
+        verify(configurator, never()).setDensityMultiplier(any())
+    }
+
+    @Test
+    fun overridesBackgroundDimensionsIfBackgroundScrollEnabled() {
+        // Given
+        val width = 320
+        val height = 240
+        val desiredWidth = 480
+        val desiredHeight = 240
+
+        whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(true))
+
+        // When
+        underTest.onCreate()
+        underTest.setDimensions(
+            EnginePresenter.WallpaperDimensions(
+                width,
+                height,
+                desiredWidth,
+                desiredHeight
+            )
+        )
+
+        // Then
+        verify(renderer).overrideBackgroundDimensions(desiredWidth, desiredHeight)
+    }
+
+    @Test
+    fun doesNotOverrideBackgroundDimensionsIfBackgroundScrollDisabled() {
+        // Given
+        val width = 320
+        val height = 240
+        val desiredWidth = 480
+        val desiredHeight = 240
+
+        whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(false))
+
+        // When
+        underTest.onCreate()
+        underTest.setDimensions(
+            EnginePresenter.WallpaperDimensions(
+                width,
+                height,
+                desiredWidth,
+                desiredHeight
+            )
+        )
+
+        // Then
+        verify(renderer, never()).overrideBackgroundDimensions(any(), any())
     }
 
     @Test

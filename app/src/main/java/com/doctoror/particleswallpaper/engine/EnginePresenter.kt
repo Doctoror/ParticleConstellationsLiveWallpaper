@@ -167,6 +167,11 @@ class EnginePresenter(
         renderer.setDimensions(dimensions.width, dimensions.height)
         if (scrollBackground) {
             renderer.overrideBackgroundDimensions(dimensions.desiredWidth, dimensions.desiredHeight)
+            if (dimensions.width != 0 && dimensions.desiredWidth != 0) {
+                configurator.setDensityMultiplier(
+                    dimensions.desiredWidth.toFloat() / dimensions.width.toFloat()
+                )
+            }
         }
 
         engine.setDimensions(dimensions.desiredWidth, dimensions.desiredHeight)

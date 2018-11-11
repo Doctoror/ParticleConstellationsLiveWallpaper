@@ -20,8 +20,11 @@ import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
+import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.BiFunction
+import io.reactivex.subjects.BehaviorSubject
 
 /**
  * Monitors for [SceneSettings] changes and configures [SceneConfiguration] based on the settings.
@@ -32,8 +35,18 @@ class SceneConfigurator(
     private val schedulers: SchedulersProvider
 ) {
 
+    private val densityMultiplier = BehaviorSubject.createDefault<Float>(1f)
+
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var disposables: CompositeDisposable? = null
+
+    /**
+     * Since wallpaper can take more than single screen width, density should be multiplied based on
+     * difference between single screen width and desired wallpaper width.
+     */
+    fun setDensityMultiplier(multiplier: Float) {
+        densityMultiplier.onNext(multiplier)
+    }
 
     fun subscribe(
         configuration: SceneConfiguration,
@@ -54,13 +67,22 @@ class SceneConfigurator(
                 configuration.lineColor = c
             })
 
-        d.add(settings.observeDensity()
-            .subscribeOn(schedulers.io())
-            .observeOn(observeScheduler)
-            .subscribe { v ->
-                configuration.density = v
-                controller.makeFreshFrame()
-            })
+        d.add(
+            Observable
+                .combineLatest(
+                    settings.observeDensity(),
+                    densityMultiplier
+                        .distinctUntilChanged(),
+                    BiFunction<Int, Float, Int> { density, multiplier ->
+                        (density * multiplier).toInt()
+                    }
+                )
+                .subscribeOn(schedulers.io())
+                .observeOn(observeScheduler)
+                .subscribe { v ->
+                    configuration.density = v
+                    controller.makeFreshFrame()
+                })
 
         d.add(settings.observeParticleScale()
             .subscribeOn(schedulers.io())

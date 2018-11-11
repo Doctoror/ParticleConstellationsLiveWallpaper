@@ -15,20 +15,24 @@
  */
 package com.doctoror.particleswallpaper.engine.configurator
 
+import android.graphics.Color
+import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class SceneConfiguratorTest {
 
+    private val sceneConfiguration: SceneConfiguration = mock()
+
     private val sceneSettings: SceneSettings = mock {
-        on { it.observeBackgroundColor() }.thenReturn(Observable.just(1))
-        on { it.observeBackgroundUri() }.thenReturn(Observable.just(NO_URI))
         on { it.observeDensity() }.thenReturn(Observable.just(1))
         on { it.observeFrameDelay() }.thenReturn(Observable.just(1))
         on { it.observeLineLength() }.thenReturn(Observable.just(1f))
@@ -38,28 +42,121 @@ class SceneConfiguratorTest {
         on { it.observeSpeedFactor() }.thenReturn(Observable.just(1f))
     }
 
+    private val underTest = SceneConfigurator(TrampolineSchedulers())
+
     @Test
-    fun testSubscription() {
-        val c = SceneConfigurator(TrampolineSchedulers())
+    fun subscribes() {
 
-        assertNull(c.disposables)
+        assertNull(underTest.disposables)
 
-        c.subscribe(
-            mock(),
+        subscribe()
+
+        assertNotNull(underTest.disposables)
+        assertFalse(underTest.disposables!!.isDisposed)
+
+        val disposables = underTest.disposables
+
+        underTest.dispose()
+
+        assertTrue(disposables!!.isDisposed)
+        assertNull(underTest.disposables)
+    }
+
+    @Test
+    fun observesDensity() {
+        val subject = PublishSubject.create<Int>()
+        whenever(sceneSettings.observeDensity()).thenReturn(subject)
+
+        subscribe()
+
+        subject.onNext(10)
+        verify(sceneConfiguration).density = 10
+
+        underTest.setDensityMultiplier(1.2f)
+        verify(sceneConfiguration).density = 12
+
+        subject.onNext(32)
+        verify(sceneConfiguration).density = 38
+    }
+
+    @Test
+    fun observesFrameDelay() {
+        val values = Observable.just(0, 16)
+        whenever(sceneSettings.observeFrameDelay()).thenReturn(values)
+
+        subscribe()
+
+        verify(sceneConfiguration).frameDelay = 0
+        verify(sceneConfiguration).frameDelay = 16
+    }
+
+    @Test
+    fun observesLineLength() {
+        val values = Observable.just(64.1f, 32.9f)
+        whenever(sceneSettings.observeLineLength()).thenReturn(values)
+
+        subscribe()
+
+        verify(sceneConfiguration).lineLength = 64.1f
+        verify(sceneConfiguration).lineLength = 32.9f
+    }
+
+    @Test
+    fun observesLineScale() {
+        val values = Observable.just(8f, 4.1f)
+        whenever(sceneSettings.observeLineScale()).thenReturn(values)
+
+        subscribe()
+
+        verify(sceneConfiguration).lineThickness = 8f
+        verify(sceneConfiguration).lineThickness = 4.1f
+    }
+
+    @Test
+    fun observesParticleColor() {
+        val colors = Observable.just(Color.CYAN, Color.WHITE)
+        whenever(sceneSettings.observeParticleColor()).thenReturn(colors)
+
+        subscribe()
+
+        verify(sceneConfiguration).particleColor = Color.CYAN
+        verify(sceneConfiguration).lineColor = Color.CYAN
+
+        verify(sceneConfiguration).particleColor = Color.WHITE
+        verify(sceneConfiguration).lineColor = Color.WHITE
+    }
+
+    @Test
+    fun observesParticleScale() {
+        val scales = Observable.just(1f, 6f)
+        whenever(sceneSettings.observeParticleScale()).thenReturn(scales)
+
+        subscribe()
+
+        val radiusRange1 = ParticleRadiusMapper.transform(1f)
+        verify(sceneConfiguration).setParticleRadiusRange(radiusRange1.first, radiusRange1.second)
+
+        val radiusRange6 = ParticleRadiusMapper.transform(6f)
+        verify(sceneConfiguration).setParticleRadiusRange(radiusRange6.first, radiusRange6.second)
+    }
+
+    @Test
+    fun observesSpeedFactor() {
+        val values = Observable.just(0.5f, 13.666f)
+        whenever(sceneSettings.observeSpeedFactor()).thenReturn(values)
+
+        subscribe()
+
+        verify(sceneConfiguration).speedFactor = 0.5f
+        verify(sceneConfiguration).speedFactor = 13.666f
+    }
+
+    private fun subscribe() {
+        underTest.subscribe(
+            sceneConfiguration,
             mock(),
             sceneSettings,
             Schedulers.trampoline()
         )
-
-        assertNotNull(c.disposables)
-        assertFalse(c.disposables!!.isDisposed)
-
-        val disposables = c.disposables
-
-        c.dispose()
-
-        assertTrue(disposables!!.isDisposed)
-        assertNull(c.disposables)
     }
-
 }
