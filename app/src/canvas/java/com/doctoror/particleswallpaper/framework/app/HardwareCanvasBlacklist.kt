@@ -3,9 +3,12 @@ package com.doctoror.particleswallpaper.framework.app
 object HardwareCanvasBlacklist {
 
     private val blackList = hashSetOf(
+        "ailsa_ii",
         "beryllium",
         "bullhead",
+        "cactus",
         "chiron",
+        "cv7a",
         "degaswifiue",
         "dipper",
         "dream2lte",
@@ -28,8 +31,10 @@ object HardwareCanvasBlacklist {
         "HWMHA",
         "HWPIC",
         "HWSTF",
+        "HWWAS-H",
         "jasmine_sprout",
         "joan",
+        "land",
         "lithium",
         "mata",
         "nash",
@@ -41,15 +46,19 @@ object HardwareCanvasBlacklist {
         "polaris",
         "sagit",
         "sakura",
+        "sakura_india",
         "scorpio",
         "sirius",
         "taimen",
         "TECNO-CA7",
         "tissot_sprout",
+        "tulip",
+        "ursa",
         "vince",
         "wayne",
         "whyred",
-        "ysl"
+        "ysl",
+        "ZS570KL"
     )
 
     fun isBlacklistedForLockHardwareCanvas(device: String, product: String) =
