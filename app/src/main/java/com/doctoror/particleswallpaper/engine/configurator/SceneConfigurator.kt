@@ -59,20 +59,11 @@ class SceneConfigurator(
         disposables?.dispose()
         disposables = d
 
-        d.add(settings.observeParticleColor()
-            .subscribeOn(schedulers.io())
-            .observeOn(observeScheduler)
-            .subscribe { c ->
-                configuration.particleColor = c
-                configuration.lineColor = c
-            })
-
         d.add(
             Observable
                 .combineLatest(
                     settings.observeDensity(),
-                    densityMultiplier
-                        .distinctUntilChanged(),
+                    densityMultiplier.distinctUntilChanged(),
                     BiFunction<Int, Float, Int> { density, multiplier ->
                         (density * multiplier).toInt()
                     }
@@ -82,44 +73,64 @@ class SceneConfigurator(
                 .subscribe { v ->
                     configuration.density = v
                     controller.makeFreshFrame()
-                })
-
-        d.add(settings.observeParticleScale()
-            .subscribeOn(schedulers.io())
-            .observeOn(observeScheduler)
-            .subscribe { v ->
-                val radiusRange = ParticleRadiusMapper.transform(v)
-                configuration.setParticleRadiusRange(radiusRange.first, radiusRange.second)
-                controller.makeFreshFrame()
-            })
-
-        d.add(settings.observeLineScale()
-            .subscribeOn(schedulers.io())
-            .observeOn(observeScheduler)
-            .subscribe { v ->
-                configuration.lineThickness = v
-                controller.makeFreshFrame()
-            })
+                }
+        )
 
         d.add(
-            settings.observeLineLength()
+            settings
+                .observeFrameDelay()
+                .subscribeOn(schedulers.io())
+                .observeOn(observeScheduler)
+                .subscribe(configuration::setFrameDelay)
+        )
+
+        d.add(
+            settings
+                .observeLineLength()
                 .subscribeOn(schedulers.io())
                 .observeOn(observeScheduler)
                 .subscribe(configuration::setLineLength)
         )
 
         d.add(
-            settings.observeSpeedFactor()
+            settings
+                .observeLineScale()
                 .subscribeOn(schedulers.io())
                 .observeOn(observeScheduler)
-                .subscribe(configuration::setSpeedFactor)
+                .subscribe { v ->
+                    configuration.lineThickness = v
+                    controller.makeFreshFrame()
+                }
         )
 
         d.add(
-            settings.observeFrameDelay()
+            settings.observeParticleColor()
                 .subscribeOn(schedulers.io())
                 .observeOn(observeScheduler)
-                .subscribe(configuration::setFrameDelay)
+                .subscribe { c ->
+                    configuration.particleColor = c
+                    configuration.lineColor = c
+                }
+        )
+
+        d.add(
+            settings
+                .observeParticleScale()
+                .subscribeOn(schedulers.io())
+                .observeOn(observeScheduler)
+                .subscribe { v ->
+                    val radiusRange = ParticleRadiusMapper.transform(v)
+                    configuration.setParticleRadiusRange(radiusRange.first, radiusRange.second)
+                    controller.makeFreshFrame()
+                }
+        )
+
+        d.add(
+            settings
+                .observeSpeedFactor()
+                .subscribeOn(schedulers.io())
+                .observeOn(observeScheduler)
+                .subscribe(configuration::setSpeedFactor)
         )
     }
 
