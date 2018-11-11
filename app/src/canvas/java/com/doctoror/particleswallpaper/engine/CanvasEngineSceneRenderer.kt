@@ -27,7 +27,7 @@ import android.util.Log
 import android.view.SurfaceHolder
 import androidx.annotation.ColorInt
 import androidx.annotation.VisibleForTesting
-import com.doctoror.particlesdrawable.ParticlesScene
+import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
 import com.doctoror.particlesdrawable.renderer.DefaultSceneRenderer
 import com.doctoror.particleswallpaper.framework.app.HardwareCanvasBlacklist
@@ -119,7 +119,7 @@ class CanvasEngineSceneRenderer(
         background = null
     }
 
-    override fun drawScene(scene: ParticlesScene) {
+    override fun drawScene(scene: Scene) {
         var holder = surfaceHolder
         if (holder == null) {
             holder = surfaceHolderProvider?.provideSurfaceHolder()

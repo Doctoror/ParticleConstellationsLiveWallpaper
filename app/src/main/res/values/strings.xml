@@ -32,7 +32,7 @@
     <string name="Failed_to_open_image_picker">Failed to open image picker</string>
 
     <string name="Density">Density</string>
-    <string name="Dot_scale">Dot scale</string>
+    <string name="Particle_scale">Particle scale</string>
     <string name="Line_thickness">Line thickness</string>
     <string name="Line_length">Line length</string>
     <string name="Speed_factor">Speed factor</string>

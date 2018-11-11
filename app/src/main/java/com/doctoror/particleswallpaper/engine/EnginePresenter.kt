@@ -23,8 +23,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.util.Log
 import androidx.annotation.ColorInt
-import com.doctoror.particlesdrawable.ParticlesScene
-import com.doctoror.particlesdrawable.ScenePresenter
+import com.doctoror.particlesdrawable.engine.Engine
+import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
@@ -40,12 +40,12 @@ class EnginePresenter(
     private val backgroundLoader: EngineBackgroundLoader,
     private val configurator: SceneConfigurator,
     private val controller: EngineController,
+    private val engine: Engine,
     private val renderThreadScheduler: Scheduler,
     private val renderer: EngineSceneRenderer,
     private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
-    private val scene: ParticlesScene,
-    private val scenePresenter: ScenePresenter
+    private val scene: Scene
 ) {
 
     private val dimensionsSubject = PublishSubject.create<WallpaperDimensions>().toSerialized()
@@ -73,16 +73,16 @@ class EnginePresenter(
             if (field != value) {
                 field = value
                 if (value) {
-                    scenePresenter.start()
+                    engine.start()
                 } else {
-                    scenePresenter.stop()
+                    engine.stop()
                 }
             }
         }
 
     fun onCreate() {
         configurator
-            .subscribe(scene, scenePresenter, settings, renderThreadScheduler)
+            .subscribe(scene, engine, settings, renderThreadScheduler)
 
         disposables.add(settings.observeParticleScale()
             .subscribeOn(schedulers.io())
@@ -169,7 +169,7 @@ class EnginePresenter(
             renderer.overrideBackgroundDimensions(dimensions.desiredWidth, dimensions.desiredHeight)
         }
 
-        scenePresenter.setDimensions(dimensions.desiredWidth, dimensions.desiredHeight)
+        engine.setDimensions(dimensions.desiredWidth, dimensions.desiredHeight)
 
         if (scrollBackground) {
             backgroundLoader.setDimensions(dimensions.desiredWidth, dimensions.desiredHeight)
@@ -194,8 +194,8 @@ class EnginePresenter(
             renderer.setClearColor(backgroundColor)
         }
 
-        scenePresenter.draw()
-        scenePresenter.run()
+        engine.draw()
+        engine.run()
     }
 
     private fun notifyBackgroundColors() {

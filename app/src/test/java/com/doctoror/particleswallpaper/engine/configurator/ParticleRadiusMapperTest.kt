@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Yaroslav Mytkalyk
+ * Copyright (C) 2018 Yaroslav Mytkalyk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,23 @@
  */
 package com.doctoror.particleswallpaper.engine.configurator
 
-/**
- * Maps dot scale to dot radius range
- */
-object DotRadiusMapper {
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
-    private const val MIN_DOT_RADIUS = 1f
-    private const val MAX_DOT_RADIUS = 3f
+class ParticleRadiusMapperTest {
 
-    fun transform(dotScale: Float) = MIN_DOT_RADIUS * dotScale to MAX_DOT_RADIUS * dotScale
+    private val minParticleRadius = 1f
+    private val maxParticleRadius = 3f
+
+    @Test
+    fun mapsParticleScaleToParticleRadiusPair() {
+        // Given
+        val pScale = 1.2f
+
+        // When
+        val result = ParticleRadiusMapper.transform(pScale)
+
+        // Then
+        assertEquals(minParticleRadius * pScale to maxParticleRadius * pScale, result)
+    }
 }

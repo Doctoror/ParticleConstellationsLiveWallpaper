@@ -15,9 +15,9 @@
  */
 package com.doctoror.particleswallpaper.engine
 
-import com.doctoror.particlesdrawable.ParticlesScene
-import com.doctoror.particlesdrawable.ScenePresenter
 import com.doctoror.particlesdrawable.contract.SceneScheduler
+import com.doctoror.particlesdrawable.engine.Engine
+import com.doctoror.particlesdrawable.model.Scene
 import io.reactivex.Scheduler
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.module
@@ -51,22 +51,22 @@ object EngineModuleProvider {
         }
 
         factory {
-            val scene = ParticlesScene()
+            val scene = Scene()
             EnginePresenter(
                 get(),
                 get(),
                 get(),
                 it[PARAM_ENGINE_CONTROLLER],
+                Engine(
+                    scene,
+                    it[PARAM_SCENE_SCHEDULER],
+                    it[PARAM_SCENE_RENDERER]
+                ),
                 it[PARAM_RENDER_THREAD_SCHEDULER],
                 it[PARAM_SCENE_RENDERER],
                 get(),
                 get(),
-                scene,
-                ScenePresenter(
-                    scene,
-                    it[PARAM_SCENE_SCHEDULER],
-                    it[PARAM_SCENE_RENDERER]
-                )
+                scene
             )
         }
     }

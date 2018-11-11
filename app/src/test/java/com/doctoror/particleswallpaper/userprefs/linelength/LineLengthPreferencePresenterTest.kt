@@ -43,26 +43,26 @@ class LineLengthPreferencePresenterTest {
     @Test
     fun setsLineLengthOnStart() {
         // Given
-        val distance = 12f
-        whenever(settings.observeLineLength()).thenReturn(Observable.just(distance))
+        val length = 12f
+        whenever(settings.observeLineLength()).thenReturn(Observable.just(length))
 
         // When
         underTest.onStart()
 
         // Then
-        verify(view).setProgressInt((distance / 3f).toInt())
+        verify(view).setProgressInt((length / 3f).toInt())
     }
 
     @Test
     fun doesNotSetLineLengthAfterOnStop() {
         // Given
-        val lineDistanceSource = PublishSubject.create<Float>()
-        whenever(settings.observeLineLength()).thenReturn(lineDistanceSource)
+        val lineLengthSource = PublishSubject.create<Float>()
+        whenever(settings.observeLineLength()).thenReturn(lineLengthSource)
 
         // When
         underTest.onStart()
         underTest.onStop()
-        lineDistanceSource.onNext(1f)
+        lineLengthSource.onNext(1f)
 
         // Then
         verify(view, never()).setProgressInt(any())

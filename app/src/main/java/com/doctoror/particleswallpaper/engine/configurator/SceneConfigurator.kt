@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.engine.configurator
 
 import androidx.annotation.VisibleForTesting
-import com.doctoror.particlesdrawable.ParticlesScene
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
@@ -25,7 +24,7 @@ import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 
 /**
- * Monitors for [SceneSettings] changes and configures [ParticlesScene] based on the settings.
+ * Monitors for [SceneSettings] changes and configures [SceneConfiguration] based on the settings.
  *
  * Not thread safe!
  */
@@ -51,7 +50,7 @@ class SceneConfigurator(
             .subscribeOn(schedulers.io())
             .observeOn(observeScheduler)
             .subscribe { c ->
-                configuration.dotColor = c
+                configuration.particleColor = c
                 configuration.lineColor = c
             })
 
@@ -59,17 +58,17 @@ class SceneConfigurator(
             .subscribeOn(schedulers.io())
             .observeOn(observeScheduler)
             .subscribe { v ->
-                configuration.numDots = v
-                controller.makeBrandNewFrame()
+                configuration.density = v
+                controller.makeFreshFrame()
             })
 
         d.add(settings.observeParticleScale()
             .subscribeOn(schedulers.io())
             .observeOn(observeScheduler)
             .subscribe { v ->
-                val radiusRange = DotRadiusMapper.transform(v)
-                configuration.setDotRadiusRange(radiusRange.first, radiusRange.second)
-                controller.makeBrandNewFrame()
+                val radiusRange = ParticleRadiusMapper.transform(v)
+                configuration.setParticleRadiusRange(radiusRange.first, radiusRange.second)
+                controller.makeFreshFrame()
             })
 
         d.add(settings.observeLineScale()
@@ -77,21 +76,21 @@ class SceneConfigurator(
             .observeOn(observeScheduler)
             .subscribe { v ->
                 configuration.lineThickness = v
-                controller.makeBrandNewFrame()
+                controller.makeFreshFrame()
             })
 
         d.add(
             settings.observeLineLength()
                 .subscribeOn(schedulers.io())
                 .observeOn(observeScheduler)
-                .subscribe(configuration::setLineDistance)
+                .subscribe(configuration::setLineLength)
         )
 
         d.add(
             settings.observeSpeedFactor()
                 .subscribeOn(schedulers.io())
                 .observeOn(observeScheduler)
-                .subscribe(configuration::setStepMultiplier)
+                .subscribe(configuration::setSpeedFactor)
         )
 
         d.add(

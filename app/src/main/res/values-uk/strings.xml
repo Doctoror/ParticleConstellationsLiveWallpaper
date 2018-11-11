@@ -32,7 +32,7 @@
     <string name="Failed_to_open_image_picker">Не вдалось відкрити вибір зображень</string>
 
     <string name="Density">Густина</string>
-    <string name="Dot_scale">Розмір частинок</string>
+    <string name="Particle_scale">Розмір частинок</string>
     <string name="Line_thickness">Товщина ліній</string>
     <string name="Line_length">Довжина ліній</string>
     <string name="Speed_factor">Швидкість</string>

@@ -79,6 +79,7 @@ class ParticlesViewGeneratorImpl(
         numSamples: Int
     ) = GlParticlesView(
         context,
+        null,
         numSamples,
         EGLConfigChooserCallbackImpl(
             multisamplingConfigSpecParser,

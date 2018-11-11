@@ -18,8 +18,8 @@ package com.doctoror.particleswallpaper.engine
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
-import com.doctoror.particlesdrawable.ParticlesScene
-import com.doctoror.particlesdrawable.ScenePresenter
+import com.doctoror.particlesdrawable.engine.Engine
+import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
@@ -44,22 +44,22 @@ class EnginePresenterTest {
     private val backgroundLoader: EngineBackgroundLoader = mock()
     private val configurator: SceneConfigurator = mock()
     private val controller: EngineController = mock()
+    private val engine: Engine = mock()
     private val renderer: EngineSceneRenderer = mock()
     private val settings: SceneSettings = mock()
-    private val scene: ParticlesScene = mock()
-    private val scenePresenter: ScenePresenter = mock()
+    private val scene: Scene = mock()
 
     private val underTest = EnginePresenter(
         apiLevelProvider,
         backgroundLoader,
         configurator,
         controller,
+        engine,
         Schedulers.trampoline(),
         renderer,
         TrampolineSchedulers(),
         settings,
-        scene,
-        scenePresenter
+        scene
     )
 
     @Before
@@ -93,7 +93,7 @@ class EnginePresenterTest {
         underTest.onCreate()
 
         // Then
-        verify(configurator).subscribe(scene, scenePresenter, settings, Schedulers.trampoline())
+        verify(configurator).subscribe(scene, engine, settings, Schedulers.trampoline())
     }
 
     @Test
@@ -235,7 +235,7 @@ class EnginePresenterTest {
         )
 
         // Then
-        verify(scenePresenter).setDimensions(desiredWidth, desiredHeight)
+        verify(engine).setDimensions(desiredWidth, desiredHeight)
     }
 
     @Test
@@ -244,7 +244,7 @@ class EnginePresenterTest {
         underTest.visible = true
 
         // Then
-        verify(scenePresenter).start()
+        verify(engine).start()
     }
 
     @Test
@@ -256,7 +256,7 @@ class EnginePresenterTest {
         underTest.visible = false
 
         // Then
-        verify(scenePresenter).stop()
+        verify(engine).stop()
     }
 
     @Test
@@ -279,7 +279,7 @@ class EnginePresenterTest {
         verify(renderer).setBackgroundTexture(background)
         verify(renderer).setClearColor(color)
 
-        verify(scenePresenter, times(2)).draw()
-        verify(scenePresenter, times(2)).run()
+        verify(engine, times(2)).draw()
+        verify(engine, times(2)).run()
     }
 }

@@ -23,7 +23,7 @@ import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.util.DisplayMetrics
 import android.view.SurfaceHolder
-import com.doctoror.particlesdrawable.ParticlesScene
+import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.eq
@@ -131,7 +131,7 @@ class CanvasEngineSceneRendererTest {
 
     @Test(expected = IllegalStateException::class)
     fun drawSceneThrowsWhenNoSurfaceHolder() {
-        underTest.drawScene(ParticlesScene())
+        underTest.drawScene(Scene())
     }
 
     @Test
@@ -156,7 +156,7 @@ class CanvasEngineSceneRendererTest {
         underTest.setDimensions(width, height)
 
         // When
-        underTest.drawScene(ParticlesScene())
+        underTest.drawScene(Scene())
 
         // Then
 

@@ -41,35 +41,35 @@ class DensityPreferencePresenterTest {
     }
 
     @Test
-    fun setsNumDotsOnStart() {
+    fun setsDensityOnStart() {
         // Given
-        val numDots = 128
-        whenever(settings.observeDensity()).thenReturn(Observable.just(numDots))
+        val density = 128
+        whenever(settings.observeDensity()).thenReturn(Observable.just(density))
 
         // When
         underTest.onStart()
 
         // Then
-        verify(view).setProgressInt(numDots - 1)
+        verify(view).setProgressInt(density - 1)
     }
 
     @Test
-    fun doesNotSetNumDotsAfterOnStop() {
+    fun doesNotSetDensityAfterOnStop() {
         // Given
-        val numDotsSource = PublishSubject.create<Int>()
-        whenever(settings.observeDensity()).thenReturn(numDotsSource)
+        val densitySource = PublishSubject.create<Int>()
+        whenever(settings.observeDensity()).thenReturn(densitySource)
 
         // When
         underTest.onStart()
         underTest.onStop()
-        numDotsSource.onNext(1)
+        densitySource.onNext(1)
 
         // Then
         verify(view, never()).setProgressInt(any())
     }
 
     @Test
-    fun storesNumDotsOnChange() {
+    fun storesDensityOnChange() {
         // Given
         val progress = 1
 

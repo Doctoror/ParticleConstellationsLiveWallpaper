@@ -56,13 +56,13 @@ class ParticleScalePreferencePresenterTest {
     @Test
     fun doesNotSetValueAfterOnStop() {
         // Given
-        val dotScaleSource = PublishSubject.create<Float>()
-        whenever(settings.observeParticleScale()).thenReturn(dotScaleSource)
+        val particleScaleSource = PublishSubject.create<Float>()
+        whenever(settings.observeParticleScale()).thenReturn(particleScaleSource)
 
         // When
         underTest.onStart()
         underTest.onStop()
-        dotScaleSource.onNext(1f)
+        particleScaleSource.onNext(1f)
 
         // Then
         verify(view, never()).setProgressInt(any())
