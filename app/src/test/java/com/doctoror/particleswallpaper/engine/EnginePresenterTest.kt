@@ -239,6 +239,56 @@ class EnginePresenterTest {
     }
 
     @Test
+    fun forwardsSurfaceDimensionsToBackgroundLoaderWhenBackgroundScrollDisabled() {
+        // Given
+        val width = 320
+        val height = 240
+        val desiredWidth = 480
+        val desiredHeight = 240
+
+        whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(false))
+
+        // When
+        underTest.onCreate()
+        underTest.setDimensions(
+            EnginePresenter.WallpaperDimensions(
+                width,
+                height,
+                desiredWidth,
+                desiredHeight
+            )
+        )
+
+        // Then
+        verify(backgroundLoader).setDimensions(width, height)
+    }
+
+    @Test
+    fun forwardsDesiredDimensionsToBackgroundLoaderWhenBackgroundScrollEnabled() {
+        // Given
+        val width = 320
+        val height = 240
+        val desiredWidth = 480
+        val desiredHeight = 240
+
+        whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(true))
+
+        // When
+        underTest.onCreate()
+        underTest.setDimensions(
+            EnginePresenter.WallpaperDimensions(
+                width,
+                height,
+                desiredWidth,
+                desiredHeight
+            )
+        )
+
+        // Then
+        verify(backgroundLoader).setDimensions(desiredWidth, desiredHeight)
+    }
+
+    @Test
     fun forwardsDensityMutiplierToConfiguratorIfBackgroundScrollEnabled() {
         // Given
         val width = 320
