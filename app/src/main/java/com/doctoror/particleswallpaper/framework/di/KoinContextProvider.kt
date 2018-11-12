@@ -41,18 +41,11 @@ object KoinContextProvider {
      * Tests can call startKoin on their own, so must check real value of StandAloneContext state.
      */
     private fun getKoinContextDebug(context: Context): KoinContext {
-        val isStarted = StandAloneContext::class.java.getDeclaredField("isStarted")
+        koinStarted = StandAloneContext::class.java.getDeclaredField("isStarted")
             .apply { isAccessible = true }
             .get(StandAloneContext) as Boolean
 
-        koinStarted = isStarted
-
-        if (!isStarted) {
-            koinStarted = true
-            KoinStarter().startKoin(context.applicationContext)
-        }
-
-        return StandAloneContext.koinContext as KoinContext
+        return getKoinContextRelease(context)
     }
 
     private fun getKoinContextRelease(context: Context): KoinContext {
