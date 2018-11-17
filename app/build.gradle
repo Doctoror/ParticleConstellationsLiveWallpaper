@@ -15,8 +15,8 @@ android {
         minSdkVersion globalConfiguration["androidMinSdkVersion"]
         targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
 
-        versionCode 26
-        versionName "1.3.1"
+        versionCode 27
+        versionName "2.0.6"
 
         resConfigs "en", "ru", "uk"
     }
