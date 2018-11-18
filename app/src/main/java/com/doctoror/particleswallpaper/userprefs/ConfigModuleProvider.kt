@@ -26,6 +26,7 @@ class ConfigModuleProvider {
         factory {
             OpenChangeWallpaperIntentProvider(
                 apiLevelProvider = get(),
+                deviceSettings = get(),
                 packageManager = get<Context>().packageManager,
                 packageName = get<Context>().packageName
             )

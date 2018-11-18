@@ -41,18 +41,6 @@ android {
         }
     }
 
-    flavorDimensions 'default'
-
-    productFlavors {
-        canvas {
-            buildConfigField 'boolean', 'OPEN_GL_VARIANT', 'false'
-        }
-
-        opengl {
-            buildConfigField 'boolean', 'OPEN_GL_VARIANT', 'true'
-        }
-    }
-
     buildTypes {
 
         debug {

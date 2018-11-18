@@ -66,4 +66,45 @@ class DeviceSettingsTest {
         verify(editor).putStringSet(KEY_MULTISAMPLING_SUPPORTED_VALUES, values)
         verify(editor).apply()
     }
+
+    @Test
+    fun observesOpenglEnabledChanges() {
+        val prefs = InMemorySharedPreferences()
+        val underTest = DeviceSettings { prefs }
+
+        val expectedValue1 = true
+        val expectedValue2 = false
+        val expectedValue3 = true
+
+        val o = underTest.observeOpenglEnabled().test()
+
+        underTest.openglEnabled = expectedValue2
+        underTest.openglEnabled = expectedValue3
+
+        o.assertValues(expectedValue1, expectedValue2, expectedValue3)
+    }
+
+    @Test
+    fun returnsOpenglEnabledValuesFromPrefs() {
+        val expectedValue = true
+
+        whenever(prefs.getBoolean(eq(KEY_OPENGL_ENABLED), any()))
+            .thenReturn(expectedValue)
+
+        assertEquals(expectedValue, underTest.openglEnabled)
+    }
+
+    @Test
+    fun storesOpenglEnabledValuesInPrefs() {
+        val editor: SharedPreferences.Editor = mock()
+        whenever(editor.putBoolean(any(), any())).thenReturn(editor)
+        whenever(prefs.edit()).thenReturn(editor)
+
+        val value = false
+
+        underTest.openglEnabled = value
+
+        verify(editor).putBoolean(KEY_OPENGL_ENABLED, value)
+        verify(editor).apply()
+    }
 }

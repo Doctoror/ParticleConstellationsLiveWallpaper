@@ -20,8 +20,10 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import com.doctoror.particleswallpaper.engine.WallpaperServiceImpl
+import com.doctoror.particleswallpaper.engine.canvas.CanvasWallpaperServiceImpl
+import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argWhere
 import com.nhaarman.mockito_kotlin.mock
@@ -38,11 +40,14 @@ import org.robolectric.RobolectricTestRunner
 class OpenChangeWallpaperIntentProviderTest {
 
     private val apiLevelProvider: ApiLevelProvider = mock()
+    private val deviceSettings: DeviceSettings = mock {
+        on(it.openglEnabled).thenReturn(true)
+    }
     private val packageName = "packageName"
     private val packageManager: PackageManager = mock()
 
     private val underTest = OpenChangeWallpaperIntentProvider(
-        apiLevelProvider, packageManager, packageName
+        apiLevelProvider, deviceSettings, packageManager, packageName
     )
 
     private fun givenSdkIsJellyBean() {
@@ -74,7 +79,7 @@ class OpenChangeWallpaperIntentProviderTest {
     }
 
     @Test
-    fun providesActionChangeLiveWallpaperIntentForJellyBeanAndLaterIfSupported() {
+    fun providesActionForOpenglJellyBeanIfSupported() {
         // Given
         givenSdkIsJellyBean()
         givenIntentSupported(underTest.provideIntentChangeLiveWallpaper())
@@ -85,7 +90,25 @@ class OpenChangeWallpaperIntentProviderTest {
         assertEquals(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER, result.action)
         assertTrue(result.getBooleanExtra("SET_LOCKSCREEN_WALLPAPER", false))
         assertEquals(
-            ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName),
+            ComponentName(packageName, GlWallpaperServiceImpl::class.java.canonicalName!!),
+            result.getParcelableExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT)
+        )
+    }
+
+    @Test
+    fun providesActionForCanvasJellyBeanIfSupported() {
+        // Given
+        givenSdkIsJellyBean()
+        givenIntentSupported(underTest.provideIntentChangeLiveWallpaper())
+        whenever(deviceSettings.openglEnabled).thenReturn(false)
+
+        // When
+        val result = underTest.provideActionIntent()!!
+
+        assertEquals(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER, result.action)
+        assertTrue(result.getBooleanExtra("SET_LOCKSCREEN_WALLPAPER", false))
+        assertEquals(
+            ComponentName(packageName, CanvasWallpaperServiceImpl::class.java.canonicalName!!),
             result.getParcelableExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT)
         )
     }

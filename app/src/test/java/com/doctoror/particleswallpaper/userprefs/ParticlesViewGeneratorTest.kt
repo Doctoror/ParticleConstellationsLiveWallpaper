@@ -21,6 +21,7 @@ import com.doctoror.particlesdrawable.opengl.GlParticlesView
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.util.MultisamplingConfigSpecParser
 import com.doctoror.particleswallpaper.framework.util.MultisamplingSupportDetector
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -32,17 +33,22 @@ import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class ParticlesViewGeneratorImplTest {
+class ParticlesViewGeneratorTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext<Context>()
+    private val deviceSettings: DeviceSettings = mock {
+        on(it.observeOpenglEnabled()).thenReturn(Observable.just(true))
+    }
+
     private val multisamplingConfigSpecParser: MultisamplingConfigSpecParser = mock()
     private val multisamplingSupportDetector: MultisamplingSupportDetector = mock()
     private val openGlSettings: OpenGlSettings = mock {
-        on { it.observeNumSamples() }.thenReturn(Observable.just(0))
+        on(it.observeNumSamples()).thenReturn(Observable.just(0))
     }
 
-    private val underTest = ParticlesViewGeneratorImpl(
+    private val underTest = ParticlesViewGenerator(
         context,
+        deviceSettings,
         multisamplingConfigSpecParser,
         multisamplingSupportDetector,
         openGlSettings,

@@ -22,14 +22,16 @@ import android.preference.PreferenceGroup
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleObserver
-import com.doctoror.particleswallpaper.BuildConfig
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import com.doctoror.particleswallpaper.framework.di.get
 import com.doctoror.particleswallpaper.framework.lifecycle.LifecyclePreferenceFragment
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHostImpl
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 
 @SuppressLint("ValidFragment") // Kotlin constructor with default value generates valid empty java constructor
 open class ConfigFragment @JvmOverloads constructor(
@@ -38,6 +40,8 @@ open class ConfigFragment @JvmOverloads constructor(
     LifecyclePreferenceFragment(), OnActivityResultCallbackHost by ch {
 
     private lateinit var intentProvider: OpenChangeWallpaperIntentProvider
+
+    private var glMonitorDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,14 +56,21 @@ open class ConfigFragment @JvmOverloads constructor(
 
     private fun hideOpenGlPreferencesIfApplicable() {
         @Suppress("ConstantConditionIf")
-        if (!BuildConfig.OPEN_GL_VARIANT) {
-            val group = findPreference(getString(R.string.pref_key_performance))
-            if (group is PreferenceGroup) {
-                group.findPreference(getString(R.string.pref_key_multisampling))?.let {
-                    group.removePreference(it)
+
+        val deviceSettings: DeviceSettings = get(context = activity)
+        glMonitorDisposable = deviceSettings
+            .observeOpenglEnabled()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                if (!it) {
+                    val group = findPreference(getString(R.string.pref_key_performance))
+                    if (group is PreferenceGroup) {
+                        group.findPreference(getString(R.string.pref_key_multisampling))?.let {
+                            group.removePreference(it)
+                        }
+                    }
                 }
             }
-        }
     }
 
     private fun hidePreviewPreferenceIfCannotStartPreview() {
@@ -78,6 +89,9 @@ open class ConfigFragment @JvmOverloads constructor(
 
     override fun onDestroy() {
         super.onDestroy()
+        glMonitorDisposable?.dispose()
+        glMonitorDisposable = null
+
         forEachFragmentHolder(preferenceScreen) { it.fragment = null }
         forEachLifecycleObserver(preferenceScreen) { lifecycle.removeObserver(it) }
     }

@@ -34,6 +34,8 @@ private const val PRESENTER_PARAM_SCENE_CONTROLLER = 1
 private const val PRESENTER_PARAM_VIEW = 2
 private const val PRESENTER_PARAM_VIEW_DIMENSIONS_PROVIDER = 3
 
+private const val VIEW_PARAM_ACTIVITY = 0
+
 object ConfigActivityModuleProvider {
 
     fun createArgumentsMenuPresenter(
@@ -46,6 +48,10 @@ object ConfigActivityModuleProvider {
         view: SceneBackgroundView,
         viewDimensionsProvider: ViewDimensionsProvider
     ) = parametersOf(sceneConfiguration, sceneController, view, viewDimensionsProvider)
+
+    fun createArgumentsView(
+        activity: Activity
+    ) = parametersOf(activity)
 
     /**
      * Provides the module for wallpaper preview.
@@ -95,6 +101,22 @@ object ConfigActivityModuleProvider {
                 startActivityForResultAction = ActivityStartActivityForResultAction(
                     it[MENU_PRESENTER_PARAM_ACTIVITY]
                 )
+            )
+        }
+
+        factory {
+            val activity: Activity = it[VIEW_PARAM_ACTIVITY]
+            SceneBackgroundView(get()) { activity.window }
+        }
+
+        factory {
+            ParticlesViewGenerator(
+                it[VIEW_PARAM_ACTIVITY],
+                get(),
+                get(),
+                get(),
+                get(),
+                get()
             )
         }
     }

@@ -18,6 +18,8 @@ package com.doctoror.particleswallpaper.engine
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.engine.Engine
 import com.doctoror.particlesdrawable.model.Scene
+import com.doctoror.particleswallpaper.framework.util.KnownOpenglIssuesHandler
+import com.doctoror.particleswallpaper.framework.util.OpenglDisabler
 import io.reactivex.Scheduler
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.module
@@ -69,5 +71,7 @@ object EngineModuleProvider {
                 scene
             )
         }
+
+        factory { KnownOpenglIssuesHandler(OpenglDisabler(get(), get())) }
     }
 }

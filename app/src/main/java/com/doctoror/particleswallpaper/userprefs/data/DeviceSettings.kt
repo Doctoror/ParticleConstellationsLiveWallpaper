@@ -21,6 +21,7 @@ import io.reactivex.subjects.AsyncInitialValueBehaviorSubject
 
 const val PREFERENCES_NAME_DEVICE = "prefs_device"
 const val KEY_MULTISAMPLING_SUPPORTED_VALUES = "multisampling_supported_values"
+const val KEY_OPENGL_ENABLED = "opengl_enabled"
 
 private val DEFAULT_MULTISAMPLING_SUPPORTED_VALUES = setOf("2", "4")
 
@@ -29,8 +30,14 @@ class DeviceSettings(private val prefsSource: () -> SharedPreferences) {
     private val multisamplingSupportedValuesSubject =
         AsyncInitialValueBehaviorSubject { multisamplingSupportedValues }.toSerialized()
 
+    private val openglEnabledSubject =
+        AsyncInitialValueBehaviorSubject { openglEnabled }.toSerialized()
+
     fun observeMultisamplingSupportedValues(): Observable<Set<String>> =
         multisamplingSupportedValuesSubject
+
+    fun observeOpenglEnabled(): Observable<Boolean> =
+        openglEnabledSubject
 
     var multisamplingSupportedValues: Set<String>
         get() = prefsSource().getStringSet(
@@ -40,5 +47,15 @@ class DeviceSettings(private val prefsSource: () -> SharedPreferences) {
         set(value) {
             prefsSource().edit().putStringSet(KEY_MULTISAMPLING_SUPPORTED_VALUES, value).apply()
             multisamplingSupportedValuesSubject.onNext(value)
+        }
+
+    var openglEnabled: Boolean
+        get() = prefsSource().getBoolean(
+            KEY_OPENGL_ENABLED,
+            true
+        )
+        set(value) {
+            prefsSource().edit().putBoolean(KEY_OPENGL_ENABLED, value).apply()
+            openglEnabledSubject.onNext(value)
         }
 }

@@ -17,6 +17,8 @@ package com.doctoror.particleswallpaper.engine
 
 import android.app.WallpaperColors
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
+import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
+import com.doctoror.particleswallpaper.framework.util.KnownOpenglIssuesHandler
 import com.nhaarman.mockito_kotlin.*
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -28,11 +30,12 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class WallpaperServiceImplEngineTest {
 
-    private val service = WallpaperServiceImpl()
+    private val service = GlWallpaperServiceImpl()
     private val presenter: EnginePresenter = mock()
+    private val knownOpenglIssuesHandler: KnownOpenglIssuesHandler = mock()
     private val renderer: GlSceneRenderer = mock()
 
-    private val underTest = service.EngineImpl(renderer, 0).apply {
+    private val underTest = service.EngineImpl(knownOpenglIssuesHandler, renderer, 0).apply {
         presenter = this@WallpaperServiceImplEngineTest.presenter
     }
 
@@ -116,5 +119,14 @@ class WallpaperServiceImplEngineTest {
 
         // Then
         assertEquals(wallpaperColors, result)
+    }
+
+    @Test
+    fun drawsFrameAndHandlesKnownIssues() {
+        underTest.onDrawFrame(mock())
+
+        val inorder = inOrder(presenter, knownOpenglIssuesHandler)
+        inorder.verify(presenter).onDrawFrame()
+        inorder.verify(knownOpenglIssuesHandler).handle("GlWallpaperServiceImpl.onDrawFrame")
     }
 }

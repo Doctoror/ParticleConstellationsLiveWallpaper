@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Yaroslav Mytkalyk
+ * Copyright (C) 2018 Yaroslav Mytkalyk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.engine
+package com.doctoror.particleswallpaper.engine.opengl
 
 import android.annotation.TargetApi
+import android.opengl.GLSurfaceView
 import android.os.Build
 import android.os.Handler
-import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.contract.SceneScheduler
-import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
+import com.doctoror.particlesdrawable.opengl.chooser.FailsafeEGLConfigChooserFactory
+import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
+import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker
+import com.doctoror.particleswallpaper.engine.EngineController
+import com.doctoror.particleswallpaper.engine.EngineModuleProvider
+import com.doctoror.particleswallpaper.engine.EnginePresenter
+import com.doctoror.particleswallpaper.engine.EngineSceneRenderer
 import com.doctoror.particleswallpaper.framework.di.get
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.doctoror.particleswallpaper.framework.execution.GlScheduler
+import com.doctoror.particleswallpaper.framework.util.KnownOpenglIssuesHandler
+import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
+import net.rbgrn.android.glwallpaperservice.GLWallpaperService
+import javax.microedition.khronos.egl.EGLConfig
+import javax.microedition.khronos.opengles.GL10
 
-class WallpaperServiceImpl : WallpaperService() {
+class GlWallpaperServiceImpl : GLWallpaperService() {
 
     override fun onCreateEngine(): Engine {
-        val renderer = CanvasEngineSceneRenderer(CanvasSceneRenderer(), resources)
-        val engine = EngineImpl(renderer)
-        renderer.surfaceHolderProvider = engine
+        val renderer = GlEngineSceneRenderer()
+
+        val settingsOpenGL: OpenGlSettings = get(this)
+        val knownOpenglIssuesHandler: KnownOpenglIssuesHandler = get(this)
+
+        val engine = EngineImpl(knownOpenglIssuesHandler, renderer, settingsOpenGL.numSamples)
 
         engine.presenter = get(
             context = this,
             parameters = {
                 EngineModuleProvider.makeParameters(
                     engine,
-                    AndroidSchedulers.mainThread(),
+                    GlScheduler(engine),
                     renderer as EngineSceneRenderer,
                     engine as SceneScheduler
                 )
@@ -47,15 +61,33 @@ class WallpaperServiceImpl : WallpaperService() {
         return engine
     }
 
-    inner class EngineImpl(private val renderer: CanvasEngineSceneRenderer) :
-        Engine(), EngineController, SceneScheduler, SurfaceHolderProvider {
+    inner class EngineImpl(
+        private val knownOpenglIssuesHandler: KnownOpenglIssuesHandler,
+        private val renderer: GlSceneRenderer,
+        samples: Int
+    ) : GLEngine(), EngineController, GLSurfaceView.Renderer, SceneScheduler {
 
         private val handler = Handler()
 
         lateinit var presenter: EnginePresenter
 
+        @Volatile
         private var surfaceWidth = 0
+
+        @Volatile
         private var surfaceHeight = 0
+
+        private var firstDraw = true
+
+        init {
+            GLErrorChecker.setShouldCheckGlError(true)
+            setEGLContextClientVersion(2)
+            setEGLConfigChooser(
+                FailsafeEGLConfigChooserFactory.newFailsafeEGLConfigChooser(samples, null)
+            )
+            setRenderer(this)
+            renderMode = RENDERMODE_WHEN_DIRTY
+        }
 
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
@@ -67,18 +99,12 @@ class WallpaperServiceImpl : WallpaperService() {
             presenter.onDestroy()
         }
 
-        override fun onSurfaceCreated(holder: SurfaceHolder?) {
-            super.onSurfaceCreated(holder)
+        override fun onSurfaceCreated(gl: GL10, config: EGLConfig?) {
+            renderer.setupGl()
             presenter.onSurfaceCreated()
         }
 
-        override fun onSurfaceChanged(
-            holder: SurfaceHolder?,
-            format: Int,
-            width: Int,
-            height: Int
-        ) {
-            super.onSurfaceChanged(holder, format, width, height)
+        override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
             surfaceWidth = width
             surfaceHeight = height
 
@@ -126,12 +152,27 @@ class WallpaperServiceImpl : WallpaperService() {
             xPixelOffset: Int,
             yPixelOffset: Int
         ) {
-            presenter.setTranslationX(xPixelOffset.toFloat())
+            queueEvent { presenter.setTranslationX(xPixelOffset.toFloat()) }
+        }
+
+        override fun onDrawFrame(gl: GL10) {
+            if (firstDraw) {
+                // Never check draw errors there. Disable on first call.
+                GLErrorChecker.setShouldCheckGlError(false)
+            }
+
+            presenter.onDrawFrame()
+
+            if (firstDraw) {
+                firstDraw = false
+
+                // Check draw error once here, where known issues expected.
+                knownOpenglIssuesHandler.handle("GlWallpaperServiceImpl.onDrawFrame")
+            }
         }
 
         override fun onSurfaceDestroyed(holder: SurfaceHolder) {
             super.onSurfaceDestroyed(holder)
-            renderer.resetSurfaceCache()
             presenter.visible = false
         }
 
@@ -140,23 +181,21 @@ class WallpaperServiceImpl : WallpaperService() {
             presenter.visible = visible
         }
 
-        override fun provideSurfaceHolder() = surfaceHolder!!
-
         @TargetApi(Build.VERSION_CODES.O_MR1)
         override fun onComputeColors() = presenter.onComputeColors()
 
         override fun scheduleNextFrame(delay: Long) {
             if (presenter.visible) {
-                handler.postDelayed(renderRunnable, delay)
+                if (delay == 0L) {
+                    requestRender()
+                } else {
+                    handler.postDelayed(renderRunnable, delay)
+                }
             }
         }
 
         override fun unscheduleNextFrame() {
             handler.removeCallbacksAndMessages(null)
-        }
-
-        override fun requestRender() {
-            presenter.onDrawFrame()
         }
 
         private val renderRunnable = Runnable { requestRender() }

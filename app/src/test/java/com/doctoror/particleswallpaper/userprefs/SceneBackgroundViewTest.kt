@@ -18,11 +18,15 @@ package com.doctoror.particleswallpaper.userprefs
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.view.Window
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -31,12 +35,18 @@ import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class SceneBackgroundViewImplTest {
+class SceneBackgroundViewTest {
+
+    private val deviceSettings: DeviceSettings = mock {
+        on(it.openglEnabled).thenReturn(true)
+    }
+
+    private val window: Window = mock()
 
     private val particlesView: View = mock()
 
-    private val underTest = SceneBackgroundViewImpl().apply {
-        particlesView = this@SceneBackgroundViewImplTest.particlesView
+    private val underTest = SceneBackgroundView(deviceSettings) { window }.apply {
+        particlesView = this@SceneBackgroundViewTest.particlesView
     }
 
     @After
@@ -45,7 +55,7 @@ class SceneBackgroundViewImplTest {
     }
 
     @Test
-    fun setsBackgroundColor() {
+    fun setsGlBackgroundColor() {
         val color = Color.CYAN
 
         underTest.displayBackgroundColor(color)
@@ -54,14 +64,14 @@ class SceneBackgroundViewImplTest {
     }
 
     @Test
-    fun setsBackgroundBitmapAsNull() {
+    fun setsGlBackgroundBitmapAsNull() {
         underTest.displayBackground(null)
 
         verify(particlesView).background = null
     }
 
     @Test
-    fun setsBackgroundBitmap() {
+    fun setsGlBackgroundBitmap() {
         val background: Bitmap = mock()
 
         underTest.displayBackground(background)
@@ -70,6 +80,40 @@ class SceneBackgroundViewImplTest {
 
         verify(particlesView).background = captor.capture()
 
+        assertEquals(background, (captor.firstValue as BitmapDrawable).bitmap)
+    }
+
+    @Test
+    fun setsBackgroundColorToWindowWhenOpenGlDisabled() {
+        whenever(deviceSettings.openglEnabled).thenReturn(false)
+        val color = Color.CYAN
+
+        underTest.displayBackgroundColor(color)
+
+        val captor = argumentCaptor<Drawable>()
+        verify(window).setBackgroundDrawable(captor.capture())
+
+        assertEquals(color, (captor.firstValue as ColorDrawable).color)
+    }
+
+    @Test
+    fun setsBackgroundBitmapToWindowAsNullWhenOpenGlDisabled() {
+        whenever(deviceSettings.openglEnabled).thenReturn(false)
+
+        underTest.displayBackground(null)
+
+        verify(particlesView).background = null
+    }
+
+    @Test
+    fun setsBackgroundBitmapWhenOpenGlDisabled() {
+        whenever(deviceSettings.openglEnabled).thenReturn(false)
+        val background: Bitmap = mock()
+
+        underTest.displayBackground(background)
+
+        val captor = argumentCaptor<Drawable>()
+        verify(particlesView).background = captor.capture()
         assertEquals(background, (captor.firstValue as BitmapDrawable).bitmap)
     }
 }

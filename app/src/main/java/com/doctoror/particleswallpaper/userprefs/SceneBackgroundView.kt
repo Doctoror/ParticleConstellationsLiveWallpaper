@@ -16,10 +16,32 @@
 package com.doctoror.particleswallpaper.userprefs
 
 import android.graphics.Bitmap
-import androidx.annotation.ColorInt
+import android.graphics.drawable.ColorDrawable
+import android.view.View
+import android.view.Window
+import com.doctoror.particleswallpaper.framework.view.setBackgroundBitmap
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 
-interface SceneBackgroundView {
+class SceneBackgroundView(
+    private val deviceSettings: DeviceSettings,
+    private val windowProvider: () -> Window
+) {
 
-    fun displayBackgroundColor(@ColorInt color: Int)
-    fun displayBackground(background: Bitmap?)
+    var particlesView: View? = null
+
+    fun displayBackgroundColor(color: Int) {
+        if (deviceSettings.openglEnabled) {
+            particlesView?.setBackgroundColor(color)
+        } else {
+            windowProvider().setBackgroundDrawable(ColorDrawable(color))
+        }
+    }
+
+    fun displayBackground(background: Bitmap?) {
+        if (deviceSettings.openglEnabled) {
+            particlesView?.setBackgroundBitmap(background)
+        } else {
+            particlesView?.setBackgroundBitmap(background)
+        }
+    }
 }

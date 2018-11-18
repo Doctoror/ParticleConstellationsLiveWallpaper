@@ -23,11 +23,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.VisibleForTesting
-import com.doctoror.particleswallpaper.engine.WallpaperServiceImpl
+import com.doctoror.particleswallpaper.engine.canvas.CanvasWallpaperServiceImpl
+import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 
 class OpenChangeWallpaperIntentProvider(
     private val apiLevelProvider: ApiLevelProvider,
+    private val deviceSettings: DeviceSettings,
     private val packageManager: PackageManager,
     private val packageName: String
 ) {
@@ -86,7 +89,14 @@ class OpenChangeWallpaperIntentProvider(
             putExtra("SET_LOCKSCREEN_WALLPAPER", true)
             putExtra(
                 WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                ComponentName(packageName, WallpaperServiceImpl::class.java.canonicalName!!)
+                ComponentName(
+                    packageName,
+                    if (deviceSettings.openglEnabled)
+                        GlWallpaperServiceImpl::class.java.canonicalName!!
+                    else
+                        CanvasWallpaperServiceImpl::class.java.canonicalName!!
+
+                )
             )
         }
 

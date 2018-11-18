@@ -60,7 +60,7 @@ class ConfigActivityTest : KoinTest {
         declareMock<ConfigActivityMenuPresenter>()
         declareMock<OpenChangeWallpaperIntentProvider>()
         declareMock<ParticlesViewGenerator>()
-        declareMock<SceneBackgroundViewImpl>()
+        declareMock<SceneBackgroundView>()
 
         whenever(particlesViewGenerator.observeParticlesViewInstance())
             .thenReturn(Observable.empty())

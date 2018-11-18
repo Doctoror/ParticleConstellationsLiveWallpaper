@@ -18,7 +18,6 @@ package com.doctoror.particleswallpaper.framework.di
 import android.content.Context
 import com.doctoror.particleswallpaper.engine.EngineModuleProvider
 import com.doctoror.particleswallpaper.userprefs.ConfigActivityModuleProvider
-import com.doctoror.particleswallpaper.userprefs.ConfigActivityViewModuleProvider
 import com.doctoror.particleswallpaper.userprefs.ConfigModuleProvider
 import com.doctoror.particleswallpaper.userprefs.bgcolor.BackgroundColorPreferenceModuleProvider
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreferenceModuleProvider
@@ -49,7 +48,6 @@ class KoinStarter {
                 BackgroundImagePreferenceModuleProvider().provide(),
                 BackgroundScrollPreferenceModuleProvider().provide(),
                 ConfigActivityModuleProvider.provide(),
-                ConfigActivityViewModuleProvider.provide(),
                 ConfigModuleProvider().provide(),
                 DensityPreferenceModuleProvider().provide(),
                 EngineModuleProvider.provide(),
