@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.data
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import io.reactivex.Observable
 import io.reactivex.subjects.AsyncInitialValueBehaviorSubject
@@ -54,8 +55,12 @@ class DeviceSettings(private val prefsSource: () -> SharedPreferences) {
             KEY_OPENGL_ENABLED,
             true
         )
+        @SuppressLint("ApplySharedPref")
         set(value) {
-            prefsSource().edit().putBoolean(KEY_OPENGL_ENABLED, value).apply()
+            /*
+             * Must commit because after this call application will be killed before write succeeds
+             */
+            prefsSource().edit().putBoolean(KEY_OPENGL_ENABLED, value).commit()
             openglEnabledSubject.onNext(value)
         }
 }

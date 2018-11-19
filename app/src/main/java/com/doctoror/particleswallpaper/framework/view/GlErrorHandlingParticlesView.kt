@@ -21,7 +21,7 @@ import com.doctoror.particlesdrawable.opengl.GlParticlesView
 import com.doctoror.particlesdrawable.opengl.chooser.EGLConfigChooserCallback
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker
 import com.doctoror.particleswallpaper.framework.di.inject
-import com.doctoror.particleswallpaper.framework.util.KnownOpenglIssuesHandler
+import com.doctoror.particleswallpaper.framework.opengl.KnownOpenglIssuesHandler
 import javax.microedition.khronos.opengles.GL10
 
 @SuppressLint("ViewConstructor") // used only from ParticlesViewGenerator
@@ -43,6 +43,6 @@ class GlErrorHandlingParticlesView(
         GLErrorChecker.setShouldCheckGlError(false)
 
         super.onDrawFrame(gl10)
-        knownOpenglIssuesHandler.handle("GlErrorHandlingParticlesView.onDrawFrame")
+        knownOpenglIssuesHandler.handleGlError("GlErrorHandlingParticlesView.onDrawFrame")
     }
 }

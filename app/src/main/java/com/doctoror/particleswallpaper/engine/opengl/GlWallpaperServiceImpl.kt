@@ -30,7 +30,7 @@ import com.doctoror.particleswallpaper.engine.EnginePresenter
 import com.doctoror.particleswallpaper.engine.EngineSceneRenderer
 import com.doctoror.particleswallpaper.framework.di.get
 import com.doctoror.particleswallpaper.framework.execution.GlScheduler
-import com.doctoror.particleswallpaper.framework.util.KnownOpenglIssuesHandler
+import com.doctoror.particleswallpaper.framework.opengl.KnownOpenglIssuesHandler
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import net.rbgrn.android.glwallpaperservice.GLWallpaperService
 import javax.microedition.khronos.egl.EGLConfig
@@ -167,7 +167,7 @@ class GlWallpaperServiceImpl : GLWallpaperService() {
                 firstDraw = false
 
                 // Check draw error once here, where known issues expected.
-                knownOpenglIssuesHandler.handle("GlWallpaperServiceImpl.onDrawFrame")
+                knownOpenglIssuesHandler.handleGlError("GlWallpaperServiceImpl.onDrawFrame")
             }
         }
 

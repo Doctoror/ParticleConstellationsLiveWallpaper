@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.engine
 import android.app.WallpaperColors
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
-import com.doctoror.particleswallpaper.framework.util.KnownOpenglIssuesHandler
+import com.doctoror.particleswallpaper.framework.opengl.KnownOpenglIssuesHandler
 import com.nhaarman.mockito_kotlin.*
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -127,6 +127,6 @@ class WallpaperServiceImplEngineTest {
 
         val inorder = inOrder(presenter, knownOpenglIssuesHandler)
         inorder.verify(presenter).onDrawFrame()
-        inorder.verify(knownOpenglIssuesHandler).handle("GlWallpaperServiceImpl.onDrawFrame")
+        inorder.verify(knownOpenglIssuesHandler).handleGlError("GlWallpaperServiceImpl.onDrawFrame")
     }
 }

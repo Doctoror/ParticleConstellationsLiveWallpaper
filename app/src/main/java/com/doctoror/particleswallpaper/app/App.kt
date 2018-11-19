@@ -19,6 +19,9 @@ import android.app.Application
 import android.os.Looper
 import android.os.StrictMode
 import com.doctoror.particleswallpaper.BuildConfig
+import com.doctoror.particleswallpaper.framework.di.get
+import com.doctoror.particleswallpaper.framework.opengl.GlUncaughtExceptionHandler
+import com.doctoror.particleswallpaper.framework.opengl.KnownOpenglIssuesHandler
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -28,6 +31,7 @@ class App : Application() {
         super.onCreate()
         initStrictMode()
         initAsyncScheduler()
+        initUncaughtExceptionHandler()
     }
 
     private fun initStrictMode() {
@@ -52,5 +56,15 @@ class App : Application() {
         RxAndroidPlugins.setInitMainThreadSchedulerHandler {
             AndroidSchedulers.from(Looper.getMainLooper(), true)
         }
+    }
+
+    private fun initUncaughtExceptionHandler() {
+        val knownOpenglIssuesHandler: KnownOpenglIssuesHandler = get(context = this)
+        Thread.setDefaultUncaughtExceptionHandler(
+            GlUncaughtExceptionHandler(
+                knownOpenglIssuesHandler,
+                Thread.getDefaultUncaughtExceptionHandler()
+            )
+        )
     }
 }
