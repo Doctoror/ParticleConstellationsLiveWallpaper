@@ -169,7 +169,7 @@ class EnginePresenter(
             renderer.overrideBackgroundDimensions(dimensions.desiredWidth, dimensions.height)
             if (dimensions.width != 0 && dimensions.desiredWidth != 0) {
                 configurator.setDensityMultiplier(
-                    dimensions.desiredWidth.toFloat() / dimensions.width.toFloat()
+                    Math.min(dimensions.desiredWidth.toFloat() / dimensions.width.toFloat(), 2f)
                 )
             }
         }
