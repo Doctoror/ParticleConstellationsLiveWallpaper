@@ -166,7 +166,7 @@ class EnginePresenter(
         backgroundScroll = scrollBackground
         renderer.setDimensions(dimensions.width, dimensions.height)
         if (scrollBackground) {
-            renderer.overrideBackgroundDimensions(dimensions.desiredWidth, dimensions.desiredHeight)
+            renderer.overrideBackgroundDimensions(dimensions.desiredWidth, dimensions.height)
             if (dimensions.width != 0 && dimensions.desiredWidth != 0) {
                 configurator.setDensityMultiplier(
                     dimensions.desiredWidth.toFloat() / dimensions.width.toFloat()
@@ -174,10 +174,10 @@ class EnginePresenter(
             }
         }
 
-        engine.setDimensions(dimensions.desiredWidth, dimensions.desiredHeight)
+        engine.setDimensions(dimensions.desiredWidth, dimensions.height)
 
         if (scrollBackground) {
-            backgroundLoader.setDimensions(dimensions.desiredWidth, dimensions.desiredHeight)
+            backgroundLoader.setDimensions(dimensions.desiredWidth, dimensions.height)
         } else {
             backgroundLoader.setDimensions(dimensions.width, dimensions.height)
         }
@@ -222,7 +222,6 @@ class EnginePresenter(
     data class WallpaperDimensions(
         val width: Int,
         val height: Int,
-        val desiredWidth: Int,
-        val desiredHeight: Int
+        val desiredWidth: Int
     )
 }

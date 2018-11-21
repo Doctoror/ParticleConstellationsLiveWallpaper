@@ -89,8 +89,7 @@ class CanvasWallpaperServiceImpl : WallpaperService() {
             notifyDimensions(
                 width,
                 height,
-                desiredMinimumWidth,
-                desiredMinimumHeight
+                desiredMinimumWidth
             )
         }
 
@@ -99,24 +98,21 @@ class CanvasWallpaperServiceImpl : WallpaperService() {
             notifyDimensions(
                 surfaceWidth,
                 surfaceHeight,
-                desiredWidth,
-                desiredHeight
+                desiredWidth
             )
         }
 
         private fun notifyDimensions(
             surfaceWidth: Int,
             surfaceHeight: Int,
-            desiredWidth: Int,
-            desiredHeight: Int
+            desiredWidth: Int
         ) {
             if (surfaceWidth != 0 && surfaceHeight != 0) {
                 presenter.setDimensions(
                     EnginePresenter.WallpaperDimensions(
                         width = surfaceWidth,
                         height = surfaceHeight,
-                        desiredWidth = Math.max(surfaceWidth, desiredWidth),
-                        desiredHeight = Math.max(surfaceHeight, desiredHeight)
+                        desiredWidth = Math.max(surfaceWidth, desiredWidth)
                     )
                 )
             }
