@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.density
+package com.doctoror.particleswallpaper.userprefs.linelength
 
 import org.koin.dsl.module.module
 
 private const val PARAM_VIEW = 0
 
-class DensityPreferenceModuleProvider {
+fun provideModuleLineLength() = module {
 
-    /**
+    /*
      * Parameter at index 0 must be a SeekBarPreferenceView.
      */
-    fun provide() = module {
-
-        factory {
-            DensityPreferencePresenter(
-                schedulers = get(),
-                settings = get(),
-                view = it[PARAM_VIEW]
-            )
-        }
+    factory {
+        LineLengthPreferencePresenter(
+            schedulers = get(),
+            settings = get(),
+            view = it[PARAM_VIEW]
+        )
     }
 }

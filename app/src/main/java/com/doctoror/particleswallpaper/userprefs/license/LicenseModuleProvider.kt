@@ -13,25 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.bgscroll
+package com.doctoror.particleswallpaper.userprefs.license
 
 import org.koin.dsl.module.module
 
 private const val PARAM_VIEW = 0
 
-class BackgroundScrollPreferenceModuleProvider {
+/**
+ * Parameter at index 0 must be a [LicensePreferenceView].
+ */
+fun provideModuleLicense() = module {
 
-    /**
-     * Parameter at index 0 must be a [BackgroundScrollPreferenceView].
-     */
-    fun provide() = module {
-
-        factory {
-            BackgroundScrollPreferencePresenter(
-                get(),
-                get(),
-                it[PARAM_VIEW]
-            )
-        }
+    factory {
+        LicensePreferencePresenter(
+            view = it[PARAM_VIEW]
+        )
     }
 }

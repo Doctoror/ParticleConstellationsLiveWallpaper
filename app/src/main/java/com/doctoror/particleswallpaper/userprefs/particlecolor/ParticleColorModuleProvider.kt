@@ -13,25 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.bgcolor
+package com.doctoror.particleswallpaper.userprefs.particlecolor
 
 import org.koin.dsl.module.module
 
 private const val PARAM_VIEW = 0
 
-class BackgroundColorPreferenceModuleProvider {
+fun provideModuleParticleColor() = module {
 
-    /**
-     * Parameter at 0 should be BackgroundColorPreferenceView.
+    /*
+     * Parameter at index 0 must be a ParticleColorPreferenceView.
      */
-    fun provide() = module {
-        factory {
-            BackgroundColorPreferencePresenter(
-                schedulers = get(),
-                settings = get(),
-                defaults = get(),
-                view = it[PARAM_VIEW]
-            )
-        }
+    factory {
+        ParticleColorPreferencePresenter(
+            get(),
+            get(),
+            get(),
+            it[PARAM_VIEW]
+        )
     }
 }

@@ -58,12 +58,12 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
 
         menuPresenter = get(
             context = this,
-            parameters = { ConfigActivityModuleProvider.createArgumentsMenuPresenter(this) }
+            parameters = { makeInjectArgumentsForConfigActiivtyMenuPresenter(this) }
         )
 
         view = get(
             context = this,
-            parameters = { ConfigActivityModuleProvider.createArgumentsView(this) }
+            parameters = { makeInjectArgumentsForSceneBackgroundView(this) }
         )
 
         setContentView(R.layout.activity_config)
@@ -73,7 +73,7 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
 
         val viewGenerator: ParticlesViewGenerator = get(
             context = this,
-            parameters = { ConfigActivityModuleProvider.createArgumentsView(this) }
+            parameters = { makeInjectArgumentsForSceneBackgroundView(this) }
         )
 
         disposables.add(
@@ -121,7 +121,7 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
         val presenter: ConfigActivityPresenter = get(
             context = this,
             parameters = {
-                ConfigActivityModuleProvider.createArgumentsPresenter(
+                makeInjectArgumentsForConfigActivityPresenter(
                     particlesView as SceneConfiguration,
                     particlesView as SceneController,
                     view,

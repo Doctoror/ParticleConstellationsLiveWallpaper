@@ -29,53 +29,50 @@ private const val PARAM_RENDER_THREAD_SCHEDULER = 1
 private const val PARAM_SCENE_RENDERER = 2
 private const val PARAM_SCENE_SCHEDULER = 3
 
-object EngineModuleProvider {
+fun makeInjectArgumentsForWallpaperServiceEngineImpl(
+    controller: EngineController,
+    renderThreadScheduler: Scheduler,
+    sceneRenderer: EngineSceneRenderer,
+    sceneScheduler: SceneScheduler
+) = parametersOf(
+    controller,
+    renderThreadScheduler,
+    sceneRenderer,
+    sceneScheduler
+)
 
-    fun makeParameters(
-        controller: EngineController,
-        renderThreadScheduler: Scheduler,
-        sceneRenderer: EngineSceneRenderer,
-        sceneScheduler: SceneScheduler
-    ) = parametersOf(
-        controller,
-        renderThreadScheduler,
-        sceneRenderer,
-        sceneScheduler
-    )
+fun provideModuleEngine() = module {
+    factory {
+        EngineBackgroundLoader(
+            get(),
+            get(),
+            get()
+        )
+    }
 
-    fun provide() = module {
-        factory {
-            EngineBackgroundLoader(
-                get(),
-                get(),
-                get()
-            )
-        }
+    factory {
+        val scene = Scene()
+        EnginePresenter(
+            get(),
+            get(),
+            get(),
+            it[PARAM_ENGINE_CONTROLLER],
+            Engine(
+                scene,
+                it[PARAM_SCENE_SCHEDULER],
+                it[PARAM_SCENE_RENDERER]
+            ),
+            it[PARAM_RENDER_THREAD_SCHEDULER],
+            it[PARAM_SCENE_RENDERER],
+            get(),
+            get(),
+            scene
+        )
+    }
 
-        factory {
-            val scene = Scene()
-            EnginePresenter(
-                get(),
-                get(),
-                get(),
-                it[PARAM_ENGINE_CONTROLLER],
-                Engine(
-                    scene,
-                    it[PARAM_SCENE_SCHEDULER],
-                    it[PARAM_SCENE_RENDERER]
-                ),
-                it[PARAM_RENDER_THREAD_SCHEDULER],
-                it[PARAM_SCENE_RENDERER],
-                get(),
-                get(),
-                scene
-            )
-        }
-
-        factory {
-            KnownOpenglIssuesHandler(
-                OpenglDisabler(get(), get())
-            )
-        }
+    factory {
+        KnownOpenglIssuesHandler(
+            OpenglDisabler(get(), get())
+        )
     }
 }

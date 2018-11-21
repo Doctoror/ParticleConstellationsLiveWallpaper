@@ -25,9 +25,9 @@ import com.doctoror.particlesdrawable.opengl.chooser.FailsafeEGLConfigChooserFac
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particlesdrawable.opengl.util.GLErrorChecker
 import com.doctoror.particleswallpaper.engine.EngineController
-import com.doctoror.particleswallpaper.engine.EngineModuleProvider
 import com.doctoror.particleswallpaper.engine.EnginePresenter
 import com.doctoror.particleswallpaper.engine.EngineSceneRenderer
+import com.doctoror.particleswallpaper.engine.makeInjectArgumentsForWallpaperServiceEngineImpl
 import com.doctoror.particleswallpaper.framework.di.get
 import com.doctoror.particleswallpaper.framework.execution.GlScheduler
 import com.doctoror.particleswallpaper.framework.opengl.KnownOpenglIssuesHandler
@@ -49,7 +49,7 @@ class GlWallpaperServiceImpl : GLWallpaperService() {
         engine.presenter = get(
             context = this,
             parameters = {
-                EngineModuleProvider.makeParameters(
+                makeInjectArgumentsForWallpaperServiceEngineImpl(
                     engine,
                     GlScheduler(engine),
                     renderer as EngineSceneRenderer,

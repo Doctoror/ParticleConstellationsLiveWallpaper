@@ -13,26 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.particlecolor
+package com.doctoror.particleswallpaper.userprefs.preview
 
+import android.content.Context
 import org.koin.dsl.module.module
 
-private const val PARAM_VIEW = 0
+private const val PARAM_ACTIVITY = 0
 
-class ParticleColorPreferenceModuleProvider {
+fun provideModulePreview() = module {
 
-    /**
-     * Parameter at index 0 must be a [ParticleColorPreferenceView].
+    factory {
+        OpenChangeWallpaperIntentProvider(
+            apiLevelProvider = get(),
+            deviceSettings = get(),
+            packageManager = get<Context>().packageManager,
+            packageName = get<Context>().packageName
+        )
+    }
+
+    /*
+     * Parameter at index 0 must be an Activity.
      */
-    fun provide() = module {
-
-        factory {
-            ParticleColorPreferencePresenter(
-                get(),
-                get(),
-                get(),
-                it[PARAM_VIEW]
-            )
-        }
+    factory {
+        PreviewPreferencePresenter(
+            it[PARAM_ACTIVITY]
+        )
     }
 }

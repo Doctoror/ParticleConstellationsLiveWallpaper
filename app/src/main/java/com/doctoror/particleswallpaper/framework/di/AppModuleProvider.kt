@@ -22,18 +22,15 @@ import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProviderImpl
 import org.koin.dsl.module.module
 
-class AppModuleProvider {
+fun provideModuleApp(context: Context) = module {
 
-    fun provide(context: Context) = module {
+    single { context }
 
-        single { context }
+    single<SchedulersProvider> { SchedulersProviderImpl() }
 
-        single<SchedulersProvider> { SchedulersProviderImpl() }
+    factory { Glide.get(context) }
 
-        factory { Glide.get(context) }
+    factory { Glide.with(context) }
 
-        factory { Glide.with(context) }
-
-        factory { ApiLevelProvider() }
-    }
+    factory { ApiLevelProvider() }
 }

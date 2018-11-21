@@ -16,26 +16,25 @@
 package com.doctoror.particleswallpaper.framework.di
 
 import android.content.Context
-import com.doctoror.particleswallpaper.engine.EngineModuleProvider
-import com.doctoror.particleswallpaper.userprefs.ConfigActivityModuleProvider
-import com.doctoror.particleswallpaper.userprefs.ConfigModuleProvider
-import com.doctoror.particleswallpaper.userprefs.bgcolor.BackgroundColorPreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.bgscroll.BackgroundScrollPreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.data.SettingsModuleProvider
-import com.doctoror.particleswallpaper.userprefs.density.DensityPreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.framedelay.FrameDelayPreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.license.LicensePreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.linelength.LineLengthPreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.linescale.LineScalePreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.multisampling.MultisamplingPreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.particlecolor.ParticleColorPreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.particlescale.ParticleScalePreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.performancetips.PerformanceTipsPreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.resettodefaults.ResetToDefaultsPreferenceModuleProvider
-import com.doctoror.particleswallpaper.userprefs.speedfactor.SpeedFactorPreferenceModuleProvider
+import com.doctoror.particleswallpaper.engine.provideModuleEngine
+import com.doctoror.particleswallpaper.userprefs.bgcolor.provideModuleBackgroundColor
+import com.doctoror.particleswallpaper.userprefs.bgimage.provideModuleBackgroundImage
+import com.doctoror.particleswallpaper.userprefs.bgscroll.provideModuleBackgroundScroll
+import com.doctoror.particleswallpaper.userprefs.data.provideModuleSettings
+import com.doctoror.particleswallpaper.userprefs.density.provideModuleDensity
+import com.doctoror.particleswallpaper.userprefs.framedelay.provideModuleFrameDelay
+import com.doctoror.particleswallpaper.userprefs.howtoapply.provideModuleHowToApply
+import com.doctoror.particleswallpaper.userprefs.license.provideModuleLicense
+import com.doctoror.particleswallpaper.userprefs.linelength.provideModuleLineLength
+import com.doctoror.particleswallpaper.userprefs.linescale.provideModuleLineScale
+import com.doctoror.particleswallpaper.userprefs.multisampling.provideModuleMultisampling
+import com.doctoror.particleswallpaper.userprefs.particlecolor.provideModuleParticleColor
+import com.doctoror.particleswallpaper.userprefs.particlescale.provideModuleParticleScale
+import com.doctoror.particleswallpaper.userprefs.performancetips.provideModulePerformanceTips
+import com.doctoror.particleswallpaper.userprefs.preview.provideModulePreview
+import com.doctoror.particleswallpaper.userprefs.provideModuleConfigActivity
+import com.doctoror.particleswallpaper.userprefs.resettodefaults.provideModuleResetToDefaults
+import com.doctoror.particleswallpaper.userprefs.speedfactor.provideModuleSpeedFactor
 import org.koin.standalone.StandAloneContext
 
 class KoinStarter {
@@ -43,27 +42,26 @@ class KoinStarter {
     fun startKoin(context: Context) {
         StandAloneContext.startKoin(
             listOf(
-                AppModuleProvider().provide(context),
-                BackgroundColorPreferenceModuleProvider().provide(),
-                BackgroundImagePreferenceModuleProvider().provide(),
-                BackgroundScrollPreferenceModuleProvider().provide(),
-                ConfigActivityModuleProvider.provide(),
-                ConfigModuleProvider().provide(),
-                DensityPreferenceModuleProvider().provide(),
-                EngineModuleProvider.provide(),
-                FrameDelayPreferenceModuleProvider().provide(),
-                HowToApplyPreferenceModuleProvider().provide(),
-                LicensePreferenceModuleProvider().provide(),
-                LineLengthPreferenceModuleProvider().provide(),
-                LineScalePreferenceModuleProvider().provide(),
-                MultisamplingPreferenceModuleProvider().provide(),
-                ParticleColorPreferenceModuleProvider().provide(),
-                ParticleScalePreferenceModuleProvider().provide(),
-                PerformanceTipsPreferenceModuleProvider().provide(),
-                PreviewPreferenceModuleProvider().provide(),
-                ResetToDefaultsPreferenceModuleProvider().provide(),
-                SpeedFactorPreferenceModuleProvider().provide(),
-                SettingsModuleProvider().provide()
+                provideModuleApp(context),
+                provideModuleBackgroundColor(),
+                provideModuleBackgroundImage(),
+                provideModuleBackgroundScroll(),
+                provideModuleConfigActivity(),
+                provideModuleDensity(),
+                provideModuleEngine(),
+                provideModuleFrameDelay(),
+                provideModuleHowToApply(),
+                provideModuleLicense(),
+                provideModuleLineLength(),
+                provideModuleLineScale(),
+                provideModuleMultisampling(),
+                provideModuleParticleColor(),
+                provideModuleParticleScale(),
+                provideModulePerformanceTips(),
+                provideModulePreview(),
+                provideModuleResetToDefaults(),
+                provideModuleSpeedFactor(),
+                provideModuleSettings()
             )
         )
     }

@@ -13,23 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.performancetips
+package com.doctoror.particleswallpaper.userprefs.bgcolor
 
 import org.koin.dsl.module.module
 
 private const val PARAM_VIEW = 0
 
-class PerformanceTipsPreferenceModuleProvider {
+fun provideModuleBackgroundColor() = module {
 
-    /**
-     * Parameter at index 0 must be a [PerformanceTipsPreferenceView].
-     */
-    fun provide() = module {
-
-        factory {
-            PerformanceTipsPreferencePresenter(
-                it[PARAM_VIEW]
-            )
-        }
+    factory {
+        BackgroundColorPreferencePresenter(
+            schedulers = get(),
+            settings = get(),
+            defaults = get(),
+            view = it[PARAM_VIEW]
+        )
     }
 }

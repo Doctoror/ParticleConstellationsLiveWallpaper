@@ -13,25 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.framedelay
+package com.doctoror.particleswallpaper.userprefs.linescale
 
 import org.koin.dsl.module.module
 
 private const val PARAM_VIEW = 0
 
-class FrameDelayPreferenceModuleProvider {
+fun provideModuleLineScale() = module {
 
-    /**
-     * Parameter at index 0 must be a FrameDelayPreferenceView.
-     */
-    fun provide() = module {
-
-        factory {
-            FrameDelayPreferencePresenter(
-                schedulers = get(),
-                settings = get(),
-                view = it[PARAM_VIEW]
-            )
-        }
+    factory {
+        LineScalePreferencePresenter(
+            schedulers = get(),
+            settings = get(),
+            view = it[PARAM_VIEW]
+        )
     }
 }

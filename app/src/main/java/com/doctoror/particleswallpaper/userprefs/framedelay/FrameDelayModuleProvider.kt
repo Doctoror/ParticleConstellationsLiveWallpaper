@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.linelength
+package com.doctoror.particleswallpaper.userprefs.framedelay
 
-import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
 import org.koin.dsl.module.module
 
 private const val PARAM_VIEW = 0
 
-class LineLengthPreferenceModuleProvider {
+fun provideModuleFrameDelay() = module {
 
-    /**
-     * Parameter at index 0 must be a [SeekBarPreferenceView].
+    /*
+     * Parameter at index 0 must be a FrameDelayPreferenceView.
      */
-    fun provide() = module {
-
-        factory {
-            LineLengthPreferencePresenter(
-                schedulers = get(),
-                settings = get(),
-                view = it[PARAM_VIEW]
-            )
-        }
+    factory {
+        FrameDelayPreferencePresenter(
+            schedulers = get(),
+            settings = get(),
+            view = it[PARAM_VIEW]
+        )
     }
 }

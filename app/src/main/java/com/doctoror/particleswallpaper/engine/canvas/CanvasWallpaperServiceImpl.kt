@@ -23,9 +23,9 @@ import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
 import com.doctoror.particleswallpaper.engine.EngineController
-import com.doctoror.particleswallpaper.engine.EngineModuleProvider
 import com.doctoror.particleswallpaper.engine.EnginePresenter
 import com.doctoror.particleswallpaper.engine.EngineSceneRenderer
+import com.doctoror.particleswallpaper.engine.makeInjectArgumentsForWallpaperServiceEngineImpl
 import com.doctoror.particleswallpaper.framework.di.get
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -39,7 +39,7 @@ class CanvasWallpaperServiceImpl : WallpaperService() {
         engine.presenter = get(
             context = this,
             parameters = {
-                EngineModuleProvider.makeParameters(
+                makeInjectArgumentsForWallpaperServiceEngineImpl(
                     engine,
                     AndroidSchedulers.mainThread(),
                     renderer as EngineSceneRenderer,

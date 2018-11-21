@@ -19,51 +19,48 @@ import android.content.Context
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
 import org.koin.dsl.module.module
 
-class SettingsModuleProvider {
+fun provideModuleSettings() = module {
 
-    fun provide() = module {
+    factory {
+        DefaultSceneSettings(
+            get<Context>().resources!!,
+            get<Context>().theme!!
+        )
+    }
 
-        factory {
-            DefaultSceneSettings(
-                get<Context>().resources!!,
-                get<Context>().theme!!
-            )
-        }
+    single {
+        DeviceSettings(
+            prefsSource = {
+                get<Context>().getSharedPreferences(
+                    PREFERENCES_NAME_DEVICE,
+                    Context.MODE_PRIVATE
+                )
+            }
+        )
+    }
 
-        single {
-            DeviceSettings(
-                prefsSource = {
-                    get<Context>().getSharedPreferences(
-                        PREFERENCES_NAME_DEVICE,
-                        Context.MODE_PRIVATE
-                    )
-                }
-            )
-        }
+    single {
+        OpenGlSettings(
+            prefsSource = {
+                get<Context>().getSharedPreferences(
+                    PREFERENCES_NAME_OPENGL,
+                    Context.MODE_PRIVATE
+                )
+            }
+        )
+    }
 
-        single {
-            OpenGlSettings(
-                prefsSource = {
-                    get<Context>().getSharedPreferences(
-                        PREFERENCES_NAME_OPENGL,
-                        Context.MODE_PRIVATE
-                    )
-                }
-            )
-        }
+    factory { SceneConfigurator(get()) }
 
-        factory { SceneConfigurator(get()) }
-
-        single {
-            SceneSettings(
-                defaults = get(),
-                prefsSource = {
-                    get<Context>().getSharedPreferences(
-                        PREFERENCES_NAME_SCENE,
-                        Context.MODE_PRIVATE
-                    )
-                }
-            )
-        }
+    single {
+        SceneSettings(
+            defaults = get(),
+            prefsSource = {
+                get<Context>().getSharedPreferences(
+                    PREFERENCES_NAME_SCENE,
+                    Context.MODE_PRIVATE
+                )
+            }
+        )
     }
 }

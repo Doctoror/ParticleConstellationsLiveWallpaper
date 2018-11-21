@@ -36,88 +36,81 @@ private const val PRESENTER_PARAM_VIEW_DIMENSIONS_PROVIDER = 3
 
 private const val VIEW_PARAM_ACTIVITY = 0
 
-object ConfigActivityModuleProvider {
+fun makeInjectArgumentsForConfigActiivtyMenuPresenter(
+    activity: Activity
+) = parametersOf(activity)
 
-    fun createArgumentsMenuPresenter(
-        activity: Activity
-    ) = parametersOf(activity)
+fun makeInjectArgumentsForConfigActivityPresenter(
+    sceneConfiguration: SceneConfiguration,
+    sceneController: SceneController,
+    view: SceneBackgroundView,
+    viewDimensionsProvider: ViewDimensionsProvider
+) = parametersOf(sceneConfiguration, sceneController, view, viewDimensionsProvider)
 
-    fun createArgumentsPresenter(
-        sceneConfiguration: SceneConfiguration,
-        sceneController: SceneController,
-        view: SceneBackgroundView,
-        viewDimensionsProvider: ViewDimensionsProvider
-    ) = parametersOf(sceneConfiguration, sceneController, view, viewDimensionsProvider)
+fun makeInjectArgumentsForSceneBackgroundView(
+    activity: Activity
+) = parametersOf(activity)
 
-    fun createArgumentsView(
-        activity: Activity
-    ) = parametersOf(activity)
+fun provideModuleConfigActivity() = module {
 
-    /**
-     * Provides the module for wallpaper preview.
-     * Parameter list should contain an Activity at index 0.
-     */
-    fun provide() = module {
+    factory { parameterList ->
+        ConfigActivityPresenter(
+            backgroundLoader = get(),
+            configurator = get(),
+            sceneConfiguration = parameterList[PRESENTER_PARAM_SCENE_CONFIGURATION],
+            sceneController = parameterList[PRESENTER_PARAM_SCENE_CONTROLLER],
+            schedulers = get(),
+            settings = get(),
+            view = parameterList[PRESENTER_PARAM_VIEW],
+            viewDimensionsProvider = parameterList[PRESENTER_PARAM_VIEW_DIMENSIONS_PROVIDER]
+        )
+    }
 
-        factory { parameterList ->
-            ConfigActivityPresenter(
-                backgroundLoader = get(),
-                configurator = get(),
-                sceneConfiguration = parameterList[PRESENTER_PARAM_SCENE_CONFIGURATION],
-                sceneController = parameterList[PRESENTER_PARAM_SCENE_CONTROLLER],
-                schedulers = get(),
-                settings = get(),
-                view = parameterList[PRESENTER_PARAM_VIEW],
-                viewDimensionsProvider = parameterList[PRESENTER_PARAM_VIEW_DIMENSIONS_PROVIDER]
+    factory { parameterList ->
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ConfigActivityMenuPresenterLollipop(
+                openChangeWallpaperIntentProvider = get(),
+                openChangeWallpaperIntentUseCase = get(parameters = { parameterList }),
+                view = parameterList[MENU_PRESENTER_PARAM_ACTIVITY]
             )
+        } else {
+            ConfigActivityMenuPresenterLegacy()
         }
+    }
 
-        factory { parameterList ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ConfigActivityMenuPresenterLollipop(
-                    openChangeWallpaperIntentProvider = get(),
-                    openChangeWallpaperIntentUseCase = get(parameters = { parameterList }),
-                    view = parameterList[MENU_PRESENTER_PARAM_ACTIVITY]
-                )
-            } else {
-                ConfigActivityMenuPresenterLegacy()
-            }
-        }
+    factory {
+        MultisamplingConfigSpecParser()
+    }
 
-        factory {
-            MultisamplingConfigSpecParser()
-        }
+    factory {
+        MultisamplingSupportDetector(
+            get(),
+            get()
+        )
+    }
 
-        factory {
-            MultisamplingSupportDetector(
-                get(),
-                get()
+    factory {
+        OpenChangeWallpaperIntentUseCase(
+            intentProvider = get(),
+            startActivityForResultAction = ActivityStartActivityForResultAction(
+                it[MENU_PRESENTER_PARAM_ACTIVITY]
             )
-        }
+        )
+    }
 
-        factory {
-            OpenChangeWallpaperIntentUseCase(
-                intentProvider = get(),
-                startActivityForResultAction = ActivityStartActivityForResultAction(
-                    it[MENU_PRESENTER_PARAM_ACTIVITY]
-                )
-            )
-        }
+    factory {
+        val activity: Activity = it[VIEW_PARAM_ACTIVITY]
+        SceneBackgroundView(get()) { activity.window }
+    }
 
-        factory {
-            val activity: Activity = it[VIEW_PARAM_ACTIVITY]
-            SceneBackgroundView(get()) { activity.window }
-        }
-
-        factory {
-            ParticlesViewGenerator(
-                it[VIEW_PARAM_ACTIVITY],
-                get(),
-                get(),
-                get(),
-                get(),
-                get()
-            )
-        }
+    factory {
+        ParticlesViewGenerator(
+            it[VIEW_PARAM_ACTIVITY],
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
     }
 }

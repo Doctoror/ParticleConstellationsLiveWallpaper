@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs
+package com.doctoror.particleswallpaper.userprefs.howtoapply
 
-import android.content.Context
-import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import org.koin.dsl.module.module
 
-class ConfigModuleProvider {
+private const val PARAM_VIEW = 0
 
-    fun provide() = module {
+fun provideModuleHowToApply() = module {
 
-        factory {
-            OpenChangeWallpaperIntentProvider(
-                apiLevelProvider = get(),
-                deviceSettings = get(),
-                packageManager = get<Context>().packageManager,
-                packageName = get<Context>().packageName
-            )
-        }
+    /*
+     * Parameter at index 0 must be a HowToApplyPreferenceView.
+     */
+    factory {
+        HowToApplyPreferencePresenter(
+            intentProvider = get(),
+            view = it[PARAM_VIEW]
+        )
     }
 }

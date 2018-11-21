@@ -13,24 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.preview
+package com.doctoror.particleswallpaper.userprefs.speedfactor
 
-import android.app.Activity
 import org.koin.dsl.module.module
 
-private const val PARAM_ACTIVITY = 0
+private const val PARAM_VIEW = 0
 
-class PreviewPreferenceModuleProvider {
+fun provideModuleSpeedFactor() = module {
 
-    /**
-     * Parameter at index 0 must be an [Activity].
+    /*
+     * Parameter at index 0 must be a SeekBarPreferenceView.
      */
-    fun provide() = module {
-
-        factory {
-            PreviewPreferencePresenter(
-                it[PARAM_ACTIVITY]
-            )
-        }
+    factory {
+        SpeedFactorPreferencePresenter(
+            get(),
+            get(),
+            it[PARAM_VIEW]
+        )
     }
 }

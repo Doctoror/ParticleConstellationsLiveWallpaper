@@ -13,26 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.particlescale
+package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
-import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
 import org.koin.dsl.module.module
 
 private const val PARAM_VIEW = 0
 
-class ParticleScalePreferenceModuleProvider {
+fun provideModuleResetToDefaults() = module {
 
-    /**
-     * Parameter at index 0 must be a [SeekBarPreferenceView].
+    factory {
+        ResetToDefaultsUseCase(
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+
+    /*
+     * Parameter at index 0 must be a [ResetToDefaultsPreferenceView].
      */
-    fun provide() = module {
-
-        factory {
-            ParticleScalePreferencePresenter(
-                get(),
-                get(),
-                it[PARAM_VIEW]
-            )
-        }
+    factory {
+        ResetToDefaultsPreferencePresenter(
+            get(),
+            get(),
+            it[PARAM_VIEW]
+        )
     }
 }

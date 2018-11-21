@@ -23,42 +23,39 @@ import org.koin.dsl.module.module
 
 private const val PARAM_VIEW = 0
 
-class BackgroundImagePreferenceModuleProvider {
+fun provideModuleBackgroundImage() = module {
 
-    /**
+    factory<BackgroundImageManager> {
+        BackgroundImageManagerImpl(
+            context = get(),
+            fileSaver = FileSaver(get()),
+            fileUriResolver = FileUriResolver(get())
+        )
+    }
+
+    factory {
+        PickImageGetContentUseCase()
+    }
+
+    factory {
+        PickImageDocumentUseCase(get())
+    }
+
+    /*
      * Parameter at 0 should be BackgroundImagePreferenceView.
      */
-    fun provide() = module {
-
-        factory<BackgroundImageManager> {
-            BackgroundImageManagerImpl(
-                context = get(),
-                fileSaver = FileSaver(get()),
-                fileUriResolver = FileUriResolver(get())
-            )
-        }
-
-        factory {
-            PickImageGetContentUseCase()
-        }
-
-        factory {
-            PickImageDocumentUseCase(get())
-        }
-
-        factory {
-            BackgroundImagePreferencePresenter(
-                apiLevelProvider = get(),
-                backgroundImageManager = get(),
-                context = get(),
-                defaults = get(),
-                glide = get(),
-                pickImageGetContentUseCase = get(),
-                pickImageDocumentUseCase = get(),
-                schedulers = get(),
-                settings = get(),
-                view = it[PARAM_VIEW]
-            )
-        }
+    factory {
+        BackgroundImagePreferencePresenter(
+            apiLevelProvider = get(),
+            backgroundImageManager = get(),
+            context = get(),
+            defaults = get(),
+            glide = get(),
+            pickImageGetContentUseCase = get(),
+            pickImageDocumentUseCase = get(),
+            schedulers = get(),
+            settings = get(),
+            view = it[PARAM_VIEW]
+        )
     }
 }

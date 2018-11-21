@@ -13,37 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.multisampling
+package com.doctoror.particleswallpaper.userprefs.performancetips
 
-import android.content.Context
 import org.koin.dsl.module.module
 
 private const val PARAM_VIEW = 0
 
-class MultisamplingPreferenceModuleProvider {
+fun provideModulePerformanceTips() = module {
 
-    /**
-     * Parameter at index 0 must be a [MultisamplingPreferenceView].
+    /*
+     * Parameter at index 0 must be a PerformanceTipsPreferenceView.
      */
-    fun provide() = module {
-
-        factory {
-            MultisamplingPreferencePresenter(
-                get(),
-                get(),
-                get(),
-                get(),
-                it[PARAM_VIEW],
-                get()
-            )
-        }
-
-        factory {
-            MultisamplingPreferenceValueMapper(get<Context>().resources)
-        }
-
-        factory {
-            WallpaperCheckerUseCase(get())
-        }
+    factory {
+        PerformanceTipsPreferencePresenter(
+            it[PARAM_VIEW]
+        )
     }
 }
