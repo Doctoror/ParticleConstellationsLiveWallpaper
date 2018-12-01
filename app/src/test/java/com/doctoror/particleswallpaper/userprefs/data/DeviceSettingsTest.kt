@@ -105,6 +105,6 @@ class DeviceSettingsTest {
         underTest.openglEnabled = value
 
         verify(editor).putBoolean(KEY_OPENGL_ENABLED, value)
-        verify(editor).apply()
+        verify(editor).commit()
     }
 }
