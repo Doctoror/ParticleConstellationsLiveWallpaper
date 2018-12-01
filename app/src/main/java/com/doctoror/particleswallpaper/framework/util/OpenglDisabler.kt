@@ -18,8 +18,8 @@ package com.doctoror.particleswallpaper.framework.util
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
-import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
 import com.doctoror.particleswallpaper.engine.canvas.CanvasWallpaperServiceImpl
+import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 
 /**
