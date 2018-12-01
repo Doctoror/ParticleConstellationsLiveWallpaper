@@ -180,6 +180,7 @@ class EnginePresenter(
             backgroundLoader.setDimensions(dimensions.desiredWidth, dimensions.height)
         } else {
             backgroundLoader.setDimensions(dimensions.width, dimensions.height)
+            renderer.setBackgroundTranslationX(0f)
         }
     }
 

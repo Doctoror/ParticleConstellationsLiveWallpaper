@@ -257,6 +257,7 @@ class EnginePresenterTest {
 
         // Then
         verify(backgroundLoader).setDimensions(width, height)
+        verify(renderer).setBackgroundTranslationX(0f)
     }
 
     @Test
