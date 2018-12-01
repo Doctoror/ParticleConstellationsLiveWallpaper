@@ -15,7 +15,8 @@ ext {
     androidMinSdkVersion = 14
     androidTargetSdkVersion = 28
     androidCompileSdkVersion = 28
-    androidxVersion = '1.0.0'
+    androidxAnnotationVersion = '1.0.0'
+    androidxVersion = '1.0.1'
 
     //Libraries
     koinVersion = '1.0.1'
@@ -36,7 +37,7 @@ ext {
     robolectricVersion = '4.0'
 
     wallpaperappDependencies = [
-            androidxAnnotations: "androidx.annotation:annotation:$androidxVersion",
+            androidxAnnotations: "androidx.annotation:annotation:$androidxAnnotationVersion",
             androidxCore       : "androidx.core:core:$androidxVersion",
 
             kotlin             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
