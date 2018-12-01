@@ -3,9 +3,9 @@ package com.doctoror.particleswallpaper.userprefs.multisampling
 import android.app.WallpaperInfo
 import android.app.WallpaperManager
 import android.content.Context
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Test
 
 class WallpaperCheckerUseCaseTest {

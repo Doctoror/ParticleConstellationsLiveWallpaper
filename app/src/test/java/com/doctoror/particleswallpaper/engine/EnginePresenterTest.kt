@@ -26,7 +26,7 @@ import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.util.Optional
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import org.junit.After
@@ -221,7 +221,6 @@ class EnginePresenterTest {
         val width = 1
         val height = 2
         val desiredWidth = 3
-        val desiredHeight = 4
 
         // When
         underTest.onCreate()
@@ -229,13 +228,12 @@ class EnginePresenterTest {
             EnginePresenter.WallpaperDimensions(
                 width,
                 height,
-                desiredWidth,
-                desiredHeight
+                desiredWidth
             )
         )
 
         // Then
-        verify(engine).setDimensions(desiredWidth, desiredHeight)
+        verify(engine).setDimensions(desiredWidth, height)
     }
 
     @Test
@@ -244,7 +242,6 @@ class EnginePresenterTest {
         val width = 320
         val height = 240
         val desiredWidth = 480
-        val desiredHeight = 240
 
         whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(false))
 
@@ -254,8 +251,7 @@ class EnginePresenterTest {
             EnginePresenter.WallpaperDimensions(
                 width,
                 height,
-                desiredWidth,
-                desiredHeight
+                desiredWidth
             )
         )
 
@@ -269,7 +265,6 @@ class EnginePresenterTest {
         val width = 320
         val height = 240
         val desiredWidth = 480
-        val desiredHeight = 240
 
         whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(true))
 
@@ -279,13 +274,12 @@ class EnginePresenterTest {
             EnginePresenter.WallpaperDimensions(
                 width,
                 height,
-                desiredWidth,
-                desiredHeight
+                desiredWidth
             )
         )
 
         // Then
-        verify(backgroundLoader).setDimensions(desiredWidth, desiredHeight)
+        verify(backgroundLoader).setDimensions(desiredWidth, height)
     }
 
     @Test
@@ -294,7 +288,6 @@ class EnginePresenterTest {
         val width = 320
         val height = 320
         val desiredWidth = 480
-        val desiredHeight = 320
 
         whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(true))
 
@@ -304,8 +297,7 @@ class EnginePresenterTest {
             EnginePresenter.WallpaperDimensions(
                 width,
                 height,
-                desiredWidth,
-                desiredHeight
+                desiredWidth
             )
         )
 
@@ -319,7 +311,6 @@ class EnginePresenterTest {
         val width = 320
         val height = 320
         val desiredWidth = 480
-        val desiredHeight = 320
 
         whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(false))
 
@@ -329,8 +320,7 @@ class EnginePresenterTest {
             EnginePresenter.WallpaperDimensions(
                 width,
                 height,
-                desiredWidth,
-                desiredHeight
+                desiredWidth
             )
         )
 
@@ -344,7 +334,6 @@ class EnginePresenterTest {
         val width = 320
         val height = 240
         val desiredWidth = 480
-        val desiredHeight = 240
 
         whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(true))
 
@@ -354,13 +343,12 @@ class EnginePresenterTest {
             EnginePresenter.WallpaperDimensions(
                 width,
                 height,
-                desiredWidth,
-                desiredHeight
+                desiredWidth
             )
         )
 
         // Then
-        verify(renderer).overrideBackgroundDimensions(desiredWidth, desiredHeight)
+        verify(renderer).overrideBackgroundDimensions(desiredWidth, height)
     }
 
     @Test
@@ -369,7 +357,6 @@ class EnginePresenterTest {
         val width = 320
         val height = 240
         val desiredWidth = 480
-        val desiredHeight = 240
 
         whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(false))
 
@@ -379,8 +366,7 @@ class EnginePresenterTest {
             EnginePresenter.WallpaperDimensions(
                 width,
                 height,
-                desiredWidth,
-                desiredHeight
+                desiredWidth
             )
         )
 
@@ -420,7 +406,7 @@ class EnginePresenterTest {
             .thenReturn(Observable.just(color))
 
         underTest.onCreate()
-        underTest.setDimensions(EnginePresenter.WallpaperDimensions(1, 1, 2, 2))
+        underTest.setDimensions(EnginePresenter.WallpaperDimensions(1, 1, 2))
         underTest.onSurfaceCreated()
 
         underTest.onDrawFrame()

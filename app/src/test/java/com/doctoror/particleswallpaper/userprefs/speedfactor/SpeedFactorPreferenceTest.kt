@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.userprefs.speedfactor
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.verify
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before

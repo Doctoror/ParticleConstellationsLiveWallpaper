@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.mock
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 

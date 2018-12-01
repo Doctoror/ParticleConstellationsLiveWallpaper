@@ -21,8 +21,8 @@ import android.content.pm.PackageManager
 import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
 import com.doctoror.particleswallpaper.engine.canvas.CanvasWallpaperServiceImpl
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner

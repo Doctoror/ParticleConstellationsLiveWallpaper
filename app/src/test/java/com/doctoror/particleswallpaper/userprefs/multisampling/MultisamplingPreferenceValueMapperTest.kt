@@ -17,8 +17,8 @@ package com.doctoror.particleswallpaper.userprefs.multisampling
 
 import android.content.res.Resources
 import com.doctoror.particleswallpaper.R
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.mock
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.util.*

@@ -15,7 +15,7 @@
  */
 package io.reactivex.subjects
 
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import org.junit.jupiter.api.Assertions.assertEquals

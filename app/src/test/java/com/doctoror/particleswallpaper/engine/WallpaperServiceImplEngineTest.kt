@@ -19,7 +19,7 @@ import android.app.WallpaperColors
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
 import com.doctoror.particleswallpaper.framework.opengl.KnownOpenglIssuesHandler
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -84,8 +84,7 @@ class WallpaperServiceImplEngineTest {
             EnginePresenter.WallpaperDimensions(
                 width,
                 height,
-                desiredWidth,
-                desiredHeight
+                desiredWidth
             )
         )
     }

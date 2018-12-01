@@ -15,8 +15,8 @@
  */
 package com.doctoror.particleswallpaper.userprefs.license
 
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import org.junit.jupiter.api.Test
 
 class LicensePreferencePresenterTest {

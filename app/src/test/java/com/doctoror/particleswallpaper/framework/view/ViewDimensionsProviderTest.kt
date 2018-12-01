@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.framework.view
 
 import android.view.View
 import android.view.ViewTreeObserver
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import org.junit.jupiter.api.Test
 
 class ViewDimensionsProviderTest {

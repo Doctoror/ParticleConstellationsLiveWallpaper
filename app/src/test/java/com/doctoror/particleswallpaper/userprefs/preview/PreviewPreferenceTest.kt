@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.userprefs.preview
 import android.app.Activity
 import android.app.Fragment
 import android.content.res.TypedArray
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

@@ -17,9 +17,9 @@ package com.doctoror.particleswallpaper.framework.opengl
 
 import com.doctoror.particlesdrawable.opengl.chooser.NoMatchingConfigsException
 import com.doctoror.particleswallpaper.framework.util.OpenglDisabler
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.never
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.never
+import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.exceptions.OnErrorNotImplementedException
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
