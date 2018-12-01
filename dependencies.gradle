@@ -19,7 +19,7 @@ ext {
     androidxVersion = '1.0.1'
 
     //Libraries
-    koinVersion = '1.0.1'
+    koinVersion = '1.0.2'
     kotlinVersion = rootProject.ext.kotlinVersion
     rxJavaVersion = '2.2.4'
     rxAndroidVersion = '2.1.0'
