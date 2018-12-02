@@ -126,9 +126,6 @@ public abstract class GLWallpaperService extends WallpaperService {
             synchronized (lock) {
                 if (mGLSurfaceView != null) {
                     mGLSurfaceView.setRenderer(renderer);
-                    if (!isVisible()) {
-                        mGLSurfaceView.onPause();
-                    }
                 } else {
                     pendingOperations.add(new Runnable() {
                         public void run() {
