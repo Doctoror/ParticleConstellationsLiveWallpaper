@@ -48,6 +48,8 @@ import android.opengl.GLSurfaceView;
 import android.service.wallpaper.WallpaperService;
 import android.view.SurfaceHolder;
 
+import com.doctoror.particleswallpaper.framework.view.MultipleInstanceSafeGLSurfaceView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +64,7 @@ public abstract class GLWallpaperService extends WallpaperService {
         public final static int RENDERMODE_CONTINUOUSLY = 1;
 
         private final Object lock = new Object();
-        GLSurfaceView mGLSurfaceView = null;
+        MultipleInstanceSafeGLSurfaceView mGLSurfaceView = null;
 
         private int debugFlags;
         private int renderMode;
@@ -193,36 +195,6 @@ public abstract class GLWallpaperService extends WallpaperService {
             }
         }
 
-        public void setEGLConfigChooser(final boolean needDepth) {
-            synchronized (lock) {
-                if (mGLSurfaceView != null) {
-                    mGLSurfaceView.setEGLConfigChooser(needDepth);
-                } else {
-                    pendingOperations.add(new Runnable() {
-                        public void run() {
-                            setEGLConfigChooser(needDepth);
-                        }
-                    });
-                }
-            }
-        }
-
-        public void setEGLConfigChooser(final int redSize, final int greenSize, final int blueSize,
-                                        final int alphaSize, final int depthSize, final int stencilSize) {
-            synchronized (lock) {
-                if (mGLSurfaceView != null) {
-                    mGLSurfaceView.setEGLConfigChooser(redSize, greenSize, blueSize,
-                            alphaSize, depthSize, stencilSize);
-                } else {
-                    pendingOperations.add(new Runnable() {
-                        public void run() {
-                            setEGLConfigChooser(redSize, greenSize, blueSize, alphaSize, depthSize, stencilSize);
-                        }
-                    });
-                }
-            }
-        }
-
         public void setEGLContextClientVersion(final int version) {
             synchronized (lock) {
                 if (mGLSurfaceView != null) {
@@ -272,6 +244,7 @@ public abstract class GLWallpaperService extends WallpaperService {
         public void onVisibilityChanged(final boolean visible) {
             super.onVisibilityChanged(visible);
 
+            System.out.println("myassvisible: " + visible);
             synchronized (lock) {
                 if (mGLSurfaceView != null) {
                     if (visible) {
@@ -316,7 +289,7 @@ public abstract class GLWallpaperService extends WallpaperService {
         public void onSurfaceCreated(@NonNull final SurfaceHolder holder) {
             synchronized (lock) {
                 if (mGLSurfaceView == null) {
-                    mGLSurfaceView = new GLSurfaceView(GLWallpaperService.this) {
+                    mGLSurfaceView = new MultipleInstanceSafeGLSurfaceView(GLWallpaperService.this) {
                         @Override
                         public SurfaceHolder getHolder() {
                             return GLEngine.this.getSurfaceHolder();
