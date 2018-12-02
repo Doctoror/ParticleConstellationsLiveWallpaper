@@ -91,12 +91,12 @@ class GlWallpaperServiceImpl : GLWallpaperService() {
 
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
-            presenter.onCreate()
+            queueEvent { presenter.onCreate() }
         }
 
         override fun onDestroy() {
             super.onDestroy()
-            presenter.onDestroy()
+            queueEvent { presenter.onDestroy() }
         }
 
         override fun onSurfaceCreated(gl: GL10, config: EGLConfig?) {
@@ -117,11 +117,13 @@ class GlWallpaperServiceImpl : GLWallpaperService() {
 
         override fun onDesiredSizeChanged(desiredWidth: Int, desiredHeight: Int) {
             super.onDesiredSizeChanged(desiredWidth, desiredHeight)
-            notifyDimensions(
-                surfaceWidth,
-                surfaceHeight,
-                desiredWidth
-            )
+            queueEvent {
+                notifyDimensions(
+                    surfaceWidth,
+                    surfaceHeight,
+                    desiredWidth
+                )
+            }
         }
 
         private fun notifyDimensions(
@@ -174,7 +176,7 @@ class GlWallpaperServiceImpl : GLWallpaperService() {
 
         override fun onVisibilityChanged(visible: Boolean) {
             super.onVisibilityChanged(visible)
-            presenter.visible = visible
+            queueEvent { presenter.visible = visible }
         }
 
         @TargetApi(Build.VERSION_CODES.O_MR1)
