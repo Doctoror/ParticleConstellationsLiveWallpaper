@@ -31,12 +31,14 @@ class ResetToDefaultsUseCaseTest {
     private val defaults: DefaultSceneSettings = mock {
         on(it.backgroundColor).doReturn(0xff212121.toInt())
         on(it.backgroundUri).doReturn(NO_URI)
+        on(it.backgroundScroll).doReturn(true)
         on(it.density).doReturn(1)
         on(it.frameDelay).doReturn(1)
         on(it.lineLength).doReturn(86f)
         on(it.lineScale).doReturn(1.1f)
         on(it.particleColor).doReturn(Color.WHITE)
         on(it.particleScale).doReturn(1.1f)
+        on(it.particlesScroll).doReturn(true)
         on(it.speedFactor).doReturn(1.1f)
     }
 
@@ -55,6 +57,15 @@ class ResetToDefaultsUseCaseTest {
 
         // Then
         verify(settings).backgroundColor = defaults.backgroundColor
+    }
+
+    @Test
+    fun setsDefaultBackgroundScroll() {
+        // When
+        underTest.action().test()
+
+        // Then
+        verify(settings).backgroundScroll = defaults.backgroundScroll
     }
 
     @Test
@@ -118,6 +129,15 @@ class ResetToDefaultsUseCaseTest {
 
         // Then
         verify(settings).particleScale = defaults.particleScale
+    }
+
+    @Test
+    fun setsDefaultParticlesScroll() {
+        // When
+        underTest.action().test()
+
+        // Then
+        verify(settings).particlesScroll = defaults.particlesScroll
     }
 
     @Test

@@ -44,6 +44,8 @@ class DefaultSceneSettings(
 
     val particleScale = Math.max(0.5f, res.getDimension(R.dimen.defaultParticleScale))
 
+    val particlesScroll = true
+
     val speedFactor = resolveSpeedFactor(res, typedValueFactory)
 
     private fun resolveSpeedFactor(

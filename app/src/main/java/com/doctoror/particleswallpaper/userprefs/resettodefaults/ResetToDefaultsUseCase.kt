@@ -34,6 +34,7 @@ class ResetToDefaultsUseCase(
     fun action() = Completable.fromAction {
         settings.backgroundColor = defaults.backgroundColor
         settings.backgroundUri = defaults.backgroundUri
+        settings.backgroundScroll = defaults.backgroundScroll
 
         settings.density = defaults.density
         settings.frameDelay = defaults.frameDelay
@@ -43,6 +44,7 @@ class ResetToDefaultsUseCase(
 
         settings.particleColor = defaults.particleColor
         settings.particleScale = defaults.particleScale
+        settings.particlesScroll = defaults.particlesScroll
 
         settings.speedFactor = defaults.speedFactor
         settingsOpenGL.resetToDefaults()

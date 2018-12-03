@@ -146,7 +146,7 @@ class SceneSettings(
         }
 
     var particlesScroll
-        get() = prefsSource().getBoolean(KEY_PARTICLES_SCROLL, true)
+        get() = prefsSource().getBoolean(KEY_PARTICLES_SCROLL, defaults.particlesScroll)
         set(value) {
             prefsSource().edit().putBoolean(KEY_PARTICLES_SCROLL, value).apply()
             particlesScrollSubject.onNext(value)
