@@ -243,8 +243,6 @@ public abstract class GLWallpaperService extends WallpaperService {
         @Override
         public void onVisibilityChanged(final boolean visible) {
             super.onVisibilityChanged(visible);
-
-            System.out.println("myassvisible: " + visible);
             synchronized (lock) {
                 if (mGLSurfaceView != null) {
                     if (visible) {
