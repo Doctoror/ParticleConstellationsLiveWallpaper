@@ -25,14 +25,15 @@
     <string name="Performance">Производительность</string>
     <string name="Legal">Лицензии</string>
 
-    <string name="Particles_color">Цвет частичек</string>
+    <string name="Particles_color">Цвет частиц</string>
+    <string name="Scroll_particles">Промотка частиц</string>
     <string name="Background_image">Фоновое изображение</string>
     <string name="Background_image_scroll">Промотка фонового изображения</string>
     <string name="Background_color">Фоновый цвет</string>
     <string name="Failed_to_open_image_picker">Не удалось открыть выбор изображений</string>
 
     <string name="Density">Плотность</string>
-    <string name="Particle_scale">Размер частичек</string>
+    <string name="Particle_scale">Размер частиц</string>
     <string name="Line_thickness">Толщина линий</string>
     <string name="Line_length">Длина линий</string>
     <string name="Speed_factor">Скорость</string>

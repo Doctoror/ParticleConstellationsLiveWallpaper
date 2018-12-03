@@ -51,6 +51,10 @@
             android:key="@string/pref_key_background_scroll"
             android:title="@string/Background_image_scroll" />
 
+        <com.doctoror.particleswallpaper.userprefs.particlesscroll.ParticlesScrollPreference
+            android:key="@string/pref_key_particles_scroll"
+            android:title="@string/Scroll_particles" />
+
         <com.doctoror.particleswallpaper.userprefs.density.DensityPreference
             android:key="@string/pref_key_density"
             android:title="@string/Density" />

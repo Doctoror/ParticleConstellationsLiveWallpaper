@@ -26,6 +26,7 @@
     <string name="Legal">Ліцензії</string>
 
     <string name="Particles_color">Колір частинок</string>
+    <string name="Scroll_particles">Промотка частинок</string>
     <string name="Background_image">Фонове зображення</string>
     <string name="Background_image_scroll">Промотка фонового зображення</string>
     <string name="Background_color">Фоновий колір</string>

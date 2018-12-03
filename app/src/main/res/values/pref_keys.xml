@@ -30,6 +30,7 @@
     <string translatable="false" name="pref_key_licenses">pref_key_licenses</string>
     <string translatable="false" name="pref_key_multisampling">pref_key_multisampling</string>
     <string translatable="false" name="pref_key_particle_scale">pref_key_particle_scale</string>
+    <string translatable="false" name="pref_key_particles_scroll">pref_key_particles_scroll</string>
     <string translatable="false" name="pref_key_performance">pref_key_performance</string>
     <string translatable="false" name="pref_key_performance_tips">pref_key_performance_tips</string>
 

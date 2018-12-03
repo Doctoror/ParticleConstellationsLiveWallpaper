@@ -32,7 +32,7 @@ import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
 import io.reactivex.subjects.PublishSubject
 
 class EnginePresenter(
@@ -67,6 +67,9 @@ class EnginePresenter(
 
     @Volatile
     private var backgroundScroll = true
+
+    @Volatile
+    private var foregroundScroll = true
 
     var visible = false
         set(value) {
@@ -111,13 +114,22 @@ class EnginePresenter(
                     settings
                         .observeBackgroundScroll()
                         .subscribeOn(schedulers.io()),
+                    settings
+                        .observeParticlesScroll()
+                        .subscribeOn(schedulers.io()),
                     dimensionsSubject,
-                    BiFunction<Boolean, WallpaperDimensions, Pair<Boolean, WallpaperDimensions>> { scroll, dimen ->
-                        scroll to dimen
+                    Function3<Boolean, Boolean, WallpaperDimensions, DimensionsParameters> { scrollBg, scrollP, dimen ->
+                        DimensionsParameters(scrollBg, scrollP, dimen)
                     }
                 )
                 .observeOn(renderThreadScheduler)
-                .subscribe { handleDimensions(it.first, it.second) }
+                .subscribe {
+                    handleDimensions(
+                        it.scrollBackground,
+                        it.scrollParticles,
+                        it.wallpaperDimensions
+                    )
+                }
         )
 
         backgroundLoader.onCreate()
@@ -150,7 +162,9 @@ class EnginePresenter(
         if (backgroundScroll) {
             renderer.setBackgroundTranslationX(xPixelOffset)
         }
-        renderer.setForegroundTranslationX(xPixelOffset)
+        if (foregroundScroll) {
+            renderer.setForegroundTranslationX(xPixelOffset)
+        }
     }
 
     fun setDimensions(dimensions: WallpaperDimensions) {
@@ -161,26 +175,43 @@ class EnginePresenter(
 
     private fun handleDimensions(
         scrollBackground: Boolean,
+        scrollParticles: Boolean,
         dimensions: WallpaperDimensions
     ) {
         backgroundScroll = scrollBackground
+        foregroundScroll = scrollParticles
+
         renderer.setDimensions(dimensions.width, dimensions.height)
         if (scrollBackground) {
             renderer.overrideBackgroundDimensions(dimensions.desiredWidth, dimensions.height)
+        }
+
+        if (scrollParticles) {
             if (dimensions.width != 0 && dimensions.desiredWidth != 0) {
                 configurator.setDensityMultiplier(
                     Math.min(dimensions.desiredWidth.toFloat() / dimensions.width.toFloat(), 2f)
                 )
             }
+        } else {
+            configurator.setDensityMultiplier(1f)
         }
 
-        engine.setDimensions(dimensions.desiredWidth, dimensions.height)
+        engine.setDimensions(
+            if (scrollParticles) dimensions.desiredWidth else dimensions.width,
+            dimensions.height
+        )
 
-        if (scrollBackground) {
-            backgroundLoader.setDimensions(dimensions.desiredWidth, dimensions.height)
-        } else {
-            backgroundLoader.setDimensions(dimensions.width, dimensions.height)
+        backgroundLoader.setDimensions(
+            if (scrollBackground) dimensions.desiredWidth else dimensions.width,
+            dimensions.height
+        )
+
+        if (!scrollBackground) {
             renderer.setBackgroundTranslationX(0f)
+        }
+
+        if (!scrollParticles) {
+            renderer.setForegroundTranslationX(0f)
         }
     }
 
@@ -219,6 +250,12 @@ class EnginePresenter(
             WallpaperColors.fromDrawable(ColorDrawable(backgroundColor))
         }
     }
+
+    data class DimensionsParameters(
+        val scrollBackground: Boolean,
+        val scrollParticles: Boolean,
+        val wallpaperDimensions: WallpaperDimensions
+    )
 
     data class WallpaperDimensions(
         val width: Int,

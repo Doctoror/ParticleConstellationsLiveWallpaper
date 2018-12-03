@@ -79,6 +79,7 @@ class EnginePresenterTest {
         whenever(settings.backgroundUri).thenReturn(NO_URI)
         whenever(settings.observeFrameDelay()).thenReturn(Observable.just(0))
         whenever(settings.observeParticleScale()).thenReturn(Observable.just(1f))
+        whenever(settings.observeParticlesScroll()).thenReturn(Observable.just(true))
     }
 
     @After
@@ -216,11 +217,36 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun forwardsDimensionsToEngine() {
+    fun forwardsSurfaceDimensionsToEngineWhenParticlesScrollDisabled() {
         // Given
         val width = 1
         val height = 2
         val desiredWidth = 3
+
+        whenever(settings.observeParticlesScroll()).thenReturn(Observable.just(false))
+
+        // When
+        underTest.onCreate()
+        underTest.setDimensions(
+            EnginePresenter.WallpaperDimensions(
+                width,
+                height,
+                desiredWidth
+            )
+        )
+
+        // Then
+        verify(engine).setDimensions(width, height)
+    }
+
+    @Test
+    fun forwardsDesiredDimensionsToEngineWhenParticlesScrollEnabled() {
+        // Given
+        val width = 320
+        val height = 240
+        val desiredWidth = 480
+
+        whenever(settings.observeParticlesScroll()).thenReturn(Observable.just(true))
 
         // When
         underTest.onCreate()
@@ -284,13 +310,13 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun forwardsDensityMutiplierToConfiguratorIfBackgroundScrollEnabled() {
+    fun forwardsDensityMutiplierToConfiguratorIfParticlesScrollEnabled() {
         // Given
         val width = 320
         val height = 320
         val desiredWidth = 480
 
-        whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(true))
+        whenever(settings.observeParticlesScroll()).thenReturn(Observable.just(true))
 
         // When
         underTest.onCreate()
@@ -307,13 +333,13 @@ class EnginePresenterTest {
     }
 
     @Test
-    fun doesNotForwardDensityMutiplierToConfiguratorIfBackgroundScrollDisabled() {
+    fun forwardDensityMutiplierOneIfParticlesScrollDisabled() {
         // Given
         val width = 320
         val height = 320
         val desiredWidth = 480
 
-        whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(false))
+        whenever(settings.observeParticlesScroll()).thenReturn(Observable.just(false))
 
         // When
         underTest.onCreate()
@@ -326,7 +352,7 @@ class EnginePresenterTest {
         )
 
         // Then
-        verify(configurator, never()).setDensityMultiplier(any())
+        verify(configurator).setDensityMultiplier(1f)
     }
 
     @Test

@@ -41,6 +41,8 @@ private const val KEY_PARTICLE_COLOR = "particlesColor"
 
 private const val KEY_PARTICLE_SCALE = "dotScale"
 
+private const val KEY_PARTICLES_SCROLL = "particlesScroll"
+
 private const val KEY_SPEED_FACTOR = "stepMultiplier"
 
 class SceneSettings(
@@ -73,6 +75,9 @@ class SceneSettings(
 
     private val particleScaleSubject =
         AsyncInitialValueBehaviorSubject { particleScale }.toSerialized()
+
+    private val particlesScrollSubject =
+        AsyncInitialValueBehaviorSubject { particlesScroll }.toSerialized()
 
     private val speedFactorSubject =
         AsyncInitialValueBehaviorSubject { speedFactor }.toSerialized()
@@ -140,6 +145,13 @@ class SceneSettings(
             particleScaleSubject.onNext(value)
         }
 
+    var particlesScroll
+        get() = prefsSource().getBoolean(KEY_PARTICLES_SCROLL, true)
+        set(value) {
+            prefsSource().edit().putBoolean(KEY_PARTICLES_SCROLL, value).apply()
+            particlesScrollSubject.onNext(value)
+        }
+
     var speedFactor
         get() = prefsSource().getFloat(KEY_SPEED_FACTOR, defaults.speedFactor)
         set(value) {
@@ -164,6 +176,8 @@ class SceneSettings(
     fun observeParticleColor(): Observable<Int> = particleColorSubject
 
     fun observeParticleScale(): Observable<Float> = particleScaleSubject
+
+    fun observeParticlesScroll(): Observable<Boolean> = particlesScrollSubject
 
     fun observeSpeedFactor(): Observable<Float> = speedFactorSubject
 }

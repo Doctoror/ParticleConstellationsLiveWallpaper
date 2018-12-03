@@ -30,6 +30,7 @@ import com.doctoror.particleswallpaper.userprefs.linescale.provideModuleLineScal
 import com.doctoror.particleswallpaper.userprefs.multisampling.provideModuleMultisampling
 import com.doctoror.particleswallpaper.userprefs.particlecolor.provideModuleParticleColor
 import com.doctoror.particleswallpaper.userprefs.particlescale.provideModuleParticleScale
+import com.doctoror.particleswallpaper.userprefs.particlesscroll.provideModuleParticlesScroll
 import com.doctoror.particleswallpaper.userprefs.performancetips.provideModulePerformanceTips
 import com.doctoror.particleswallpaper.userprefs.preview.provideModulePreview
 import com.doctoror.particleswallpaper.userprefs.provideModuleConfigActivity
@@ -57,6 +58,7 @@ class KoinStarter {
                 provideModuleMultisampling(),
                 provideModuleParticleColor(),
                 provideModuleParticleScale(),
+                provideModuleParticlesScroll(),
                 provideModulePerformanceTips(),
                 provideModulePreview(),
                 provideModuleResetToDefaults(),

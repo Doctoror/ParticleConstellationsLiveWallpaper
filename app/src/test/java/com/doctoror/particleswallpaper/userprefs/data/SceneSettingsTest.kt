@@ -317,6 +317,29 @@ class SceneSettingsTest {
     }
 
     @Test
+    fun testParticlesScrollObservable() {
+        testPreferenceObservable(settings::observeParticlesScroll)
+    }
+
+    @Test
+    fun testParticlesScrollMutator() {
+        testPreferenceMutator(
+            settings::observeParticlesScroll,
+            settings::particlesScroll,
+            true
+        )
+    }
+
+    @Test
+    fun testParticlesScrollMutatorNotifiesChanges() {
+        testPreferenceNotifiesChanges(
+            settings::observeParticlesScroll,
+            settings::particlesScroll,
+            true
+        )
+    }
+
+    @Test
     fun testSpeedFactorObservable() {
         testPreferenceObservable(settings::observeSpeedFactor)
     }
