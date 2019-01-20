@@ -35,8 +35,12 @@ class WallpaperServiceImplEngineTest {
     private val knownOpenglIssuesHandler: KnownOpenglIssuesHandler = mock()
     private val renderer: GlSceneRenderer = mock()
 
-    private val underTest = service.EngineImpl(knownOpenglIssuesHandler, renderer, 0).apply {
+    private val underTest = spy(service.EngineImpl(knownOpenglIssuesHandler, renderer, 0).apply {
         presenter = this@WallpaperServiceImplEngineTest.presenter
+    }).apply {
+        whenever(queueEvent(any())).thenAnswer {
+            (it.arguments[0] as Runnable).run()
+        }
     }
 
     @After
