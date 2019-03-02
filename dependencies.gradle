@@ -15,26 +15,26 @@ ext {
     androidMinSdkVersion = 14
     androidTargetSdkVersion = 28
     androidCompileSdkVersion = 28
-    androidxAnnotationVersion = '1.0.1'
+    androidxAnnotationVersion = '1.0.2'
     androidxVersion = '1.0.1'
 
     //Libraries
     koinVersion = '1.0.1'
     kotlinVersion = rootProject.ext.kotlinVersion
-    rxJavaVersion = '2.2.5'
-    rxAndroidVersion = '2.1.0'
+    rxJavaVersion = '2.2.7'
+    rxAndroidVersion = '2.1.1'
 
     colorPickerVersion = '2.4.2'
-    glideVersion = '4.8.0'
+    glideVersion = '4.9.0'
 
     licencesDialogVersion = '1.8.3'
 
     //Testing
     androidxTestVersion = '1.1.0'
-    jUnitVersion = '5.3.2'
-    mockitoVersion = '2.23.4'
+    jUnitVersion = '5.4.0'
+    mockitoVersion = '2.24.5'
     mockitoKotlinVersion = '2.1.0'
-    robolectricVersion = '4.1'
+    robolectricVersion = '4.2'
 
     wallpaperappDependencies = [
             androidxAnnotations: "androidx.annotation:annotation:$androidxAnnotationVersion",
