@@ -70,6 +70,14 @@ class MultisamplingPreferencePresenter(
                     view.setPreferenceSupported(entryValues.size > 1)
                 }
         )
+
+        disposables.add(
+            settingsDevice
+                .observeOpenglEnabled()
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.mainThread())
+                .subscribe { view.setEnabled(it) }
+        )
     }
 
     fun onStop() {

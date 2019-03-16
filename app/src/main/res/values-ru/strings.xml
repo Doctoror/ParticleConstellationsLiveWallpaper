@@ -62,7 +62,20 @@
     <string name="Set">Применить</string>
     <string name="Not_now">Не сейчас</string>
 
+    <string name="Engine">Движок</string>
+
+    <string name="engine_restart_message">
+        Изменение этой настройки закроет приложение. Вам нужно будет установить обои снова.
+    </string>
+
     <string name="Unsupported">Не поддерживается</string>
+
+    <string name="Blank_screen_or_freezes">Пустой экран или зависает?</string>
+    <string name="engine_tips">
+        Если у вас зависает это приложение либо пропадают частицы (ничего не видно) попробуйте
+        изменить движок на Canvas. Соответствующую настройку вы найдете в разделе
+        «производительность» промотав немного вниз.
+    </string>
 
     <string name="Performance_tips">Подсказки</string>
     <string name="performance_tips"><![CDATA[

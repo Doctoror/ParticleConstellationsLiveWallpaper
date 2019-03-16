@@ -19,7 +19,7 @@ import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.engine.Engine
 import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particleswallpaper.framework.opengl.KnownOpenglIssuesHandler
-import com.doctoror.particleswallpaper.framework.util.OpenglDisabler
+import com.doctoror.particleswallpaper.framework.util.OpenGlEnabledStateChanger
 import io.reactivex.Scheduler
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.module
@@ -71,8 +71,10 @@ fun provideModuleEngine() = module {
     }
 
     factory {
-        KnownOpenglIssuesHandler(
-            OpenglDisabler(get(), get())
-        )
+        OpenGlEnabledStateChanger(get(), get())
+    }
+
+    factory {
+        KnownOpenglIssuesHandler(get(), get())
     }
 }

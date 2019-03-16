@@ -59,12 +59,15 @@ open class ConfigFragment @JvmOverloads constructor(
 
         val deviceSettings: DeviceSettings = get(context = activity)
         glMonitorDisposable = deviceSettings
-            .observeOpenglEnabled()
+            .observeOpenglSupported()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 if (!it) {
                     val group = findPreference(getString(R.string.pref_key_performance))
                     if (group is PreferenceGroup) {
+                        group.findPreference(getString(R.string.pref_key_engine))?.let {
+                            group.removePreference(it)
+                        }
                         group.findPreference(getString(R.string.pref_key_multisampling))?.let {
                             group.removePreference(it)
                         }

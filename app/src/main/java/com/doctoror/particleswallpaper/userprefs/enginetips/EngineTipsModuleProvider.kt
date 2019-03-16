@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.multisampling
+package com.doctoror.particleswallpaper.userprefs.enginetips
 
-interface MultisamplingPreferenceView {
+import org.koin.dsl.module.module
 
-    fun setPreferenceSupported(supported: Boolean)
+private const val PARAM_VIEW = 0
 
-    fun setEnabled(enabled: Boolean)
+fun provideModuleEngineTips() = module {
 
-    fun setEntries(entries: Array<CharSequence>?)
-
-    fun setEntryValues(entryValues: Array<CharSequence>?)
-
-    fun setValue(value: Int)
-
-    fun showRestartDialog()
+    /*
+     * Parameter at index 0 must be a EngineTipsPreferenceView.
+     */
+    factory {
+        EngineTipsPreferencePresenter(
+            it[PARAM_VIEW]
+        )
+    }
 }

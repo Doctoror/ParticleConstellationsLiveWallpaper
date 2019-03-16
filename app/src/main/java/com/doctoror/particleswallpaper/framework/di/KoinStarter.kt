@@ -22,6 +22,8 @@ import com.doctoror.particleswallpaper.userprefs.bgimage.provideModuleBackground
 import com.doctoror.particleswallpaper.userprefs.bgscroll.provideModuleBackgroundScroll
 import com.doctoror.particleswallpaper.userprefs.data.provideModuleSettings
 import com.doctoror.particleswallpaper.userprefs.density.provideModuleDensity
+import com.doctoror.particleswallpaper.userprefs.engine.provideModuleEnginePreference
+import com.doctoror.particleswallpaper.userprefs.enginetips.provideModuleEngineTips
 import com.doctoror.particleswallpaper.userprefs.framedelay.provideModuleFrameDelay
 import com.doctoror.particleswallpaper.userprefs.howtoapply.provideModuleHowToApply
 import com.doctoror.particleswallpaper.userprefs.license.provideModuleLicense
@@ -50,6 +52,8 @@ class KoinStarter {
                 provideModuleConfigActivity(),
                 provideModuleDensity(),
                 provideModuleEngine(),
+                provideModuleEnginePreference(),
+                provideModuleEngineTips(),
                 provideModuleFrameDelay(),
                 provideModuleHowToApply(),
                 provideModuleLicense(),

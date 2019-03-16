@@ -18,11 +18,13 @@ package com.doctoror.particleswallpaper.framework.opengl
 import android.opengl.GLES20
 import com.doctoror.particlesdrawable.opengl.GlException
 import com.doctoror.particlesdrawable.opengl.chooser.NoMatchingConfigsException
-import com.doctoror.particleswallpaper.framework.util.OpenglDisabler
+import com.doctoror.particleswallpaper.framework.util.OpenGlEnabledStateChanger
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import io.reactivex.exceptions.OnErrorNotImplementedException
 
 class KnownOpenglIssuesHandler(
-    private val openglDisabler: OpenglDisabler
+    private val deviceSettings: DeviceSettings,
+    private val openGlEnabledStateChanger: OpenGlEnabledStateChanger
 ) {
 
     fun handleGlError(tag: String) {
@@ -33,7 +35,11 @@ class KnownOpenglIssuesHandler(
             // https://bugs.chromium.org/p/webrtc/issues/detail?id=8154
             // https://developer.samsung.com/forum/thread/bug-in-opengl-driver--samsung-opengl-shader-linking-with-out_of_memory-on-sm-g930fd/201/307111
             if (error == GLES20.GL_OUT_OF_MEMORY) {
-                openglDisabler.disableOpenGl()
+                deviceSettings.openglSupported = false
+                openGlEnabledStateChanger.setOpenglGlEnabled(
+                    openGlEnabled = false,
+                    shouldKillApp = true
+                )
             } else {
                 throw GlException(error, tag)
             }
@@ -50,7 +56,11 @@ class KnownOpenglIssuesHandler(
          * On some devices it is impossible to choose any config. Disable OpenGL in this case.
          */
         is NoMatchingConfigsException -> {
-            openglDisabler.disableOpenGl()
+            deviceSettings.openglSupported = false
+            openGlEnabledStateChanger.setOpenglGlEnabled(
+                openGlEnabled = false,
+                shouldKillApp = true
+            )
             true
         }
         is OnErrorNotImplementedException -> {

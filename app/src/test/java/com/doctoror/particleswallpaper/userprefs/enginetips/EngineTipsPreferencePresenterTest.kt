@@ -13,19 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.multisampling
+package com.doctoror.particleswallpaper.userprefs.enginetips
 
-interface MultisamplingPreferenceView {
+import com.nhaarman.mockitokotlin2.mock
+import org.junit.jupiter.api.Test
 
-    fun setPreferenceSupported(supported: Boolean)
+class EngineTipsPreferencePresenterTest {
 
-    fun setEnabled(enabled: Boolean)
+    private val view: EngineTipsPreferenceView = mock()
+    private val underTest = EngineTipsPreferencePresenter(view)
 
-    fun setEntries(entries: Array<CharSequence>?)
+    @Test
+    fun showsDialogOnClick() {
+        // When
+        underTest.onClick()
 
-    fun setEntryValues(entryValues: Array<CharSequence>?)
-
-    fun setValue(value: Int)
-
-    fun showRestartDialog()
+        // Then
+        view.showDialog()
+    }
 }

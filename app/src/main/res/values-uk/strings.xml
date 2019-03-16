@@ -62,7 +62,19 @@
     <string name="Set">Застосувати</string>
     <string name="Not_now">Не зараз</string>
 
+    <string name="Engine">Двигун</string>
+
+    <string name="engine_restart_message">
+        Зміна цього налаштування закриє додаток. Вам буде потрібно встановити шпалери знову.
+    </string>
+
     <string name="Unsupported">Не підтримується</string>
+
+    <string name="Blank_screen_or_freezes">Пустий екран або зависає?</string>
+    <string name="engine_tips">
+        Якщо у вас ці шпалери зависають або пропадають частинки, попробуйте змінити двигун на
+        Canvas. Відповідне налаштування ви найдете в розділі «продкутивність» промотавши трохи вниз.
+    </string>
 
     <string name="Performance_tips">Підказки</string>
     <string name="performance_tips"><![CDATA[

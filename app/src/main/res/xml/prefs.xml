@@ -24,6 +24,10 @@
         android:key="@string/pref_key_apply"
         android:title="@string/Apply" />
 
+    <com.doctoror.particleswallpaper.userprefs.enginetips.EngineTipsPreference
+        android:key="@string/pref_key_engine_tips"
+        android:title="@string/Blank_screen_or_freezes" />
+
     <com.doctoror.particleswallpaper.userprefs.performancetips.PerformanceTipsPreference
         android:key="@string/pref_key_performance_tips"
         android:title="@string/Performance_tips" />
@@ -89,6 +93,10 @@
         <com.doctoror.particleswallpaper.userprefs.framedelay.FrameDelayPreference
             android:key="@string/pref_key_frame_delay"
             android:title="@string/Frame_rate" />
+
+        <com.doctoror.particleswallpaper.userprefs.engine.EnginePreference
+            android:key="@string/pref_key_engine"
+            android:title="@string/Engine" />
 
         <com.doctoror.particleswallpaper.userprefs.multisampling.MultisamplingPreference
             android:key="@string/pref_key_multisampling"

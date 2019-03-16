@@ -16,7 +16,9 @@
 package com.doctoror.particleswallpaper.framework.opengl
 
 import com.doctoror.particlesdrawable.opengl.chooser.NoMatchingConfigsException
-import com.doctoror.particleswallpaper.framework.util.OpenglDisabler
+import com.doctoror.particleswallpaper.framework.util.OpenGlEnabledStateChanger
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
@@ -27,27 +29,32 @@ import org.junit.jupiter.api.Test
 
 class KnownOpenglIssuesHandlerTest {
 
-    private val openglDisabler: OpenglDisabler = mock()
-    private val underTest = KnownOpenglIssuesHandler(openglDisabler)
+    private val deviceSettings: DeviceSettings = mock()
+    private val openglEnabledStateChanger: OpenGlEnabledStateChanger = mock()
+    private val underTest = KnownOpenglIssuesHandler(deviceSettings, openglEnabledStateChanger)
 
     @Test
     fun doesNotDisableOpenGlAndReturnsFalseOnNonMatchingConfigsException() {
         val result = underTest.handleUncaughtException(Exception())
-        verify(openglDisabler, never()).disableOpenGl()
+        verify(deviceSettings, never()).openglSupported = any()
+        verify(openglEnabledStateChanger, never()).setOpenglGlEnabled(any(), any())
         assertFalse(result)
     }
 
     @Test
     fun disablesOpenGlAndReturnsTrueOnNoMatchingConfigsException() {
         val result = underTest.handleUncaughtException(NoMatchingConfigsException())
-        verify(openglDisabler).disableOpenGl()
+        verify(deviceSettings).openglSupported = false
+        verify(openglEnabledStateChanger)
+            .setOpenglGlEnabled(openGlEnabled = false, shouldKillApp = true)
         assertTrue(result)
     }
 
     @Test
     fun doesNotDisableOpenGlAndReturnsFalseOnOnErrorNotImplementedException() {
         val result = underTest.handleUncaughtException(OnErrorNotImplementedException(Exception()))
-        verify(openglDisabler, never()).disableOpenGl()
+        verify(deviceSettings, never()).openglSupported = any()
+        verify(openglEnabledStateChanger, never()).setOpenglGlEnabled(any(), any())
         assertFalse(result)
     }
 
@@ -56,7 +63,9 @@ class KnownOpenglIssuesHandlerTest {
         val result = underTest.handleUncaughtException(
             OnErrorNotImplementedException(NoMatchingConfigsException())
         )
-        verify(openglDisabler).disableOpenGl()
+        verify(deviceSettings).openglSupported = false
+        verify(openglEnabledStateChanger)
+            .setOpenglGlEnabled(openGlEnabled = false, shouldKillApp = true)
         assertTrue(result)
     }
 }

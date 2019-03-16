@@ -44,11 +44,20 @@ class OpenGlConfigFragmentTest {
             .create()
             .get()
 
-        assertEquals(12, underTest.lifecycle.observerCount)
+        assertEquals(13, underTest.lifecycle.observerCount)
     }
 
     @Test
-    fun multisamplingPreferenceDoesNotExist() {
+    fun enginePreferenceExists() {
+        val underTest = underTestController.create().get()
+
+        val preference = underTest.findPreference(getString(R.string.pref_key_engine))
+
+        assertNotNull(preference)
+    }
+
+    @Test
+    fun multisamplingPreferenceExists() {
         val underTest = underTestController.create().get()
 
         val preference = underTest.findPreference(getString(R.string.pref_key_multisampling))

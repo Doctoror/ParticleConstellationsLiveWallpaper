@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Yaroslav Mytkalyk
+ * Copyright (C) 2019 Yaroslav Mytkalyk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.multisampling
+package com.doctoror.particleswallpaper.userprefs.engine
 
-interface MultisamplingPreferenceView {
+interface EnginePreferenceView {
 
-    fun setPreferenceSupported(supported: Boolean)
+    fun setValue(value: String)
 
-    fun setEnabled(enabled: Boolean)
-
-    fun setEntries(entries: Array<CharSequence>?)
-
-    fun setEntryValues(entryValues: Array<CharSequence>?)
-
-    fun setValue(value: Int)
-
-    fun showRestartDialog()
+    fun showRestartDialog(shouldEnableOpenGl: Boolean)
 }

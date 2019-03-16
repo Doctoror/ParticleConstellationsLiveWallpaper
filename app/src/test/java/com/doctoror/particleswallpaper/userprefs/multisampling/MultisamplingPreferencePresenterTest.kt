@@ -21,7 +21,7 @@ import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Observable
 import io.reactivex.Single
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class MultisamplingPreferencePresenterTest {
 
@@ -30,7 +30,8 @@ class MultisamplingPreferencePresenterTest {
     }
 
     private val settingsDevice: DeviceSettings = mock {
-        on { it.observeMultisamplingSupportedValues() }.doReturn(Observable.just(setOf("0")))
+        on(it.observeMultisamplingSupportedValues()).doReturn(Observable.just(setOf("0")))
+        on(it.observeOpenglEnabled()).doReturn(Observable.just(false))
     }
 
     private val wallpaperChecker: WallpaperCheckerUseCase = mock {
@@ -134,6 +135,30 @@ class MultisamplingPreferencePresenterTest {
 
         // Then
         verify(view).setEntryValues(expectedEntryValues)
+    }
+
+    @Test
+    fun setsDisabledWhenOpenGlDisabled() {
+        // Given
+        whenever(settingsDevice.observeOpenglEnabled()).thenReturn(Observable.just(false))
+
+        // When
+        underTest.onStart()
+
+        // Then
+        verify(view).setEnabled(false)
+    }
+
+    @Test
+    fun setsEnabledWhenOpenGlEnabled() {
+        // Given
+        whenever(settingsDevice.observeOpenglEnabled()).thenReturn(Observable.just(true))
+
+        // When
+        underTest.onStart()
+
+        // Then
+        verify(view).setEnabled(true)
     }
 
     @Test

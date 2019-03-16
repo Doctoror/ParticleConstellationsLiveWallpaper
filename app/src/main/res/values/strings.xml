@@ -62,7 +62,21 @@
     <string name="Set">Set</string>
     <string name="Not_now">Not now</string>
 
+    <string name="Engine">Engine</string>
+    <string name="OpenGL" translatable="false">OpenGl</string>
+    <string name="Canvas" translatable="false">Canvas</string>
+
+    <string name="engine_restart_message">
+        Changing this setting will close the app. You will have to set the wallpaper again.
+    </string>
+
     <string name="Unsupported">Unsupported</string>
+
+    <string name="Blank_screen_or_freezes">Blank screen or freezes?</string>
+    <string name="engine_tips">
+        If you experience freezes or unexpected blank screens, you can try changing the engine to
+        Canvas. You can find the relevant setting below, in “Performance” section.
+    </string>
 
     <string name="Performance_tips">Performance tips</string>
     <string name="performance_tips"><![CDATA[

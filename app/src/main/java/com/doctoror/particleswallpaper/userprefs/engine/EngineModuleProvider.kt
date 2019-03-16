@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Yaroslav Mytkalyk
+ * Copyright (C) 2019 Yaroslav Mytkalyk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.doctoror.particleswallpaper.userprefs.multisampling
+package com.doctoror.particleswallpaper.userprefs.engine
 
-import android.app.WallpaperManager
 import android.content.Context
-import io.reactivex.Single
+import org.koin.dsl.module.module
 
-/**
- * Check if this wallpaper is installed.
- */
-class WallpaperCheckerUseCase(private val context: Context) {
+private const val PARAM_VIEW = 0
 
-    fun wallpaperInstalledSource() = Single.fromCallable {
-        val wallpaperManager = context.getSystemService(Context.WALLPAPER_SERVICE)
-                as WallpaperManager?
+fun provideModuleEnginePreference() = module {
 
-        wallpaperManager?.wallpaperInfo?.packageName == context.packageName
+    /*
+     * Parameter at index 0 must be a EnginePreferenceView.
+     */
+    factory {
+        EnginePreferencePresenter(
+            get(),
+            get(),
+            get(),
+            get(),
+            it[PARAM_VIEW],
+            get()
+        )
+    }
+
+    factory {
+        EnginePreferenceValueMapper(get<Context>().resources)
     }
 }

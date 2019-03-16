@@ -23,6 +23,8 @@
     <string translatable="false" name="pref_key_background_color">pref_background_color</string>
     <string translatable="false" name="pref_key_background_image">pref_background_image</string>
     <string translatable="false" name="pref_key_background_scroll">pref_background_scroll</string>
+    <string translatable="false" name="pref_key_engine">pref_key_engine</string>
+    <string translatable="false" name="pref_key_engine_tips">pref_key_engine_tips</string>
     <string translatable="false" name="pref_key_frame_delay">pref_key_frame_delay</string>
     <string translatable="false" name="pref_key_step_multiplier">pref_key_step_multiplier</string>
     <string translatable="false" name="pref_key_line_scale">pref_key_line_scale</string>
