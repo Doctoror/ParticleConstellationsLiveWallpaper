@@ -18,7 +18,9 @@ package com.doctoror.particleswallpaper.userprefs.multisampling
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.BiFunction
 
 class MultisamplingPreferencePresenter(
     private val schedulers: SchedulersProvider,
@@ -55,28 +57,36 @@ class MultisamplingPreferencePresenter(
         )
 
         disposables.add(
-            settingsDevice
-                .observeMultisamplingSupportedValues()
-                .map { valueMapper.toEntries(it) to valueMapper.toEntryValues(it) }
-                .subscribeOn(schedulers.io())
+            Observable
+                .combineLatest(
+                    settingsDevice
+                        .observeMultisamplingSupportedValues()
+                        .subscribeOn(schedulers.io()),
+                    settingsDevice
+                        .observeOpenglEnabled()
+                        .subscribeOn(schedulers.io()),
+                    BiFunction<
+                            Set<String>,
+                            Boolean,
+                            Triple<Array<CharSequence>, Array<CharSequence>, Boolean>>
+                    { supportedValues, openglEnabled ->
+                        Triple(
+                            valueMapper.toEntries(supportedValues),
+                            valueMapper.toEntryValues(supportedValues),
+                            openglEnabled
+                        )
+                    }
+                )
                 .observeOn(schedulers.mainThread())
-                .subscribe { (entries, entryValues) ->
+                .subscribe { (entries, entryValues, openglEnabled) ->
                     if (entryValues.isEmpty()) {
                         throw IllegalArgumentException("Empty values are not expected")
                     }
                     view.setEntries(entries)
                     view.setEntryValues(entryValues)
                     // 1 means only Disabled item is there
-                    view.setPreferenceSupported(entryValues.size > 1)
+                    view.setPreferenceSupported(openglEnabled && entryValues.size > 1)
                 }
-        )
-
-        disposables.add(
-            settingsDevice
-                .observeOpenglEnabled()
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.mainThread())
-                .subscribe { view.setEnabled(it) }
         )
     }
 

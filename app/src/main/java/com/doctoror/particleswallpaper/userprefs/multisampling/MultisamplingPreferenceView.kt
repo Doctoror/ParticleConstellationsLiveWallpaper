@@ -19,8 +19,6 @@ interface MultisamplingPreferenceView {
 
     fun setPreferenceSupported(supported: Boolean)
 
-    fun setEnabled(enabled: Boolean)
-
     fun setEntries(entries: Array<CharSequence>?)
 
     fun setEntryValues(entryValues: Array<CharSequence>?)

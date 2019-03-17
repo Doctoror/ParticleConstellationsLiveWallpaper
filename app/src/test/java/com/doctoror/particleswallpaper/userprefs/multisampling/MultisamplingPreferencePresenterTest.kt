@@ -83,6 +83,9 @@ class MultisamplingPreferencePresenterTest {
     @Test
     fun loadsSupportedStateAndSetsToView() {
         // Given
+        whenever(settingsDevice.observeOpenglEnabled())
+            .thenReturn(Observable.just(true))
+
         whenever(settingsDevice.observeMultisamplingSupportedValues())
             .thenReturn(Observable.just(setOf("2", "3")))
 
@@ -138,27 +141,35 @@ class MultisamplingPreferencePresenterTest {
     }
 
     @Test
-    fun setsDisabledWhenOpenGlDisabled() {
+    fun marksUnsupportedWhenOpenGlDisabled() {
         // Given
-        whenever(settingsDevice.observeOpenglEnabled()).thenReturn(Observable.just(false))
+        whenever(settingsDevice.observeOpenglEnabled())
+            .thenReturn(Observable.just(false))
+
+        whenever(settingsDevice.observeMultisamplingSupportedValues())
+            .thenReturn(Observable.just(setOf("0", "2")))
 
         // When
         underTest.onStart()
 
         // Then
-        verify(view).setEnabled(false)
+        verify(view).setPreferenceSupported(false)
     }
 
     @Test
-    fun setsEnabledWhenOpenGlEnabled() {
+    fun makrksSupportedWhenOpenGlEnabledAndHasSupportedValues() {
         // Given
-        whenever(settingsDevice.observeOpenglEnabled()).thenReturn(Observable.just(true))
+        whenever(settingsDevice.observeMultisamplingSupportedValues())
+            .thenReturn(Observable.just(setOf("0", "2")))
+
+        whenever(settingsDevice.observeOpenglEnabled())
+            .thenReturn(Observable.just(true))
 
         // When
         underTest.onStart()
 
         // Then
-        verify(view).setEnabled(true)
+        verify(view).setPreferenceSupported(true)
     }
 
     @Test
