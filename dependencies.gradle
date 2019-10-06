@@ -25,7 +25,7 @@ ext {
     rxAndroidVersion = '2.1.1'
 
     colorPickerVersion = '2.4.2'
-    glideVersion = '4.9.0'
+    glideVersion = '4.10.0'
 
     licencesDialogVersion = '1.8.3' // Do not update not to introduce Android X Dialogs dependency
 
