@@ -16,7 +16,7 @@ ext {
     androidTargetSdkVersion = 28
     androidCompileSdkVersion = 28
     androidxAnnotationVersion = '1.1.0'
-    androidxVersion = '1.0.1'
+    androidxVersion = '1.1.0'
 
     //Libraries
     koinVersion = '1.0.1'
