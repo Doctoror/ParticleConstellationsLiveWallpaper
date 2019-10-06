@@ -30,7 +30,7 @@ ext {
     licencesDialogVersion = '1.8.3' // Do not update not to introduce Android X Dialogs dependency
 
     //Testing
-    androidxTestVersion = '1.1.0'
+    androidxTestVersion = '1.2.0'
     jUnitVersion = '5.4.0'
     mockitoVersion = '2.25.1'
     mockitoKotlinVersion = '2.1.0'
