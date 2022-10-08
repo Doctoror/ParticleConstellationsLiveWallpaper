@@ -7,6 +7,16 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+    <queries>
+        <intent>
+            <action android:name="android.service.wallpaper.CHANGE_LIVE_WALLPAPER" />
+        </intent>
+
+        <intent>
+            <action android:name="android.service.wallpaper.LIVE_WALLPAPER_CHOOSER" />
+        </intent>
+    </queries>
+
     <application
         android:name=".app.App"
         android:allowBackup="true"

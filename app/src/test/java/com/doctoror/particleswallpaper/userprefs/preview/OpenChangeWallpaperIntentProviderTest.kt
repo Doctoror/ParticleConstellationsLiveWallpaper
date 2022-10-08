@@ -24,16 +24,16 @@ import com.doctoror.particleswallpaper.engine.canvas.CanvasWallpaperServiceImpl
 import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
-import org.mockito.kotlin.any
-import org.mockito.kotlin.argWhere
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argWhere
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
@@ -50,15 +50,23 @@ class OpenChangeWallpaperIntentProviderTest {
         apiLevelProvider, deviceSettings, packageManager, packageName
     )
 
-    private fun givenSdkIsJellyBean() {
+    private fun givenSdkIs33() {
         whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.JELLY_BEAN)
     }
 
-    private fun givenSdkIsIcsMr1() {
-        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+    private fun givenSdkIs19() {
+        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.KITKAT)
     }
 
     private fun givenIntentSupported(intent: Intent) {
+        whenever(
+            packageManager.queryIntentActivities(
+                argWhere { it.action == intent.action },
+                any<PackageManager.ResolveInfoFlags>()
+            )
+        ).thenReturn(listOf(mock()))
+
+        @Suppress("DEPRECATION")
         whenever(
             packageManager.queryIntentActivities(
                 argWhere { it.action == intent.action },
@@ -69,7 +77,7 @@ class OpenChangeWallpaperIntentProviderTest {
 
     @Before
     fun setup() {
-        givenSdkIsJellyBean()
+        givenSdkIs33()
     }
 
     @After
@@ -78,9 +86,9 @@ class OpenChangeWallpaperIntentProviderTest {
     }
 
     @Test
-    fun providesActionForOpenglJellyBeanIfSupported() {
+    fun providesActionForOpenglApi33IfSupported() {
         // Given
-        givenSdkIsJellyBean()
+        givenSdkIs33()
         givenIntentSupported(underTest.provideIntentChangeLiveWallpaper())
 
         // When
@@ -90,14 +98,17 @@ class OpenChangeWallpaperIntentProviderTest {
         assertTrue(result.getBooleanExtra("SET_LOCKSCREEN_WALLPAPER", false))
         assertEquals(
             ComponentName(packageName, GlWallpaperServiceImpl::class.java.canonicalName!!),
-            result.getParcelableExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT)
+            result.getParcelableExtra(
+                WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                ComponentName::class.java
+            )
         )
     }
 
     @Test
-    fun providesActionForCanvasJellyBeanIfSupported() {
+    fun providesActionForCanvasApi33IfSupported() {
         // Given
-        givenSdkIsJellyBean()
+        givenSdkIs33()
         givenIntentSupported(underTest.provideIntentChangeLiveWallpaper())
         whenever(deviceSettings.openglEnabled).thenReturn(false)
 
@@ -108,14 +119,17 @@ class OpenChangeWallpaperIntentProviderTest {
         assertTrue(result.getBooleanExtra("SET_LOCKSCREEN_WALLPAPER", false))
         assertEquals(
             ComponentName(packageName, CanvasWallpaperServiceImpl::class.java.canonicalName!!),
-            result.getParcelableExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT)
+            result.getParcelableExtra(
+                WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                ComponentName::class.java
+            )
         )
     }
 
     @Test
-    fun providesActionLiveWallpaperChooserForJellyBeanIfSupported() {
+    fun providesActionLiveWallpaperChooserForApi33IfSupported() {
         // Given
-        givenSdkIsJellyBean()
+        givenSdkIs33()
         givenIntentSupported(underTest.provideIntentWallpaperChooser())
 
         // When
@@ -125,9 +139,9 @@ class OpenChangeWallpaperIntentProviderTest {
     }
 
     @Test
-    fun providesActionLiveWallpaperChooserForIcsMr1IfSupported() {
+    fun providesActionLiveWallpaperChooserForApi19IfSupported() {
         // Given
-        givenSdkIsIcsMr1()
+        givenSdkIs19()
         givenIntentSupported(underTest.provideIntentWallpaperChooser())
 
         // When
@@ -138,9 +152,9 @@ class OpenChangeWallpaperIntentProviderTest {
     }
 
     @Test
-    fun providesNullWhenNothingSupportedForJellyBean() {
+    fun providesNullWhenNothingSupportedForApi33() {
         // Given
-        givenSdkIsJellyBean()
+        givenSdkIs33()
 
         // When
         val result = underTest.provideActionIntent()
@@ -150,9 +164,9 @@ class OpenChangeWallpaperIntentProviderTest {
     }
 
     @Test
-    fun providesNullWhenNothingSupportedForIcsMr1() {
+    fun providesNullWhenNothingSupportedForApi19() {
         // Given
-        givenSdkIsIcsMr1()
+        givenSdkIs19()
 
         // When
         val result = underTest.provideActionIntent()
