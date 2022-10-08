@@ -46,7 +46,6 @@ fun provideModuleBackgroundImage() = module {
      */
     factory {
         BackgroundImagePreferencePresenter(
-            apiLevelProvider = get(),
             backgroundImageManager = get(),
             context = get(),
             defaults = get(),

@@ -19,11 +19,9 @@ import android.app.Activity
 import android.content.*
 import android.content.res.Resources
 import android.net.Uri
-import android.os.Build
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
-import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
@@ -31,21 +29,17 @@ import com.doctoror.particleswallpaper.userprefs.ConfigFragment
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import org.mockito.kotlin.*
 import io.reactivex.Observable
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
+import org.mockito.kotlin.*
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class BackgroundImagePreferencePresenterTest {
-
-    private val apiLevelProvider: ApiLevelProvider = mock {
-        on(it.provideSdkInt()).doReturn(Build.VERSION_CODES.O_MR1)
-    }
 
     private val context: Context = mock()
     private val glide: Glide = mock()
@@ -59,7 +53,6 @@ class BackgroundImagePreferencePresenterTest {
     private val underTest = newBackgrodundImagePreferencePresenter()
 
     private fun newBackgrodundImagePreferencePresenter() = BackgroundImagePreferencePresenter(
-        apiLevelProvider,
         backgroundImageManager,
         context,
         defaults,
@@ -172,26 +165,6 @@ class BackgroundImagePreferencePresenterTest {
     }
 
     @Test
-    fun doesNotReleaseUriPermissionsWhenPreKitKat() {
-        // Given
-        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.JELLY_BEAN_MR2)
-        val underTest = newBackgrodundImagePreferencePresenter()
-
-        val contentResolver: ContentResolver = mock()
-        val uri = Uri.parse("content://shithost")
-
-        givenBackgroundUriThatNeedsReleasingPermissions(contentResolver, uri)
-
-        // When
-        underTest.clearBackground()
-
-        // Then
-        verify(contentResolver, never()).releasePersistableUriPermission(
-            uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
-        )
-    }
-
-    @Test
     fun doesNotReleaseUriPermissionsWhenContentResolverHasNoPermissions() {
         // Given
         val contentResolver: ContentResolver = mock()
@@ -271,9 +244,9 @@ class BackgroundImagePreferencePresenterTest {
     }
 
     @Test
-    fun picksBackgroundByGetContentForLegacyApi() {
+    fun picksBackgroundByGetContentWhenDocumentUseCaseThrows() {
         // Given
-        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.JELLY_BEAN_MR2)
+        whenever(pickImageDocumentUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
         val underTest = newBackgrodundImagePreferencePresenter()
 
         // When
@@ -289,8 +262,8 @@ class BackgroundImagePreferencePresenterTest {
         // Given
         givenContextHasResourcesWithStrings()
         whenever(pickImageDocumentUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
+        whenever(pickImageGetContentUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
 
-        whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.JELLY_BEAN_MR2)
         val underTest = newBackgrodundImagePreferencePresenter()
 
         // When

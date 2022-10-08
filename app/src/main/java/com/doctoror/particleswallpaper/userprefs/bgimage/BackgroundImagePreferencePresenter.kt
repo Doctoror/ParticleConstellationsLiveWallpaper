@@ -15,23 +15,18 @@
  */
 package com.doctoror.particleswallpaper.userprefs.bgimage
 
-import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Fragment
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
-import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
@@ -44,7 +39,6 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 
 class BackgroundImagePreferencePresenter(
-    apiLevelProvider: ApiLevelProvider,
     private val backgroundImageManager: BackgroundImageManager,
     private val context: Context,
     private val defaults: DefaultSceneSettings,
@@ -60,16 +54,7 @@ class BackgroundImagePreferencePresenter(
 
     private val tag = "BgImagePrefPresenter"
 
-    private val imageHandler: BackgroundImageHandler
-
-    init {
-        @SuppressLint("NewApi")
-        imageHandler = if (apiLevelProvider.provideSdkInt() >= Build.VERSION_CODES.KITKAT) {
-            BackgroundImageHandlerKitKat()
-        } else {
-            BackgroundImageHandlerLegacy()
-        }
-    }
+    private val imageHandler: BackgroundImageHandler = BackgroundImageHandlerKitKat()
 
     var host: Fragment? = null
         set(f) {
@@ -179,8 +164,6 @@ class BackgroundImagePreferencePresenter(
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private inner class BackgroundImageHandlerKitKat : BackgroundImageHandlerLegacy() {
 
         override fun pickBackground() {
@@ -188,8 +171,15 @@ class BackgroundImagePreferencePresenter(
                 try {
                     pickImageDocumentUseCase.invoke(FragmentStartActivityForResultAction(it))
                 } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(context, R.string.Failed_to_open_image_picker, Toast.LENGTH_LONG)
-                        .show()
+                    try {
+                        pickImageGetContentUseCase.invoke(FragmentStartActivityForResultAction(it))
+                    } catch (e: ActivityNotFoundException) {
+                        Toast.makeText(
+                            context,
+                            R.string.Failed_to_open_image_picker,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
             }
         }
