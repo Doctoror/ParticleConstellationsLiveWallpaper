@@ -21,7 +21,7 @@ ext {
     //Libraries
     koinVersion = '1.0.1'
     kotlinVersion = rootProject.ext.kotlinVersion
-    rxJavaVersion = '2.2.13'
+    rxJavaVersion = '2.2.21'
     rxAndroidVersion = '2.1.1'
 
     colorPickerVersion = '2.4.2'
