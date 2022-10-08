@@ -17,10 +17,7 @@ package com.doctoror.particleswallpaper.framework.view
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.os.Build
 import android.view.View
-import android.view.ViewTreeObserver
 
 /**
  * Sets background as [BitmapDrawable] when [Bitmap] is not null, or null otherwise.
@@ -30,17 +27,5 @@ fun View.setBackgroundBitmap(background: Bitmap?) {
         BitmapDrawable(this.resources, background)
     } else {
         null
-    }
-}
-
-/**
- * [View.setBackground] compatible with pre-JellyBean
- */
-fun ViewTreeObserver.removeOnGlobalLayoutListenerCompat(l: ViewTreeObserver.OnGlobalLayoutListener) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        removeOnGlobalLayoutListener(l)
-    } else {
-        @Suppress("DEPRECATION")
-        removeGlobalOnLayoutListener(l)
     }
 }

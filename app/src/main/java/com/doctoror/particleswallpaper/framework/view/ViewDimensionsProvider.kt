@@ -30,7 +30,7 @@ class ViewDimensionsProvider(private val view: View) {
             view.viewTreeObserver?.addOnGlobalLayoutListener(
                 object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
-                        view.viewTreeObserver?.removeOnGlobalLayoutListenerCompat(this)
+                        view.viewTreeObserver?.removeOnGlobalLayoutListener(this)
                         emitter.onSuccess(Dimensions(view.width, view.height))
                     }
                 }
