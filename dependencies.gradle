@@ -12,7 +12,7 @@ allprojects {
 ext {
     //Android
     androidBuildToolsVersion = "33.0.0"
-    androidMinSdkVersion = 14
+    androidMinSdkVersion = 19
     androidTargetSdkVersion = 33
     androidCompileSdkVersion = 33
     androidxAnnotationVersion = '1.5.0'
