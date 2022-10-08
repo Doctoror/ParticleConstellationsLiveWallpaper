@@ -25,8 +25,6 @@ import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreference
 import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreferencePresenter
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -37,9 +35,13 @@ import org.koin.standalone.StandAloneContext
 import org.koin.standalone.inject
 import org.koin.test.KoinTest
 import org.koin.test.declareMock
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.FragmentController
+import org.robolectric.annotation.Config
 
+@Config(sdk = intArrayOf(19))
 @RunWith(RobolectricTestRunner::class)
 class ConfigFragmentTest : KoinTest {
 
@@ -60,7 +62,7 @@ class ConfigFragmentTest : KoinTest {
 
     @Test
     fun backgroundImagePreferenceHostSetOnCreate() {
-        val underTest = underTestController.create().get()
+        val underTest = underTestController.create().start().get()
 
         val backgroundImagePreference = underTest.findPreference(
             getString(R.string.pref_key_background_image)
@@ -73,6 +75,8 @@ class ConfigFragmentTest : KoinTest {
     fun backgroundImagePreferenceHostResetOnDestroy() {
         val underTest = underTestController
             .create()
+            .start()
+            .stop()
             .destroy()
             .get()
 
@@ -85,7 +89,7 @@ class ConfigFragmentTest : KoinTest {
 
     @Test
     fun howToApplyPreferenceHostSetOnCreate() {
-        val underTest = underTestController.create().get()
+        val underTest = underTestController.create().start().get()
 
         val howToApplyPreference = underTest.findPreference(
             getString(R.string.pref_key_how_to_apply)
@@ -98,6 +102,8 @@ class ConfigFragmentTest : KoinTest {
     fun howToApplyPreferenceHostResetOnDestroy() {
         val underTest = underTestController
             .create()
+            .start()
+            .stop()
             .destroy()
             .get()
 
@@ -114,6 +120,7 @@ class ConfigFragmentTest : KoinTest {
 
         val underTest = underTestController
             .create()
+            .start()
             .get()
 
         val previewPreference = underTest.findPreference(
@@ -129,6 +136,8 @@ class ConfigFragmentTest : KoinTest {
 
         val underTest = underTestController
             .create()
+            .start()
+            .stop()
             .destroy()
             .get()
 
@@ -143,6 +152,8 @@ class ConfigFragmentTest : KoinTest {
     fun previewPreferenceRemovedWhenIntentIsNull() {
         val underTest = underTestController
             .create()
+            .start()
+            .stop()
             .destroy()
             .get()
 

@@ -27,7 +27,9 @@ import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.FragmentController
+import org.robolectric.annotation.Config
 
+@Config(sdk = intArrayOf(19))
 @RunWith(RobolectricTestRunner::class)
 class OpenGlConfigFragmentTest {
 
@@ -39,9 +41,10 @@ class OpenGlConfigFragmentTest {
     }
 
     @Test
-    fun lifecycleObserversRegisteredOnCreate() {
+    fun lifecycleObserversRegistered() {
         val underTest = underTestController
             .create()
+            .start()
             .get()
 
         assertEquals(13, underTest.lifecycle.observerCount)
@@ -49,7 +52,7 @@ class OpenGlConfigFragmentTest {
 
     @Test
     fun enginePreferenceExists() {
-        val underTest = underTestController.create().get()
+        val underTest = underTestController.create().start().get()
 
         val preference = underTest.findPreference(getString(R.string.pref_key_engine))
 
@@ -58,7 +61,7 @@ class OpenGlConfigFragmentTest {
 
     @Test
     fun multisamplingPreferenceExists() {
-        val underTest = underTestController.create().get()
+        val underTest = underTestController.create().start().get()
 
         val preference = underTest.findPreference(getString(R.string.pref_key_multisampling))
 
