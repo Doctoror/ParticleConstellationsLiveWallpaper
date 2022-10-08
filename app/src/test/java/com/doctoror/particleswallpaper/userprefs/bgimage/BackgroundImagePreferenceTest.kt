@@ -17,7 +17,6 @@ package com.doctoror.particleswallpaper.userprefs.bgimage
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import org.mockito.kotlin.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -26,6 +25,7 @@ import org.koin.standalone.StandAloneContext
 import org.koin.standalone.inject
 import org.koin.test.KoinTest
 import org.koin.test.declareMock
+import org.mockito.kotlin.verify
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)

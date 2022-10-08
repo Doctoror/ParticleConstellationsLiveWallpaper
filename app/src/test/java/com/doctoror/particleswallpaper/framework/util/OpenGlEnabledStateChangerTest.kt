@@ -21,10 +21,10 @@ import android.content.pm.PackageManager
 import com.doctoror.particleswallpaper.engine.canvas.CanvasWallpaperServiceImpl
 import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
-import org.mockito.kotlin.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.*
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)

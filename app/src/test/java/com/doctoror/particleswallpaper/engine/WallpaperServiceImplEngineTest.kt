@@ -19,12 +19,12 @@ import android.app.WallpaperColors
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
 import com.doctoror.particleswallpaper.framework.opengl.KnownOpenglIssuesHandler
-import org.mockito.kotlin.*
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
+import org.mockito.kotlin.*
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)

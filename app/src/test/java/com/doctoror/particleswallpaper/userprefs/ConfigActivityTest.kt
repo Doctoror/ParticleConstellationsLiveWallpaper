@@ -27,9 +27,6 @@ import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreferencePresenter
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
 import io.reactivex.Observable
 import org.junit.After
 import org.junit.Assert.*
@@ -40,6 +37,9 @@ import org.koin.standalone.StandAloneContext
 import org.koin.standalone.inject
 import org.koin.test.KoinTest
 import org.koin.test.declareMock
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
 

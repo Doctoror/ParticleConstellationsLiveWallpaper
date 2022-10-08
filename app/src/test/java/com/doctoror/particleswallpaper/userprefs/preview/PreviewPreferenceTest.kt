@@ -18,7 +18,6 @@ package com.doctoror.particleswallpaper.userprefs.preview
 import android.app.Activity
 import android.app.Fragment
 import android.content.res.TypedArray
-import org.mockito.kotlin.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -27,6 +26,7 @@ import org.koin.standalone.StandAloneContext
 import org.koin.standalone.inject
 import org.koin.test.KoinTest
 import org.koin.test.declareMock
+import org.mockito.kotlin.*
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)

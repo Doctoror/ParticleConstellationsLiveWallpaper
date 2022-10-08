@@ -17,10 +17,10 @@ package com.doctoror.particleswallpaper.userprefs.howtoapply
 
 import android.content.Intent
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
+import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import org.junit.Test
 
 class HowToApplyPreferencePresenterTest {
 
