@@ -66,8 +66,7 @@ class ViewDimensionsProviderTest {
         captor.firstValue.onGlobalLayout()
 
         // Then
-        @Suppress("DEPRECATION")
-        verify(viewTreeObserver).removeGlobalOnLayoutListener(captor.firstValue)
+        verify(viewTreeObserver).removeOnGlobalLayoutListener(captor.firstValue)
 
         o.assertResult(Dimensions(width, height))
     }
