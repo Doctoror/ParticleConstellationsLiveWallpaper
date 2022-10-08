@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.SharedPreferences
-import com.nhaarman.mockitokotlin2.*
+import org.mockito.kotlin.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

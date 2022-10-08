@@ -19,7 +19,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.framework.app.actions.StartActivityForResultAction
-import com.nhaarman.mockitokotlin2.*
+import org.mockito.kotlin.*
 import org.junit.jupiter.api.Test
 
 class OpenChangeWallpaperIntentUseCaseTest {

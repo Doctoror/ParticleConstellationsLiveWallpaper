@@ -25,8 +25,8 @@ import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreference
 import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreferencePresenter
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

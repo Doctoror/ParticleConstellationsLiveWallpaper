@@ -23,10 +23,10 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.Window
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
-import com.nhaarman.mockitokotlin2.argumentCaptor
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test

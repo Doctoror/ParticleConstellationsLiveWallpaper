@@ -23,8 +23,8 @@ import com.doctoror.particleswallpaper.framework.util.MultisamplingConfigSpecPar
 import com.doctoror.particleswallpaper.framework.util.MultisamplingSupportDetector
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import io.reactivex.Observable
 import org.junit.After
 import org.junit.Test

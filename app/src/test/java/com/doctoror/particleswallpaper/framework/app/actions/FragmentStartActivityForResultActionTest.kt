@@ -17,8 +17,8 @@ package com.doctoror.particleswallpaper.framework.app.actions
 
 import android.app.Fragment
 import android.content.Intent
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import org.junit.jupiter.api.Test
 
 class FragmentStartActivityForResultActionTest {

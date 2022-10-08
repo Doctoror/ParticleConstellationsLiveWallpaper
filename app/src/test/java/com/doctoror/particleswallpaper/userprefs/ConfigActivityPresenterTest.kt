@@ -27,9 +27,9 @@ import com.doctoror.particleswallpaper.framework.view.Dimensions
 import com.doctoror.particleswallpaper.framework.view.ViewDimensionsProvider
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import io.reactivex.Observable
 import io.reactivex.Single
 import org.junit.After

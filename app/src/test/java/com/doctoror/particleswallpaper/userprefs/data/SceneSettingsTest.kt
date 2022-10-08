@@ -19,7 +19,7 @@ import android.annotation.TargetApi
 import android.content.res.Resources
 import android.os.Build
 import android.util.TypedValue
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.whenever
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
 import org.junit.jupiter.api.BeforeEach

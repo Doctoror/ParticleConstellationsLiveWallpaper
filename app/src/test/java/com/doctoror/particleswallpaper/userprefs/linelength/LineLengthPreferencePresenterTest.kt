@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.userprefs.linelength
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import com.nhaarman.mockitokotlin2.*
+import org.mockito.kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import org.junit.jupiter.api.Test

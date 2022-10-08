@@ -24,10 +24,10 @@ import com.doctoror.particleswallpaper.engine.canvas.CanvasWallpaperServiceImpl
 import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.argWhere
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argWhere
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before

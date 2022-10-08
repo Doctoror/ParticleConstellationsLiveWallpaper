@@ -2,7 +2,7 @@ package com.doctoror.particleswallpaper.userprefs.engine
 
 import android.content.res.Resources
 import com.doctoror.particleswallpaper.R
-import com.nhaarman.mockitokotlin2.mock
+import org.mockito.kotlin.mock
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

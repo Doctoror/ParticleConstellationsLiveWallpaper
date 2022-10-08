@@ -21,9 +21,9 @@ import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import org.junit.jupiter.api.Test
 
 class ResetToDefaultsUseCaseTest {

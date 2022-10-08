@@ -20,7 +20,7 @@ import android.view.MenuItem
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
-import com.nhaarman.mockitokotlin2.*
+import org.mockito.kotlin.*
 import io.reactivex.Completable
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

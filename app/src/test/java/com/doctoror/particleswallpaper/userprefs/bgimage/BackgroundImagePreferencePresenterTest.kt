@@ -31,7 +31,7 @@ import com.doctoror.particleswallpaper.userprefs.ConfigFragment
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import com.nhaarman.mockitokotlin2.*
+import org.mockito.kotlin.*
 import io.reactivex.Observable
 import org.junit.After
 import org.junit.Before
