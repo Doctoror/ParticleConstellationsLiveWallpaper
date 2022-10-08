@@ -62,10 +62,9 @@ class OpenChangeWallpaperIntentProviderTest {
         whenever(
             packageManager.queryIntentActivities(
                 argWhere { it.action == intent.action },
-                any()
+                any<Int>()
             )
-        )
-            .thenReturn(listOf(mock()))
+        ).thenReturn(listOf(mock()))
     }
 
     @Before
