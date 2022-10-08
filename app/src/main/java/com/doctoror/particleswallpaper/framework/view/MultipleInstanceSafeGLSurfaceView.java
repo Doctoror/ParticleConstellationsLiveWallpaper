@@ -787,7 +787,7 @@ public class MultipleInstanceSafeGLSurfaceView extends SurfaceView implements Su
      * All potentially blocking synchronization is done through the
      * sGLThreadManager object. This avoids multiple-lock ordering issues.
      */
-    static class GLThread extends Thread {
+    class GLThread extends Thread {
 
         private final GLThreadManager mGLThreadManager = new GLThreadManager();
 
