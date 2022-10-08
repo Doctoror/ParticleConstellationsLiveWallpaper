@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <integer name="defaultDensity">65</integer>
+    <integer name="defaultDensity">75</integer>
 
     <dimen name="defaultLineLength">110dp</dimen>
 
