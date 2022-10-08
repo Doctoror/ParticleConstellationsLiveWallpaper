@@ -23,28 +23,14 @@ import android.view.View
 import android.view.ViewTreeObserver
 
 /**
- * [View.setBackground] compatible with pre-JellyBean
- */
-fun View.setBackgroundCompat(drawable: Drawable?) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        this.background = drawable
-    } else {
-        @Suppress("DEPRECATION")
-        this.setBackgroundDrawable(drawable)
-    }
-}
-
-/**
  * Sets background as [BitmapDrawable] when [Bitmap] is not null, or null otherwise.
  */
 fun View.setBackgroundBitmap(background: Bitmap?) {
-    this.setBackgroundCompat(
-        if (background != null) {
-            BitmapDrawable(this.resources, background)
-        } else {
-            null
-        }
-    )
+    this.background = if (background != null) {
+        BitmapDrawable(this.resources, background)
+    } else {
+        null
+    }
 }
 
 /**
