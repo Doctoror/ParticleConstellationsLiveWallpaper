@@ -15,7 +15,7 @@ ext {
     androidMinSdkVersion = 14
     androidTargetSdkVersion = 33
     androidCompileSdkVersion = 33
-    androidxAnnotationVersion = '1.1.0'
+    androidxAnnotationVersion = '1.5.0'
     androidxVersion = '1.1.0'
 
     //Libraries
