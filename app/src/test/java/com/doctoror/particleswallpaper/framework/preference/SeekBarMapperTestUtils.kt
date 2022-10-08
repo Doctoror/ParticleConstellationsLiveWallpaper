@@ -1,6 +1,6 @@
 package com.doctoror.particleswallpaper.framework.preference
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.Assert.assertEquals
 
 fun <T> testMapper(p: SeekBarMapper<T>) {
     testMapperMinValue(p)

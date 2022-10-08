@@ -83,7 +83,6 @@ dependencies {
     def td = rootProject.ext.wallpaperappTestDependencies
 
     testImplementation td.androidxTestCore
-    testImplementation td.junitJupiter
     testImplementation td.junitVintage
     testImplementation td.koinTest
     testImplementation td.kotlinReflect

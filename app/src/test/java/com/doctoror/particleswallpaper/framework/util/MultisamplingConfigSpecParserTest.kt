@@ -15,8 +15,8 @@
  */
 package com.doctoror.particleswallpaper.framework.util
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import org.junit.Assert.assertEquals
+import org.junit.Test
 import javax.microedition.khronos.egl.EGL10
 
 class MultisamplingConfigSpecParserTest {

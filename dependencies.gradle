@@ -61,7 +61,6 @@ ext {
             kotlinTest      : "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion",
             kotlinReflect   : "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
 
-            junitJupiter    : "org.junit.jupiter:junit-jupiter-api:$jUnitVersion",
             junitVintage    : "org.junit.vintage:junit-vintage-engine:$jUnitVersion",
             robolectric     : "org.robolectric:robolectric:$robolectricVersion",
 

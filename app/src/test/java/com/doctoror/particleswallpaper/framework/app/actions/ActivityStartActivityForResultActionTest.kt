@@ -17,9 +17,9 @@ package com.doctoror.particleswallpaper.framework.app.actions
 
 import android.app.Activity
 import android.content.Intent
+import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
-import org.junit.jupiter.api.Test
 
 class ActivityStartActivityForResultActionTest {
 

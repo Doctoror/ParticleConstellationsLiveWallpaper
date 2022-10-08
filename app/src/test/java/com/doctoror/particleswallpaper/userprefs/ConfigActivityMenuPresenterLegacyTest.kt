@@ -15,9 +15,9 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
+import org.junit.Assert.assertFalse
+import org.junit.Test
 import org.mockito.kotlin.mock
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Test
 
 class ConfigActivityMenuPresenterLegacyTest {
 

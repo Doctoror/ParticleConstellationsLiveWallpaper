@@ -2,11 +2,11 @@ package com.doctoror.particleswallpaper.userprefs.engine
 
 import android.content.res.Resources
 import com.doctoror.particleswallpaper.R
+import org.junit.Assert.*
+import org.junit.Test
 import org.mockito.kotlin.mock
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test
 import java.util.*
+
 
 private const val ENTRY_OPENGL = "OpenGL"
 private const val ENTRY_CANVAS = "Canvas"
@@ -59,7 +59,7 @@ class EnginePreferenceValueMapperTest {
 
     @Test
     fun valueToEnabledStateThrowsForUnexpectedValue() {
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             underTest.valueToOpenglEnabledState("Canvas")
         }
     }

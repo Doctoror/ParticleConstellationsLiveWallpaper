@@ -19,14 +19,14 @@ import android.annotation.TargetApi
 import android.content.res.Resources
 import android.os.Build
 import android.util.TypedValue
-import org.mockito.kotlin.whenever
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Before
+import org.junit.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.whenever
 import kotlin.reflect.KFunction
 import kotlin.reflect.KMutableProperty0
 
@@ -35,7 +35,7 @@ class SceneSettingsTest {
 
     private lateinit var settings: SceneSettings
 
-    @BeforeEach
+    @Before
     fun setUp() {
         val fakePrefs = InMemorySharedPreferences()
 

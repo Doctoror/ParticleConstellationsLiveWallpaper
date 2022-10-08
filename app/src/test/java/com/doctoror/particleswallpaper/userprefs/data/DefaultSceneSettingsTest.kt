@@ -19,12 +19,12 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.util.TypedValue
 import com.doctoror.particleswallpaper.R
+import org.junit.Assert.assertEquals
+import org.junit.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
 
 class DefaultSceneSettingsTest {
 

@@ -16,11 +16,11 @@
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
+import io.reactivex.Completable
+import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import io.reactivex.Completable
-import org.junit.jupiter.api.Test
 
 class ResetToDefaultsPreferencePresenterTest {
 

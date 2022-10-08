@@ -16,9 +16,9 @@
 package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.SharedPreferences
+import org.junit.Assert.assertEquals
+import org.junit.Test
 import org.mockito.kotlin.*
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
 
 class DeviceSettingsTest {
 

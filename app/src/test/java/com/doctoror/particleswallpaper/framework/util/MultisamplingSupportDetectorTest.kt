@@ -17,10 +17,10 @@ package com.doctoror.particleswallpaper.framework.util
 
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
+import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
-import org.junit.jupiter.api.Test
 
 class MultisamplingSupportDetectorTest {
 

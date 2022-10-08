@@ -19,10 +19,10 @@ import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.util.OpenGlEnabledStateChanger
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import com.doctoror.particleswallpaper.userprefs.multisampling.WallpaperCheckerUseCase
-import org.mockito.kotlin.*
 import io.reactivex.Observable
 import io.reactivex.Single
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import org.mockito.kotlin.*
 
 private const val VALUE_OPENGL = "valueOpengl"
 private const val VALUE_CANVAS = "valueCanvas"

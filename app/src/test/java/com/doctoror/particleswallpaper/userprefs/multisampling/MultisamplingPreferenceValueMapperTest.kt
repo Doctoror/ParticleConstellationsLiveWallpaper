@@ -17,10 +17,10 @@ package com.doctoror.particleswallpaper.userprefs.multisampling
 
 import android.content.res.Resources
 import com.doctoror.particleswallpaper.R
+import org.junit.Assert.assertTrue
+import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
 import java.util.*
 
 class MultisamplingPreferenceValueMapperTest {

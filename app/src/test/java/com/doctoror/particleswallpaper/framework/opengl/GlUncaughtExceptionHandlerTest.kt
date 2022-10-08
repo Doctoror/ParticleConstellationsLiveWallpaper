@@ -15,8 +15,8 @@
  */
 package com.doctoror.particleswallpaper.framework.opengl
 
+import org.junit.Test
 import org.mockito.kotlin.*
-import org.junit.jupiter.api.Test
 
 class GlUncaughtExceptionHandlerTest {
 

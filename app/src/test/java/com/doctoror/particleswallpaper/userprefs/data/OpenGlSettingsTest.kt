@@ -1,12 +1,12 @@
 package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.SharedPreferences
+import org.junit.Assert.assertEquals
+import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
 
 class OpenGlSettingsTest {
 

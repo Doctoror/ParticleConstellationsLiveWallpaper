@@ -18,14 +18,14 @@ package com.doctoror.particleswallpaper.framework.opengl
 import com.doctoror.particlesdrawable.opengl.chooser.NoMatchingConfigsException
 import com.doctoror.particleswallpaper.framework.util.OpenGlEnabledStateChanger
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
+import io.reactivex.exceptions.OnErrorNotImplementedException
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
+import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
-import io.reactivex.exceptions.OnErrorNotImplementedException
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
 
 class KnownOpenglIssuesHandlerTest {
 

@@ -15,8 +15,8 @@
  */
 package com.doctoror.particleswallpaper.userprefs.performancetips
 
+import org.junit.Test
 import org.mockito.kotlin.mock
-import org.junit.jupiter.api.Test
 
 class PerformanceTipsPreferencePresenterTest {
 

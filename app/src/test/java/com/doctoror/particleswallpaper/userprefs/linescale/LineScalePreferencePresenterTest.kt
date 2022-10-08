@@ -18,10 +18,10 @@ package com.doctoror.particleswallpaper.userprefs.linescale
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import org.mockito.kotlin.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import org.mockito.kotlin.*
 
 class LineScalePreferencePresenterTest {
 
