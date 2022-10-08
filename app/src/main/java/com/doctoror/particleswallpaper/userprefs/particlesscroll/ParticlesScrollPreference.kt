@@ -9,7 +9,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.doctoror.particleswallpaper.framework.di.inject
 import org.koin.core.parameter.parametersOf
 
-class ParticlesScrollPreference  @JvmOverloads constructor(
+class ParticlesScrollPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     @Suppress("UNUSED_PARAMETER") defStyle: Int = 0 // overridden to not be passed

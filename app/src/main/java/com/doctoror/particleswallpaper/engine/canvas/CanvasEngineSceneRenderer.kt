@@ -124,7 +124,7 @@ class CanvasEngineSceneRenderer(
         var holder = surfaceHolder
         if (holder == null) {
             holder = surfaceHolderProvider?.provideSurfaceHolder()
-                    ?: throw IllegalStateException("SurfaceHolderProvider not set")
+                ?: throw IllegalStateException("SurfaceHolderProvider not set")
             surfaceHolder = holder
         }
         var canvas: Canvas? = null

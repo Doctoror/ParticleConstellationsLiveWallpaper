@@ -143,7 +143,7 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
         root.addView(toolbar, 0)
         setActionBar(toolbar)
         actionBar?.displayOptions =
-                ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_HOME
+            ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_HOME
     }
 
     override fun inflateMenu(menu: Menu) {
