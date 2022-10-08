@@ -15,14 +15,11 @@
  */
 package com.doctoror.particleswallpaper.userprefs.bgimage
 
-import android.annotation.TargetApi
 import android.app.AlertDialog
 import android.app.Fragment
 import android.content.Context
-import android.os.Build
 import android.preference.Preference
 import android.util.AttributeSet
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -34,8 +31,6 @@ import org.koin.core.parameter.parametersOf
 /**
  * Preferece for picking or clearing the background image
  */
-@TargetApi(Build.VERSION_CODES.KITKAT)
-@RequiresApi(Build.VERSION_CODES.KITKAT)
 class BackgroundImagePreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
