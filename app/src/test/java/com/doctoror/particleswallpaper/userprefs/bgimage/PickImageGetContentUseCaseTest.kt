@@ -52,7 +52,12 @@ class PickImageGetContentUseCaseTest {
 
         val intent = captor.firstValue
         assertEquals(Intent.ACTION_CHOOSER, intent.action)
-        assertValidGetContentIntent(intent.getParcelableExtra(Intent.EXTRA_INTENT))
+        assertValidGetContentIntent(
+            intent.getParcelableExtra(
+                Intent.EXTRA_INTENT,
+                Intent::class.java
+            )!!
+        )
     }
 
     @Test
@@ -65,8 +70,6 @@ class PickImageGetContentUseCaseTest {
                     if (!thrown) {
                         thrown = true
                         throw ActivityNotFoundException()
-                    } else {
-                        Unit
                     }
                 }
         }
