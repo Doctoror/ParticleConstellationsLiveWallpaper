@@ -15,9 +15,11 @@
  */
 package com.doctoror.particleswallpaper.userprefs.framedelay
 
+import com.doctoror.particleswallpaper.framework.view.DisplayFrameRateProvider
 import org.koin.dsl.module.module
 
-private const val PARAM_VIEW = 0
+private const val PARAM_CONTEXT = 0
+private const val PARAM_VIEW = 1
 
 fun provideModuleFrameDelay() = module {
 
@@ -26,6 +28,8 @@ fun provideModuleFrameDelay() = module {
      */
     factory {
         FrameDelayPreferencePresenter(
+            context = it[PARAM_CONTEXT],
+            displayFrameRateProvider = DisplayFrameRateProvider(),
             schedulers = get(),
             settings = get(),
             view = it[PARAM_VIEW]

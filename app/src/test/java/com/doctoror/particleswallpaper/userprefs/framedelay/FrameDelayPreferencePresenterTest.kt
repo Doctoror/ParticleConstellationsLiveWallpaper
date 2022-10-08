@@ -15,7 +15,9 @@
  */
 package com.doctoror.particleswallpaper.userprefs.framedelay
 
+import android.content.Context
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
+import com.doctoror.particleswallpaper.framework.view.DisplayFrameRateProvider
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -25,6 +27,10 @@ import org.mockito.kotlin.*
 
 class FrameDelayPreferencePresenterTest {
 
+    private val context: Context = mock()
+
+    private val displayFrameRateProvider: DisplayFrameRateProvider = mock()
+
     private val frameDelaySeekbarMin = 16
 
     private val settings: SceneSettings = mock()
@@ -33,7 +39,13 @@ class FrameDelayPreferencePresenterTest {
         on(it.getMaxInt()).doReturn(25)
     }
 
-    private val underTest = FrameDelayPreferencePresenter(TrampolineSchedulers(), settings, view)
+    private val underTest = FrameDelayPreferencePresenter(
+        context,
+        displayFrameRateProvider,
+        TrampolineSchedulers(),
+        settings,
+        view
+    )
 
     @Test
     fun testMapper() {
@@ -67,6 +79,9 @@ class FrameDelayPreferencePresenterTest {
     @Test
     fun updatesFrameRateOnStart() {
         // Given
+        val frameRate = 60
+        whenever(displayFrameRateProvider.provide(context)).thenReturn(frameRate)
+
         val frameDelay = 16
         whenever(settings.observeFrameDelay()).thenReturn(Observable.just(frameDelay))
 
@@ -74,7 +89,7 @@ class FrameDelayPreferencePresenterTest {
         underTest.onStart()
 
         // Then
-        verify(view).setFrameRate(60)
+        verify(view).setFrameRate(frameRate)
     }
 
     @Test
@@ -107,13 +122,16 @@ class FrameDelayPreferencePresenterTest {
     @Test
     fun notifiesFrameRateOnChange() {
         // Given
+        val frameRate = 60
+        whenever(displayFrameRateProvider.provide(context)).thenReturn(frameRate)
+
         val progress = 25
 
         // When
         underTest.onPreferenceChange(progress)
 
         // Then
-        verify(view).setFrameRate(60)
+        verify(view).setFrameRate(frameRate)
     }
 
     private fun transformToProgress(value: Int): Int {

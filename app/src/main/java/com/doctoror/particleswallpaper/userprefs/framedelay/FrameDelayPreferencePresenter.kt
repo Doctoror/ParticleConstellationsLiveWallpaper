@@ -15,17 +15,23 @@
  */
 package com.doctoror.particleswallpaper.userprefs.framedelay
 
+import android.content.Context
 import androidx.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.preference.SeekBarMapper
+import com.doctoror.particleswallpaper.framework.view.DisplayFrameRateProvider
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.disposables.Disposable
 
 class FrameDelayPreferencePresenter(
+    private val context: Context,
+    private val displayFrameRateProvider: DisplayFrameRateProvider,
     private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
     private val view: FrameDelayPreferenceView
 ) : SeekBarMapper<Int> {
+
+    private val displayFrameRate by lazy { displayFrameRateProvider.provide(context) }
 
     private val frameDelaySeekbarMin = 16
     private val seekbarMax = 25
@@ -61,9 +67,9 @@ class FrameDelayPreferencePresenter(
     }
 
     private fun transformToFrameRate(value: Int) = if (value == 0) {
-        60
+        displayFrameRate
     } else {
-        Math.min(1000 / value, 60)
+        Math.min(1000 / value, displayFrameRate)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)

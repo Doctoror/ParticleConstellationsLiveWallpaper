@@ -33,7 +33,7 @@ class FrameDelayPreference @JvmOverloads constructor(
 
     private val presenter: FrameDelayPreferencePresenter by inject(
         context = context,
-        parameters = { parametersOf(this as FrameDelayPreferenceView) }
+        parameters = { parametersOf(context, this as FrameDelayPreferenceView) }
     )
 
     init {
