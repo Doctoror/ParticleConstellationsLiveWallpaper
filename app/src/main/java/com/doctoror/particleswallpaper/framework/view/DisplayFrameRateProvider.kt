@@ -9,5 +9,10 @@ class DisplayFrameRateProvider {
      *
      * Returns 60 if Display is not available
      */
-    fun provide(context: Context): Int = context.display?.refreshRate?.toInt() ?: 60
+    fun provide(context: Context): Int = try {
+        context.display?.refreshRate?.toInt() ?: 60
+    } catch (e: NoSuchMethodError) {
+        // For some reason, NoSuchMethodError can be thrown here. Return default:
+        60
+    }
 }
