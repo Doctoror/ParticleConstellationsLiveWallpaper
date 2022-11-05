@@ -48,7 +48,7 @@ import android.opengl.GLSurfaceView;
 import android.service.wallpaper.WallpaperService;
 import android.view.SurfaceHolder;
 
-import com.doctoror.particleswallpaper.framework.view.MultipleInstanceSafeGLSurfaceView;
+import com.doctoror.particlesdrawable.opengl.OnPauseFixAttemptGLSurfaceView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,7 @@ public abstract class GLWallpaperService extends WallpaperService {
         public final static int RENDERMODE_CONTINUOUSLY = 1;
 
         private final Object lock = new Object();
-        MultipleInstanceSafeGLSurfaceView mGLSurfaceView = null;
+        OnPauseFixAttemptGLSurfaceView mGLSurfaceView = null;
 
         private int debugFlags;
         private int renderMode;
@@ -287,7 +287,7 @@ public abstract class GLWallpaperService extends WallpaperService {
         public void onSurfaceCreated(@NonNull final SurfaceHolder holder) {
             synchronized (lock) {
                 if (mGLSurfaceView == null) {
-                    mGLSurfaceView = new MultipleInstanceSafeGLSurfaceView(GLWallpaperService.this) {
+                    mGLSurfaceView = new OnPauseFixAttemptGLSurfaceView(GLWallpaperService.this) {
                         @Override
                         public SurfaceHolder getHolder() {
                             return GLEngine.this.getSurfaceHolder();
