@@ -43,6 +43,7 @@ open class ConfigFragment @JvmOverloads constructor(
 
     private var glMonitorDisposable: Disposable? = null
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         intentProvider = get(context = activity)
@@ -85,11 +86,13 @@ open class ConfigFragment @JvmOverloads constructor(
         }
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ) =
         inflater.inflate(R.layout.fragment_preference, container, false)!!
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onDestroy() {
         super.onDestroy()
         glMonitorDisposable?.dispose()
@@ -99,6 +102,7 @@ open class ConfigFragment @JvmOverloads constructor(
         forEachLifecycleObserver(preferenceScreen) { lifecycle.removeObserver(it) }
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         ch.callbacks.forEach { it.onActivityResult(requestCode, resultCode, data) }

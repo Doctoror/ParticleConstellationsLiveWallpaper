@@ -50,5 +50,5 @@ class ResetToDefaultsUseCase(
         settingsOpenGL.resetToDefaults()
 
         backgroundImageManager.clearBackgroundImage()
-    }!!
+    }
 }

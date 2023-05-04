@@ -30,11 +30,13 @@ abstract class HowToApplyWithActionDialogFragment : DialogFragment() {
 
     protected abstract val message: Int
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         intentProvider = get(context = activity)
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog
         .Builder(activity!!)
         .setTitle(R.string.How_to_apply)

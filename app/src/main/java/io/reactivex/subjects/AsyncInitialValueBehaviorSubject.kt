@@ -23,7 +23,7 @@ import io.reactivex.disposables.Disposable
  * [BehaviorSubject] wrapper which supplies initial value from [initialValueSupplier] on
  * [subscribeActual].
  */
-class AsyncInitialValueBehaviorSubject<T> : Subject<T> {
+class AsyncInitialValueBehaviorSubject<T : Any> : Subject<T> {
 
     private val initialValueSupplier: () -> T
 

@@ -31,5 +31,5 @@ class OpenChangeWallpaperIntentUseCase(
         val intent = intentProvider.provideActionIntent()
             ?: throw RuntimeException("No supported Intent for preview")
         startActivityForResultAction.startActivityForResult(intent, REQUEST_CODE_CHANGE_WALLPAPER)
-    }!!
+    }
 }

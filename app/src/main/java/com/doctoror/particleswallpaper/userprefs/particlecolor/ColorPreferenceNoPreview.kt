@@ -30,6 +30,7 @@ open class ColorPreferenceNoPreview @JvmOverloads constructor
     (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
     ColorPreference(context, attrs) {
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onBindView(view: View?) {
         super.onBindView(view)
         if (view != null) {

@@ -65,6 +65,7 @@ open class SeekBarPreference @JvmOverloads constructor(
         layoutResource = R.layout.preference_widget_seekbar
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onBindView(view: View) {
         super.onBindView(view)
         val seekBar = view.findViewById<SeekBar>(R.id.seekbar)
@@ -74,6 +75,7 @@ open class SeekBarPreference @JvmOverloads constructor(
         seekBar.isEnabled = isEnabled
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onSetInitialValue(restoreValue: Boolean, defaultValue: Any?) {
         progress = when {
             restoreValue -> getPersistedInt(progress)
@@ -82,6 +84,7 @@ open class SeekBarPreference @JvmOverloads constructor(
         }
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onGetDefaultValue(a: TypedArray, index: Int): Any = a.getInt(index, 0)
 
     /**
@@ -116,6 +119,7 @@ open class SeekBarPreference @JvmOverloads constructor(
         }
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onSaveInstanceState(): Parcelable {
         /*
          * Suppose a client uses this preference type without persisting. We
@@ -136,6 +140,7 @@ open class SeekBarPreference @JvmOverloads constructor(
         return myState
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onRestoreInstanceState(state: Parcelable) {
         if (state.javaClass != SavedState::class.java) {
             // Didn't save state for us in onSaveInstanceState

@@ -52,6 +52,7 @@ class BackgroundImagePreference @JvmOverloads constructor(
         isPersistent = false
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onClick() {
         super.onClick()
         presenter.onClick()

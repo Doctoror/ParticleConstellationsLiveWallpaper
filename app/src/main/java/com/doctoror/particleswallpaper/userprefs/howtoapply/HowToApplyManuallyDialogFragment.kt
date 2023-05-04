@@ -22,6 +22,7 @@ import com.doctoror.particleswallpaper.R
 
 class HowToApplyManuallyDialogFragment : DialogFragment() {
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog
         .Builder(activity)
         .setTitle(R.string.How_to_apply)

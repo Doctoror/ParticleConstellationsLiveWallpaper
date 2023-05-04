@@ -31,6 +31,7 @@ class MultisamplingRestartDialog : DialogFragment() {
 
     private lateinit var useCase: OpenChangeWallpaperIntentUseCase
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,6 +42,7 @@ class MultisamplingRestartDialog : DialogFragment() {
         )
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog
             .Builder(activity)

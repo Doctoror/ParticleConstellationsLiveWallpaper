@@ -20,8 +20,8 @@ class GlUncaughtExceptionHandler(
     private val wrapped: Thread.UncaughtExceptionHandler?
 ) : Thread.UncaughtExceptionHandler {
 
-    override fun uncaughtException(t: Thread?, e: Throwable?) {
-        if (e == null || !knownOpenglIssuesHandler.handleUncaughtException(e)) {
+    override fun uncaughtException(t: Thread, e: Throwable) {
+        if (!knownOpenglIssuesHandler.handleUncaughtException(e)) {
             wrapped?.uncaughtException(t, e)
         }
     }

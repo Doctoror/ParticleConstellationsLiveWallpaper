@@ -33,11 +33,13 @@ abstract class LifecyclePreferenceFragment : PreferenceFragment(), LifecycleOwne
 
     override fun getLifecycle() = lifecycleRegistry
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onStart() {
         super.onStart()
         lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START)
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onStop() {
         super.onStop()
         lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP)

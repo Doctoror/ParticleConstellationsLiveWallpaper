@@ -48,6 +48,7 @@ class ParticleColorPreference @JvmOverloads constructor(
         }
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onClick() {
         presenter.onClick()
     }
@@ -62,6 +63,7 @@ class ParticleColorPreference @JvmOverloads constructor(
         presenter.onStop()
     }
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun getPersistedInt(defaultReturnValue: Int) = this.value ?: defaultReturnValue
 
     override fun setColor(color: Int) {

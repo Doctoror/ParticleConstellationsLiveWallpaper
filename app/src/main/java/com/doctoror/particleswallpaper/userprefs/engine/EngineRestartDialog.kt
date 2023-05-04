@@ -32,6 +32,7 @@ fun newEngineRestartDialog(shouldEnableOpenGl: Boolean) = EngineRestartDialog().
 
 class EngineRestartDialog : DialogFragment() {
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog
         .Builder(activity)
         .setMessage(R.string.engine_restart_message)

@@ -35,7 +35,7 @@ class BackgroundImageManagerImpl(
     private val fileNamePrefix = "bg"
     private val tag = "BackgroundImageManager"
 
-    private val fileNamePattern = Pattern.compile("$fileNamePrefix([0-9])+")!!
+    private val fileNamePattern = Pattern.compile("$fileNamePrefix([0-9])+")
 
     override fun copyBackgroundToFile(source: Uri): Uri {
         val filesDir = context.filesDir ?: throw IOException("getFilesDir() returned null")
@@ -69,7 +69,7 @@ class BackgroundImageManagerImpl(
                         Log.w(tag, "Failed to delete previous background image file named $it")
                     }
 
-                    val number = matcher.group(1).toInt()
+                    val number = matcher.group(1)?.toInt() ?: 0
                     if (largestIndex < number) {
                         largestIndex = number
                     }

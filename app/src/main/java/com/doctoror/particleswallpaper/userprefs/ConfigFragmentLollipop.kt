@@ -11,6 +11,7 @@ import com.doctoror.particleswallpaper.R
  */
 class ConfigFragmentLollipop : ConfigFragment() {
 
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val p = findPreference(getString(R.string.pref_key_apply))
