@@ -18,6 +18,7 @@ package com.doctoror.particleswallpaper.engine.canvas
 import android.annotation.TargetApi
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.contract.SceneScheduler
@@ -54,7 +55,7 @@ class CanvasWallpaperServiceImpl : WallpaperService() {
     inner class EngineImpl(private val renderer: CanvasEngineSceneRenderer) :
         Engine(), EngineController, SceneScheduler, SurfaceHolderProvider {
 
-        private val handler = Handler()
+        private val handler = Handler(Looper.getMainLooper())
 
         lateinit var presenter: EnginePresenter
 

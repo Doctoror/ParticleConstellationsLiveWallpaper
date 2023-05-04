@@ -19,6 +19,7 @@ import android.annotation.TargetApi
 import android.opengl.GLSurfaceView
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.view.SurfaceHolder
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.opengl.chooser.FailsafeEGLConfigChooserFactory
@@ -67,7 +68,7 @@ class GlWallpaperServiceImpl : GLWallpaperService() {
         samples: Int
     ) : GLEngine(), EngineController, GLSurfaceView.Renderer, SceneScheduler {
 
-        private val handler = Handler()
+        private val handler = Handler(Looper.getMainLooper())
 
         lateinit var presenter: EnginePresenter
 
