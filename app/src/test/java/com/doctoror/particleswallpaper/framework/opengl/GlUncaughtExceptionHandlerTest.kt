@@ -30,20 +30,6 @@ class GlUncaughtExceptionHandlerTest {
         )
 
     @Test
-    fun doesNotForwardNullToKnownOpenglIssuesHandler() {
-        underTest.uncaughtException(Thread.currentThread(), null)
-        verify(knownOpenglIssuesHandler, never()).handleUncaughtException(anyOrNull())
-    }
-
-    @Test
-    fun alwaysForwardsNullToWrapped() {
-        underTest.uncaughtException(Thread.currentThread(), null)
-
-        verify(knownOpenglIssuesHandler, never()).handleUncaughtException(anyOrNull())
-        verify(wrapped).uncaughtException(Thread.currentThread(), null)
-    }
-
-    @Test
     fun forwardsThrowableToKnownOpenglIssuesHandler() {
         val throwable = Exception()
 
