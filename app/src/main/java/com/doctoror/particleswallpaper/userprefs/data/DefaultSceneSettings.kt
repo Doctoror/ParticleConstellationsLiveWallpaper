@@ -28,7 +28,7 @@ class DefaultSceneSettings(
 
     val backgroundColor = ResourcesCompat.getColor(res, R.color.defaultBackground, theme)
 
-    val backgroundScroll = false
+    val backgroundScroll = true
 
     val backgroundUri = NO_URI
 
@@ -44,7 +44,7 @@ class DefaultSceneSettings(
 
     val particleScale = Math.max(0.5f, res.getDimension(R.dimen.defaultParticleScale))
 
-    val particlesScroll = false
+    val particlesScroll = true
 
     val speedFactor = resolveSpeedFactor(res, typedValueFactory)
 
