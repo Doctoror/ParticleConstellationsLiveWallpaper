@@ -135,16 +135,19 @@ class CanvasEngineSceneRenderer(
                     drawBackgroundColor(canvas)
                 }
 
-                val count = canvas.saveCount
+                canvas.save()
                 canvas.translate(backgroundTranslationXInternal, 0f)
                 drawBackgroundImage(canvas)
-                canvas.restoreToCount(count)
+                canvas.restore()
 
+                canvas.save()
                 canvas.translate(foregroundTranslationXInternal, 0f)
 
                 canvasSceneRenderer.setCanvas(canvas)
                 super.drawScene(scene)
                 canvasSceneRenderer.setCanvas(null)
+
+                canvas.restore()
             }
         } finally {
             canvas?.let {
