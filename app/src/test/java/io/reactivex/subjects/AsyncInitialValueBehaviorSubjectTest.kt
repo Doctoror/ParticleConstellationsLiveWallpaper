@@ -120,7 +120,7 @@ class AsyncInitialValueBehaviorSubjectTest {
         verify(wrapped, never()).onNext(any())
     }
 
-    private fun <T> invokeSubscribeActual(
+    private fun <T : Any> invokeSubscribeActual(
         receiver: AsyncInitialValueBehaviorSubject<T>,
         argument: Observer<T>
     ) {
