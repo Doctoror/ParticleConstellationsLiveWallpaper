@@ -71,15 +71,13 @@ class SceneBackgroundViewTest {
     }
 
     @Test
-    fun setsGlBackgroundBitmap() {
+    fun setsBackgroundBitmap() {
         val background: Bitmap = mock()
 
         underTest.displayBackground(background)
 
         val captor = argumentCaptor<Drawable>()
-
         verify(particlesView).background = captor.capture()
-
         assertEquals(background, (captor.firstValue as BitmapDrawable).bitmap)
     }
 
@@ -97,23 +95,11 @@ class SceneBackgroundViewTest {
     }
 
     @Test
-    fun setsBackgroundBitmapToWindowAsNullWhenOpenGlDisabled() {
+    fun setsBackgroundBitmapAsNullWhenOpenGlDisabled() {
         whenever(deviceSettings.openglEnabled).thenReturn(false)
 
         underTest.displayBackground(null)
 
         verify(particlesView).background = null
-    }
-
-    @Test
-    fun setsBackgroundBitmapWhenOpenGlDisabled() {
-        whenever(deviceSettings.openglEnabled).thenReturn(false)
-        val background: Bitmap = mock()
-
-        underTest.displayBackground(background)
-
-        val captor = argumentCaptor<Drawable>()
-        verify(particlesView).background = captor.capture()
-        assertEquals(background, (captor.firstValue as BitmapDrawable).bitmap)
     }
 }

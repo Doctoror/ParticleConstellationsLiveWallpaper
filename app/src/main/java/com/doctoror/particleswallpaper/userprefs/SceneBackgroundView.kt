@@ -38,10 +38,6 @@ class SceneBackgroundView(
     }
 
     fun displayBackground(background: Bitmap?) {
-        if (deviceSettings.openglEnabled) {
-            particlesView?.setBackgroundBitmap(background)
-        } else {
-            particlesView?.setBackgroundBitmap(background)
-        }
+        particlesView?.setBackgroundBitmap(background)
     }
 }
