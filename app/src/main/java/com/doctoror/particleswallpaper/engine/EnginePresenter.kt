@@ -48,6 +48,10 @@ class EnginePresenter(
     private val scene: Scene
 ) {
 
+    // We need to lock on a scene because configuration change in main thread may happen during a
+    // render in a GL thread and that can cause race conditions
+    private val sceneLock = Any()
+
     private val dimensionsSubject = PublishSubject.create<WallpaperDimensions>().toSerialized()
 
     private val disposables = CompositeDisposable()
@@ -85,7 +89,7 @@ class EnginePresenter(
 
     fun onCreate() {
         configurator
-            .subscribe(scene, engine, settings, renderThreadScheduler)
+            .subscribe(scene, sceneLock, engine, settings, renderThreadScheduler)
 
         disposables.add(settings.observeParticleScale()
             .subscribeOn(schedulers.io())
@@ -231,7 +235,9 @@ class EnginePresenter(
             renderer.setClearColor(backgroundColor)
         }
 
-        engine.draw()
+        synchronized(sceneLock) {
+            engine.draw()
+        }
         engine.run()
     }
 

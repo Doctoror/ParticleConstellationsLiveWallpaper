@@ -33,6 +33,8 @@ import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
+import org.mockito.kotlin.any
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
@@ -138,10 +140,11 @@ class ConfigActivityPresenterTest {
 
         // Then
         verify(configurator).subscribe(
-            configuration,
-            controller,
-            settings,
-            schedulers.mainThread()
+            eq(configuration),
+            any(),
+            eq(controller),
+            eq(settings),
+            eq(schedulers.mainThread())
         )
     }
 }

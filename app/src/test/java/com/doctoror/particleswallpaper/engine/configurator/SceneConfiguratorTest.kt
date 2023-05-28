@@ -22,7 +22,10 @@ import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import org.junit.Assert.*
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
@@ -154,6 +157,7 @@ class SceneConfiguratorTest {
     private fun subscribe() {
         underTest.subscribe(
             sceneConfiguration,
+            Any(),
             mock(),
             sceneSettings,
             Schedulers.trampoline()

@@ -94,7 +94,13 @@ class EnginePresenterTest {
         underTest.onCreate()
 
         // Then
-        verify(configurator).subscribe(scene, engine, settings, Schedulers.trampoline())
+        verify(configurator).subscribe(
+            eq(scene),
+            any(),
+            eq(engine),
+            eq(settings),
+            eq(Schedulers.trampoline())
+        )
     }
 
     @Test

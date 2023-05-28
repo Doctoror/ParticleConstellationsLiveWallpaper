@@ -50,6 +50,7 @@ class SceneConfigurator(
 
     fun subscribe(
         configuration: SceneConfiguration,
+        configurationLock: Any,
         controller: SceneController,
         settings: SceneSettings,
         observeScheduler: Scheduler
@@ -71,8 +72,10 @@ class SceneConfigurator(
                 .subscribeOn(schedulers.io())
                 .observeOn(observeScheduler)
                 .subscribe { v ->
-                    configuration.density = v
-                    controller.makeFreshFrame()
+                    synchronized(configurationLock) {
+                        configuration.density = v
+                        controller.makeFreshFrame()
+                    }
                 }
         )
 
@@ -98,8 +101,10 @@ class SceneConfigurator(
                 .subscribeOn(schedulers.io())
                 .observeOn(observeScheduler)
                 .subscribe { v ->
-                    configuration.lineThickness = v
-                    controller.makeFreshFrame()
+                    synchronized(configurationLock) {
+                        configuration.lineThickness = v
+                        controller.makeFreshFrame()
+                    }
                 }
         )
 
@@ -119,9 +124,11 @@ class SceneConfigurator(
                 .subscribeOn(schedulers.io())
                 .observeOn(observeScheduler)
                 .subscribe { v ->
-                    val radiusRange = ParticleRadiusMapper.transform(v)
-                    configuration.setParticleRadiusRange(radiusRange.first, radiusRange.second)
-                    controller.makeFreshFrame()
+                    synchronized(configurationLock) {
+                        val radiusRange = ParticleRadiusMapper.transform(v)
+                        configuration.setParticleRadiusRange(radiusRange.first, radiusRange.second)
+                        controller.makeFreshFrame()
+                    }
                 }
         )
 

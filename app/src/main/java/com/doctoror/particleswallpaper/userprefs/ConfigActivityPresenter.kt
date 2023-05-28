@@ -39,6 +39,8 @@ class ConfigActivityPresenter(
     private val viewDimensionsProvider: ViewDimensionsProvider
 ) : LifecycleObserver {
 
+    private val sceneLock = Any()
+
     private val disposablesCreateDestroy = CompositeDisposable()
     private val disposablesStartStop = CompositeDisposable()
 
@@ -68,14 +70,17 @@ class ConfigActivityPresenter(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
-        disposablesStartStop.add(settings
-            .observeBackgroundColor()
-            .subscribeOn(schedulers.io())
-            .observeOn(schedulers.mainThread())
-            .subscribe { view.displayBackgroundColor(it) })
+        disposablesStartStop.add(
+            settings
+                .observeBackgroundColor()
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.mainThread())
+                .subscribe(view::displayBackgroundColor)
+        )
 
         configurator.subscribe(
             sceneConfiguration,
+            sceneLock,
             sceneController,
             settings,
             schedulers.mainThread()
