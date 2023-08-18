@@ -75,7 +75,7 @@ class WallpaperServiceImplEngineTest {
         val desiredHeight = 4
 
         // Must spy to mock desiredMinimumWidth / desiredMinimumHeight, otherwise it crashes.
-        val underTest = spy(underTest).apply {
+        val underTest = underTest.apply {
             doReturn(desiredWidth).`when`(this).desiredMinimumWidth
             doReturn(desiredHeight).`when`(this).desiredMinimumHeight
         }
