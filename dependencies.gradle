@@ -10,8 +10,8 @@ ext {
     //Android
     androidBuildToolsVersion = "33.0.2"
     androidMinSdkVersion = 19
-    androidTargetSdkVersion = 33
-    androidCompileSdkVersion = 33
+    androidTargetSdkVersion = 34
+    androidCompileSdkVersion = 34
     androidxAnnotationVersion = '1.6.0'
     androidxVersion = '1.10.1'
 
