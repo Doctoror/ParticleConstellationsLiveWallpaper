@@ -6,7 +6,7 @@ android {
 
     def globalConfiguration = rootProject.extensions.getByName("ext")
 
-    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    compileSdk globalConfiguration["androidCompileSdkVersion"]
     buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
 
     namespace 'com.doctoror.particleswallpaper'
@@ -14,8 +14,8 @@ android {
     defaultConfig {
         applicationId "com.doctoror.particleswallpaper"
 
-        minSdkVersion globalConfiguration["androidMinSdkVersion"]
-        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        minSdk globalConfiguration["androidMinSdkVersion"]
+        targetSdk globalConfiguration["androidTargetSdkVersion"]
 
         versionCode 40
         versionName "2.3.0"
