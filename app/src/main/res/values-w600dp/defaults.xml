@@ -7,6 +7,6 @@
 
     <dimen name="defaultLineScale">1.4dp</dimen>
 
-    <dimen name="defaultParticleScale">1.4dp</dimen>
+    <dimen name="defaultParticleScale">1.5dp</dimen>
 
 </resources>

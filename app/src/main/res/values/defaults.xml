@@ -13,7 +13,7 @@
 
     <color name="defaultParticleColor">@android:color/white</color>
 
-    <dimen name="defaultParticleScale">1dp</dimen>
+    <dimen name="defaultParticleScale">1.2dp</dimen>
 
     <item name="defaultSpeedFactor" format="float" type="dimen">0.7</item>
 
