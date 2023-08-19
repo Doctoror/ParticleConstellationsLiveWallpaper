@@ -28,7 +28,7 @@ class ParticleScalePreferencePresenter(
     private val view: SeekBarPreferenceView
 ) : SeekBarMapper<Float> {
 
-    private val seekBarMaxValue = 70
+    private val seekBarMaxValue = 140
     private var disposable: Disposable? = null
 
     init {
