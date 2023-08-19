@@ -41,6 +41,7 @@ import org.robolectric.RobolectricTestRunner
 class EnginePresenterTest {
 
     private val apiLevelProvider: ApiLevelProvider = mock()
+    private val backgroundImageDimensionsTransformer: BackgroundImageDimensionsTransformer = mock()
     private val backgroundLoader: EngineBackgroundLoader = mock()
     private val configurator: SceneConfigurator = mock()
     private val controller: EngineController = mock()
@@ -51,6 +52,7 @@ class EnginePresenterTest {
 
     private val underTest = EnginePresenter(
         apiLevelProvider,
+        backgroundImageDimensionsTransformer,
         backgroundLoader,
         configurator,
         controller,
@@ -65,13 +67,12 @@ class EnginePresenterTest {
     @Before
     fun setup() {
         whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION.SDK_INT)
-        whenever(backgroundLoader.observeBackground()).thenReturn(
-            Observable.just(
-                Optional<Bitmap>(
-                    null
-                )
-            )
-        )
+
+        whenever(backgroundImageDimensionsTransformer.transform(any(), any()))
+            .thenAnswer { it.arguments[1] }
+
+        whenever(backgroundLoader.observeBackground())
+            .thenReturn(Observable.just(Optional<Bitmap>(null)))
 
         whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(0))
         whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(true))
@@ -295,24 +296,32 @@ class EnginePresenterTest {
     @Test
     fun forwardsDesiredDimensionsToBackgroundLoaderWhenBackgroundScrollEnabled() {
         // Given
-        val width = 320
-        val height = 240
-        val desiredWidth = 480
+        val dimensions = EnginePresenter.WallpaperDimensions(
+            240,
+            320,
+            480
+        )
+
+        val dimensionsTransformed = EnginePresenter.WallpaperDimensions(
+            240,
+            320,
+            260
+        )
+
+        whenever(backgroundImageDimensionsTransformer.transform(NO_URI, dimensions))
+            .thenReturn(dimensionsTransformed)
 
         whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(true))
 
         // When
         underTest.onCreate()
-        underTest.setDimensions(
-            EnginePresenter.WallpaperDimensions(
-                width,
-                height,
-                desiredWidth
-            )
-        )
+        underTest.setDimensions(dimensions)
 
         // Then
-        verify(backgroundLoader).setDimensions(desiredWidth, height)
+        verify(backgroundLoader).setDimensions(
+            dimensionsTransformed.desiredWidth,
+            dimensionsTransformed.height
+        )
     }
 
     @Test

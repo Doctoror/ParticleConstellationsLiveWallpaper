@@ -32,11 +32,12 @@ import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Function3
+import io.reactivex.functions.Function4
 import io.reactivex.subjects.PublishSubject
 
 class EnginePresenter(
     private val apiLevelProvider: ApiLevelProvider,
+    private val backgroundImageDimensionsTransformer: BackgroundImageDimensionsTransformer,
     private val backgroundLoader: EngineBackgroundLoader,
     private val configurator: SceneConfigurator,
     private val controller: EngineController,
@@ -51,6 +52,8 @@ class EnginePresenter(
     // We need to lock on a scene because configuration change in main thread may happen during a
     // render in a GL thread and that can cause race conditions
     private val sceneLock = Any()
+
+    private var lastSetDimensions: WallpaperDimensions? = null
 
     private val dimensionsSubject = PublishSubject.create<WallpaperDimensions>().toSerialized()
 
@@ -116,16 +119,28 @@ class EnginePresenter(
             Observable
                 .combineLatest(
                     settings
+                        .observeBackgroundUri()
+                        .subscribeOn(schedulers.io()),
+                    settings
                         .observeBackgroundScroll()
                         .subscribeOn(schedulers.io()),
                     settings
                         .observeParticlesScroll()
                         .subscribeOn(schedulers.io()),
                     dimensionsSubject,
-                    Function3<Boolean, Boolean, WallpaperDimensions, DimensionsParameters> { scrollBg, scrollP, dimen ->
-                        DimensionsParameters(scrollBg, scrollP, dimen)
+                    Function4<String, Boolean, Boolean, WallpaperDimensions, DimensionsParameters> { uri, scrollBg, scrollP, dimen ->
+                        DimensionsParameters(uri, scrollBg, scrollP, dimen)
                     }
                 )
+                .observeOn(schedulers.io())
+                .map {
+                    it.copy(
+                        wallpaperDimensions = backgroundImageDimensionsTransformer.transform(
+                            it.backgroundUri,
+                            it.wallpaperDimensions
+                        )
+                    )
+                }
                 .observeOn(renderThreadScheduler)
                 .subscribe {
                     handleDimensions(
@@ -162,12 +177,16 @@ class EnginePresenter(
         renderer.recycle()
     }
 
-    fun setTranslationX(xPixelOffset: Float) {
-        if (backgroundScroll) {
-            renderer.setBackgroundTranslationX(xPixelOffset)
-        }
-        if (foregroundScroll) {
-            renderer.setForegroundTranslationX(xPixelOffset)
+    fun setTranslationX(xOffset: Float) {
+        if (lastSetDimensions != null) {
+            val xPixelOffset =
+                -((lastSetDimensions!!.desiredWidth - lastSetDimensions!!.width) * xOffset)
+            if (backgroundScroll) {
+                renderer.setBackgroundTranslationX(xPixelOffset)
+            }
+            if (foregroundScroll) {
+                renderer.setForegroundTranslationX(xPixelOffset)
+            }
         }
     }
 
@@ -184,6 +203,7 @@ class EnginePresenter(
     ) {
         backgroundScroll = scrollBackground
         foregroundScroll = scrollParticles
+        lastSetDimensions = dimensions
 
         renderer.setDimensions(dimensions.width, dimensions.height)
         if (scrollBackground) {
@@ -258,6 +278,7 @@ class EnginePresenter(
     }
 
     data class DimensionsParameters(
+        val backgroundUri: String,
         val scrollBackground: Boolean,
         val scrollParticles: Boolean,
         val wallpaperDimensions: WallpaperDimensions

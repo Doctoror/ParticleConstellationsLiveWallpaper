@@ -151,7 +151,7 @@ class GlWallpaperServiceImpl : GLWallpaperService() {
             xPixelOffset: Int,
             yPixelOffset: Int
         ) {
-            queueEvent { presenter.setTranslationX(xPixelOffset.toFloat()) }
+            queueEvent { presenter.setTranslationX(xOffset) }
         }
 
         override fun onDrawFrame(gl: GL10) {

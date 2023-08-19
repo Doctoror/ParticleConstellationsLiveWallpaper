@@ -21,6 +21,7 @@ import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particleswallpaper.framework.opengl.KnownOpenglIssuesHandler
 import com.doctoror.particleswallpaper.framework.util.OpenGlEnabledStateChanger
 import io.reactivex.Scheduler
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.module
 
@@ -54,6 +55,9 @@ fun provideModuleEngine() = module {
         val scene = Scene()
         EnginePresenter(
             get(),
+            BackgroundImageDimensionsTransformer(
+                ImageAspectRatioLoader(androidContext().contentResolver)
+            ),
             get(),
             get(),
             it[PARAM_ENGINE_CONTROLLER],

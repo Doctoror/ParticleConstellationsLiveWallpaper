@@ -127,7 +127,7 @@ class CanvasWallpaperServiceImpl : WallpaperService() {
             xPixelOffset: Int,
             yPixelOffset: Int
         ) {
-            presenter.setTranslationX(xPixelOffset.toFloat())
+            presenter.setTranslationX(xOffset.toFloat())
         }
 
         override fun onSurfaceDestroyed(holder: SurfaceHolder) {
