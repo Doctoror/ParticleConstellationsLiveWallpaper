@@ -74,7 +74,7 @@ class DeviceSettings(private val prefsSource: () -> SharedPreferences) {
     var openglSupported: Boolean
         get() = prefsSource().getBoolean(
             KEY_OPENGL_SUPPORTED,
-            true
+            false
         )
         @SuppressLint("ApplySharedPref")
         set(value) {
