@@ -34,8 +34,8 @@ class EnginePreferenceValueMapper(private val resources: Resources) {
     )
 
     fun valueToOpenglEnabledState(value: CharSequence?) = when (value) {
-        VALUE_OPENGL, null -> true
-        VALUE_CANVAS -> false
+        VALUE_CANVAS, null -> false
+        VALUE_OPENGL -> true
         else -> throw IllegalArgumentException("Unexpected value for engine: $value")
     }
 

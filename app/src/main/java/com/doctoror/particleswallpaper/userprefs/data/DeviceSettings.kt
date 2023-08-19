@@ -22,7 +22,7 @@ import io.reactivex.subjects.AsyncInitialValueBehaviorSubject
 
 const val PREFERENCES_NAME_DEVICE = "prefs_device"
 const val KEY_MULTISAMPLING_SUPPORTED_VALUES = "multisampling_supported_values"
-const val KEY_OPENGL_ENABLED = "opengl_enabled2"
+const val KEY_OPENGL_ENABLED = "opengl_enabled3"
 const val KEY_OPENGL_SUPPORTED = "opengl_enabled" // renamed, left value for backward compatibility
 
 private val DEFAULT_MULTISAMPLING_SUPPORTED_VALUES = setOf("2", "4")
@@ -60,7 +60,7 @@ class DeviceSettings(private val prefsSource: () -> SharedPreferences) {
     var openglEnabled: Boolean
         get() = prefsSource().getBoolean(
             KEY_OPENGL_ENABLED,
-            true
+            false
         )
         @SuppressLint("ApplySharedPref")
         set(value) {

@@ -2,10 +2,13 @@ package com.doctoror.particleswallpaper.userprefs.engine
 
 import android.content.res.Resources
 import com.doctoror.particleswallpaper.R
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.mockito.kotlin.mock
-import java.util.*
+import java.util.Arrays
 
 
 private const val ENTRY_OPENGL = "OpenGL"
@@ -43,8 +46,8 @@ class EnginePreferenceValueMapperTest {
     }
 
     @Test
-    fun valueToEnabledStateIsTrueForNull() {
-        assertTrue(underTest.valueToOpenglEnabledState(null))
+    fun valueToEnabledStateIsFalseForNull() {
+        assertFalse(underTest.valueToOpenglEnabledState(null))
     }
 
     @Test
