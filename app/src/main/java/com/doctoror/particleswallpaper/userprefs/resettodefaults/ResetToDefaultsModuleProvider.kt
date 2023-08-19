@@ -25,7 +25,6 @@ fun provideModuleResetToDefaults() = module {
         ResetToDefaultsUseCase(
             get(),
             get(),
-            get(),
             get()
         )
     }

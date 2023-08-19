@@ -20,10 +20,8 @@ import android.content.*
 import android.content.res.Resources
 import android.net.Uri
 import com.bumptech.glide.Glide
-import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
-import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.userprefs.ConfigFragment
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
@@ -43,22 +41,18 @@ class BackgroundImagePreferencePresenterTest {
 
     private val context: Context = mock()
     private val glide: Glide = mock()
-    private val pickImageGetContentUseCase: PickImageGetContentUseCase = mock()
-    private val pickImageDocumentUseCase: PickImageDocumentUseCase = mock()
+    private val pickImageUseCase: PickImageUseCase = mock()
     private val settings: SceneSettings = mock()
     private val defaults: DefaultSceneSettings = mock()
-    private val backgroundImageManager: BackgroundImageManager = mock()
     private val view: BackgroundImagePreferenceView = mock()
 
     private val underTest = newBackgrodundImagePreferencePresenter()
 
     private fun newBackgrodundImagePreferencePresenter() = BackgroundImagePreferencePresenter(
-        backgroundImageManager,
         context,
         defaults,
         glide,
-        pickImageGetContentUseCase,
-        pickImageDocumentUseCase,
+        pickImageUseCase,
         TrampolineSchedulers(),
         settings,
         view
@@ -122,20 +116,13 @@ class BackgroundImagePreferencePresenterTest {
 
     @Test
     fun setsDefaultBackgroundUriOnClearBackground() {
+        whenever(settings.backgroundUri).thenReturn("content://ass")
+
         // When
         underTest.clearBackground()
 
         // Then
         verify(settings).backgroundUri = NO_URI
-    }
-
-    @Test
-    fun clearsBackgroundImage() {
-        // When
-        underTest.clearBackground()
-
-        // Then
-        verify(backgroundImageManager).clearBackgroundImage()
     }
 
     @Test
@@ -227,14 +214,14 @@ class BackgroundImagePreferencePresenterTest {
         underTest.pickBackground()
 
         // Then
-        verify(pickImageDocumentUseCase).invoke(any())
+        verify(pickImageUseCase).invoke(any())
     }
 
     @Test
     fun handlesActivityNotFoundExceptionForOpenDocument() {
         // Given
         givenContextHasResourcesWithStrings()
-        whenever(pickImageDocumentUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
+        whenever(pickImageUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
 
         // When
         underTest.host = mock()
@@ -244,26 +231,10 @@ class BackgroundImagePreferencePresenterTest {
     }
 
     @Test
-    fun picksBackgroundByGetContentWhenDocumentUseCaseThrows() {
-        // Given
-        whenever(pickImageDocumentUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
-        val underTest = newBackgrodundImagePreferencePresenter()
-
-        // When
-        underTest.host = mock()
-        underTest.pickBackground()
-
-        // Then
-        verify(pickImageGetContentUseCase).invoke(any())
-    }
-
-    @Test
-    fun handlesActivityNotFoundExceptionForGetContent() {
+    fun handlesActivityNotFoundExceptionForImagePick() {
         // Given
         givenContextHasResourcesWithStrings()
-        whenever(pickImageDocumentUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
-        whenever(pickImageGetContentUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
-
+        whenever(pickImageUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
         val underTest = newBackgrodundImagePreferencePresenter()
 
         // When
@@ -307,42 +278,6 @@ class BackgroundImagePreferencePresenterTest {
             uri,
             Intent.FLAG_GRANT_READ_URI_PERMISSION
         )
-        verify(settings).backgroundUri = uri.toString()
-    }
-
-    @Test
-    fun copiesBackgroundToFileAndSetsBackgroundOnGetContentResult() {
-        // Given
-        val callback = setHostAndExtractOnActivityResultCallback()
-        val uri = Uri.parse("content://shit")
-
-        val localUri = Uri.parse("file://localshit")
-        whenever(backgroundImageManager.copyBackgroundToFile(uri)).thenReturn(localUri)
-
-        // When
-        callback.onActivityResult(REQUEST_CODE_GET_CONTENT, Activity.RESULT_OK, Intent().apply {
-            data = uri
-        })
-
-        // Then
-        verify(settings).backgroundUri = localUri.toString()
-    }
-
-    @Test
-    fun storesDirectUriWhenCopyFailedOnGetContent() {
-        // Given
-        val callback = setHostAndExtractOnActivityResultCallback()
-        val uri = Uri.parse("content://shit")
-
-        whenever(backgroundImageManager.copyBackgroundToFile(uri))
-            .thenThrow(RuntimeException())
-
-        // When
-        callback.onActivityResult(REQUEST_CODE_GET_CONTENT, Activity.RESULT_OK, Intent().apply {
-            data = uri
-        })
-
-        // Then
         verify(settings).backgroundUri = uri.toString()
     }
 

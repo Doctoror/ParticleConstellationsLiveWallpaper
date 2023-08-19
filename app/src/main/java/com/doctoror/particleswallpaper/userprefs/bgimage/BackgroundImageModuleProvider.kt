@@ -15,30 +15,14 @@
  */
 package com.doctoror.particleswallpaper.userprefs.bgimage
 
-import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
-import com.doctoror.particleswallpaper.framework.file.BackgroundImageManagerImpl
-import com.doctoror.particleswallpaper.framework.file.FileSaver
-import com.doctoror.particleswallpaper.framework.file.FileUriResolver
 import org.koin.dsl.module.module
 
 private const val PARAM_VIEW = 0
 
 fun provideModuleBackgroundImage() = module {
 
-    factory<BackgroundImageManager> {
-        BackgroundImageManagerImpl(
-            context = get(),
-            fileSaver = FileSaver(get()),
-            fileUriResolver = FileUriResolver(get())
-        )
-    }
-
     factory {
-        PickImageGetContentUseCase()
-    }
-
-    factory {
-        PickImageDocumentUseCase(get())
+        PickImageUseCase()
     }
 
     /*
@@ -46,12 +30,10 @@ fun provideModuleBackgroundImage() = module {
      */
     factory {
         BackgroundImagePreferencePresenter(
-            backgroundImageManager = get(),
             context = get(),
             defaults = get(),
             glide = get(),
-            pickImageGetContentUseCase = get(),
-            pickImageDocumentUseCase = get(),
+            pickImageUseCase = get(),
             schedulers = get(),
             settings = get(),
             view = it[PARAM_VIEW]

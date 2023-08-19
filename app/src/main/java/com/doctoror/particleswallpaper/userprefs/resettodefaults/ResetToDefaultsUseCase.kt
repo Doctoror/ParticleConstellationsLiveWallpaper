@@ -15,7 +15,6 @@
  */
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
-import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
@@ -25,7 +24,6 @@ import io.reactivex.Completable
  * Resets all configurations to default values.
  */
 class ResetToDefaultsUseCase(
-    private val backgroundImageManager: BackgroundImageManager,
     private val defaults: DefaultSceneSettings,
     private val settings: SceneSettings,
     private val settingsOpenGL: OpenGlSettings
@@ -48,7 +46,5 @@ class ResetToDefaultsUseCase(
 
         settings.speedFactor = defaults.speedFactor
         settingsOpenGL.resetToDefaults()
-
-        backgroundImageManager.clearBackgroundImage()
     }
 }

@@ -28,10 +28,9 @@ import org.mockito.kotlin.*
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class PickImageDocumentUseCaseTest {
+class PickImageUseCaseTest {
 
-    private val openImageGetContentUseCase: PickImageGetContentUseCase = mock()
-    private val underTest = PickImageDocumentUseCase(openImageGetContentUseCase)
+    private val underTest = PickImageUseCase()
 
     @After
     fun tearDown() {
@@ -39,7 +38,7 @@ class PickImageDocumentUseCaseTest {
     }
 
     @Test
-    fun opensImageDocumentPicker() {
+    fun opensImagePicker() {
         // Given
         val action: StartActivityForResultAction = mock()
 
@@ -55,8 +54,8 @@ class PickImageDocumentUseCaseTest {
         assertEquals("image/*", captor.firstValue.type)
     }
 
-    @Test
-    fun picksByGetContentOnActivityNotFoundException() {
+    @Test(expected = ActivityNotFoundException::class)
+    fun rethrowsActivityNotFoundException() {
         // Given
         val action: StartActivityForResultAction = mock {
             on(it.startActivityForResult(any(), eq(REQUEST_CODE_OPEN_DOCUMENT)))
@@ -65,8 +64,5 @@ class PickImageDocumentUseCaseTest {
 
         // When
         underTest.invoke(action)
-
-        // Then
-        verify(openImageGetContentUseCase).invoke(action)
     }
 }

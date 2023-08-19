@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import android.graphics.Color
-import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
@@ -44,10 +43,9 @@ class ResetToDefaultsUseCaseTest {
 
     private val settings: SceneSettings = mock()
     private val settingsOpenGL: OpenGlSettings = mock()
-    private val backgroundImageManager: BackgroundImageManager = mock()
 
     private val underTest = ResetToDefaultsUseCase(
-        backgroundImageManager, defaults, settings, settingsOpenGL
+        defaults, settings, settingsOpenGL
     )
 
     @Test
@@ -147,15 +145,6 @@ class ResetToDefaultsUseCaseTest {
 
         // Then
         verify(settings).speedFactor = defaults.speedFactor
-    }
-
-    @Test
-    fun clearsBackgroundImage() {
-        // When
-        underTest.action().test()
-
-        // Then
-        verify(backgroundImageManager).clearBackgroundImage()
     }
 
     @Test

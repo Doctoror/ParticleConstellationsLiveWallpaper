@@ -25,26 +25,21 @@ import android.util.Log
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.app.REQUEST_CODE_GET_CONTENT
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
-import com.doctoror.particleswallpaper.framework.file.BackgroundImageManager
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 
 class BackgroundImagePreferencePresenter(
-    private val backgroundImageManager: BackgroundImageManager,
     private val context: Context,
     private val defaults: DefaultSceneSettings,
     private val glide: Glide,
-    private val pickImageGetContentUseCase: PickImageGetContentUseCase,
-    private val pickImageDocumentUseCase: PickImageDocumentUseCase,
+    private val pickImageUseCase: PickImageUseCase,
     private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
     private val view: BackgroundImagePreferenceView
@@ -92,8 +87,7 @@ class BackgroundImagePreferencePresenter(
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 when (requestCode) {
-                    REQUEST_CODE_OPEN_DOCUMENT,
-                    REQUEST_CODE_GET_CONTENT -> {
+                    REQUEST_CODE_OPEN_DOCUMENT -> {
                         val uri = data.data
                         if (uri == null) {
                             Log.w(tag, "onActivityResult(), data uri is null")
@@ -113,73 +107,18 @@ class BackgroundImagePreferencePresenter(
         fun onActivityResultAvailable(requestCode: Int, uri: Uri)
     }
 
-    private open inner class BackgroundImageHandlerLegacy : BackgroundImageHandler {
+    private inner class BackgroundImageHandlerKitKat : BackgroundImageHandler {
 
         override fun pickBackground() {
             host?.let {
                 try {
-                    pickImageGetContentUseCase.invoke(FragmentStartActivityForResultAction(it))
+                    pickImageUseCase.invoke(FragmentStartActivityForResultAction(it))
                 } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(context, R.string.Failed_to_open_image_picker, Toast.LENGTH_LONG)
-                        .show()
-                }
-            }
-        }
-
-        override fun clearBackground() {
-            settings.backgroundUri = defaults.backgroundUri
-            clearBackgroundFile()
-        }
-
-        private fun clearBackgroundFile() {
-            disposables.add(Observable
-                .fromCallable { backgroundImageManager.clearBackgroundImage() }
-                .subscribeOn(schedulers.io())
-                .subscribe())
-        }
-
-        override fun onActivityResultAvailable(requestCode: Int, uri: Uri) {
-            if (requestCode == REQUEST_CODE_GET_CONTENT) {
-                handleGetContentUriResult(uri)
-            } else {
-                handleDefaultUriResult(uri)
-            }
-        }
-
-        private fun handleGetContentUriResult(uri: Uri) {
-            disposables.add(Observable
-                .fromCallable { backgroundImageManager.copyBackgroundToFile(uri) }
-                .subscribeOn(schedulers.io())
-                .subscribe(
-                    { settings.backgroundUri = it.toString() },
-                    {
-                        Log.w(tag, "Failed copying to private file", it)
-                        handleDefaultUriResult(uri)
-                    })
-            )
-        }
-
-        private fun handleDefaultUriResult(uri: Uri) {
-            settings.backgroundUri = uri.toString()
-        }
-    }
-
-    private inner class BackgroundImageHandlerKitKat : BackgroundImageHandlerLegacy() {
-
-        override fun pickBackground() {
-            host?.let {
-                try {
-                    pickImageDocumentUseCase.invoke(FragmentStartActivityForResultAction(it))
-                } catch (e: ActivityNotFoundException) {
-                    try {
-                        pickImageGetContentUseCase.invoke(FragmentStartActivityForResultAction(it))
-                    } catch (e: ActivityNotFoundException) {
-                        Toast.makeText(
-                            context,
-                            R.string.Failed_to_open_image_picker,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
+                    Toast.makeText(
+                        context,
+                        R.string.Failed_to_open_image_picker,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }
@@ -200,8 +139,9 @@ class BackgroundImagePreferencePresenter(
                             )
                         }
                 }
+
+                settings.backgroundUri = defaults.backgroundUri
             }
-            super.clearBackground()
         }
 
         override fun onActivityResultAvailable(requestCode: Int, uri: Uri) {
@@ -216,7 +156,8 @@ class BackgroundImagePreferencePresenter(
                     Log.w(tag, "Failed to take persistable Uri permission", e)
                 }
             }
-            super.onActivityResultAvailable(requestCode, uri)
+
+            settings.backgroundUri = uri.toString()
         }
     }
 }

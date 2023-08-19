@@ -15,26 +15,16 @@
  */
 package com.doctoror.particleswallpaper.userprefs.bgimage
 
-import android.annotation.TargetApi
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.os.Build
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
 import com.doctoror.particleswallpaper.framework.app.actions.StartActivityForResultAction
 
-class PickImageDocumentUseCase(
-    private val getContentUseCase: PickImageGetContentUseCase
-) {
+class PickImageUseCase {
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     fun invoke(startActivityForResultAction: StartActivityForResultAction) {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
         intent.type = "image/*"
-        try {
-            startActivityForResultAction.startActivityForResult(intent, REQUEST_CODE_OPEN_DOCUMENT)
-        } catch (e: ActivityNotFoundException) {
-            getContentUseCase.invoke(startActivityForResultAction)
-        }
+        startActivityForResultAction.startActivityForResult(intent, REQUEST_CODE_OPEN_DOCUMENT)
     }
 }
