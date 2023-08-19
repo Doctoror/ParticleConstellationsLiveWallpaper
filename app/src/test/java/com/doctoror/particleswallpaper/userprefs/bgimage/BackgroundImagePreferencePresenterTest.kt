@@ -42,7 +42,11 @@ class BackgroundImagePreferencePresenterTest {
     private val context: Context = mock()
     private val glide: Glide = mock()
     private val pickImageUseCase: PickImageUseCase = mock()
+    private val releasePersistableUriPermissionUseCase: ReleasePersistableUriPermissionUseCase =
+        mock()
     private val settings: SceneSettings = mock()
+    private val takePersistableUriPermissionUseCase: TakePersistableUriPermissionUseCase =
+        mock()
     private val defaults: DefaultSceneSettings = mock()
     private val view: BackgroundImagePreferenceView = mock()
 
@@ -53,8 +57,10 @@ class BackgroundImagePreferencePresenterTest {
         defaults,
         glide,
         pickImageUseCase,
+        releasePersistableUriPermissionUseCase,
         TrampolineSchedulers(),
         settings,
+        takePersistableUriPermissionUseCase,
         view
     )
 
@@ -137,74 +143,44 @@ class BackgroundImagePreferencePresenterTest {
     @Test
     fun releasesUriPermissionsOnClearBackground() {
         // Given
-        val contentResolver: ContentResolver = mock()
         val uri = Uri.parse("content://shithost")
-
-        givenBackgroundUriThatNeedsReleasingPermissions(contentResolver, uri)
+        whenever(settings.backgroundUri).thenReturn(uri.toString())
 
         // When
         underTest.clearBackground()
 
         // Then
-        verify(contentResolver).releasePersistableUriPermission(
-            uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
-        )
+        verify(releasePersistableUriPermissionUseCase).invoke(uri)
     }
 
     @Test
-    fun doesNotReleaseUriPermissionsWhenContentResolverHasNoPermissions() {
+    fun releasesUriPermissionsOnBackgroundChange() {
         // Given
-        val contentResolver: ContentResolver = mock()
-        val uri = Uri.parse("content://shithost")
+        val prevUri = Uri.parse("content://shithost")
+        whenever(settings.backgroundUri).thenReturn(prevUri.toString())
 
-        whenever(context.contentResolver).thenReturn(contentResolver)
-        whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(uri.toString()))
+        val callback = setHostAndExtractOnActivityResultCallback()
+        val newUri = Uri.parse("content://shit")
 
         // When
-        underTest.clearBackground()
+        callback.onActivityResult(REQUEST_CODE_PICK_IMAGE, Activity.RESULT_OK, Intent().apply {
+            data = newUri
+        })
 
         // Then
-        verify(contentResolver, never()).releasePersistableUriPermission(
-            uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
-        )
+        verify(releasePersistableUriPermissionUseCase).invoke(prevUri)
     }
 
     @Test
-    fun doesNotCrashOnReleaseUriPermissionsWhenContentResolverNotSet() {
+    fun doesNotReleaseUriPermissionsWhenUriNotSet() {
         // Given
-        whenever(settings.observeBackgroundUri())
-            .thenReturn(Observable.just("content://shithost"))
-
-        // When
-        underTest.clearBackground()
-
-        // Then no crash
-    }
-
-    @Test
-    fun doesNotCheckForUriPermissionsWhenUriNotSet() {
-        // Given
-        val contentResolver: ContentResolver = mock()
-        whenever(context.contentResolver).thenReturn(contentResolver)
         whenever(settings.observeBackgroundUri()).thenReturn(Observable.just(NO_URI))
 
         // When
         underTest.clearBackground()
 
         // Then
-        verify(contentResolver, never()).persistedUriPermissions
-    }
-
-    private fun givenBackgroundUriThatNeedsReleasingPermissions(
-        contentResolver: ContentResolver, uri: Uri
-    ) {
-        val uriPermission: UriPermission = mock {
-            on(it.uri).doReturn(uri)
-        }
-
-        whenever(contentResolver.persistedUriPermissions).doReturn(listOf(uriPermission))
-        whenever(context.contentResolver).thenReturn(contentResolver)
-        whenever(settings.backgroundUri).thenReturn(uri.toString())
+        verify(releasePersistableUriPermissionUseCase, never()).invoke(any())
     }
 
     @Test
@@ -260,13 +236,10 @@ class BackgroundImagePreferencePresenterTest {
     }
 
     @Test
-    fun takesPersistableUriPermissionAndSetsBackgroundOnOpenDocumentResult() {
+    fun takesPersistableUriPermissionAndSetsBackgroundOnPickImageResult() {
         // Given
         val callback = setHostAndExtractOnActivityResultCallback()
         val uri = Uri.parse("content://shit")
-
-        val contentResolver: ContentResolver = mock()
-        whenever(context.contentResolver).thenReturn(contentResolver)
 
         // When
         callback.onActivityResult(REQUEST_CODE_PICK_IMAGE, Activity.RESULT_OK, Intent().apply {
@@ -274,10 +247,7 @@ class BackgroundImagePreferencePresenterTest {
         })
 
         // Then
-        verify(contentResolver).takePersistableUriPermission(
-            uri,
-            Intent.FLAG_GRANT_READ_URI_PERMISSION
-        )
+        verify(takePersistableUriPermissionUseCase).invoke(uri)
         verify(settings).backgroundUri = uri.toString()
     }
 

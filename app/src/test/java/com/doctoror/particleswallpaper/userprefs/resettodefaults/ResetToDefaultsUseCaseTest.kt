@@ -16,37 +16,49 @@
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
 import android.graphics.Color
+import android.net.Uri
+import com.doctoror.particleswallpaper.userprefs.bgimage.ReleasePersistableUriPermissionUseCase
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
+import org.junit.Before
 import org.junit.Test
-import org.mockito.kotlin.doReturn
+import org.junit.runner.RunWith
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 class ResetToDefaultsUseCaseTest {
 
-    private val defaults: DefaultSceneSettings = mock {
-        on(it.backgroundColor).doReturn(0xff212121.toInt())
-        on(it.backgroundUri).doReturn(NO_URI)
-        on(it.backgroundScroll).doReturn(true)
-        on(it.density).doReturn(1)
-        on(it.frameDelay).doReturn(1)
-        on(it.lineLength).doReturn(86f)
-        on(it.lineScale).doReturn(1.1f)
-        on(it.particleColor).doReturn(Color.WHITE)
-        on(it.particleScale).doReturn(1.1f)
-        on(it.particlesScroll).doReturn(true)
-        on(it.speedFactor).doReturn(1.1f)
-    }
-
+    private val defaults: DefaultSceneSettings = mock()
+    private val releasePersistableUriPermissionUseCase: ReleasePersistableUriPermissionUseCase =
+        mock()
     private val settings: SceneSettings = mock()
     private val settingsOpenGL: OpenGlSettings = mock()
 
     private val underTest = ResetToDefaultsUseCase(
-        defaults, settings, settingsOpenGL
+        defaults, releasePersistableUriPermissionUseCase, settings, settingsOpenGL
     )
+
+    @Before
+    fun setup() {
+        whenever(defaults.backgroundColor).thenReturn(0xff212121.toInt())
+        whenever(defaults.backgroundUri).thenReturn(NO_URI)
+        whenever(defaults.backgroundScroll).thenReturn(true)
+        whenever(defaults.density).thenReturn(1)
+        whenever(defaults.frameDelay).thenReturn(1)
+        whenever(defaults.lineLength).thenReturn(86f)
+        whenever(defaults.lineScale).thenReturn(1.1f)
+        whenever(defaults.particleColor).thenReturn(Color.WHITE)
+        whenever(defaults.particleScale).thenReturn(1.1f)
+        whenever(defaults.particlesScroll).thenReturn(true)
+        whenever(defaults.speedFactor).thenReturn(1.1f)
+
+        whenever(settings.backgroundUri).thenReturn(NO_URI)
+    }
 
     @Test
     fun setsDefaultBackgroundColor() {
@@ -68,11 +80,15 @@ class ResetToDefaultsUseCaseTest {
 
     @Test
     fun setsDefaultBackgroundUri() {
+        val prev = "uri"
+        whenever(settings.backgroundUri).thenReturn(prev)
+
         // When
         underTest.action().test()
 
         // Then
         verify(settings).backgroundUri = defaults.backgroundUri
+        verify(releasePersistableUriPermissionUseCase).invoke(Uri.parse(prev))
     }
 
     @Test

@@ -40,8 +40,10 @@ class BackgroundImagePreferencePresenter(
     private val defaults: DefaultSceneSettings,
     private val glide: Glide,
     private val pickImageUseCase: PickImageUseCase,
+    private val releasePersistableUriPermissionUseCase: ReleasePersistableUriPermissionUseCase,
     private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
+    private val takePersistableUriPermissionUseCase: TakePersistableUriPermissionUseCase,
     private val view: BackgroundImagePreferenceView
 ) {
 
@@ -124,40 +126,23 @@ class BackgroundImagePreferencePresenter(
         }
 
         override fun clearBackground() {
-            val uriString = settings.backgroundUri
-            if (uriString != NO_URI) {
-                val contentResolver = context.contentResolver
-                if (contentResolver != null) {
-                    val uri = Uri.parse(uriString)
-                    val permissions = contentResolver.persistedUriPermissions
-                    permissions
-                        .filter { uri == it.uri }
-                        .forEach {
-                            contentResolver.releasePersistableUriPermission(
-                                it.uri,
-                                Intent.FLAG_GRANT_READ_URI_PERMISSION
-                            )
-                        }
-                }
-
+            val uri = settings.backgroundUri
+            if (uri != NO_URI) {
+                releasePersistableUriPermissionUseCase(Uri.parse(uri))
                 settings.backgroundUri = defaults.backgroundUri
             }
         }
 
         override fun onActivityResultAvailable(requestCode: Int, uri: Uri) {
             if (requestCode == REQUEST_CODE_PICK_IMAGE) {
-                try {
-                    context.contentResolver?.takePersistableUriPermission(
-                        uri,
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    )
-                } catch (e: SecurityException) {
-                    // This might happen if openByGetContent() was called within this handler
-                    Log.w(tag, "Failed to take persistable Uri permission", e)
+                val uriString = uri.toString()
+                val previousUri = settings.backgroundUri
+                if (uriString != previousUri) {
+                    releasePersistableUriPermissionUseCase(Uri.parse(previousUri))
+                    takePersistableUriPermissionUseCase.invoke(uri)
+                    settings.backgroundUri = uriString
                 }
             }
-
-            settings.backgroundUri = uri.toString()
         }
     }
 }

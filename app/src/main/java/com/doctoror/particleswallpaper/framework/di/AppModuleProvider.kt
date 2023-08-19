@@ -24,6 +24,8 @@ import org.koin.dsl.module.module
 
 fun provideModuleApp(context: Context) = module {
 
+    factory { context.contentResolver }
+
     single { context }
 
     single<SchedulersProvider> { SchedulersProviderImpl() }

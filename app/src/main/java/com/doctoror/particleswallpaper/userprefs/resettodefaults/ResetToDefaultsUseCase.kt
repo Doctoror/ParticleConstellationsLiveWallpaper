@@ -15,7 +15,10 @@
  */
 package com.doctoror.particleswallpaper.userprefs.resettodefaults
 
+import android.net.Uri
+import com.doctoror.particleswallpaper.userprefs.bgimage.ReleasePersistableUriPermissionUseCase
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
+import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.OpenGlSettings
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
 import io.reactivex.Completable
@@ -25,13 +28,14 @@ import io.reactivex.Completable
  */
 class ResetToDefaultsUseCase(
     private val defaults: DefaultSceneSettings,
+    private val releasePersistableUriPermissionUseCase: ReleasePersistableUriPermissionUseCase,
     private val settings: SceneSettings,
     private val settingsOpenGL: OpenGlSettings
 ) {
 
     fun action() = Completable.fromAction {
         settings.backgroundColor = defaults.backgroundColor
-        settings.backgroundUri = defaults.backgroundUri
+        clearBackgroundUri()
         settings.backgroundScroll = defaults.backgroundScroll
 
         settings.density = defaults.density
@@ -46,5 +50,14 @@ class ResetToDefaultsUseCase(
 
         settings.speedFactor = defaults.speedFactor
         settingsOpenGL.resetToDefaults()
+    }
+
+    private fun clearBackgroundUri() {
+        val prev = settings.backgroundUri
+        if (prev != NO_URI) {
+            releasePersistableUriPermissionUseCase.invoke(Uri.parse(prev))
+        }
+
+        settings.backgroundUri = defaults.backgroundUri
     }
 }

@@ -35,9 +35,15 @@ fun provideModuleBackgroundImage() = module {
             defaults = get(),
             glide = get(),
             pickImageUseCase = get(),
+            releasePersistableUriPermissionUseCase = get(),
+            takePersistableUriPermissionUseCase = TakePersistableUriPermissionUseCase(get()),
             schedulers = get(),
             settings = get(),
             view = it[PARAM_VIEW]
         )
+    }
+
+    factory {
+        ReleasePersistableUriPermissionUseCase(get())
     }
 }
