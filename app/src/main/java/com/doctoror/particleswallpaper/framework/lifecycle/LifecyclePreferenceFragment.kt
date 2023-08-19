@@ -28,10 +28,7 @@ import androidx.lifecycle.LifecycleRegistry
  */
 abstract class LifecyclePreferenceFragment : PreferenceFragment(), LifecycleOwner {
 
-    @Suppress("LeakingThis")
-    private val lifecycleRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle() = lifecycleRegistry
+    override val lifecycle = LifecycleRegistry(this)
 
     @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onStart() {
