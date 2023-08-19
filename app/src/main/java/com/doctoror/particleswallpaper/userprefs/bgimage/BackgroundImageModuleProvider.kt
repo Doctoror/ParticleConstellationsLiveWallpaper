@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.bgimage
 
+import androidx.activity.result.contract.ActivityResultContracts
 import org.koin.dsl.module.module
 
 private const val PARAM_VIEW = 0
@@ -22,7 +23,7 @@ private const val PARAM_VIEW = 0
 fun provideModuleBackgroundImage() = module {
 
     factory {
-        PickImageUseCase()
+        PickImageUseCase(ActivityResultContracts.PickVisualMedia())
     }
 
     /*

@@ -15,16 +15,23 @@
  */
 package com.doctoror.particleswallpaper.userprefs.bgimage
 
-import android.content.Intent
-import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
+import android.content.Context
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_PICK_IMAGE
 import com.doctoror.particleswallpaper.framework.app.actions.StartActivityForResultAction
 
-class PickImageUseCase {
+class PickImageUseCase(private val contract: ActivityResultContracts.PickVisualMedia) {
 
-    fun invoke(startActivityForResultAction: StartActivityForResultAction) {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-        intent.type = "image/*"
-        startActivityForResultAction.startActivityForResult(intent, REQUEST_CODE_OPEN_DOCUMENT)
+    fun invoke(
+        context: Context,
+        startActivityForResultAction: StartActivityForResultAction
+    ) {
+        val intent = contract.createIntent(
+            context,
+            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+        )
+
+        startActivityForResultAction.startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE)
     }
 }

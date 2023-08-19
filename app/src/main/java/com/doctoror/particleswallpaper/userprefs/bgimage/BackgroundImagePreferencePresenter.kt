@@ -25,7 +25,7 @@ import android.util.Log
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.R
-import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_PICK_IMAGE
 import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
@@ -87,7 +87,7 @@ class BackgroundImagePreferencePresenter(
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 when (requestCode) {
-                    REQUEST_CODE_OPEN_DOCUMENT -> {
+                    REQUEST_CODE_PICK_IMAGE -> {
                         val uri = data.data
                         if (uri == null) {
                             Log.w(tag, "onActivityResult(), data uri is null")
@@ -112,7 +112,7 @@ class BackgroundImagePreferencePresenter(
         override fun pickBackground() {
             host?.let {
                 try {
-                    pickImageUseCase.invoke(FragmentStartActivityForResultAction(it))
+                    pickImageUseCase.invoke(context, FragmentStartActivityForResultAction(it))
                 } catch (e: ActivityNotFoundException) {
                     Toast.makeText(
                         context,
@@ -145,7 +145,7 @@ class BackgroundImagePreferencePresenter(
         }
 
         override fun onActivityResultAvailable(requestCode: Int, uri: Uri) {
-            if (requestCode == REQUEST_CODE_OPEN_DOCUMENT) {
+            if (requestCode == REQUEST_CODE_PICK_IMAGE) {
                 try {
                     context.contentResolver?.takePersistableUriPermission(
                         uri,

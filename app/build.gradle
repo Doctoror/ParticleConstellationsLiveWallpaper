@@ -106,6 +106,7 @@ dependencies {
     implementation files('libs/opengl-exposed-release.aar')
     implementation d.colorPicker
 
+    implementation d.androidXActivity
     implementation d.androidxAnnotations
     implementation d.androidxLifecycle
 

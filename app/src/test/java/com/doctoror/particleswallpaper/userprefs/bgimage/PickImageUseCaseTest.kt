@@ -16,11 +16,15 @@
 package com.doctoror.particleswallpaper.userprefs.bgimage
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
-import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_PICK_IMAGE
 import com.doctoror.particleswallpaper.framework.app.actions.StartActivityForResultAction
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext
@@ -30,7 +34,16 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class PickImageUseCaseTest {
 
-    private val underTest = PickImageUseCase()
+    private val context: Context = mock()
+    private val contract: ActivityResultContracts.PickVisualMedia = mock()
+    private val intent: Intent = mock()
+
+    private val underTest = PickImageUseCase(contract)
+
+    @Before
+    fun setup() {
+        whenever(contract.createIntent(eq(context), any())).thenReturn(intent)
+    }
 
     @After
     fun tearDown() {
@@ -43,26 +56,25 @@ class PickImageUseCaseTest {
         val action: StartActivityForResultAction = mock()
 
         // When
-        underTest.invoke(action)
+        underTest.invoke(context, action)
 
         // Then
-        val captor = argumentCaptor<Intent>()
-        verify(action).startActivityForResult(captor.capture(), eq(REQUEST_CODE_OPEN_DOCUMENT))
+        verify(action).startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE)
 
-        assertEquals(Intent.ACTION_OPEN_DOCUMENT, captor.firstValue.action)
-        assertEquals(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, captor.firstValue.flags)
-        assertEquals("image/*", captor.firstValue.type)
+        val captor = argumentCaptor<PickVisualMediaRequest>()
+        verify(contract).createIntent(eq(context), captor.capture())
+        assertEquals(ActivityResultContracts.PickVisualMedia.ImageOnly, captor.firstValue.mediaType)
     }
 
     @Test(expected = ActivityNotFoundException::class)
     fun rethrowsActivityNotFoundException() {
         // Given
         val action: StartActivityForResultAction = mock {
-            on(it.startActivityForResult(any(), eq(REQUEST_CODE_OPEN_DOCUMENT)))
+            on(it.startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE))
                 .doThrow(ActivityNotFoundException())
         }
 
         // When
-        underTest.invoke(action)
+        underTest.invoke(context, action)
     }
 }

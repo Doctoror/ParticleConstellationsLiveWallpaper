@@ -20,7 +20,7 @@ import android.content.*
 import android.content.res.Resources
 import android.net.Uri
 import com.bumptech.glide.Glide
-import com.doctoror.particleswallpaper.app.REQUEST_CODE_OPEN_DOCUMENT
+import com.doctoror.particleswallpaper.app.REQUEST_CODE_PICK_IMAGE
 import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.userprefs.ConfigFragment
@@ -214,14 +214,14 @@ class BackgroundImagePreferencePresenterTest {
         underTest.pickBackground()
 
         // Then
-        verify(pickImageUseCase).invoke(any())
+        verify(pickImageUseCase).invoke(eq(context), any())
     }
 
     @Test
     fun handlesActivityNotFoundExceptionForOpenDocument() {
         // Given
         givenContextHasResourcesWithStrings()
-        whenever(pickImageUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
+        whenever(pickImageUseCase.invoke(eq(context), any())).thenThrow(ActivityNotFoundException())
 
         // When
         underTest.host = mock()
@@ -234,7 +234,7 @@ class BackgroundImagePreferencePresenterTest {
     fun handlesActivityNotFoundExceptionForImagePick() {
         // Given
         givenContextHasResourcesWithStrings()
-        whenever(pickImageUseCase.invoke(any())).thenThrow(ActivityNotFoundException())
+        whenever(pickImageUseCase.invoke(eq(context), any())).thenThrow(ActivityNotFoundException())
         val underTest = newBackgrodundImagePreferencePresenter()
 
         // When
@@ -251,7 +251,7 @@ class BackgroundImagePreferencePresenterTest {
         val uri = Uri.parse("content://shit")
 
         // When
-        callback.onActivityResult(REQUEST_CODE_OPEN_DOCUMENT, Activity.RESULT_OK, Intent().apply {
+        callback.onActivityResult(REQUEST_CODE_PICK_IMAGE, Activity.RESULT_OK, Intent().apply {
             data = uri
         })
 
@@ -269,7 +269,7 @@ class BackgroundImagePreferencePresenterTest {
         whenever(context.contentResolver).thenReturn(contentResolver)
 
         // When
-        callback.onActivityResult(REQUEST_CODE_OPEN_DOCUMENT, Activity.RESULT_OK, Intent().apply {
+        callback.onActivityResult(REQUEST_CODE_PICK_IMAGE, Activity.RESULT_OK, Intent().apply {
             data = uri
         })
 

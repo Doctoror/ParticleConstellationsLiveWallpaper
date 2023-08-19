@@ -12,6 +12,7 @@ ext {
     androidMinSdkVersion = 19
     androidTargetSdkVersion = 34
     androidCompileSdkVersion = 34
+    androidxActivityVersion = '1.7.2'
     androidxAnnotationVersion = '1.6.0'
     androidxLifecycleVersion = '2.6.1'
 
@@ -34,6 +35,7 @@ ext {
     robolectricVersion = '4.10.3'
 
     wallpaperappDependencies = [
+            androidXActivity   : "androidx.activity:activity:$androidxActivityVersion",
             androidxAnnotations: "androidx.annotation:annotation:$androidxAnnotationVersion",
             androidxLifecycle  : "androidx.lifecycle:lifecycle-runtime:$androidxLifecycleVersion",
 
