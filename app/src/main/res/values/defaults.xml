@@ -3,7 +3,7 @@
 
     <color name="defaultBackground">#212121</color>
 
-    <integer name="defaultDensity">80</integer>
+    <integer name="defaultDensity">130</integer>
 
     <integer name="defaultFrameDelay">0</integer>
 

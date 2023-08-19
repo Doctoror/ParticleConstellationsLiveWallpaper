@@ -28,7 +28,7 @@ class DensityPreferencePresenter(
     private val view: SeekBarPreferenceView
 ) : SeekBarMapper<Int> {
 
-    private val seekBarMaxValue = 149
+    private val seekBarMaxValue = 399
     private var disposable: Disposable? = null
 
     init {
