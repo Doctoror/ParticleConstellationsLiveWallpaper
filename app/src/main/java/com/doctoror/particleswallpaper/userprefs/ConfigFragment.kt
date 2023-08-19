@@ -64,6 +64,9 @@ open class ConfigFragment @JvmOverloads constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 if (!it) {
+                    findPreference(getString(R.string.pref_key_engine_tips))?.let {
+                        preferenceScreen.removePreference(it)
+                    }
                     val group = findPreference(getString(R.string.pref_key_performance))
                     if (group is PreferenceGroup) {
                         group.findPreference(getString(R.string.pref_key_engine))?.let {
