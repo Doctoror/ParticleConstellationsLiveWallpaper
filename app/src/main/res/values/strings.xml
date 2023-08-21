@@ -18,7 +18,7 @@
     <string name="app_name">Particle Constellations Live Wallpaper</string>
     <string name="Wallpaper_description">Particle Constellations Live Wallpaper</string>
 
-    <string name="How_to_apply">How to apply</string>
+    <string name="How_to_apply">How to set wallpaper</string>
 
     <string name="Appearance">Appearance</string>
     <string name="Scale">Scale</string>
@@ -54,7 +54,7 @@
     </string>
 
     <string name="Reset">Reset</string>
-    <string name="Apply">Apply</string>
+    <string name="Apply">Set wallpaper</string>
 
     <string name="Open_source_licenses">Open source licenses</string>
     <string name="Close">Close</string>
@@ -97,7 +97,7 @@
     ]]></string>
 
     <string name="how_to_apply_with_preview"><![CDATA[
-        To apply this wallpaper, press “Apply”, and set the wallpaper from there.
+        To apply this wallpaper, press “Set wallpaper”, and set the wallpaper from there.
     ]]></string>
 
     <string name="how_to_apply_with_chooser"><![CDATA[
