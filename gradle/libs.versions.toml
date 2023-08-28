@@ -1,9 +1,9 @@
 [versions]
 agp = "8.1.1"
 
-androidCompileSdkVersion = "34"
-androidMinSdkVersion = "19"
-androidTargetSdkVersion = "34"
+androidCompileSdk = "34"
+androidMinSdk = "19"
+androidTargetSdk = "34"
 androidTestCore = "1.5.0"
 androidxActivity = '1.7.2'
 androidxAnnotation = '1.6.0'
