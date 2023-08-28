@@ -2,7 +2,7 @@
 *.iml
 .gradle
 gradle.properties
-gradle
+gradle-wrapper.jar
 gradlew*
 .idea
 .DS_Store

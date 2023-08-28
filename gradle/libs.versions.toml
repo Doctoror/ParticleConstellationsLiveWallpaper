@@ -1,0 +1,61 @@
+[versions]
+androidCompileSdkVersion = "33"
+androidMinSdkVersion = "19"
+androidTargetSdkVersion = "33"
+androidTestCore = "1.5.0"
+androidxActivity = '1.7.2'
+androidxAnnotation = '1.6.0'
+androidxLifecycle = '2.6.1'
+
+colorPicker = "2.4.2"
+
+glide = "4.15.1"
+
+junit = "5.10.0"
+
+koin = "1.0.1"
+kotlin = "1.9.10"
+
+licensesDialog = "1.8.3" #Do not update not to introduce Android X Dialogs dependency
+
+mockito = "5.1.0"
+
+openglAndroid = "gl1.1-android-2.1_r1"
+
+robolectric = "4.10.3"
+rxAndroid = "2.1.1"
+rxJava = "2.2.21"
+
+toolsGradle = "8.0.2"
+
+
+[libraries]
+
+androidx-activity = { module = "androidx.activity:activity", version.ref = "androidxActivity" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidxAnnotation" }
+androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime", version.ref = "androidxLifecycle" }
+
+color-picker = { module = "com.rarepebble:colorpicker", version.ref = "colorPicker" }
+
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+
+junit-vintage = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit" }
+
+koin-android = { module = "org.koin:koin-android", version.ref = "koin" }
+koin-test = { module = "org.koin:koin-test", version.ref = "koin" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+
+licensesdialog = { module = "de.psdev.licensesdialog:licensesdialog", version.ref = "licensesDialog" }
+
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito" }
+
+opengl-android = { module = "org.khronos:opengl-api", version.ref = "openglAndroid" }
+
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+rxAndroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxAndroid" }
+rxJava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxJava" }
+
+test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
+tools-build-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "toolsGradle" }

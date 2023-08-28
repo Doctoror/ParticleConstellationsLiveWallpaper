@@ -4,18 +4,15 @@ apply plugin: 'kotlin-kapt'
 
 android {
 
-    def globalConfiguration = rootProject.extensions.getByName("ext")
-
-    compileSdk globalConfiguration["androidCompileSdkVersion"]
-    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+    compileSdk Integer.parseInt(libs.versions.androidCompileSdkVersion.get())
 
     namespace 'com.doctoror.particleswallpaper'
 
     defaultConfig {
         applicationId "com.doctoror.particleswallpaper"
 
-        minSdk globalConfiguration["androidMinSdkVersion"]
-        targetSdk globalConfiguration["androidTargetSdkVersion"]
+        minSdk Integer.parseInt(libs.versions.androidMinSdkVersion.get())
+        targetSdk Integer.parseInt(libs.versions.androidTargetSdkVersion.get())
 
         versionCode 42
         versionName "2.3.2"
@@ -85,40 +82,31 @@ android {
 }
 
 dependencies {
-    def d = rootProject.ext.wallpaperappDependencies
-    def td = rootProject.ext.wallpaperappTestDependencies
+    testImplementation libs.test.core
+    testImplementation libs.junit.vintage
+    testImplementation libs.koin.test
+    testImplementation libs.kotlin.reflect
+    testImplementation libs.mockito.kotlin
+    testImplementation libs.opengl.android
+    testImplementation libs.robolectric
 
-    testImplementation td.androidxTestCore
-    testImplementation td.junitVintage
-    testImplementation td.koinTest
-    testImplementation td.kotlinReflect
-    testImplementation td.robolectric
-    testImplementation td.mockitoCore
-    testImplementation td.mockitoKotlin
-    testImplementation 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-
-    implementation d.koin
-    implementation d.kotlin
-    implementation d.rxJava
-    implementation d.rxAndroid
+    implementation libs.koin.android
+    implementation libs.rxJava
+    implementation libs.rxAndroid
 
     implementation files('libs/library-exposed-release.aar')
     implementation files('libs/opengl-exposed-release.aar')
-    implementation d.colorPicker
+    implementation libs.color.picker
 
-    implementation d.androidXActivity
-    implementation d.androidxAnnotations
-    implementation d.androidxLifecycle
+    implementation libs.androidx.activity
+    implementation libs.androidx.annotation
+    implementation libs.androidx.lifecycle
 
-    implementation(d.licencesDialog) {
+    implementation(libs.licensesdialog) {
         exclude(group: 'androidx.appcompat', module: 'appcompat')
         exclude(group: 'com.android.support', module: 'appcompat-v7')
     }
 
-    implementation d.glide
-    kapt d.glideCompiler
-}
-
-repositories {
-    mavenCentral()
+    implementation libs.glide
+    kapt libs.glide.compiler
 }
