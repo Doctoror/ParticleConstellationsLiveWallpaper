@@ -1,4 +1,6 @@
 [versions]
+agp = "8.1.1"
+
 androidCompileSdkVersion = "33"
 androidMinSdkVersion = "19"
 androidTargetSdkVersion = "33"
@@ -26,9 +28,6 @@ openglAndroid = "gl1.1-android-2.1_r1"
 robolectric = "4.10.3"
 rxAndroid = "2.1.1"
 rxJava = "2.2.21"
-
-toolsGradle = "8.1.1"
-
 
 [libraries]
 
