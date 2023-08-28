@@ -37,7 +37,7 @@ class DensityPreferencePresenterTest {
 
     @Test
     fun setsMaxValueOnInit() {
-        verify(view).setMaxInt(149)
+        verify(view).setMaxInt(399)
     }
 
     @Test

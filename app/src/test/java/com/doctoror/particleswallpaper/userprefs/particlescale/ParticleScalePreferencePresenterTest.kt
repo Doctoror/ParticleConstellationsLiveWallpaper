@@ -37,7 +37,7 @@ class ParticleScalePreferencePresenterTest {
 
     @Test
     fun setsMaxValueOnInit() {
-        verify(view).setMaxInt(70)
+        verify(view).setMaxInt(140)
     }
 
     @Test

@@ -72,9 +72,9 @@ class DeviceSettingsTest {
         val prefs = InMemorySharedPreferences()
         val underTest = DeviceSettings { prefs }
 
-        val expectedValue1 = true
-        val expectedValue2 = false
-        val expectedValue3 = true
+        val expectedValue1 = false
+        val expectedValue2 = true
+        val expectedValue3 = false
 
         val o = underTest.observeOpenglEnabled().test()
 
