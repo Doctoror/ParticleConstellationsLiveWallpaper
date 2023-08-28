@@ -1,6 +1,8 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'com.google.devtools.ksp'
+    id 'org.jetbrains.kotlin.android'
+}
 
 android {
 
@@ -108,5 +110,5 @@ dependencies {
     }
 
     implementation libs.glide
-    kapt libs.glide.compiler
+    ksp libs.glide.ksp
 }

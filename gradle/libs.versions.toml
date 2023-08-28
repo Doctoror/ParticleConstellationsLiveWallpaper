@@ -9,12 +9,13 @@ androidxLifecycle = '2.6.1'
 
 colorPicker = "2.4.2"
 
-glide = "4.15.1"
+glide = "4.16.0"
 
 junit = "5.10.0"
 
 koin = "1.0.1"
 kotlin = "1.9.10"
+ksp = "1.9.10-1.0.13"
 
 licensesDialog = "1.8.3" #Do not update not to introduce Android X Dialogs dependency
 
@@ -26,7 +27,7 @@ robolectric = "4.10.3"
 rxAndroid = "2.1.1"
 rxJava = "2.2.21"
 
-toolsGradle = "8.0.2"
+toolsGradle = "8.1.1"
 
 
 [libraries]
@@ -38,7 +39,7 @@ androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime", version.
 color-picker = { module = "com.rarepebble:colorpicker", version.ref = "colorPicker" }
 
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+glide-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "glide" }
 
 junit-vintage = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit" }
 
@@ -58,4 +59,3 @@ rxAndroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxAndroi
 rxJava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxJava" }
 
 test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
-tools-build-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "toolsGradle" }
