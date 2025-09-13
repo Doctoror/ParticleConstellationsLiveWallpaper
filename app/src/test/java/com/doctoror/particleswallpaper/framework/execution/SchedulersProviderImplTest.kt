@@ -21,7 +21,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.standalone.StandAloneContext
+import org.koin.core.context.stopKoin
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
@@ -31,7 +31,7 @@ class SchedulersProviderImplTest {
 
     @After
     fun tearDown() {
-        StandAloneContext.stopKoin()
+        stopKoin()
     }
 
     @Test

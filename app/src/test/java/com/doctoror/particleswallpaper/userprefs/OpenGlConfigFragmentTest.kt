@@ -24,12 +24,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.standalone.StandAloneContext
+import org.koin.core.context.stopKoin
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.FragmentController
-import org.robolectric.annotation.Config
 
-@Config(sdk = intArrayOf(19))
 @RunWith(RobolectricTestRunner::class)
 class OpenGlConfigFragmentTest {
 
@@ -37,7 +35,7 @@ class OpenGlConfigFragmentTest {
 
     @After
     fun tearDown() {
-        StandAloneContext.stopKoin()
+        stopKoin()
     }
 
     @Test

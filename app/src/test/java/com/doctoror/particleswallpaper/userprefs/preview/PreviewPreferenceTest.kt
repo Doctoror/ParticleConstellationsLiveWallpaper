@@ -22,10 +22,11 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.standalone.StandAloneContext
-import org.koin.standalone.inject
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
 import org.koin.test.KoinTest
-import org.koin.test.declareMock
+import org.koin.test.inject
 import org.mockito.kotlin.*
 import org.robolectric.RobolectricTestRunner
 
@@ -45,13 +46,20 @@ class PreviewPreferenceTest : KoinTest {
 
     @Before
     fun setup() {
-        declareMock<OpenChangeWallpaperIntentProvider>()
-        declareMock<PreviewPreferencePresenter>()
+        stopKoin()
+        startKoin {
+            modules(
+                module {
+                    single { mock<OpenChangeWallpaperIntentProvider>() }
+                    single { mock<PreviewPreferencePresenter>()  }
+                }
+            )
+        }
     }
 
     @After
     fun tearDown() {
-        StandAloneContext.stopKoin()
+        stopKoin()
     }
 
     @Test

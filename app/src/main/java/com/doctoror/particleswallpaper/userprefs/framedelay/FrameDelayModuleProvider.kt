@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.framedelay
 
 import com.doctoror.particleswallpaper.framework.view.DisplayFrameRateProvider
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 
 private const val PARAM_CONTEXT = 0
 private const val PARAM_VIEW = 1

@@ -23,8 +23,14 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.standalone.StandAloneContext
-import org.mockito.kotlin.*
+import org.koin.core.context.stopKoin
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.inOrder
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
@@ -45,7 +51,7 @@ class WallpaperServiceImplEngineTest {
 
     @After
     fun tearDown() {
-        StandAloneContext.stopKoin()
+        stopKoin()
     }
 
     @Test

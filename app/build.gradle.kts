@@ -1,7 +1,10 @@
 plugins {
     id("com.android.application")
-    id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.android")
+}
+
+kotlin {
+    jvmToolchain(libs.versions.jvmToolchain.get().toInt())
 }
 
 android {
@@ -19,7 +22,7 @@ android {
         versionCode = 42
         versionName = "2.3.2"
 
-        resourceConfigurations += listOf("en", "ru", "uk")
+        androidResources.localeFilters.addAll(setOf("en", "ru", "uk"))
     }
 
     packaging {
@@ -28,11 +31,6 @@ android {
 
     buildFeatures {
         buildConfig = true
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 
     testOptions {
@@ -98,9 +96,9 @@ dependencies {
     implementation(libs.rxJava)
     implementation(libs.rxAndroid)
 
+    implementation(files("libs/com.rarepebble.colorpicker-2.4.2-20402.aar"))
     implementation(files("libs/library-exposed-release.aar"))
     implementation(files("libs/opengl-exposed-release.aar"))
-    implementation(libs.color.picker)
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.annotation)
@@ -112,5 +110,4 @@ dependencies {
     }
 
     implementation(libs.glide)
-    ksp(libs.glide.ksp)
 }

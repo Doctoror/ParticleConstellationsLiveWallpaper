@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.execution.SchedulersProviderImpl
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 
 fun provideModuleApp(context: Context) = module {
 

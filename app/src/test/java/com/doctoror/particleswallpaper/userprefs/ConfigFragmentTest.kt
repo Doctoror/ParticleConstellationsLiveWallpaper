@@ -19,29 +19,48 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.test.core.app.ApplicationProvider
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.userprefs.bgcolor.BackgroundColorPreferencePresenter
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreference
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.bgscroll.BackgroundScrollPreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
+import com.doctoror.particleswallpaper.userprefs.density.DensityPreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.engine.EnginePreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.engine.EnginePreferenceValueMapper
+import com.doctoror.particleswallpaper.userprefs.enginetips.EngineTipsPreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.framedelay.FrameDelayPreferencePresenter
 import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreference
+import com.doctoror.particleswallpaper.userprefs.howtoapply.HowToApplyPreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.license.LicensePreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.linelength.LineLengthPreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.linescale.LineScalePreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.multisampling.MultisamplingPreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.particlecolor.ParticleColorPreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.particlescale.ParticleScalePreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.particlesscroll.ParticlesScrollPreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.performancetips.PerformanceTipsPreferencePresenter
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreference
 import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.speedfactor.SpeedFactorPreferencePresenter
+import io.reactivex.Observable
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.standalone.StandAloneContext
-import org.koin.standalone.inject
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
 import org.koin.test.KoinTest
-import org.koin.test.declareMock
+import org.koin.test.inject
+import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.FragmentController
-import org.robolectric.annotation.Config
 
-@Config(sdk = intArrayOf(19))
 @RunWith(RobolectricTestRunner::class)
 class ConfigFragmentTest : KoinTest {
 
@@ -50,14 +69,43 @@ class ConfigFragmentTest : KoinTest {
 
     @Before
     fun setup() {
-        declareMock<BackgroundImagePreferencePresenter>()
-        declareMock<PreviewPreferencePresenter>()
-        declareMock<OpenChangeWallpaperIntentProvider>()
+        stopKoin()
+
+        val deviceSettings: DeviceSettings = mock {
+            on(it.observeOpenglSupported()) doReturn Observable.just(false)
+        }
+        startKoin {
+            modules(
+                module {
+                    single { deviceSettings }
+                    single { mock<BackgroundColorPreferencePresenter>() }
+                    single { mock<BackgroundImagePreferencePresenter>() }
+                    single { mock<BackgroundScrollPreferencePresenter>() }
+                    single { mock<DensityPreferencePresenter>() }
+                    single { mock<EnginePreferencePresenter>() }
+                    single { mock<EnginePreferenceValueMapper>() }
+                    single { mock<EngineTipsPreferencePresenter>() }
+                    single { mock<FrameDelayPreferencePresenter>() }
+                    single { mock<HowToApplyPreferencePresenter>() }
+                    single { mock<LicensePreferencePresenter>() }
+                    single { mock<LineLengthPreferencePresenter>() }
+                    single { mock<LineScalePreferencePresenter>() }
+                    single { mock<MultisamplingPreferencePresenter>() }
+                    single { mock<OpenChangeWallpaperIntentProvider>() }
+                    single { mock<ParticleColorPreferencePresenter>() }
+                    single { mock<ParticleScalePreferencePresenter>() }
+                    single { mock<ParticlesScrollPreferencePresenter>() }
+                    single { mock<PerformanceTipsPreferencePresenter>() }
+                    single { mock<PreviewPreferencePresenter>() }
+                    single { mock<SpeedFactorPreferencePresenter>() }
+                }
+            )
+        }
     }
 
     @After
     fun tearDown() {
-        StandAloneContext.stopKoin()
+        stopKoin()
     }
 
     @Test

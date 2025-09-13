@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.multisampling
 
 import android.content.Context
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 
 private const val PARAM_VIEW = 0
 

@@ -25,7 +25,7 @@ import com.doctoror.particleswallpaper.framework.util.MultisamplingSupportDetect
 import com.doctoror.particleswallpaper.framework.view.ViewDimensionsProvider
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 
 private const val MENU_PRESENTER_PARAM_ACTIVITY = 0
 

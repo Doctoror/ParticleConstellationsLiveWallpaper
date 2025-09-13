@@ -23,7 +23,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.standalone.StandAloneContext
+import org.koin.core.context.stopKoin
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
 
@@ -66,7 +66,7 @@ class LifecycleActivityTest {
     @After
     fun tearDown() {
         underTest.lifecycle.removeObserver(testObserver)
-        StandAloneContext.stopKoin()
+        stopKoin()
     }
 
     @Test

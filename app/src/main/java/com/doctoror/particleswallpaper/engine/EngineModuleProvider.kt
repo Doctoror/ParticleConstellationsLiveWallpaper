@@ -23,7 +23,7 @@ import com.doctoror.particleswallpaper.framework.util.OpenGlEnabledStateChanger
 import io.reactivex.Scheduler
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 
 private const val PARAM_ENGINE_CONTROLLER = 0
 private const val PARAM_RENDER_THREAD_SCHEDULER = 1

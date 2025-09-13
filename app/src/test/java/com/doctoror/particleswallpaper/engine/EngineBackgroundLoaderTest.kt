@@ -28,7 +28,7 @@ import io.reactivex.subjects.BehaviorSubject
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.standalone.StandAloneContext
+import org.koin.core.context.stopKoin
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -52,7 +52,7 @@ class EngineBackgroundLoaderTest {
     @After
     fun tearDown() {
         underTest.onDestroy()
-        StandAloneContext.stopKoin()
+        stopKoin()
     }
 
     @Test

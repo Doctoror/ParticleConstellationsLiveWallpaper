@@ -1,23 +1,21 @@
 [versions]
-agp = "8.1.1"
+agp = "8.13.0"
 
-androidCompileSdk = "34"
-androidMinSdk = "19"
-androidTargetSdk = "34"
+androidCompileSdk = "36"
+androidMinSdk = "21"
+androidTargetSdk = "36"
 androidTestCore = "1.5.0"
 androidxActivity = '1.7.2'
 androidxAnnotation = '1.6.0'
 androidxLifecycle = '2.6.1'
 
-colorPicker = "2.4.2"
-
-glide = "4.16.0"
+glide = "5.0.5"
 
 junit = "5.10.0"
+jvmToolchain = "21"
 
-koin = "1.0.1"
-kotlin = "1.9.10"
-ksp = "1.9.10-1.0.13"
+koin = "4.1.1"
+kotlin = "2.2.20"
 
 licensesDialog = "1.8.3" #Do not update not to introduce Android X Dialogs dependency
 
@@ -35,15 +33,12 @@ androidx-activity = { module = "androidx.activity:activity", version.ref = "andr
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidxAnnotation" }
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime", version.ref = "androidxLifecycle" }
 
-color-picker = { module = "com.rarepebble:colorpicker", version.ref = "colorPicker" }
-
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-glide-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "glide" }
 
 junit-vintage = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit" }
 
-koin-android = { module = "org.koin:koin-android", version.ref = "koin" }
-koin-test = { module = "org.koin:koin-test", version.ref = "koin" }
+koin-android = { module = " io.insert-koin:koin-android", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 

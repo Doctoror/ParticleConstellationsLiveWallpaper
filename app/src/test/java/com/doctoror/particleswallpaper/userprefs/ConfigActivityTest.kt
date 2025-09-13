@@ -26,17 +26,25 @@ import android.widget.Toolbar
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_CHANGE_WALLPAPER
 import com.doctoror.particleswallpaper.userprefs.bgimage.BackgroundImagePreferencePresenter
+import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
+import com.doctoror.particleswallpaper.userprefs.engine.EnginePreferenceValueMapper
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import io.reactivex.Observable
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.standalone.StandAloneContext
-import org.koin.standalone.inject
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
 import org.koin.test.KoinTest
-import org.koin.test.declareMock
+import org.koin.test.inject
+import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
@@ -56,11 +64,24 @@ class ConfigActivityTest : KoinTest {
 
     @Before
     fun setup() {
-        declareMock<BackgroundImagePreferencePresenter>()
-        declareMock<ConfigActivityMenuPresenter>()
-        declareMock<OpenChangeWallpaperIntentProvider>()
-        declareMock<ParticlesViewGenerator>()
-        declareMock<SceneBackgroundView>()
+        stopKoin()
+
+        val deviceSettings: DeviceSettings = mock {
+            on(it.observeOpenglSupported()) doReturn Observable.just(false)
+        }
+        startKoin {
+            modules(
+                module {
+                    single { deviceSettings }
+                    single { mock<BackgroundImagePreferencePresenter>() }
+                    single { mock<ConfigActivityMenuPresenter>() }
+                    single { mock<EnginePreferenceValueMapper>() }
+                    single { mock<OpenChangeWallpaperIntentProvider>() }
+                    single { mock<ParticlesViewGenerator>() }
+                    single { mock<SceneBackgroundView>() }
+                }
+            )
+        }
 
         whenever(particlesViewGenerator.observeParticlesViewInstance())
             .thenReturn(Observable.empty())
@@ -68,7 +89,7 @@ class ConfigActivityTest : KoinTest {
 
     @After
     fun tearDown() {
-        StandAloneContext.stopKoin()
+        stopKoin()
     }
 
     @Test

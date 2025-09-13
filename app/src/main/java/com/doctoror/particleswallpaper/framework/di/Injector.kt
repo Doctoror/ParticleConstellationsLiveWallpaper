@@ -17,20 +17,18 @@
 package com.doctoror.particleswallpaper.framework.di
 
 import android.content.Context
-import org.koin.core.parameter.ParameterDefinition
-import org.koin.core.parameter.emptyParameterDefinition
-import org.koin.core.scope.Scope
+import org.koin.core.parameter.ParametersDefinition
+import org.koin.core.qualifier.Qualifier
 
 inline fun <reified T : Any> inject(
     context: Context,
-    name: String = "",
-    scope: Scope? = null,
-    noinline parameters: ParameterDefinition = emptyParameterDefinition()
-) = lazy { get<T>(context, name, scope, parameters) }
+    qualifier: Qualifier? = null,
+    mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
+    noinline parameters: ParametersDefinition? = null,
+) = lazy(mode) { get<T>(context, qualifier, parameters) }
 
 inline fun <reified T : Any> get(
     context: Context,
-    name: String = "",
-    scope: Scope? = null,
-    noinline parameters: ParameterDefinition = emptyParameterDefinition()
-): T = KoinContextProvider.getKoinContext(context).get(name, scope, parameters)
+    qualifier: Qualifier? = null,
+    noinline parameters: ParametersDefinition? = null,
+): T = KoinContextProvider.getKoinContext(context).get().get(qualifier, parameters)

@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.speedfactor
 
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 
 private const val PARAM_VIEW = 0
 

@@ -32,7 +32,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.standalone.StandAloneContext
+import org.koin.core.context.stopKoin
 import org.mockito.kotlin.*
 import org.robolectric.RobolectricTestRunner
 
@@ -73,7 +73,7 @@ class BackgroundImagePreferencePresenterTest {
 
     @After
     fun tearDown() {
-        StandAloneContext.stopKoin()
+        stopKoin()
     }
 
     private fun setHostAndExtractOnActivityResultCallback(

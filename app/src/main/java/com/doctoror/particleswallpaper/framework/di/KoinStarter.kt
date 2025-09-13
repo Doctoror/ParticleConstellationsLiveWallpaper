@@ -38,37 +38,38 @@ import com.doctoror.particleswallpaper.userprefs.preview.provideModulePreview
 import com.doctoror.particleswallpaper.userprefs.provideModuleConfigActivity
 import com.doctoror.particleswallpaper.userprefs.resettodefaults.provideModuleResetToDefaults
 import com.doctoror.particleswallpaper.userprefs.speedfactor.provideModuleSpeedFactor
-import org.koin.standalone.StandAloneContext
 
 class KoinStarter {
 
     fun startKoin(context: Context) {
-        StandAloneContext.startKoin(
-            listOf(
-                provideModuleApp(context),
-                provideModuleBackgroundColor(),
-                provideModuleBackgroundImage(),
-                provideModuleBackgroundScroll(),
-                provideModuleConfigActivity(),
-                provideModuleDensity(),
-                provideModuleEngine(),
-                provideModuleEnginePreference(),
-                provideModuleEngineTips(),
-                provideModuleFrameDelay(),
-                provideModuleHowToApply(),
-                provideModuleLicense(),
-                provideModuleLineLength(),
-                provideModuleLineScale(),
-                provideModuleMultisampling(),
-                provideModuleParticleColor(),
-                provideModuleParticleScale(),
-                provideModuleParticlesScroll(),
-                provideModulePerformanceTips(),
-                provideModulePreview(),
-                provideModuleResetToDefaults(),
-                provideModuleSpeedFactor(),
-                provideModuleSettings()
+        org.koin.core.context.startKoin {
+            modules(
+                listOf(
+                    provideModuleApp(context),
+                    provideModuleBackgroundColor(),
+                    provideModuleBackgroundImage(),
+                    provideModuleBackgroundScroll(),
+                    provideModuleConfigActivity(),
+                    provideModuleDensity(),
+                    provideModuleEngine(),
+                    provideModuleEnginePreference(),
+                    provideModuleEngineTips(),
+                    provideModuleFrameDelay(),
+                    provideModuleHowToApply(),
+                    provideModuleLicense(),
+                    provideModuleLineLength(),
+                    provideModuleLineScale(),
+                    provideModuleMultisampling(),
+                    provideModuleParticleColor(),
+                    provideModuleParticleScale(),
+                    provideModuleParticlesScroll(),
+                    provideModulePerformanceTips(),
+                    provideModulePreview(),
+                    provideModuleResetToDefaults(),
+                    provideModuleSpeedFactor(),
+                    provideModuleSettings()
+                )
             )
-        )
+        }
     }
 }

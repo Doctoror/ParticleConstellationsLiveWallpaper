@@ -17,7 +17,7 @@ package com.doctoror.particleswallpaper.userprefs.data
 
 import android.content.Context
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 
 fun provideModuleSettings() = module {
 

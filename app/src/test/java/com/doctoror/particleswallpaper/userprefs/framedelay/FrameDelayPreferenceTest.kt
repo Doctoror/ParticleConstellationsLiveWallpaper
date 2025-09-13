@@ -22,10 +22,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.standalone.StandAloneContext
-import org.koin.standalone.inject
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
 import org.koin.test.KoinTest
-import org.koin.test.declareMock
+import org.koin.test.inject
+import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.robolectric.RobolectricTestRunner
 
@@ -41,12 +43,19 @@ class FrameDelayPreferenceTest : KoinTest {
 
     @Before
     fun setup() {
-        declareMock<FrameDelayPreferencePresenter>()
+        stopKoin()
+        startKoin {
+            modules(
+                module {
+                    single { mock<FrameDelayPreferencePresenter>() }
+                }
+            )
+        }
     }
 
     @After
     fun tearDown() {
-        StandAloneContext.stopKoin()
+        stopKoin()
     }
 
     @Test

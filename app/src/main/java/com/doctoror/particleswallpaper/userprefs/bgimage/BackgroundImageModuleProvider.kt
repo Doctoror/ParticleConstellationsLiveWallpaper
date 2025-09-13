@@ -16,7 +16,7 @@
 package com.doctoror.particleswallpaper.userprefs.bgimage
 
 import androidx.activity.result.contract.ActivityResultContracts
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 
 private const val PARAM_VIEW = 0
 
