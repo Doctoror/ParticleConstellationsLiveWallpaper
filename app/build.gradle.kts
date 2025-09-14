@@ -84,7 +84,7 @@ android {
 }
 
 dependencies {
-    testImplementation(libs.test.core)
+    testImplementation(libs.androidx.test.core)
     testImplementation(libs.junit.vintage)
     testImplementation(libs.koin.test)
     testImplementation(libs.kotlin.reflect)
