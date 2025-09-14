@@ -18,9 +18,9 @@ package com.doctoror.particleswallpaper.userprefs.bgimage
 import android.app.AlertDialog
 import android.app.Fragment
 import android.content.Context
-import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.app.Preference
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import com.doctoror.particleswallpaper.framework.di.inject
 import org.koin.core.parameter.parametersOf
@@ -45,11 +45,6 @@ class BackgroundImagePreference @JvmOverloads constructor(
             field = f
         }
 
-    init {
-        isPersistent = false
-    }
-
-    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onClick() {
         super.onClick()
         presenter.onClick()

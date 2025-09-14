@@ -29,7 +29,8 @@ import org.koin.core.parameter.parametersOf
 class MultisamplingPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : ListPreference(context, attrs), MultisamplingPreferenceView, DefaultLifecycleObserver, FragmentHolder {
+) : ListPreference(context, attrs), MultisamplingPreferenceView, DefaultLifecycleObserver,
+    FragmentHolder {
 
     override var fragment: Fragment? = null
 
@@ -44,7 +45,7 @@ class MultisamplingPreference @JvmOverloads constructor(
         isPersistent = false
         entries = emptyArray()
         entryValues = emptyArray()
-        setOnPreferenceChangeListener { _, v ->
+        onPreferenceChangeListener = OnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(
                 if (v == null) {
                     0

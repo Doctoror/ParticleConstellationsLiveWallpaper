@@ -16,9 +16,9 @@
 package com.doctoror.particleswallpaper.userprefs.license
 
 import android.content.Context
-import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.app.Preference
 import com.doctoror.particleswallpaper.framework.di.inject
 import de.psdev.licensesdialog.LicensesDialog
 import org.koin.core.parameter.parametersOf
@@ -37,11 +37,6 @@ class LicensePreference @JvmOverloads constructor(
         parameters = { parametersOf(this as LicensePreferenceView) }
     )
 
-    init {
-        isPersistent = false
-    }
-
-    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onClick() {
         presenter.onClick()
     }

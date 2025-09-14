@@ -27,7 +27,8 @@ class BackgroundColorPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : ColorPreferenceNoPreview(context, attrs), BackgroundColorPreferenceView, DefaultLifecycleObserver {
+) : ColorPreferenceNoPreview(context, attrs), BackgroundColorPreferenceView,
+    DefaultLifecycleObserver {
 
     private val presenter: BackgroundColorPreferencePresenter by inject(
         context = context,
@@ -38,8 +39,7 @@ class BackgroundColorPreference @JvmOverloads constructor(
 
     init {
         isPersistent = false
-
-        setOnPreferenceChangeListener { _, v ->
+        onPreferenceChangeListener = OnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(v as Int?)
             true
         }

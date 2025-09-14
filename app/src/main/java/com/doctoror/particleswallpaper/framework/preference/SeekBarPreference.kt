@@ -16,15 +16,13 @@
 package com.doctoror.particleswallpaper.framework.preference
 
 import android.content.Context
-import android.content.res.TypedArray
-import android.os.Parcel
-import android.os.Parcelable
-import android.preference.Preference
 import android.util.AttributeSet
 import android.view.View
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import androidx.core.content.withStyledAttributes
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.app.Preference
 
 open class SeekBarPreference @JvmOverloads constructor(
     context: Context,
@@ -53,19 +51,18 @@ open class SeekBarPreference @JvmOverloads constructor(
             }
             if (field != newValue) {
                 field = newValue
-                persistInt(newValue)
+                persist(newValue)
                 notifyChanged()
             }
         }
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyle, 0)
-        max = a.getInt(R.styleable.SeekBarPreference_max, max)
-        a.recycle()
-        layoutResource = R.layout.preference_widget_seekbar
+        context.withStyledAttributes(attrs, R.styleable.SeekBarPreference, defStyle, 0) {
+            max = getInt(R.styleable.SeekBarPreference_max, max)
+        }
+        layoutResId = R.layout.preference_widget_seekbar
     }
 
-    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onBindView(view: View) {
         super.onBindView(view)
         val seekBar = view.findViewById<SeekBar>(R.id.seekbar)
@@ -74,18 +71,6 @@ open class SeekBarPreference @JvmOverloads constructor(
         seekBar.progress = progress
         seekBar.isEnabled = isEnabled
     }
-
-    @Deprecated("Must declare as deprecated when overriding deprecated api")
-    override fun onSetInitialValue(restoreValue: Boolean, defaultValue: Any?) {
-        progress = when {
-            restoreValue -> getPersistedInt(progress)
-            defaultValue != null -> defaultValue as Int
-            else -> 0
-        }
-    }
-
-    @Deprecated("Must declare as deprecated when overriding deprecated api")
-    override fun onGetDefaultValue(a: TypedArray, index: Int): Any = a.getInt(index, 0)
 
     /**
      * Persist the seekBar's progress value if callChangeListener returns true,
@@ -116,68 +101,6 @@ open class SeekBarPreference @JvmOverloads constructor(
         trackingTouch = false
         if (seekBar.progress != progress) {
             syncProgress(seekBar)
-        }
-    }
-
-    @Deprecated("Must declare as deprecated when overriding deprecated api")
-    override fun onSaveInstanceState(): Parcelable {
-        /*
-         * Suppose a client uses this preference type without persisting. We
-         * must save the instance state so it is able to, for example, survive
-         * orientation changes.
-         */
-
-        val superState = super.onSaveInstanceState()
-        if (isPersistent) {
-            // No need to save instance state since it's persistent
-            return superState
-        }
-
-        // Save the instance state
-        val myState = SavedState(superState)
-        myState.progress = progress
-        myState.max = max
-        return myState
-    }
-
-    @Deprecated("Must declare as deprecated when overriding deprecated api")
-    override fun onRestoreInstanceState(state: Parcelable) {
-        if (state.javaClass != SavedState::class.java) {
-            // Didn't save state for us in onSaveInstanceState
-            super.onRestoreInstanceState(state)
-            return
-        }
-
-        // Restore the instance state
-        val myState = state as SavedState
-        super.onRestoreInstanceState(myState.superState)
-        progress = myState.progress
-        max = myState.max
-        notifyChanged()
-    }
-
-    private class SavedState : BaseSavedState {
-
-        var progress = 0
-        var max = 0
-
-        constructor(superState: Parcelable) : super(superState)
-
-        constructor(source: Parcel) : super(source) {
-            progress = source.readInt()
-            max = source.readInt()
-        }
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            super.writeToParcel(dest, flags)
-            dest.writeInt(progress)
-            dest.writeInt(max)
-        }
-
-        companion object CREATOR : Parcelable.Creator<SavedState> {
-
-            override fun createFromParcel(p: Parcel) = SavedState(p)
-            override fun newArray(size: Int) = arrayOfNulls<SavedState?>(size)
         }
     }
 }

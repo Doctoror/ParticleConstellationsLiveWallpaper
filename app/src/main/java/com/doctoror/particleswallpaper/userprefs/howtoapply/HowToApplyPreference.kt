@@ -17,8 +17,8 @@ package com.doctoror.particleswallpaper.userprefs.howtoapply
 
 import android.app.Fragment
 import android.content.Context
-import android.preference.Preference
 import android.util.AttributeSet
+import com.doctoror.particleswallpaper.app.Preference
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import com.doctoror.particleswallpaper.framework.di.inject
 import org.koin.core.parameter.parametersOf
@@ -36,11 +36,6 @@ class HowToApplyPreference @JvmOverloads constructor(
 
     override var fragment: Fragment? = null
 
-    init {
-        isPersistent = false
-    }
-
-    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onClick() {
         presenter.onClick()
     }

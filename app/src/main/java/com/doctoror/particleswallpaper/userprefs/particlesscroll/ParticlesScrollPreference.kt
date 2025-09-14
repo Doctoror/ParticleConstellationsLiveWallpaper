@@ -22,7 +22,7 @@ class ParticlesScrollPreference @JvmOverloads constructor(
     )
 
     init {
-        setOnPreferenceChangeListener { _, v ->
+        onPreferenceChangeListener = OnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(v as Boolean)
             true
         }

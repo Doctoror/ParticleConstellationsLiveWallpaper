@@ -15,7 +15,7 @@
  */
 package com.doctoror.particleswallpaper.framework.lifecycle
 
-import android.preference.PreferenceFragment
+import com.doctoror.particleswallpaper.app.PreferenceFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry

@@ -39,9 +39,9 @@ class ParticleColorPreference @JvmOverloads constructor(
     private var value: Int? = null
 
     init {
-        isPersistent = false
+        
 
-        setOnPreferenceChangeListener { _, v ->
+        onPreferenceChangeListener = OnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(v as Int?)
             true
         }

@@ -45,7 +45,7 @@ class EnginePreference @JvmOverloads constructor(
         isPersistent = false
         entries = valueMapper.provideEntries()
         entryValues = valueMapper.provideEntryValues()
-        setOnPreferenceChangeListener { _, v ->
+        onPreferenceChangeListener = OnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(v as CharSequence?)
             false
         }

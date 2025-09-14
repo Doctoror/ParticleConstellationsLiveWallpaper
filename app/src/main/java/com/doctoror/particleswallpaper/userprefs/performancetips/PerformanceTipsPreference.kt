@@ -17,9 +17,9 @@ package com.doctoror.particleswallpaper.userprefs.performancetips
 
 import android.app.AlertDialog
 import android.content.Context
-import android.preference.Preference
 import android.util.AttributeSet
 import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.app.Preference
 import com.doctoror.particleswallpaper.framework.di.inject
 import org.koin.core.parameter.parametersOf
 
@@ -34,11 +34,6 @@ class PerformanceTipsPreference @JvmOverloads constructor(
         parameters = { parametersOf(this as PerformanceTipsPreferenceView) }
     )
 
-    init {
-        isPersistent = false
-    }
-
-    @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onClick() {
         presenter.onClick()
     }

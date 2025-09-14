@@ -39,8 +39,7 @@ class SpeedFactorPreference @JvmOverloads constructor(
     )
 
     init {
-        isPersistent = false
-        setOnPreferenceChangeListener { _, v ->
+        onPreferenceChangeListener = OnPreferenceChangeListener { _, v ->
             presenter.onPreferenceChange(v as Int?)
             true
         }

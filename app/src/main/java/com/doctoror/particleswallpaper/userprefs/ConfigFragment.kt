@@ -18,7 +18,7 @@ package com.doctoror.particleswallpaper.userprefs
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceGroup
+import com.doctoror.particleswallpaper.app.PreferenceGroup
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleObserver
