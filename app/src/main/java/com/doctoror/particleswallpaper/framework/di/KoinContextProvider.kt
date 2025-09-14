@@ -28,6 +28,7 @@ import org.koin.mp.KoinPlatformTools
  */
 object KoinContextProvider {
 
+    @Volatile
     private var koinStarted = false
 
     @Synchronized
