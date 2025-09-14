@@ -128,8 +128,8 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
 
     private fun disposeCurrentPresenter() {
         presenter?.let {
-            it.onStop()
-            it.onDestroy()
+            it.onStop(this)
+            it.onDestroy(this)
             lifecycle.removeObserver(it)
         }
     }

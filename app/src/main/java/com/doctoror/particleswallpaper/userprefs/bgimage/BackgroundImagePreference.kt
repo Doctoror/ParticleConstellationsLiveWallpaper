@@ -20,9 +20,8 @@ import android.app.Fragment
 import android.content.Context
 import android.preference.Preference
 import android.util.AttributeSet
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import com.doctoror.particleswallpaper.framework.di.inject
@@ -35,7 +34,7 @@ class BackgroundImagePreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : Preference(context, attrs), BackgroundImagePreferenceView, FragmentHolder, LifecycleObserver {
+) : Preference(context, attrs), BackgroundImagePreferenceView, FragmentHolder, DefaultLifecycleObserver {
 
     private val presenter: BackgroundImagePreferencePresenter by inject(
         context = context,
@@ -58,8 +57,8 @@ class BackgroundImagePreference @JvmOverloads constructor(
         presenter.onClick()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
         presenter.onStop()
     }
 

@@ -60,8 +60,8 @@ class ParticlesViewGeneratorTest {
 
     @After
     fun tearDown() {
-        underTest.onStop()
-        underTest.onDestroy()
+        underTest.onStop(mock())
+        underTest.onDestroy(mock())
         stopKoin()
     }
 
@@ -69,7 +69,7 @@ class ParticlesViewGeneratorTest {
     fun createsViewWhenNumSamplesLoads() {
         val o = underTest.observeParticlesViewInstance().test()
 
-        underTest.onStart()
+        underTest.onStart(mock())
 
         o.assertValue { it is GlParticlesView }
     }
@@ -81,7 +81,7 @@ class ParticlesViewGeneratorTest {
 
         val o = underTest.observeParticlesViewInstance().test()
 
-        underTest.onStart()
+        underTest.onStart(mock())
 
         o.assertValue { it is GlParticlesView }
     }
@@ -93,7 +93,7 @@ class ParticlesViewGeneratorTest {
 
         val o = underTest.observeParticlesViewInstance().test()
 
-        underTest.onStart()
+        underTest.onStart(mock())
 
         o.assertValueCount(3)
     }

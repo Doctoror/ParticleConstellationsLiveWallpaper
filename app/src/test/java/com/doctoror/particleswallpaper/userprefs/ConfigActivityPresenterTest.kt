@@ -90,26 +90,26 @@ class ConfigActivityPresenterTest {
         whenever(viewDimensionsProvider.provideDimensions())
             .thenReturn(Single.just(Dimensions(w, h)))
 
-        underTest.onCreate()
+        underTest.onCreate(mock())
 
         verify(backgroundLoader).setDimensions(w, h)
     }
 
     @Test
     fun forwardsOnCreateToBackgroundLoader() {
-        underTest.onCreate()
+        underTest.onCreate(mock())
         verify(backgroundLoader).onCreate()
     }
 
     @Test
     fun forwardsOnDestroyToBackgroundLoader() {
-        underTest.onDestroy()
+        underTest.onDestroy(mock())
         verify(backgroundLoader).onDestroy()
     }
 
     @Test
     fun loadsNullBackground() {
-        underTest.onCreate()
+        underTest.onCreate(mock())
 
         verify(view).displayBackground(null)
     }
@@ -120,7 +120,7 @@ class ConfigActivityPresenterTest {
         whenever(backgroundLoader.observeBackground())
             .thenReturn(Observable.just(Optional(bitmap)))
 
-        underTest.onCreate()
+        underTest.onCreate(mock())
 
         verify(view).displayBackground(bitmap)
     }
@@ -131,7 +131,7 @@ class ConfigActivityPresenterTest {
         whenever(settings.observeBackgroundColor())
             .thenReturn(Observable.just(color))
 
-        underTest.onStart()
+        underTest.onStart(mock())
 
         verify(view).displayBackgroundColor(color)
     }
@@ -139,7 +139,7 @@ class ConfigActivityPresenterTest {
     @Test
     fun configues() {
         // When
-        underTest.onStart()
+        underTest.onStart(mock())
 
         // Then
         verify(configurator).subscribe(

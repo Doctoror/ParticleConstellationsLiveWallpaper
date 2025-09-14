@@ -17,9 +17,8 @@ package com.doctoror.particleswallpaper.userprefs.speedfactor
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.doctoror.particleswallpaper.framework.di.inject
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreference
 import com.doctoror.particleswallpaper.framework.preference.SeekBarPreferenceView
@@ -32,7 +31,7 @@ class SpeedFactorPreference @JvmOverloads constructor(
 ) :
     SeekBarPreference(context, attrs, defStyle),
     SeekBarPreferenceView,
-    LifecycleObserver {
+    DefaultLifecycleObserver {
 
     private val presenter: SpeedFactorPreferencePresenter by inject(
         context = context,
@@ -47,13 +46,13 @@ class SpeedFactorPreference @JvmOverloads constructor(
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
         presenter.onStart()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
         presenter.onStop()
     }
 

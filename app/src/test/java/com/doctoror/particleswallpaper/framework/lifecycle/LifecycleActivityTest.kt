@@ -16,9 +16,8 @@
 package com.doctoror.particleswallpaper.framework.lifecycle
 
 import android.app.Application
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -36,27 +35,24 @@ class LifecycleActivityTest {
     private val underTest = TestLifecycleActivity()
     private val underTestController = ActivityController.of(underTest)
 
-    private val testObserver = object : LifecycleObserver {
+    private val testObserver = object : DefaultLifecycleObserver {
 
         var onCreateCount = 0
         var onStartCount = 0
         var onStopCount = 0
 
-        @Suppress("unused")
-        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-        fun onCreate() {
+        override fun onCreate(owner: LifecycleOwner) {
+            super.onCreate(owner)
             onCreateCount++
         }
 
-        @Suppress("unused")
-        @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        fun onStart() {
+        override fun onStart(owner: LifecycleOwner) {
+            super.onStart(owner)
             onStartCount++
         }
 
-        @Suppress("unused")
-        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        fun onStop() {
+        override fun onStop(owner: LifecycleOwner) {
+            super.onStop(owner)
             onStopCount++
         }
     }

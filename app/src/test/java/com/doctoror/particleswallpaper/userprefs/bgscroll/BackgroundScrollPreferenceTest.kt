@@ -61,7 +61,7 @@ class BackgroundScrollPreferenceTest : KoinTest {
     @Test
     fun deliversOnStartToPresenter() {
         // When
-        underTest.onStart()
+        underTest.onStart(mock())
 
         // Then
         verify(presenter).onStart()
@@ -70,7 +70,7 @@ class BackgroundScrollPreferenceTest : KoinTest {
     @Test
     fun deliversOnStopToPresenter() {
         // When
-        underTest.onStop()
+        underTest.onStop(mock())
 
         // Then
         verify(presenter).onStop()

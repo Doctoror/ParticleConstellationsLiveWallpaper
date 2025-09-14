@@ -19,9 +19,8 @@ import android.app.Fragment
 import android.content.Context
 import android.preference.ListPreference
 import android.util.AttributeSet
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
 import com.doctoror.particleswallpaper.framework.di.inject
 import org.koin.core.parameter.parametersOf
@@ -29,7 +28,7 @@ import org.koin.core.parameter.parametersOf
 class EnginePreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : ListPreference(context, attrs), EnginePreferenceView, LifecycleObserver, FragmentHolder {
+) : ListPreference(context, attrs), EnginePreferenceView, DefaultLifecycleObserver, FragmentHolder {
 
     override var fragment: Fragment? = null
 
@@ -52,13 +51,13 @@ class EnginePreference @JvmOverloads constructor(
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
         presenter.onStart()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
         presenter.onStop()
     }
 

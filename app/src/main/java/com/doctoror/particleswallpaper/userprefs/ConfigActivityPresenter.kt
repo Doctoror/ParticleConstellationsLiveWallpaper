@@ -16,9 +16,8 @@
 package com.doctoror.particleswallpaper.userprefs
 
 import android.util.Log
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.engine.EngineBackgroundLoader
@@ -37,15 +36,15 @@ class ConfigActivityPresenter(
     private val settings: SceneSettings,
     private val view: SceneBackgroundView,
     private val viewDimensionsProvider: ViewDimensionsProvider
-) : LifecycleObserver {
+) : DefaultLifecycleObserver {
 
     private val sceneLock = Any()
 
     private val disposablesCreateDestroy = CompositeDisposable()
     private val disposablesStartStop = CompositeDisposable()
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreate() {
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
         backgroundLoader.onCreate()
         disposablesCreateDestroy.add(backgroundLoader
             .observeBackground()
@@ -68,8 +67,8 @@ class ConfigActivityPresenter(
         )
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
         disposablesStartStop.add(
             settings
                 .observeBackgroundColor()
@@ -87,14 +86,14 @@ class ConfigActivityPresenter(
         )
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
         disposablesStartStop.clear()
         configurator.dispose()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy() {
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
         disposablesCreateDestroy.clear()
         backgroundLoader.onDestroy()
     }

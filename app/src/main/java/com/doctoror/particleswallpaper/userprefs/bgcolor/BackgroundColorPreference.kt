@@ -17,9 +17,8 @@ package com.doctoror.particleswallpaper.userprefs.bgcolor
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.doctoror.particleswallpaper.framework.di.inject
 import com.doctoror.particleswallpaper.userprefs.particlecolor.ColorPreferenceNoPreview
 import org.koin.core.parameter.parametersOf
@@ -28,7 +27,7 @@ class BackgroundColorPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : ColorPreferenceNoPreview(context, attrs), BackgroundColorPreferenceView, LifecycleObserver {
+) : ColorPreferenceNoPreview(context, attrs), BackgroundColorPreferenceView, DefaultLifecycleObserver {
 
     private val presenter: BackgroundColorPreferencePresenter by inject(
         context = context,
@@ -46,13 +45,13 @@ class BackgroundColorPreference @JvmOverloads constructor(
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
         presenter.onStart()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
         presenter.onStop()
     }
 

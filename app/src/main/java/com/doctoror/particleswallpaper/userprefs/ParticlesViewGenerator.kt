@@ -17,9 +17,8 @@ package com.doctoror.particleswallpaper.userprefs
 
 import android.content.Context
 import android.view.View
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.doctoror.particlesdrawable.ParticlesView
 import com.doctoror.particlesdrawable.opengl.GlParticlesView
 import com.doctoror.particlesdrawable.opengl.chooser.EGLConfigChooserCallback
@@ -45,7 +44,7 @@ class ParticlesViewGenerator(
     private val multisamplingSupportDetector: MultisamplingSupportDetector,
     private val openGlSettings: OpenGlSettings,
     private val schedulersProvider: SchedulersProvider
-) : LifecycleObserver {
+) : DefaultLifecycleObserver {
 
     private val viewInstanceSubject = PublishSubject.create<View>()
 
@@ -54,8 +53,8 @@ class ParticlesViewGenerator(
     private var lastOpenglEnabled = true
     private var lastNumSamples = -1
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
         disposable = Observable
             .combineLatest(
                 deviceSettings.observeOpenglEnabled(),
@@ -71,14 +70,15 @@ class ParticlesViewGenerator(
             }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
+
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
         disposable?.dispose()
         disposable = null
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy() {
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
         lastNumSamples = -1
     }
 
