@@ -22,7 +22,6 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import com.doctoror.particleswallpaper.engine.canvas.CanvasWallpaperServiceImpl
 import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
@@ -98,7 +97,7 @@ class OpenChangeWallpaperIntentProvider(
             queryIntentActivitiesLegacy(intent)
         }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    @TargetApi(Build.VERSION_CODES.TIRAMISU)
     private fun queryIntentActivities33(intent: Intent) = packageManager.queryIntentActivities(
         intent, PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_DEFAULT_ONLY.toLong())
     )
