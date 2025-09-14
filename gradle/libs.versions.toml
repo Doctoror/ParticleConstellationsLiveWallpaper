@@ -16,7 +16,7 @@ kotlin = "2.2.20"
 licensesDialog = "1.8.3" #Do not update not to introduce Android X Dialogs dependency
 mockito = "6.0.0"
 openglAndroid = "gl1.1-android-2.1_r1"
-robolectric = "4.10.3"
+robolectric = "4.16"
 rxAndroid = "2.1.1"
 rxJava = "2.2.21"
 
