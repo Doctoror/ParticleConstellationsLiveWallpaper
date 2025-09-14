@@ -17,6 +17,7 @@ package com.doctoror.particleswallpaper.userprefs
 
 import android.app.ActionBar
 import android.app.Activity
+import android.app.Application
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
@@ -49,7 +50,9 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class ConfigActivityTest : KoinTest {
 

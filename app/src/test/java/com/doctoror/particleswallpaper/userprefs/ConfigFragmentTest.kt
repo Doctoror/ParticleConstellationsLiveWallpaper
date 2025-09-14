@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
+import android.app.Application
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.test.core.app.ApplicationProvider
@@ -57,7 +58,9 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.FragmentController
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class ConfigFragmentTest : KoinTest {
 

@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.framework.lifecycle
 
+import android.app.Application
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -26,7 +27,9 @@ import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.FragmentController
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class LifecyclePreferenceFragmentTest {
 

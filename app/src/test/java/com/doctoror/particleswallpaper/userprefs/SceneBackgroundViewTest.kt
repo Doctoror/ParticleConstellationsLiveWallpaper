@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
+import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
@@ -33,7 +34,9 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class SceneBackgroundViewTest {
 

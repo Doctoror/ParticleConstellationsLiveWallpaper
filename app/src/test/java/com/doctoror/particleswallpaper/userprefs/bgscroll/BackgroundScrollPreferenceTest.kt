@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.bgscroll
 
+import android.app.Application
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import org.junit.After
@@ -29,7 +30,9 @@ import org.koin.test.inject
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class BackgroundScrollPreferenceTest : KoinTest {
 

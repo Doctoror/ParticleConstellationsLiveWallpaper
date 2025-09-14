@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.preview
 
+import android.app.Application
 import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Intent
@@ -25,7 +26,10 @@ import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
 import com.doctoror.particleswallpaper.framework.app.ApiLevelProvider
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,7 +39,9 @@ import org.mockito.kotlin.argWhere
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class OpenChangeWallpaperIntentProviderTest {
 

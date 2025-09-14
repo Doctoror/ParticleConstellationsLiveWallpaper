@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.engine
 
+import android.app.Application
 import android.content.ContentResolver
 import android.net.Uri
 import org.junit.Assert.assertNull
@@ -23,8 +24,10 @@ import org.junit.runner.RunWith
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import java.io.FileNotFoundException
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class ImageAspectRatioLoaderTest {
 

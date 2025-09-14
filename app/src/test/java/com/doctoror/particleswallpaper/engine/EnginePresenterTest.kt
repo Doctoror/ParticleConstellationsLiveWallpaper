@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.engine
 
+import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
@@ -42,7 +43,9 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class EnginePresenterTest {
 

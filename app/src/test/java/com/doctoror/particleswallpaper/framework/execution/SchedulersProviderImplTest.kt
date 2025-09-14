@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.framework.execution
 
+import android.app.Application
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.junit.After
@@ -23,7 +24,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class SchedulersProviderImplTest {
 

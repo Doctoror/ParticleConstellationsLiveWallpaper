@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.framework.util
 
+import android.app.Application
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
@@ -24,9 +25,16 @@ import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.kotlin.*
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.inOrder
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verifyNoInteractions
+import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class OpenGlEnabledStateChangerTest {
 

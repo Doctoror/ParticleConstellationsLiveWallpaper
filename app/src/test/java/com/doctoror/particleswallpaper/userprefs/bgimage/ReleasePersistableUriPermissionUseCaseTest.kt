@@ -1,5 +1,6 @@
 package com.doctoror.particleswallpaper.userprefs.bgimage
 
+import android.app.Application
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.UriPermission
@@ -13,7 +14,9 @@ import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class ReleasePersistableUriPermissionUseCaseTest {
 

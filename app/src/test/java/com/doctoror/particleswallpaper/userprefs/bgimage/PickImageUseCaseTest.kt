@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs.bgimage
 
+import android.app.Application
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -28,9 +29,17 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
-import org.mockito.kotlin.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.doThrow
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class PickImageUseCaseTest {
 

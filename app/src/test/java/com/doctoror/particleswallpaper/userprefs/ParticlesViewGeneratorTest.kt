@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
+import android.app.Application
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.doctoror.particlesdrawable.opengl.GlParticlesView
@@ -31,7 +32,9 @@ import org.koin.core.context.stopKoin
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class ParticlesViewGeneratorTest {
 

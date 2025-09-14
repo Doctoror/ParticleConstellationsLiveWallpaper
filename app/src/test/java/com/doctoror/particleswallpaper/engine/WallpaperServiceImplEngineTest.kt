@@ -15,6 +15,7 @@
  */
 package com.doctoror.particleswallpaper.engine
 
+import android.app.Application
 import android.app.WallpaperColors
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
 import com.doctoror.particleswallpaper.engine.opengl.GlWallpaperServiceImpl
@@ -32,7 +33,9 @@ import org.mockito.kotlin.spy
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@Config(application = Application::class)
 @RunWith(RobolectricTestRunner::class)
 class WallpaperServiceImplEngineTest {
 
