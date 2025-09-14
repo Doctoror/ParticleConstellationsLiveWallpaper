@@ -1,4 +1,4 @@
 plugins {
-    id("com.android.application") version libs.versions.agp apply false
-    id("org.jetbrains.kotlin.android") version libs.versions.kotlin apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
 }

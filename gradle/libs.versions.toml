@@ -30,7 +30,6 @@ glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 junit-vintage = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit" }
 koin-android = { module = " io.insert-koin:koin-android", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 licensesdialog = { module = "de.psdev.licensesdialog:licensesdialog", version.ref = "licensesDialog" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito" }
@@ -38,3 +37,7 @@ opengl-android = { module = "org.khronos:opengl-api", version.ref = "openglAndro
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 rxAndroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxAndroid" }
 rxJava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxJava" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
