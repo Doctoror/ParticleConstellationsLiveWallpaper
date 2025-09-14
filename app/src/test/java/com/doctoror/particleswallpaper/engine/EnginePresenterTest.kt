@@ -174,7 +174,7 @@ class EnginePresenterTest {
         whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.O_MR1)
         whenever(settings.observeBackgroundColor()).thenReturn(Observable.never())
         whenever(backgroundLoader.observeBackground())
-            .thenReturn(Observable.just(Optional<Bitmap>(null)))
+            .thenReturn(Observable.just(Optional(null)))
 
         // When
         underTest.onCreate()
@@ -189,7 +189,7 @@ class EnginePresenterTest {
         whenever(apiLevelProvider.provideSdkInt()).thenReturn(Build.VERSION_CODES.O_MR1)
         whenever(settings.observeBackgroundColor()).thenReturn(Observable.never())
         whenever(backgroundLoader.observeBackground())
-            .thenReturn(Observable.just(Optional<Bitmap>(null), Optional(mock())))
+            .thenReturn(Observable.just(Optional(null), Optional(mock())))
 
         // When
         underTest.onCreate()

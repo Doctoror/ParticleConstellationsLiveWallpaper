@@ -55,8 +55,8 @@ open class ConfigFragment @JvmOverloads constructor(
         glMonitorDisposable = deviceSettings
             .observeOpenglSupported()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                if (!it) {
+            .subscribe { supported ->
+                if (!supported) {
                     findPreference(getString(R.string.pref_key_engine_tips))?.let {
                         preferenceScreen.removePreference(it)
                     }
