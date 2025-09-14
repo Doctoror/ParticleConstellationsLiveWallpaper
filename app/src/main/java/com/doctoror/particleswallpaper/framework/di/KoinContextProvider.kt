@@ -17,8 +17,8 @@ package com.doctoror.particleswallpaper.framework.di
 
 import android.content.Context
 import com.doctoror.particleswallpaper.BuildConfig
-import org.koin.core.context.GlobalContext
 import org.koin.core.context.KoinContext
+import org.koin.mp.KoinPlatformTools
 
 /**
  * To avoid crashes when Koin is not getting initialized or getting initialized multiple times, do
@@ -41,7 +41,7 @@ object KoinContextProvider {
      * Tests can call startKoin on their own, so must check real value of StandAloneContext state.
      */
     private fun getKoinContextDebug(context: Context): KoinContext {
-        koinStarted = GlobalContext.getOrNull() != null
+        koinStarted = KoinPlatformTools.defaultContext().getOrNull() != null
 
         return getKoinContextRelease(context)
     }
@@ -51,6 +51,6 @@ object KoinContextProvider {
             koinStarted = true
             KoinStarter().startKoin(context.applicationContext)
         }
-        return GlobalContext
+        return KoinPlatformTools.defaultContext()
     }
 }
