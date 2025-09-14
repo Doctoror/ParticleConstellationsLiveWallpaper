@@ -40,7 +40,6 @@ import com.doctoror.particleswallpaper.userprefs.particlescale.ParticleScalePref
 import com.doctoror.particleswallpaper.userprefs.particlesscroll.ParticlesScrollPreferencePresenter
 import com.doctoror.particleswallpaper.userprefs.performancetips.PerformanceTipsPreferencePresenter
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
-import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreferencePresenter
 import com.doctoror.particleswallpaper.userprefs.speedfactor.SpeedFactorPreferencePresenter
 import io.reactivex.Observable
 import org.junit.After
@@ -94,7 +93,6 @@ class ConfigFragmentTest : KoinTest {
                     single { mock<ParticleScalePreferencePresenter>() }
                     single { mock<ParticlesScrollPreferencePresenter>() }
                     single { mock<PerformanceTipsPreferencePresenter>() }
-                    single { mock<PreviewPreferencePresenter>() }
                     single { mock<SpeedFactorPreferencePresenter>() }
                 }
             )

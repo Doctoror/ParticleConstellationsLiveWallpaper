@@ -29,7 +29,6 @@ import com.doctoror.particleswallpaper.framework.lifecycle.LifecyclePreferenceFr
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHostImpl
 import com.doctoror.particleswallpaper.userprefs.data.DeviceSettings
-import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 
@@ -39,14 +38,11 @@ open class ConfigFragment @JvmOverloads constructor(
 ) :
     LifecyclePreferenceFragment(), OnActivityResultCallbackHost by ch {
 
-    private lateinit var intentProvider: OpenChangeWallpaperIntentProvider
-
     private var glMonitorDisposable: Disposable? = null
 
     @Deprecated("Must declare as deprecated when overriding deprecated api")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        intentProvider = get(context = activity)
 
         addPreferencesFromResource(R.xml.prefs)
         hideOpenGlPreferencesIfApplicable()

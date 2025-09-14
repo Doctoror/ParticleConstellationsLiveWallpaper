@@ -30,13 +30,4 @@ fun provideModulePreview() = module {
             packageName = get<Context>().packageName
         )
     }
-
-    /*
-     * Parameter at index 0 must be an Activity.
-     */
-    factory {
-        PreviewPreferencePresenter(
-            it[PARAM_ACTIVITY]
-        )
-    }
 }
