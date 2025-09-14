@@ -26,7 +26,7 @@ import org.koin.core.parameter.parametersOf
 class BackgroundScrollPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    @Suppress("UNUSED_PARAMETER") defStyle: Int = 0 // overridden to not be passed
+    defStyle: Int = 0 // overridden to not be passed
 ) : CheckBoxPreference(context, attrs),
     BackgroundScrollPreferenceView,
     DefaultLifecycleObserver {

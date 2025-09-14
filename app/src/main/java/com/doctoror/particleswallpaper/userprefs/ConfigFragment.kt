@@ -51,8 +51,6 @@ open class ConfigFragment @JvmOverloads constructor(
     }
 
     private fun hideOpenGlPreferencesIfApplicable() {
-        @Suppress("ConstantConditionIf")
-
         val deviceSettings: DeviceSettings = get(context = activity)
         glMonitorDisposable = deviceSettings
             .observeOpenglSupported()
