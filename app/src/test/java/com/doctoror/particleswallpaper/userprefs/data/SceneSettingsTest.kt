@@ -39,7 +39,7 @@ class SceneSettingsTest {
     fun setUp() {
         val fakePrefs = InMemorySharedPreferences()
 
-        val resources = mock<Resources>(Resources::class.java)
+        val resources = mock(Resources::class.java)
         val theme = mock(Resources.Theme::class.java)
         val typedValue = mock(TypedValue::class.java)
         val typedValueFactory = mock(DefaultSceneSettings.TypedValueFactory::class.java)

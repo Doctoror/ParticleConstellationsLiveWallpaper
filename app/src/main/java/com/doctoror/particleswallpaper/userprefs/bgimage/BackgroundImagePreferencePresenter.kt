@@ -27,13 +27,11 @@ import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_PICK_IMAGE
 import com.doctoror.particleswallpaper.framework.app.actions.FragmentStartActivityForResultAction
-import com.doctoror.particleswallpaper.framework.execution.SchedulersProvider
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallbackHost
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
 import com.doctoror.particleswallpaper.userprefs.data.NO_URI
 import com.doctoror.particleswallpaper.userprefs.data.SceneSettings
-import io.reactivex.disposables.CompositeDisposable
 
 class BackgroundImagePreferencePresenter(
     private val context: Context,
@@ -41,13 +39,10 @@ class BackgroundImagePreferencePresenter(
     private val glide: Glide,
     private val pickImageUseCase: PickImageUseCase,
     private val releasePersistableUriPermissionUseCase: ReleasePersistableUriPermissionUseCase,
-    private val schedulers: SchedulersProvider,
     private val settings: SceneSettings,
     private val takePersistableUriPermissionUseCase: TakePersistableUriPermissionUseCase,
     private val view: BackgroundImagePreferenceView
 ) {
-
-    private val disposables = CompositeDisposable()
 
     private val tag = "BgImagePrefPresenter"
 
@@ -78,10 +73,6 @@ class BackgroundImagePreferencePresenter(
 
     fun pickBackground() {
         imageHandler.pickBackground()
-    }
-
-    fun onStop() {
-        disposables.clear()
     }
 
     private val onActivityResultCallback = object : OnActivityResultCallback() {

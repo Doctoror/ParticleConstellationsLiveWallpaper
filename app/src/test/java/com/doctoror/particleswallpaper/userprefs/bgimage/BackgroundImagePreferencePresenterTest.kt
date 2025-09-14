@@ -24,7 +24,6 @@ import android.content.res.Resources
 import android.net.Uri
 import com.bumptech.glide.Glide
 import com.doctoror.particleswallpaper.app.REQUEST_CODE_PICK_IMAGE
-import com.doctoror.particleswallpaper.framework.execution.TrampolineSchedulers
 import com.doctoror.particleswallpaper.framework.lifecycle.OnActivityResultCallback
 import com.doctoror.particleswallpaper.userprefs.ConfigFragment
 import com.doctoror.particleswallpaper.userprefs.data.DefaultSceneSettings
@@ -70,7 +69,6 @@ class BackgroundImagePreferencePresenterTest {
         glide,
         pickImageUseCase,
         releasePersistableUriPermissionUseCase,
-        TrampolineSchedulers(),
         settings,
         takePersistableUriPermissionUseCase,
         view

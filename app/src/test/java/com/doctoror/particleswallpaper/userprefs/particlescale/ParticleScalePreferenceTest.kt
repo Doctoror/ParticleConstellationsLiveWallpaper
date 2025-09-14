@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.userprefs.particlescale
 
 import android.app.Application
-import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -39,7 +38,7 @@ class ParticleScalePreferenceTest : KoinTest {
 
     private val presenter: ParticleScalePreferencePresenter by inject()
     private val underTest =
-        ParticleScalePreference(ApplicationProvider.getApplicationContext<Context>()).apply {
+        ParticleScalePreference(ApplicationProvider.getApplicationContext()).apply {
             setMaxInt(70)
         }
 

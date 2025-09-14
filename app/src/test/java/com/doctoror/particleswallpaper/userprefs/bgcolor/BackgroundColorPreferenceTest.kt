@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.userprefs.bgcolor
 
 import android.app.Application
-import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import org.junit.After
 import org.junit.Before
@@ -39,7 +38,7 @@ class BackgroundColorPreferenceTest : KoinTest {
     private val presenter: BackgroundColorPreferencePresenter by inject()
 
     private val underTest =
-        BackgroundColorPreference(ApplicationProvider.getApplicationContext<Context>())
+        BackgroundColorPreference(ApplicationProvider.getApplicationContext())
 
     @Before
     fun setup() {

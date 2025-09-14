@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.userprefs
 
 import android.app.ActionBar
-import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.Animatable
 import android.os.Bundle
@@ -194,7 +193,7 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_CHANGE_WALLPAPER && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_CODE_CHANGE_WALLPAPER && resultCode == RESULT_OK) {
             finish()
         }
     }

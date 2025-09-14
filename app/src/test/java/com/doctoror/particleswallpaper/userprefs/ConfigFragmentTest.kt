@@ -53,7 +53,6 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
-import org.koin.test.inject
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.robolectric.RobolectricTestRunner
@@ -64,7 +63,6 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class ConfigFragmentTest : KoinTest {
 
-    private val intentProvider: OpenChangeWallpaperIntentProvider by inject()
     private val underTestController = FragmentController.of(ConfigFragment())
 
     @Before

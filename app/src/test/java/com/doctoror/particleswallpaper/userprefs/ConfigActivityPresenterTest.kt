@@ -47,7 +47,7 @@ import org.robolectric.annotation.Config
 class ConfigActivityPresenterTest {
 
     private val backgroundLoader: EngineBackgroundLoader = mock {
-        on { it.observeBackground() }.thenReturn(Observable.just(Optional<Bitmap>(null)))
+        on { it.observeBackground() }.thenReturn(Observable.just(Optional(null)))
     }
 
     private val configurator: SceneConfigurator = mock()

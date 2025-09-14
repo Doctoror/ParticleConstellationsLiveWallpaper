@@ -65,7 +65,7 @@ class EngineBackgroundLoaderTest {
         val o = underTest.observeBackground().test()
         underTest.setDimensions(1, 1)
 
-        o.assertValue(Optional<Bitmap>(null))
+        o.assertValue(Optional(null))
     }
 
     @Test

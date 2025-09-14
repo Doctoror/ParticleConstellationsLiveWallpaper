@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.userprefs.particlecolor
 
 import android.app.Application
-import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import org.junit.After
 import org.junit.Before
@@ -39,7 +38,7 @@ class ParticlesColorPreferenceTest : KoinTest {
     private val presenter: ParticleColorPreferencePresenter by inject()
 
     private val underTest =
-        ParticleColorPreference(ApplicationProvider.getApplicationContext<Context>())
+        ParticleColorPreference(ApplicationProvider.getApplicationContext())
 
     @Before
     fun setup() {

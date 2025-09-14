@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.userprefs.linescale
 
 import android.app.Application
-import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -40,7 +39,7 @@ class LineScalePreferenceTest : KoinTest {
     private val presenter: LineScalePreferencePresenter by inject()
 
     private val underTest =
-        LineScalePreference(ApplicationProvider.getApplicationContext<Context>()).apply {
+        LineScalePreference(ApplicationProvider.getApplicationContext()).apply {
             setMaxInt(70)
         }
 

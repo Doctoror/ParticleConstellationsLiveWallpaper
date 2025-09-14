@@ -18,8 +18,6 @@ package com.doctoror.particleswallpaper.userprefs.preview
 import android.content.Context
 import org.koin.dsl.module
 
-private const val PARAM_ACTIVITY = 0
-
 fun provideModulePreview() = module {
 
     factory {

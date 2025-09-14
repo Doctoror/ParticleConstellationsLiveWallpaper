@@ -81,7 +81,7 @@ class EnginePresenterTest {
             .thenAnswer { it.arguments[1] }
 
         whenever(backgroundLoader.observeBackground())
-            .thenReturn(Observable.just(Optional<Bitmap>(null)))
+            .thenReturn(Observable.just(Optional(null)))
 
         whenever(settings.observeBackgroundColor()).thenReturn(Observable.just(0))
         whenever(settings.observeBackgroundScroll()).thenReturn(Observable.just(true))

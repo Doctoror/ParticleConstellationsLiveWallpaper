@@ -38,7 +38,7 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class ParticlesViewGeneratorTest {
 
-    private val context: Context = ApplicationProvider.getApplicationContext<Context>()
+    private val context: Context = ApplicationProvider.getApplicationContext()
     private val deviceSettings: DeviceSettings = mock {
         on(it.observeOpenglEnabled()).thenReturn(Observable.just(true))
     }

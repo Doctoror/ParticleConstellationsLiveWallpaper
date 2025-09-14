@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.userprefs.speedfactor
 
 import android.app.Application
-import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -40,7 +39,7 @@ class SpeedFactorPreferenceTest : KoinTest {
     private val presenter: SpeedFactorPreferencePresenter by inject()
 
     private val underTest =
-        SpeedFactorPreference(ApplicationProvider.getApplicationContext<Context>()).apply {
+        SpeedFactorPreference(ApplicationProvider.getApplicationContext()).apply {
             setMaxInt(40)
         }
 

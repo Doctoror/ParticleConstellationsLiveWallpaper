@@ -23,12 +23,12 @@ private const val VALUE_CANVAS = "canvas"
 
 class EnginePreferenceValueMapper(private val resources: Resources) {
 
-    fun provideEntries() = arrayOf<CharSequence>(
+    fun provideEntries() = arrayOf(
         resources.getText(R.string.OpenGL),
         resources.getText(R.string.Canvas)
     )
 
-    fun provideEntryValues() = arrayOf<CharSequence>(
+    fun provideEntryValues() = arrayOf(
         VALUE_OPENGL,
         VALUE_CANVAS
     )

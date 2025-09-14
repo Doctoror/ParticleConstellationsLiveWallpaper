@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.userprefs.particlesscroll
 
 import android.app.Application
-import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import org.junit.After
 import org.junit.Before
@@ -39,7 +38,7 @@ class ParticlesScrollPreferenceTest : KoinTest {
     private val presenter: ParticlesScrollPreferencePresenter by inject()
 
     private val underTest =
-        ParticlesScrollPreference(ApplicationProvider.getApplicationContext<Context>())
+        ParticlesScrollPreference(ApplicationProvider.getApplicationContext())
 
     @Before
     fun setup() {

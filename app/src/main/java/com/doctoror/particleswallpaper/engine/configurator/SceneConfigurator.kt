@@ -35,7 +35,7 @@ class SceneConfigurator(
     private val schedulers: SchedulersProvider
 ) {
 
-    private val densityMultiplier = BehaviorSubject.createDefault<Float>(1f)
+    private val densityMultiplier = BehaviorSubject.createDefault(1f)
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var disposables: CompositeDisposable? = null

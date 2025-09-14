@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.userprefs.bgscroll
 
 import android.app.Application
-import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import org.junit.After
 import org.junit.Before
@@ -39,7 +38,7 @@ class BackgroundScrollPreferenceTest : KoinTest {
     private val presenter: BackgroundScrollPreferencePresenter by inject()
 
     private val underTest =
-        BackgroundScrollPreference(ApplicationProvider.getApplicationContext<Context>())
+        BackgroundScrollPreference(ApplicationProvider.getApplicationContext())
 
     @Before
     fun setup() {
