@@ -40,7 +40,6 @@ import com.doctoror.particleswallpaper.userprefs.particlescale.ParticleScalePref
 import com.doctoror.particleswallpaper.userprefs.particlesscroll.ParticlesScrollPreferencePresenter
 import com.doctoror.particleswallpaper.userprefs.performancetips.PerformanceTipsPreferencePresenter
 import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
-import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreference
 import com.doctoror.particleswallpaper.userprefs.preview.PreviewPreferencePresenter
 import com.doctoror.particleswallpaper.userprefs.speedfactor.SpeedFactorPreferencePresenter
 import io.reactivex.Observable
@@ -57,7 +56,6 @@ import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.FragmentController
 
@@ -160,56 +158,6 @@ class ConfigFragmentTest : KoinTest {
         ) as HowToApplyPreference
 
         assertNull(howToApplyPreference.fragment)
-    }
-
-    @Test
-    fun previewPreferenceHostSetOnCreate() {
-        whenever(intentProvider.provideActionIntent()).thenReturn(mock())
-
-        val underTest = underTestController
-            .create()
-            .start()
-            .get()
-
-        val previewPreference = underTest.findPreference(
-            getString(R.string.pref_key_apply)
-        ) as PreviewPreference
-
-        assertEquals(underTest, previewPreference.fragment)
-    }
-
-    @Test
-    fun previewPreferenceHostResetOnDestroy() {
-        whenever(intentProvider.provideActionIntent()).thenReturn(mock())
-
-        val underTest = underTestController
-            .create()
-            .start()
-            .stop()
-            .destroy()
-            .get()
-
-        val previewPreference = underTest.findPreference(
-            getString(R.string.pref_key_apply)
-        ) as PreviewPreference
-
-        assertNull(previewPreference.fragment)
-    }
-
-    @Test
-    fun previewPreferenceRemovedWhenIntentIsNull() {
-        val underTest = underTestController
-            .create()
-            .start()
-            .stop()
-            .destroy()
-            .get()
-
-        val previewPreference = underTest.findPreference(
-            getString(R.string.pref_key_apply)
-        )
-
-        assertNull(previewPreference)
     }
 
     @Test

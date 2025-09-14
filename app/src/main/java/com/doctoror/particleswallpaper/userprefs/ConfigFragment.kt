@@ -50,7 +50,6 @@ open class ConfigFragment @JvmOverloads constructor(
 
         addPreferencesFromResource(R.xml.prefs)
         hideOpenGlPreferencesIfApplicable()
-        hidePreviewPreferenceIfCannotStartPreview()
         forEachFragmentHolder(preferenceScreen) { it.fragment = this }
         forEachLifecycleObserver(preferenceScreen) { lifecycle.addObserver(it) }
     }
@@ -78,15 +77,6 @@ open class ConfigFragment @JvmOverloads constructor(
                     }
                 }
             }
-    }
-
-    private fun hidePreviewPreferenceIfCannotStartPreview() {
-        if (intentProvider.provideActionIntent() == null) {
-            val p = findPreference(getString(R.string.pref_key_apply))
-            if (p != null) {
-                preferenceScreen?.removePreference(p)
-            }
-        }
     }
 
     @Deprecated("Must declare as deprecated when overriding deprecated api")

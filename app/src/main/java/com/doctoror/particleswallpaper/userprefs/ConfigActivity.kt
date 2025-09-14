@@ -15,18 +15,18 @@
  */
 package com.doctoror.particleswallpaper.userprefs
 
-import android.annotation.TargetApi
 import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.Animatable
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toolbar
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
@@ -54,6 +54,8 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.enableEdgeToEdge(window)
+
         fragmentTransactionsAllowed = true
 
         menuPresenter = get(
@@ -67,9 +69,11 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
         )
 
         setContentView(R.layout.activity_config)
+        setupToolbar()
 
         viewContainer = findViewById(R.id.viewContainer)
         viewDimensionsProvider = ViewDimensionsProvider(viewContainer)
+        applyWindowInsets()
 
         val viewGenerator: ParticlesViewGenerator = get(
             context = this,
@@ -83,8 +87,21 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
                 .subscribe(this::onParticlesViewReady)
         )
 
-        lifecycle.addObserver(menuPresenter)
         lifecycle.addObserver(viewGenerator)
+    }
+
+    private fun applyWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.toolbar)) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(
+                insets.left,
+                insets.top,
+                insets.right,
+                v.paddingBottom
+            )
+
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     private fun onParticlesViewReady(particlesView: View) {
@@ -135,13 +152,8 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
         this.presenter = presenter
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun setupToolbar() {
-        val root = findViewById<ViewGroup>(R.id.toolbarContainer)!!
-        val toolbar = layoutInflater
-            .inflate(R.layout.activity_config_toolbar, root, false) as Toolbar
-        root.addView(toolbar, 0)
-        setActionBar(toolbar)
+    private fun setupToolbar() {
+        setActionBar(findViewById(R.id.toolbar))
         actionBar?.displayOptions =
             ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_HOME
     }

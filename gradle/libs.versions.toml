@@ -1,55 +1,40 @@
 [versions]
 agp = "8.13.0"
-
 androidCompileSdk = "36"
-androidMinSdk = "21"
+androidMinSdk = "23"
 androidTargetSdk = "36"
 androidTestCore = "1.5.0"
-androidxActivity = '1.7.2'
-androidxAnnotation = '1.6.0'
-androidxLifecycle = '2.6.1'
-
+androidxActivity = '1.11.0'
+androidxAnnotation = '1.9.1'
+androidxCore = '1.17.0'
+androidxLifecycle = '2.9.3'
 glide = "5.0.5"
-
 junit = "5.10.0"
 jvmToolchain = "21"
-
 koin = "4.1.1"
 kotlin = "2.2.20"
-
 licensesDialog = "1.8.3" #Do not update not to introduce Android X Dialogs dependency
-
 mockito = "5.1.0"
-
 openglAndroid = "gl1.1-android-2.1_r1"
-
 robolectric = "4.10.3"
 rxAndroid = "2.1.1"
 rxJava = "2.2.21"
 
 [libraries]
-
 androidx-activity = { module = "androidx.activity:activity", version.ref = "androidxActivity" }
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidxAnnotation" }
+androidx-core = { module = "androidx.core:core", version.ref = "androidxCore" }
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime", version.ref = "androidxLifecycle" }
-
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-
 junit-vintage = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit" }
-
 koin-android = { module = " io.insert-koin:koin-android", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
-
 licensesdialog = { module = "de.psdev.licensesdialog:licensesdialog", version.ref = "licensesDialog" }
-
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito" }
-
 opengl-android = { module = "org.khronos:opengl-api", version.ref = "openglAndroid" }
-
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 rxAndroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxAndroid" }
 rxJava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxJava" }
-
 test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }

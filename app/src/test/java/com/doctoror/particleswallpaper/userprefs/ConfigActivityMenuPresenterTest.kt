@@ -23,28 +23,25 @@ import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperInte
 import io.reactivex.Completable
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.mockito.kotlin.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 
-class ConfigActivityMenuPresenterLollipopTest {
+class ConfigActivityMenuPresenterTest {
 
     private val openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider = mock()
     private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase = mock()
     private val view: ConfigActivityMenuView = mock()
 
-    private val underTest = ConfigActivityMenuPresenterLollipop(
+    private val underTest = ConfigActivityMenuPresenter(
         openChangeWallpaperIntentProvider,
         openChangeWallpaperIntentUseCase,
         view
     )
-
-    @Test
-    fun setsUpToolbarOnCreate() {
-        // When
-        underTest.onCreate()
-
-        // Then
-        verify(view).setupToolbar()
-    }
 
     @Test
     fun inflatesOptionsMenuWhenHasWallpaperIntent() {

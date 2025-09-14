@@ -16,7 +16,6 @@
 <resources>
 
     <string translatable="false" name="pref_key_how_to_apply">pref_key_how_to_apply</string>
-    <string translatable="false" name="pref_key_apply">pref_key_apply</string>
     <string translatable="false" name="pref_key_reset_to_defaults">pref_key_reset_to_defaults</string>
     <string translatable="false" name="pref_key_density">pref_key_density</string>
     <string translatable="false" name="pref_key_color">pref_key_color</string>

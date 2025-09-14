@@ -17,11 +17,34 @@ package com.doctoror.particleswallpaper.userprefs
 
 import android.view.Menu
 import android.view.MenuItem
-import androidx.lifecycle.LifecycleObserver
+import com.doctoror.particleswallpaper.R
+import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentProvider
+import com.doctoror.particleswallpaper.userprefs.preview.OpenChangeWallpaperIntentUseCase
 
-interface ConfigActivityMenuPresenter : LifecycleObserver {
+class ConfigActivityMenuPresenter(
+    private val openChangeWallpaperIntentProvider: OpenChangeWallpaperIntentProvider,
+    private val openChangeWallpaperIntentUseCase: OpenChangeWallpaperIntentUseCase,
+    private val view: ConfigActivityMenuView
+) {
 
-    fun onCreateOptionsMenu(menu: Menu): Boolean
+    fun onCreateOptionsMenu(menu: Menu): Boolean {
+        if (openChangeWallpaperIntentProvider.provideActionIntent() != null) {
+            view.inflateMenu(menu)
+        }
+        return true
+    }
 
-    fun onOptionsItemSelected(item: MenuItem): Boolean
+    fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                view.finish()
+                return true
+            }
+
+            R.id.actionApply -> {
+                openChangeWallpaperIntentUseCase.action().subscribe()
+            }
+        }
+        return false
+    }
 }

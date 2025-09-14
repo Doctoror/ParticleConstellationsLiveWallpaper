@@ -20,10 +20,6 @@
         android:key="@string/pref_key_how_to_apply"
         android:title="@string/How_to_apply" />
 
-    <com.doctoror.particleswallpaper.userprefs.preview.PreviewPreference
-        android:key="@string/pref_key_apply"
-        android:title="@string/Apply" />
-
     <com.doctoror.particleswallpaper.userprefs.enginetips.EngineTipsPreference
         android:key="@string/pref_key_engine_tips"
         android:title="@string/Blank_screen_or_freezes" />

@@ -19,8 +19,6 @@ import android.view.Menu
 
 interface ConfigActivityMenuView {
 
-    fun setupToolbar()
-
     fun inflateMenu(menu: Menu)
 
     fun finish()

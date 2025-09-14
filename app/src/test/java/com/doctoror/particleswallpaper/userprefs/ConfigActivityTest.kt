@@ -34,7 +34,6 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -161,29 +160,18 @@ class ConfigActivityTest : KoinTest {
     }
 
     @Test
-    fun noToolbarUntilSetupCalled() {
+    fun hasToolbar() {
         // When
         underTestController.create()
-
-        // Then
-        assertNull(findToolbar())
-    }
-
-    @Test
-    fun hasToolbarWhenSetupToolbarCalled() {
-        // When
-        underTestController.create()
-        underTest.setupToolbar()
 
         // Then
         assertNotNull(findToolbar())
     }
 
     @Test
-    fun hasActionBarOptionsWhenSetupToolbarCalled() {
+    fun hasActionBarOptions() {
         // When
         underTestController.create()
-        underTest.setupToolbar()
 
         // Then
         val expectedDisplayOptions = ActionBar.DISPLAY_HOME_AS_UP or

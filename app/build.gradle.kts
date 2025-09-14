@@ -102,6 +102,7 @@ dependencies {
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.annotation)
+    implementation(libs.androidx.core)
     implementation(libs.androidx.lifecycle)
 
     implementation(libs.licensesdialog) {

@@ -16,7 +16,6 @@
 package com.doctoror.particleswallpaper.userprefs
 
 import android.app.Activity
-import android.os.Build
 import com.doctoror.particlesdrawable.contract.SceneConfiguration
 import com.doctoror.particlesdrawable.contract.SceneController
 import com.doctoror.particleswallpaper.framework.app.actions.ActivityStartActivityForResultAction
@@ -67,15 +66,11 @@ fun provideModuleConfigActivity() = module {
     }
 
     factory { parameterList ->
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ConfigActivityMenuPresenterLollipop(
-                openChangeWallpaperIntentProvider = get(),
-                openChangeWallpaperIntentUseCase = get(parameters = { parameterList }),
-                view = parameterList[MENU_PRESENTER_PARAM_ACTIVITY]
-            )
-        } else {
-            ConfigActivityMenuPresenterLegacy()
-        }
+        ConfigActivityMenuPresenter(
+            openChangeWallpaperIntentProvider = get(),
+            openChangeWallpaperIntentUseCase = get(parameters = { parameterList }),
+            view = parameterList[MENU_PRESENTER_PARAM_ACTIVITY]
+        )
     }
 
     factory {

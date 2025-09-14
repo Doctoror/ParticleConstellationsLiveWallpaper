@@ -29,8 +29,17 @@
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
-        <include
-            layout="@layout/activity_config_fragment"
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/actionBarSize"
+            android:background="@color/translucentBackground"
+            tools:ignore="Overdraw" />
+
+        <fragment
+            class="com.doctoror.particleswallpaper.userprefs.ConfigFragment"
+            android:tag="ConfigFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
