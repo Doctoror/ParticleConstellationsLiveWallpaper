@@ -20,7 +20,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceGroup
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.LifecycleObserver
 import com.doctoror.particleswallpaper.R
 import com.doctoror.particleswallpaper.framework.app.FragmentHolder
@@ -48,6 +51,31 @@ open class ConfigFragment @JvmOverloads constructor(
         hideOpenGlPreferencesIfApplicable()
         forEachFragmentHolder(preferenceScreen) { it.fragment = this }
         forEachLifecycleObserver(preferenceScreen) { lifecycle.addObserver(it) }
+    }
+
+    @Deprecated("Must declare as deprecated when overriding deprecated api")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.findViewById<ViewGroup>(android.R.id.list).run {
+            clipToPadding = false
+
+            val initialPaddingLeft = paddingLeft
+            val initialPaddingTop = paddingTop
+            val initialPaddingRight = paddingRight
+            val initialPaddingBottom = paddingBottom
+
+            ViewCompat.setOnApplyWindowInsetsListener(this) { v, windowInsets ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                v.setPadding(
+                    initialPaddingLeft,
+                    initialPaddingTop,
+                    initialPaddingRight,
+                    initialPaddingBottom + insets.bottom
+                )
+
+                WindowInsetsCompat.CONSUMED
+            }
+        }
     }
 
     private fun hideOpenGlPreferencesIfApplicable() {
