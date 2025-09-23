@@ -73,7 +73,7 @@ open class ConfigFragment @JvmOverloads constructor(
                     initialPaddingBottom + insets.bottom
                 )
 
-                WindowInsetsCompat.CONSUMED
+                windowInsets
             }
         }
     }

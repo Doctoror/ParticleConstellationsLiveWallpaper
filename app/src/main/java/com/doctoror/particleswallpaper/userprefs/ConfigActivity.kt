@@ -159,7 +159,7 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
                     initialPaddingBottom
                 )
 
-                WindowInsetsCompat.CONSUMED
+                windowInsets
             }
         }
 
