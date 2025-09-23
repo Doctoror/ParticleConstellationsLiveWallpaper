@@ -18,11 +18,13 @@ package com.doctoror.particleswallpaper.userprefs
 import android.app.ActionBar
 import android.content.Intent
 import android.graphics.drawable.Animatable
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -54,6 +56,9 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.enableEdgeToEdge(window)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.setNavigationBarContrastEnforced(true)
+        }
 
         fragmentTransactionsAllowed = true
 
@@ -72,7 +77,6 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
 
         viewContainer = findViewById(R.id.viewContainer)
         viewDimensionsProvider = ViewDimensionsProvider(viewContainer)
-        applyWindowInsets()
 
         val viewGenerator: ParticlesViewGenerator = get(
             context = this,
@@ -87,20 +91,6 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
         )
 
         lifecycle.addObserver(viewGenerator)
-    }
-
-    private fun applyWindowInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.toolbar)) { v, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(
-                insets.left,
-                insets.top,
-                insets.right,
-                v.paddingBottom
-            )
-
-            WindowInsetsCompat.CONSUMED
-        }
     }
 
     private fun onParticlesViewReady(particlesView: View) {
@@ -152,7 +142,27 @@ class ConfigActivity : LifecycleActivity(), ConfigActivityMenuView {
     }
 
     private fun setupToolbar() {
-        setActionBar(findViewById(R.id.toolbar))
+        findViewById<Toolbar>(R.id.toolbar)?.run {
+            setActionBar(this)
+
+            val initialPaddingLeft = paddingLeft
+            val initialPaddingTop = paddingTop
+            val initialPaddingRight = paddingRight
+            val initialPaddingBottom = paddingBottom
+
+            ViewCompat.setOnApplyWindowInsetsListener(this) { v, windowInsets ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.setPadding(
+                    initialPaddingLeft + insets.left,
+                    initialPaddingTop + insets.top,
+                    initialPaddingRight + insets.right,
+                    initialPaddingBottom
+                )
+
+                WindowInsetsCompat.CONSUMED
+            }
+        }
+
         actionBar?.displayOptions =
             ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_SHOW_HOME
     }
