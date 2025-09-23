@@ -19,8 +19,8 @@ android {
         minSdk = libs.versions.androidMinSdk.get().toInt()
         targetSdk = libs.versions.androidTargetSdk.get().toInt()
 
-        versionCode = 43
-        versionName = "3.0.0"
+        versionCode = 44
+        versionName = "3.0.1"
 
         androidResources.localeFilters.addAll(setOf("en", "ru", "uk"))
     }
