@@ -15,10 +15,8 @@
 -->
 <resources>
 
-    <style name="BaseAppTheme" parent="android:Theme.Material.NoActionBar">
-        <item name="android:windowBackground">@color/defaultBackground</item>
+    <style name="AppTheme" parent="BaseAppTheme">
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
     </style>
-
-    <style name="AppTheme" parent="BaseAppTheme" />
 
 </resources>
