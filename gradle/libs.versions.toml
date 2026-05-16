@@ -40,4 +40,3 @@ rxJava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxJava" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
