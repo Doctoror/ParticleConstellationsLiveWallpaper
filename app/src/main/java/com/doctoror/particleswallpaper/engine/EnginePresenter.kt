@@ -15,7 +15,6 @@
  */
 package com.doctoror.particleswallpaper.engine
 
-import android.annotation.TargetApi
 import android.app.WallpaperColors
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -23,6 +22,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.util.Log
 import androidx.annotation.ColorInt
+import androidx.annotation.RequiresApi
 import com.doctoror.particlesdrawable.engine.Engine
 import com.doctoror.particlesdrawable.model.Scene
 import com.doctoror.particleswallpaper.engine.configurator.SceneConfigurator
@@ -94,25 +94,28 @@ class EnginePresenter(
         configurator
             .subscribe(scene, sceneLock, engine, settings, renderThreadScheduler)
 
-        disposables.add(settings.observeParticleScale()
-            .subscribeOn(schedulers.io())
-            .observeOn(renderThreadScheduler)
-            .subscribe { renderer.markParticleTextureDirty() })
+        disposables.add(
+            settings.observeParticleScale()
+                .subscribeOn(schedulers.io())
+                .observeOn(renderThreadScheduler)
+                .subscribe { renderer.markParticleTextureDirty() })
 
-        disposables.add(settings.observeFrameDelay()
-            .subscribeOn(schedulers.io())
-            .observeOn(renderThreadScheduler)
-            .subscribe { scene.frameDelay = it })
+        disposables.add(
+            settings.observeFrameDelay()
+                .subscribeOn(schedulers.io())
+                .observeOn(renderThreadScheduler)
+                .subscribe { scene.frameDelay = it })
 
-        disposables.add(settings
-            .observeBackgroundColor()
-            .subscribeOn(schedulers.io())
-            .observeOn(renderThreadScheduler)
-            .subscribe {
-                backgroundColor = it
-                backgroundColorDirty = true
-                notifyBackgroundColors()
-            }
+        disposables.add(
+            settings
+                .observeBackgroundColor()
+                .subscribeOn(schedulers.io())
+                .observeOn(renderThreadScheduler)
+                .subscribe {
+                    backgroundColor = it
+                    backgroundColorDirty = true
+                    notifyBackgroundColors()
+                }
         )
 
         disposables.add(
@@ -153,7 +156,8 @@ class EnginePresenter(
 
         backgroundLoader.onCreate()
 
-        disposables.add(backgroundLoader
+        disposables.add(
+            backgroundLoader
             .observeBackground()
             .observeOn(renderThreadScheduler)
             .subscribe(
@@ -267,7 +271,7 @@ class EnginePresenter(
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.O_MR1)
+    @RequiresApi(Build.VERSION_CODES.O_MR1)
     fun onComputeColors(): WallpaperColors {
         val background = background
         return if (background != null) {

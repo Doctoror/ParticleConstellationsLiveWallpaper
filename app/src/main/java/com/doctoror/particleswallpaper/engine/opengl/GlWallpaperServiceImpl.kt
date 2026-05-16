@@ -15,12 +15,12 @@
  */
 package com.doctoror.particleswallpaper.engine.opengl
 
-import android.annotation.TargetApi
 import android.opengl.GLSurfaceView
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.view.SurfaceHolder
+import androidx.annotation.RequiresApi
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.opengl.chooser.FailsafeEGLConfigChooserFactory
 import com.doctoror.particlesdrawable.opengl.renderer.GlSceneRenderer
@@ -180,7 +180,7 @@ class GlWallpaperServiceImpl : GLWallpaperService() {
             queueEvent { presenter.visible = visible }
         }
 
-        @TargetApi(Build.VERSION_CODES.O_MR1)
+        @RequiresApi(Build.VERSION_CODES.O_MR1)
         override fun onComputeColors() = presenter.onComputeColors()
 
         override fun scheduleNextFrame(delay: Long) {

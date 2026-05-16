@@ -15,12 +15,12 @@
  */
 package com.doctoror.particleswallpaper.engine.canvas
 
-import android.annotation.TargetApi
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
+import androidx.annotation.RequiresApi
 import com.doctoror.particlesdrawable.contract.SceneScheduler
 import com.doctoror.particlesdrawable.renderer.CanvasSceneRenderer
 import com.doctoror.particleswallpaper.engine.EngineController
@@ -143,7 +143,7 @@ class CanvasWallpaperServiceImpl : WallpaperService() {
 
         override fun provideSurfaceHolder() = surfaceHolder!!
 
-        @TargetApi(Build.VERSION_CODES.O_MR1)
+        @RequiresApi(Build.VERSION_CODES.O_MR1)
         override fun onComputeColors() = presenter.onComputeColors()
 
         override fun scheduleNextFrame(delay: Long) {
